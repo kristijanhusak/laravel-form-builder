@@ -1,0 +1,298 @@
+<?php namespace Kris\LaravelFormBuilder;
+
+use Kris\LaravelFormBuilder\Fields\FormField;
+use Illuminate\Database\Eloquent\Model;
+
+class Form
+{
+
+    /**
+     * All fields that are added
+     *
+     * @var array
+     */
+    protected $fields = [];
+
+    /**
+     * Eloquent model to use
+     *
+     * @var Model
+     */
+    protected $model = null;
+
+    /**
+     * @var FormHelper
+     */
+    protected $formHelper;
+
+    /**
+     * @var array
+     */
+    protected $formOptions = [
+        'method' => 'GET',
+        'url' => ''
+    ];
+
+    /**
+     * @return mixed
+     */
+    public function buildForm()
+    {
+        // Add fields here
+    }
+
+    /**
+     * @param string $name
+     * @param string $type
+     * @param array $options
+     * @return $this
+     */
+    public function add($name, $type = 'text', array $options = [])
+    {
+        $fieldType = $this->formHelper->getFieldType($type);
+
+        if ($type == 'file') {
+            $this->formOptions['files'] = true;
+        }
+
+        $this->fields[$name] = new $fieldType($name, $type, $this, $options);
+
+        return $this;
+    }
+
+    /**
+     * @param array $options
+     * @param bool  $showStart
+     * @param bool  $showFields
+     * @param bool  $showEnd
+     * @return mixed
+     */
+    public function renderForm(array $options = [], $showStart = true, $showFields = true, $showEnd = true)
+    {
+        return $this->render($options, $this->fields, $showStart, $showFields, $showEnd);
+    }
+
+    /**
+     * Render rest of the form
+     *
+     * @param array $options
+     * @return string
+     */
+    public function renderRest(array $options = [])
+    {
+        $fields = $this->getUnrenderedFields();
+
+        return $this->render($options, $fields, false, true, false);
+    }
+
+    /**
+     * @param $options
+     * @param $fields
+     * @param $showStart
+     * @param $showFields
+     * @param $showEnd
+     * @return string
+     */
+    protected function render($options, $fields, $showStart, $showFields, $showEnd)
+    {
+        $formOptions = $this->formHelper->mergeOptions($this->formOptions, $options);
+
+        return $this->formHelper->getView()
+            ->make($this->formHelper->getConfig()->get('laravel-form-builder::form'))
+            ->with(compact('showStart', 'showFields', 'showEnd'))
+            ->with('formOptions', $formOptions)
+            ->with('fields', $fields)
+            ->with('model', $this->getModel())
+            ->render();
+    }
+
+    /**
+     * @param $name
+     *
+     * @return FormField
+     */
+    public function getField($name)
+    {
+        if ($this->has($name)) {
+            return $this->fields[$name];
+        }
+
+        throw new \InvalidArgumentException('field with name ['. $name .'] does not exits.');
+    }
+
+    /**
+     * @param $name
+     * @return bool
+     */
+    public function has($name)
+    {
+        return array_key_exists($name, $this->fields);
+    }
+
+    /**
+     * @return array
+     */
+    public function getFormOptions()
+    {
+        return $this->formOptions;
+    }
+
+    /**
+     * @param array $formOptions
+     * @return $this
+     */
+    public function setFormOptions($formOptions)
+    {
+        $this->formOptions = $this->formHelper->mergeOptions($this->formOptions, $formOptions);
+
+        $this->getModelFromOptions();
+
+        return $this;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getMethod()
+    {
+        return $this->formOptions['method'];
+    }
+
+    /**
+     * @param string $method
+     * @return $this
+     */
+    public function setMethod($method)
+    {
+        $this->formOptions['method'] = $method;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->formOptions['url'];
+    }
+
+    /**
+     * @param string $url
+     * @return $this
+     */
+    public function setUrl($url)
+    {
+        $this->formOptions['url'] = $url;
+
+        return $this;
+    }
+
+
+    /**
+     * @return Model
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    /**
+     * @param Model $model
+     * @return $this
+     */
+    public function setModel(Model $model)
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
+    /**
+     * Get all fields
+     *
+     * @return array
+     */
+    public function getFields()
+    {
+        return $this->fields;
+    }
+
+    /**
+     * Get field dynamically
+     *
+     * @param $name
+     * @return FormField
+     */
+    public function __get($name)
+    {
+        if ($this->has($name)) {
+            return $this->getField($name);
+        }
+
+        throw new \InvalidArgumentException('No property ['.$name.'] on '.get_class($this));
+    }
+
+    /**
+     * @param FormHelper $formHelper
+     * @return $this
+     */
+    public function setFormHelper(FormHelper $formHelper)
+    {
+        if ($this->formHelper === null) {
+            $this->formHelper = $formHelper;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return FormHelper
+     */
+    public function getFormHelper()
+    {
+        return $this->formHelper;
+    }
+
+    /**
+     * Get the model from the options
+     */
+    private function getModelFromOptions()
+    {
+        if (isset($this->formOptions['model']) && $this->formOptions['model'] instanceof Model) {
+            $this->setModel($this->formOptions['model']);
+            unset($this->formOptions['model']);
+        }
+    }
+
+    /**
+     * Get all fields that are not rendered
+     *
+     * @return array
+     */
+    protected function getUnrenderedFields()
+    {
+        $unrenderedFields = [];
+
+        foreach ($this->fields as $field) {
+            if (!$field->isRendered()) {
+                $unrenderedFields[] = $field;
+                continue;
+            }
+        }
+
+        return $unrenderedFields;
+    }
+
+    /**
+     * Add custom field
+     *
+     * @param $name
+     * @param $class
+     */
+    public function addCustomField($name, $class)
+    {
+        $this->formHelper->addCustomField($name, $class);
+    }
+}
