@@ -1,5 +1,8 @@
 <?php namespace Kris\LaravelFormBuilder;
 
+use Illuminate\Foundation\AliasLoader;
+use Illuminate\Html\FormBuilder as LaravelForm;
+use Illuminate\Html\HtmlBuilder;
 use Illuminate\Support\ServiceProvider;
 
 class FormBuilderServiceProvider extends ServiceProvider
@@ -12,6 +15,7 @@ class FormBuilderServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->bindHtmlIfNeeded();
         $this->bindFormIfNeeded();
 
         $this->app->bindShared('Kris/LaravelFormBuilder/FormBuilder', function ($app) {
@@ -33,10 +37,10 @@ class FormBuilderServiceProvider extends ServiceProvider
 
     private function bindFormIfNeeded()
     {
-        if (!$this->app['form']) {
-            $this->app->bindShared('form', function($app)
-            {
-                $form = new FormBuilder($app['html'], $app['url'], $app['session.store']->getToken());
+        if (!$this->app->offsetExists('form')) {
+            $this->app->bindShared('form', function($app) {
+
+                $form = new LaravelForm($app['html'], $app['url'], $app['session.store']->getToken());
 
                 return $form->setSessionStore($app['session.store']);
             });
@@ -46,6 +50,14 @@ class FormBuilderServiceProvider extends ServiceProvider
                 'Illuminate\Html\FormFacade'
             );
         }
+    }
 
+    private function bindHtmlIfNeeded()
+    {
+        if (!$this->app->offsetExists('html')) {
+            $this->app->bindShared('html', function($app) {
+                return new HtmlBuilder($app['url']);
+            });
+        }
     }
 }

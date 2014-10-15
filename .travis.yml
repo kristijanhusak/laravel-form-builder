@@ -11,3 +11,10 @@ before_script:
   - travis_retry composer install --prefer-source --no-interaction --dev
 
 script: phpunit
+
+notifications:
+  email:
+    recipients:
+      - husakkristijan@gmail.com
+    on_success: never
+    on_failure: always
