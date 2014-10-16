@@ -1,7 +1,7 @@
 <?php namespace Kris\LaravelFormBuilder\Console;
 
 use Illuminate\Console\GeneratorCommand;
-use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Contracts\Filesystem\Factory as Filesystem;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
