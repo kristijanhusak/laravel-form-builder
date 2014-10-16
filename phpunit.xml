@@ -21,6 +21,8 @@
             <directory>./src/Kris</directory>
             <exclude>
                 <file>./src/Kris/LaravelFormBuilder/FormBuilderServiceProvider.php</file>
+                <file>./src/Kris/LaravelFormBuilder/Facades/FormBuilder.php</file>
+                <file>./src/Kris/LaravelFormBuilder/Console/FormMakeCommand.php</file>
             </exclude>
         </whitelist>
     </filter>

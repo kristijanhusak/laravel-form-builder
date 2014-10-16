@@ -17,9 +17,10 @@ class FormHelper
     protected $config;
 
     /**
+     * All available field types
+     *
      * @var array
      */
-    // TODO: Add model relationship type
     protected static $availableFieldTypes = [
         'text',
         'email',
@@ -39,6 +40,11 @@ class FormHelper
         'choice'
     ];
 
+    /**
+     * Custom types
+     *
+     * @var array
+     */
     private $customTypes = [];
 
     public function __construct(View $view, Config $config)
@@ -97,7 +103,9 @@ class FormHelper
         }
 
         if (!in_array($type, static::$availableFieldTypes)) {
-            throw new \InvalidArgumentException('Unsupported field type ['. $type .']');
+            throw new \InvalidArgumentException(
+                'Unsupported field type ['. $type .']. Avaiable types are: '.join(', ', static::$availableFieldTypes)
+            );
         }
 
         switch($type) {
@@ -127,6 +135,12 @@ class FormHelper
         return $fieldType;
     }
 
+    /**
+     * Convert array of attributes to html attributes
+     *
+     * @param $options
+     * @return string
+     */
     public function prepareAttributes($options)
     {
         $attributes = [];
@@ -140,6 +154,12 @@ class FormHelper
         return join('', $attributes);
     }
 
+    /**
+     * Add custom field
+     *
+     * @param $name
+     * @param $class
+     */
     public function addCustomField($name, $class)
     {
         if (!array_key_exists($name, $this->customTypes)) {

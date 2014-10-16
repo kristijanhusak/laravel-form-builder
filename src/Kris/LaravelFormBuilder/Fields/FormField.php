@@ -5,21 +5,29 @@ use Kris\LaravelFormBuilder\Form;
 abstract class FormField
 {
     /**
+     * Name of the field
+     *
      * @var
      */
     protected $name;
 
     /**
+     * Type of the field
+     *
      * @var
      */
     protected $type;
 
     /**
+     * All options for the field
+     *
      * @var
      */
     protected $options;
 
     /**
+     * Is field rendered
+     *
      * @var bool
      */
     protected $rendered = false;
@@ -33,13 +41,6 @@ abstract class FormField
      * @var string
      */
     protected $template;
-
-    /**
-     * Array of valid types for single type
-     *
-     * @var array
-     */
-    protected $validFieldTypes = [];
 
     /**
      * @param             $name
@@ -90,6 +91,8 @@ abstract class FormField
     }
 
     /**
+     * Prepare options for rendering
+     *
      * @param array $options
      * @return array
      */
@@ -115,6 +118,8 @@ abstract class FormField
     }
 
     /**
+     * Set name of the field
+     *
      * @param string $name
      * @return $this
      */
@@ -213,6 +218,8 @@ abstract class FormField
     }
 
     /**
+     * Merge all defaults with field specific defaults and set template if passed
+     *
      * @param array $options
      */
     protected function setDefaultOptions(array $options = [])

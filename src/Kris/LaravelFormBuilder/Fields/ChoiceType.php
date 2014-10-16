@@ -4,8 +4,18 @@
 class ChoiceType extends FormField
 {
 
-    protected $children;
+    /**
+     * All children of the choice field
+     *
+     * @var array
+     */
+    protected $children = [];
 
+    /**
+     * Choice type
+     *
+     * @var string
+     */
     protected $choiceType = 'select';
 
     protected function getTemplate()
@@ -22,6 +32,11 @@ class ChoiceType extends FormField
         return parent::render($options, $showLabel, $showField, $showError);
     }
 
+    /**
+     * Determine which choice type to use
+     *
+     * @return string
+     */
     protected function determineChoiceField()
     {
         $expanded = (bool) $this->options['expanded'];
@@ -51,6 +66,8 @@ class ChoiceType extends FormField
     }
 
     /**
+     * Get all children of the choice field
+     *
      * @return mixed
      */
     public function getChildren()
@@ -58,6 +75,9 @@ class ChoiceType extends FormField
         return $this->children;
     }
 
+    /**
+     * Create children depending on choice type
+     */
     protected function createChildren()
     {
         $fieldMultiple = $this->options['multiple'] ? '[]' : '';
@@ -72,6 +92,8 @@ class ChoiceType extends FormField
     }
 
     /**
+     * Build checkable children fields from choice type
+     *
      * @param $fieldType
      * @param $fieldMultiple
      */
@@ -97,6 +119,8 @@ class ChoiceType extends FormField
     }
 
     /**
+     * Build select field from choice
+     *
      * @param string $fieldType
      * @param string $fieldMultiple Append [] if multiple choice
      */

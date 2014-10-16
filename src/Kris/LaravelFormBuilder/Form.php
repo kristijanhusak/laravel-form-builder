@@ -26,6 +26,8 @@ class Form
     protected $formHelper;
 
     /**
+     * Form options
+     *
      * @var array
      */
     protected $formOptions = [
@@ -34,6 +36,8 @@ class Form
     ];
 
     /**
+     * Build the form
+     *
      * @return mixed
      */
     public function buildForm()
@@ -41,6 +45,8 @@ class Form
     }
 
     /**
+     * Add a single field to the form
+     *
      * @param string $name
      * @param string $type
      * @param array $options
@@ -60,6 +66,8 @@ class Form
     }
 
     /**
+     * Render full form
+     *
      * @param array $options
      * @param bool  $showStart
      * @param bool  $showFields
@@ -85,6 +93,8 @@ class Form
     }
 
     /**
+     * Render the form
+     *
      * @param $options
      * @param $fields
      * @param $showStart
@@ -106,8 +116,9 @@ class Form
     }
 
     /**
-     * @param $name
+     * Get single field instance from form object
      *
+     * @param $name
      * @return FormField
      */
     public function getField($name)
@@ -120,6 +131,8 @@ class Form
     }
 
     /**
+     * Check if form has field
+     *
      * @param $name
      * @return bool
      */
@@ -129,6 +142,8 @@ class Form
     }
 
     /**
+     * Get all form options
+     *
      * @return array
      */
     public function getFormOptions()
@@ -137,6 +152,8 @@ class Form
     }
 
     /**
+     * Set form options
+     *
      * @param array $formOptions
      * @return $this
      */
@@ -151,6 +168,8 @@ class Form
 
 
     /**
+     * Get form http method
+     *
      * @return string
      */
     public function getMethod()
@@ -159,6 +178,8 @@ class Form
     }
 
     /**
+     * Set form http method
+     *
      * @param string $method
      * @return $this
      */
@@ -170,6 +191,8 @@ class Form
     }
 
     /**
+     * Get form action url
+     *
      * @return string
      */
     public function getUrl()
@@ -178,6 +201,8 @@ class Form
     }
 
     /**
+     * Set form action url
+     *
      * @param string $url
      * @return $this
      */
@@ -190,6 +215,8 @@ class Form
 
 
     /**
+     * Get model that is bind to form object
+     *
      * @return Model
      */
     public function getModel()
@@ -198,6 +225,8 @@ class Form
     }
 
     /**
+     * Set model to form object
+     *
      * @param Model $model
      * @return $this
      */
@@ -234,6 +263,8 @@ class Form
     }
 
     /**
+     * Set the form helper only on first instantiation
+     *
      * @param FormHelper $formHelper
      * @return $this
      */
@@ -247,6 +278,8 @@ class Form
     }
 
     /**
+     * Get form helper
+     *
      * @return FormHelper
      */
     public function getFormHelper()

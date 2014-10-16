@@ -31,14 +31,21 @@ class FormBuilderServiceProvider extends ServiceProvider
         $this->package('kris/laravel-form-builder');
     }
 
+    /**
+     * @return array
+     */
     public function provides()
     {
         return ['laravel-form-builder'];
     }
 
+    /**
+     * Add Laravel Form to container if not already set
+     */
     private function bindFormIfNeeded()
     {
         if (!$this->app->offsetExists('form')) {
+
             $this->app->bindShared('form', function($app) {
 
                 $form = new LaravelForm($app['html'], $app['url'], $app['session.store']->getToken());
@@ -53,12 +60,21 @@ class FormBuilderServiceProvider extends ServiceProvider
         }
     }
 
+    /**
+     * Add Laravel Html to container if not already set
+     */
     private function bindHtmlIfNeeded()
     {
         if (!$this->app->offsetExists('html')) {
+
             $this->app->bindShared('html', function($app) {
                 return new HtmlBuilder($app['url']);
             });
+
+            AliasLoader::getInstance()->alias(
+                'Html',
+                'Illuminate\Html\HtmlFacade'
+            );
         }
     }
 }

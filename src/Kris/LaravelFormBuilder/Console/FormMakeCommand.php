@@ -1,6 +1,7 @@
 <?php namespace Kris\LaravelFormBuilder\Console;
 
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -19,6 +20,17 @@ class FormMakeCommand extends GeneratorCommand {
 	 * @var string
 	 */
 	protected $description = 'Creates a form builder class.';
+
+    /**
+     * @var FormGenerator
+     */
+    private $formGenerator;
+
+    public function __construct(Filesystem $files, FormGenerator $formGenerator)
+    {
+        parent::__construct($files);
+        $this->formGenerator = $formGenerator;
+    }
 
 	/**
 	 * Get the console command arguments.
@@ -53,11 +65,19 @@ class FormMakeCommand extends GeneratorCommand {
      */
     protected function replaceClass($stub, $name)
     {
-        $class = $this->getClassInfo($name)->className;
+        $formGenerator = $this->formGenerator;
 
-        $stub = str_replace('{{class}}', $class, $stub);
+        $stub = str_replace(
+            '{{class}}',
+            $formGenerator->getClassInfo($name)->className,
+            $stub
+        );
 
-        return str_replace('{{fields}}', $this->getFields(), $stub);
+        return str_replace(
+            '{{fields}}',
+            $formGenerator->getFieldsVariable($this->option('fields')),
+            $stub
+        );
     }
 
     /**
@@ -69,29 +89,15 @@ class FormMakeCommand extends GeneratorCommand {
      */
     protected function replaceNamespace(&$stub, $name)
     {
-        $namespace = $this->getClassInfo($name)->namespace;
-
         $stub = str_replace(
-            '{{namespace}}', $namespace, $stub
+            '{{namespace}}',
+            $this->formGenerator->getClassInfo($name)->namespace,
+            $stub
         );
 
         return $this;
     }
 
-    /**
-     * @param $name
-     * @return object
-     */
-    private function getClassInfo($name)
-    {
-        $exploded = explode('/', $name);
-        $className = array_pop($exploded);
-
-        return (object)[
-            'namespace' => join('\\', $exploded),
-            'className' => $className
-        ];
-    }
 
     /**
      * Get the stub file for the generator.
@@ -101,60 +107,5 @@ class FormMakeCommand extends GeneratorCommand {
     protected function getStub()
     {
         return __DIR__.'/stubs/form-class-template.stub';
-    }
-
-    /**
-     * Get fields from options and add to class
-     *
-     * @return string
-     */
-    private function getFields()
-    {
-        $fields = $this->option('fields');
-        if ($fields) {
-            return $this->parseFields($fields);
-        }
-
-        return '// Add fields here...';
-    }
-
-    /**
-     * Parse fields from string
-     *
-     * @param $fields
-     * @return string
-     */
-    private function parseFields($fields)
-    {
-        $fieldsArray = explode(',', $fields);
-        $text = '$this'."\n";
-
-        foreach ($fieldsArray as $field) {
-            $text .= $this->prepareAdd($field, end($fieldsArray) == $field);
-        }
-
-        return $text.';';
-    }
-
-    /**
-     * @param      $field
-     * @param bool $isLast
-     * @return string
-     */
-    private function prepareAdd($field, $isLast = false)
-    {
-        $field = trim($field);
-        list($name, $type) = explode(':', $field);
-        $textArr = [
-            "            ",
-            "->add('",
-            $name,
-            "', '",
-            $type,
-            "')",
-            ($isLast) ? "" : "\n"
-        ];
-
-        return join('', $textArr);
     }
 }

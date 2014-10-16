@@ -36,6 +36,8 @@ class FormBuilder
     }
 
     /**
+     * Get instance of the empty form which can be modified
+     *
      * @param $options
      * @return Form
      */
