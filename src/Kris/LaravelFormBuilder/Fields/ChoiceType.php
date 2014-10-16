@@ -1,6 +1,8 @@
 <?php namespace  Kris\LaravelFormBuilder\Fields;
 
 
+use Kris\LaravelFormBuilder\Form;
+
 class ChoiceType extends FormField
 {
 
@@ -18,6 +20,13 @@ class ChoiceType extends FormField
      */
     protected $choiceType = 'select';
 
+    public function __construct($name, $type, Form $parent, array $options = [])
+    {
+        parent::__construct($name, $type, $parent, $options);
+        $this->determineChoiceField();
+        $this->createChildren();
+    }
+
     protected function getTemplate()
     {
         return 'laravel-form-builder::choice';
@@ -25,8 +34,6 @@ class ChoiceType extends FormField
 
     public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
     {
-        $this->determineChoiceField();
-        $this->createChildren();
         $options['children'] = $this->children;
 
         return parent::render($options, $showLabel, $showField, $showError);
