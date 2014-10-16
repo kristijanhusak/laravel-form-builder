@@ -1,6 +1,7 @@
 {
     "name": "kris/laravel-form-builder",
-    "description": "",
+    "description": "Laravel form builder - symfony like",
+    "license": "MIT",
     "authors": [
         {
             "name": "Kristijan Husak",
@@ -21,12 +22,11 @@
             "Kris\\LaravelFormBuilder": "src/"
         },
         "classmap": [
-          "tests/FormBuilderTestCase.php"
+            "tests/FormBuilderTestCase.php"
         ],
         "files": [
-          "src/helpers.php"
+            "src/helpers.php"
         ]
-
     },
     "minimum-stability": "dev"
 }

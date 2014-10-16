@@ -32,6 +32,7 @@ class FormHelper
         'reset',
         'button',
         'file',
+        'image',
         'select',
         'checkbox',
         'radio',

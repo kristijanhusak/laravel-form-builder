@@ -72,7 +72,9 @@ abstract class FormField
      */
     public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
     {
-        $this->rendered = true;
+        if ($showField) {
+            $this->rendered = true;
+        }
 
         $options = $this->prepareOptions($options);
 
