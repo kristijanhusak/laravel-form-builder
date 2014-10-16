@@ -15,6 +15,7 @@ class FormBuilderServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->commands('Kris\LaravelFormBuilder\Console\FormMakeCommand');
         $this->bindHtmlIfNeeded();
         $this->bindFormIfNeeded();
 

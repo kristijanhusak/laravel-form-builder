@@ -1,0 +1,11 @@
+<?php namespace {{namespace}};
+
+use Kris\LaravelFormBuilder\Form;
+
+class {{class}} extends Form
+{
+    public function buildForm()
+    {
+        {{fields}}
+    }
+}
