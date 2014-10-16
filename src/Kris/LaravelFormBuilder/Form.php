@@ -38,7 +38,6 @@ class Form
      */
     public function buildForm()
     {
-        // Add fields here
     }
 
     /**

@@ -42,6 +42,7 @@ class FormBuilderTest extends FormBuilderTestCase
         $this->assertEquals('PUT', $plainForm->getMethod());
         $this->assertEquals('/some/url/1', $plainForm->getUrl());
         $this->assertEquals($this->model, $plainForm->getModel());
+        $this->assertNull($plainForm->buildForm());
     }
 
     /** @test */

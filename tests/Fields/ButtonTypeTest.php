@@ -11,8 +11,6 @@ class ButtonTypeTest extends FormBuilderTestCase
      */
     protected $form;
 
-    protected $buttonType;
-
     public function setUp()
     {
         parent::setUp();

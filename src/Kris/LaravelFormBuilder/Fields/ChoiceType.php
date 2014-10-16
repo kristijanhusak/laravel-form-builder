@@ -40,22 +40,11 @@ class ChoiceType extends FormField
         }
     }
 
-    protected function getSelectedValue()
-    {
-        $selected = $this->options['selected'];
-
-        if ($selected) {
-            return array_search($selected, $this->options['choices']);
-        }
-
-        return '';
-    }
-
     protected function getDefaults()
     {
         return [
             'choices' => null,
-            'selected' => false,
+            'selected' => null,
             'expanded' => false,
             'multiple' => false
         ];

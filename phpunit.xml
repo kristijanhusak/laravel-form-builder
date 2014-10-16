@@ -15,4 +15,13 @@
             <directory suffix=".php">./tests/</directory>
         </testsuite>
     </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>./src/Kris</directory>
+            <exclude>
+                <file>./src/Kris/LaravelFormBuilder/FormBuilderServiceProvider.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
 </phpunit>
