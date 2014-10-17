@@ -9,21 +9,12 @@ class FormHelperTest extends FormBuilderTestCase
 
     protected $config;
 
-    protected $requestClass;
+    protected $request;
 
     /**
      * @var FormHelper
      */
     protected $formHelper;
-
-
-    public function setUp()
-    {
-        $this->view = Mockery::mock('Illuminate\Contracts\View\Factory');
-        $this->config = Mockery::mock('Illuminate\Contracts\Config\Repository');
-        $this->requestClass = Mockery::mock('Illuminate\Http\Request');
-        $this->formHelper = new FormHelper($this->view, $this->config, $this->requestClass);
-    }
 
     /** @test */
     public function it_sets_constructor_dependencies_to_properties()

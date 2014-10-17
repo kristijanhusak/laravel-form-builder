@@ -101,8 +101,12 @@ abstract class FormField
         $formHelper = $this->parent->getFormHelper();
 
         $options = $formHelper->mergeOptions($this->options, $options);
+
+        $this->addErrorClass($options);
+
         $options['wrapperAttrs'] = $formHelper->prepareAttributes($options['wrapper']);
         $options['errorAttrs'] = $formHelper->prepareAttributes($options['errors']);
+
 
         return $options;
     }
@@ -242,5 +246,29 @@ abstract class FormField
     {
         $this->template = $this->parent->getFormHelper()
             ->getConfig()->get($this->getTemplate(), $this->getTemplate());
+    }
+
+
+    /**
+     * Add error class to wrapper if validation errors exist
+     *
+     * @param $options
+     */
+    protected function addErrorClass(&$options)
+    {
+        $formHelper = $this->parent->getFormHelper();
+
+        $errors = $formHelper->getRequest()->getSession()->get('errors');
+
+        if ($errors && $errors->has($this->name)) {
+            $errorClass = $formHelper->getConfig()
+                ->get('laravel-form-builder::defaults.wrapper_error_class');
+
+            if (strpos($options['wrapper']['class'], $errorClass) === false) {
+                $options['wrapper']['class'] .= ' '.$errorClass;
+            }
+        }
+
+        return $options;
     }
 }

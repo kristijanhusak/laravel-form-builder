@@ -111,6 +111,10 @@ class ChoiceTypeTest extends FormBuilderTestCase
                      ->andReturn('form-group');
 
         $this->config->shouldReceive('get')
+                     ->with('laravel-form-builder::defaults.wrapper_error_class')
+                     ->andReturn('has-error');
+
+        $this->config->shouldReceive('get')
                      ->with('laravel-form-builder::defaults.field_class')
                      ->andReturn('form-control');
 

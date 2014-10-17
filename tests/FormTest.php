@@ -148,10 +148,6 @@ class FormTest extends FormBuilderTestCase
             'class' => 'has-error'
         ];
 
-        $session = Mockery::mock('Symfony\Component\HttpFoundation\Session\SessionInterface');
-        $session->shouldReceive('has')->once()->andReturn(true);
-
-        $this->request->shouldReceive('getSession')->once()->andReturn($session);
 
         $this->prepareRender($options);
 
@@ -275,6 +271,9 @@ class FormTest extends FormBuilderTestCase
         $this->config->shouldReceive('get')
             ->with('laravel-form-builder::defaults.wrapper_class')
             ->times($times);
+
+        $this->config->shouldReceive('get')
+                     ->with('laravel-form-builder::defaults.wrapper_error_class');
 
         $this->config->shouldReceive('get')
             ->with('laravel-form-builder::defaults.field_class')
