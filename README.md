@@ -10,6 +10,15 @@
 Form builder for Laravel 5 inspired by Symfony's form builder. With help of Laravels FormBuilder class creates forms that can be easy modified and reused.
 By default it supports Bootstrap 3.
 
+## Table of contents
+1. [Installation](#installation)
+2. [Basic usage](#usage)
+  1. [Usage in controllers](#usage-in-controllers)
+  2. [Usage in views](#usage-in-views)
+3. [Plain form](#plain-form)
+4. [Field customization](#field-customization)
+5. [Changing configuration and templates](#changing-configuration-and-templates)
+
 ###Installation
 
 ``` json
@@ -39,9 +48,9 @@ And Facade (also in `config/app.php`)
 
 ```
 
-----
-###Usage
-----
+**Notice**: This package will add `illuminate/html` package and load Aliases (Form, Html) if they does not exist in the IoC container
+
+### Usage
 
 Creating form classes is easy. With a simple artisan command:
 
@@ -90,7 +99,9 @@ class SongForm extends Form
 }
 ```
 
-It can be used in controller like this:
+#### Usage in controllers
+
+Forms can be used in controller like this:
 
 ``` php
 <?php namespace App/Http/Controllers;
@@ -108,10 +119,10 @@ class SongsController extends BaseController {
             'method' => 'POST',
             'url' => route('song.store')
         ]);
-        
+
         return view('song.create', compact('form');
     }
-    
+
     /**
      * @Post("/songs", as="song.store")
      */
@@ -121,7 +132,9 @@ class SongsController extends BaseController {
 }
 ```
 
-and then in view add this:
+#### Usage in views
+
+From controller they can be used in views like this:
 
 ``` html
 <!-- resources/views/song/create.blade.php -->
@@ -134,7 +147,7 @@ and then in view add this:
 ```
 
 `{!! form($form) !!}` Will generate this html:
- 
+
 ``` html
 <form method="POST" action="http://example.dev/songs">
     <input name="_token" type="hidden" value="FaHZmwcnaOeaJzVdyp4Ml8B6l1N1DLUDsZmsjRFL">
@@ -175,8 +188,8 @@ You can also split it even more:
 <form method="POST" action="http://example.dev/songs">
 
 {!! form_label($form->publish) !!}
-<label for="name" class="control-label">name</label>
-    
+<label for="publish" class="control-label">publish</label>
+
 {!! form_widget($form->publish, ['checked' => true]) !!}
 <input type="checkbox" name="publish" checked="checked">
 
@@ -197,9 +210,97 @@ You can also split it even more:
 </form>
 
 ```
+### Plain form
 
+If you need to quick create a small form that does not to be reused, you can use `plain` method:
 
-List of all available field types:
+``` php
+<?php namespace App/Http/Controllers;
+
+use Illuminate\Routing\Controller;
+
+class SongsController extends BaseController {
+
+    /**
+     * @Get("/login", as="login-page")
+     */
+    public function index()
+    {
+        $form = \FormBuilder::plain([
+            'method' => 'POST',
+            'url' => route('login')
+        ])->add('username', 'text')->add('password', 'password')->add('login', 'submit');
+
+        return view('auth.login', compact('form');
+    }
+
+    /**
+     * @Post("/login", as="login")
+     */
+    public function login()
+    {
+    }
+}
+```
+
+### Field Customization
+Fields can be easily customized within the class or view:
+
+``` php
+<?php namespace App\Forms;
+
+use Kris\LaravelFormBuilder\Form;
+
+class PostForm extends Form
+{
+    public function buildForm()
+    {
+        $this
+            ->add('name', 'text', [
+                'wrapper' => 'name-input-container',
+                'attr' => ['class' => 'input-name', 'placeholder' => 'Enter name here...'],
+                'label' => 'Full name'
+            ])
+            ->add('bio', 'textarea')
+            // This creates a select field
+            ->add('subscription', 'choice', [
+                'choices' => ['monthly' => 'Monthly', 'yearly' => 'Yearly'],
+                'selected' => 'yearly',
+                'multiple' => false // This is default. If set to true, it creates select with multiple select posibility
+            ])
+            // This creates radio buttons
+            ->add('gender', 'choice', [
+                'choices' => ['m' => 'Male', 'f' => 'Female'],
+                'selected' => 'Male',
+                'expanded' => true
+            ])
+            // Automatically adds enctype="multipart/form-data" to form
+            ->add('image', 'file', [
+                'label' => 'Upload your image'
+            ])
+            // This creates a checkbox list
+            ->add('languages', 'choice', [
+                'choices' => ['en' => 'English', 'de' => 'German', 'fr' => 'France'],
+                'selected' => ['English', 'France']
+                'expanded' => true,
+                'multiple' => true
+            ])
+            ->add('policy-agree', 'checkbox', [
+                'default_value' => 1,    //  <input type="checkbox" value="1">
+                'label' => 'I agree to policy',
+                'checked' => false    // This is the default.
+            ])
+            ->add('save', 'submit', [
+                'attr' = ['class' => 'btn btn-primary']
+            ])
+            ->add('clear', 'reset', [
+                'label' => 'Clear the form',
+                'attr' => ['class' => 'btn btn-danger']
+            ]);
+    }
+}
+```
+Here is the list of all available field types:
 * text
 * email
 * url
@@ -217,4 +318,90 @@ List of all available field types:
 * radio
 * choice
 
+You can also bind the model to the class and add other options with setters
 
+``` php
+<?php namespace App/Http/Controllers;
+
+use Illuminate\Routing\Controller;
+
+class PostsController extends BaseController {
+
+    /**
+     * @Get("/posts/{id}/edit", as="posts.edit")
+     */
+    public function edit($id)
+    {
+        $model = Post::findOrFail($id);
+
+        $form = \FormBuilder::create('App\Forms\PostForm')
+            ->setMethod('PUT')
+            ->setUrl(route('post.update'))
+            ->setModel($model); // This will automatically do Form::model($model) in the form
+
+        return view('posts.edit', compact('form');
+    }
+
+    /**
+     * @Post("/posts/{id}", as="posts.update")
+     */
+    public function update()
+    {
+    }
+}
+```
+
+And in form, you can use that model to populate some fields like this
+
+``` php
+<?php namespace App\Forms;
+
+use Kris\LaravelFormBuilder\Form;
+
+class PostForm extends Form
+{
+    public function buildForm()
+    {
+        $this
+            ->add('title', 'text')
+            ->add('body', 'textearea')
+            ->add('category', 'select', [
+                'choices' => $this->model->categories()->lists('id', 'name')
+            ]);
+    }
+}
+```
+
+### Changing configuration and templates
+
+As mentioned above, bootstrap 3 form classes are used. If you want to change the defaults you need to publish the config like this:
+``` sh
+php artisan publish:config kris/laravel-form-builder
+```
+This will create folder `kris` in `config/packages` folder which will contain
+[config.php](https://github.com/kristijanhusak/laravel-form-builder/blob/master/src/config/config.php) file.
+
+change values in `defaults` key as you wish.
+
+If you want to customize the views for fields and forms you can publish the views like this:
+``` sh
+php artisan publish:views kris/laravel-form-builder
+```
+
+This will create folder with all files in `resources/views/packages/kris/laravel-form-builder`
+
+Other way is to change path to the templates in the
+[config.php](https://github.com/kristijanhusak/laravel-form-builder/blob/master/src/config/config.php) file.
+
+``` php
+return [
+    // ...
+    'checkbox' => 'posts.my-custom-checkbox'    // resources/views/posts/my-custom-checkbox.blade.php
+];
+```
+
+Just make sure you inherit the functionality from default views to prevent breaking.
+
+### Todo
+* Add possibility to disable showing validation errors under fields
+* Add event dispatcher ?
