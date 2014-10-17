@@ -12,7 +12,7 @@
 
 
     <?php if ($showField): ?>
-    <?= Form::radio($name, $options['default_value'], $options['selected'], $options['attr']) ?>
+    <?= Form::radio($name, $options['default_value'], $options['checked'], $options['attr']) ?>
     <?php endif; ?>
 
     <?php if ($showError && isset($errors)): ?>

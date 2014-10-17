@@ -66,9 +66,9 @@ if (!function_exists('form_widget')) {
 
 }
 
-if (!function_exists('form_error')) {
+if (!function_exists('form_errors')) {
 
-    function form_error(FormField $formField, array $options = [])
+    function form_errors(FormField $formField, array $options = [])
     {
         return $formField->render($options, false, false, true);
     }

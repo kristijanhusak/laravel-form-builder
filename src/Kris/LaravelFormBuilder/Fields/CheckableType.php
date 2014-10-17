@@ -16,7 +16,7 @@ class CheckableType extends FormField
             'is_child' => false,
             'default_value' => null,
             'label_attr' => ['id' => '', 'for' => ''],
-            'selected' => false
+            'checked' => false
         ];
     }
 
