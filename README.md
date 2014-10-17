@@ -18,6 +18,7 @@ By default it supports Bootstrap 3.
 3. [Plain form](#plain-form)
 4. [Field customization](#field-customization)
 5. [Changing configuration and templates](#changing-configuration-and-templates)
+6. [Custom fields](#custom-fields)
 
 ###Installation
 
@@ -423,6 +424,63 @@ class PostForm extends Form
 
 **When you are adding custom templates make sure they inherit functionality from defaults to prevent breaking.**
 
+### Custom fields
+
+If you want to create your own custom field, you can do it like this:
+
+``` php
+<?php namespace App\Forms\Fields;
+
+use Kris\LaravelFormBuilder\Fields\FormField;
+
+class DatetimeType extends FormField {
+
+    protected function getTemplate()
+    {
+        // resources/views/fields/datetime.blade.php
+        return 'fields.datetime';
+    }
+
+    public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
+    {
+        $options['somedata'] = 'This is some data for view';
+
+        return parent::render($options, $showLabel, $showField, $showError);
+    }
+}
+```
+
+And then in view you can use what you need:
+
+``` php
+// ...
+
+<?= $options['somedata'] ?>
+
+// ...
+```
+
+**Notice:** Package templates uses plain PHP for printing because of plans for supporting version 4 (prevent conflict with tags), but you can use blade for custom fields, just make sure to use tags that are not escaping html (`{!! !!}`)
+
+And then add it to form like this:
+
+``` php
+<?php namespace App\Forms;
+
+use Kris\LaravelFormBuilder\Form;
+
+class PostForm extends Form
+{
+    public function buildForm()
+    {
+        $this->addCustomField('datetime', 'App\Forms\Fields\DatetimeType');
+
+        $this
+            ->add('title', 'text')
+            ->add('created_at', 'datetime')
+    }
+}
+```
 
 ### Todo
 * Add possibility to disable showing validation errors under fields
