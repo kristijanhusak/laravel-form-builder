@@ -120,7 +120,7 @@ class SongsController extends BaseController {
             'url' => route('song.store')
         ]);
 
-        return view('song.create', compact('form');
+        return view('song.create', compact('form'));
     }
 
     /**
@@ -231,7 +231,7 @@ class SongsController extends BaseController {
             'url' => route('login')
         ])->add('username', 'text')->add('password', 'password')->add('login', 'submit');
 
-        return view('auth.login', compact('form');
+        return view('auth.login', compact('form'));
     }
 
     /**
@@ -339,7 +339,7 @@ class PostsController extends BaseController {
             ->setUrl(route('post.update'))
             ->setModel($model); // This will automatically do Form::model($model) in the form
 
-        return view('posts.edit', compact('form');
+        return view('posts.edit', compact('form'));
     }
 
     /**
@@ -400,7 +400,29 @@ return [
 ];
 ```
 
-Just make sure you inherit the functionality from default views to prevent breaking.
+
+One more way to change template is directly from Form class:
+
+``` php
+<?php namespace App\Forms;
+
+use Kris\LaravelFormBuilder\Form;
+
+class PostForm extends Form
+{
+    public function buildForm()
+    {
+        $this
+            ->add('title', 'text')
+            ->add('body', 'textearea', [
+                'template' => 'posts.textarea'    // resources/views/posts/textarea.blade.php
+            ]);
+    }
+}
+```
+
+**When you are adding custom templates make sure they inherit functionality from defaults to prevent breaking.**
+
 
 ### Todo
 * Add possibility to disable showing validation errors under fields
