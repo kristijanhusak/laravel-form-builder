@@ -54,6 +54,8 @@ class Form
      */
     public function add($name, $type = 'text', array $options = [])
     {
+        $this->preventDuplicate($name);
+
         $fieldType = $this->formHelper->getFieldType($type);
 
         if ($type == 'file') {
@@ -63,6 +65,21 @@ class Form
         $this->fields[$name] = new $fieldType($name, $type, $this, $options);
 
         return $this;
+    }
+
+    /**
+     * Remove field with specified name from the form
+     *
+     * @param $name
+     */
+    public function remove($name)
+    {
+        if ($this->has($name)) {
+            unset($this->fields[$name]);
+            return $this;
+        }
+
+        throw new \InvalidArgumentException('Field ['.$name.'] does not exist in '.get_class($this));
     }
 
     /**
@@ -76,8 +93,6 @@ class Form
      */
     public function renderForm(array $options = [], $showStart = true, $showFields = true, $showEnd = true)
     {
-        $this->addErrorClass($options);
-
         return $this->render($options, $this->fields, $showStart, $showFields, $showEnd);
     }
 
@@ -92,29 +107,6 @@ class Form
         $fields = $this->getUnrenderedFields();
 
         return $this->render($options, $fields, false, true, false);
-    }
-
-    /**
-     * Render the form
-     *
-     * @param $options
-     * @param $fields
-     * @param $showStart
-     * @param $showFields
-     * @param $showEnd
-     * @return string
-     */
-    protected function render($options, $fields, $showStart, $showFields, $showEnd)
-    {
-        $formOptions = $this->formHelper->mergeOptions($this->formOptions, $options);
-
-        return $this->formHelper->getView()
-            ->make($this->formHelper->getConfig()->get('laravel-form-builder::form'))
-            ->with(compact('showStart', 'showFields', 'showEnd'))
-            ->with('formOptions', $formOptions)
-            ->with('fields', $fields)
-            ->with('model', $this->getModel())
-            ->render();
     }
 
     /**
@@ -290,6 +282,40 @@ class Form
     }
 
     /**
+     * Add custom field
+     *
+     * @param $name
+     * @param $class
+     */
+    public function addCustomField($name, $class)
+    {
+        $this->formHelper->addCustomField($name, $class);
+    }
+
+    /**
+     * Render the form
+     *
+     * @param $options
+     * @param $fields
+     * @param $showStart
+     * @param $showFields
+     * @param $showEnd
+     * @return string
+     */
+    protected function render($options, $fields, $showStart, $showFields, $showEnd)
+    {
+        $formOptions = $this->formHelper->mergeOptions($this->formOptions, $options);
+
+        return $this->formHelper->getView()
+            ->make($this->formHelper->getConfig()->get('laravel-form-builder::form'))
+            ->with(compact('showStart', 'showFields', 'showEnd'))
+            ->with('formOptions', $formOptions)
+            ->with('fields', $fields)
+            ->with('model', $this->getModel())
+            ->render();
+    }
+
+    /**
      * Get the model from the options
      */
     private function getModelFromOptions()
@@ -320,27 +346,14 @@ class Form
     }
 
     /**
-     * Add custom field
+     * Prevent adding fields with same name
      *
      * @param $name
-     * @param $class
      */
-    public function addCustomField($name, $class)
+    private function preventDuplicate($name)
     {
-        $this->formHelper->addCustomField($name, $class);
-    }
-
-    /**
-     * Add error class to form if errors exist
-     *
-     * @param $options
-     */
-    private function addErrorClass(&$options)
-    {
-        if ($this->formHelper->getRequest()->getSession()->has('errors')) {
-            $options['class'] = $this->formHelper
-                ->getConfig()
-                ->get('laravel-form-builder::defaults.form_error_class');
+        if ($this->has($name)) {
+            throw new \InvalidArgumentException('Field ['.$name.'] already exists in the form '.get_class($this));
         }
     }
 }

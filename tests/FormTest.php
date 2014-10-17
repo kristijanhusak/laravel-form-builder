@@ -56,6 +56,57 @@ class FormTest extends FormBuilderTestCase
     }
 
     /** @test */
+    public function it_can_remove_existing_fields_from_form_object()
+    {
+        $this->config->shouldReceive('get');
+
+        $this->form
+            ->add('name', 'text')
+            ->add('description', 'textarea')
+            ->add('remember', 'checkbox');
+
+        $this->assertEquals(3, count($this->form->getFields()));
+
+        $this->assertTrue($this->form->has('name'));
+
+        $this->form->remove('name');
+
+        $this->assertEquals(2, count($this->form->getFields()));
+
+        $this->assertFalse($this->form->has('name'));
+    }
+
+    /** @test */
+    public function it_throws_exception_when_removing_nonexisting_field()
+    {
+        $this->config->shouldReceive('get');
+        $this->form->add('name', 'text');
+
+        try {
+            $this->form->remove('nonexisting');
+        } catch (\InvalidArgumentException $e) {
+            return;
+        }
+
+        $this->fail('Exception was not thrown when tried removing non existing field.');
+
+    }
+
+    /** @test */
+    public function it_prevents_adding_fields_with_same_name()
+    {
+        $this->config->shouldReceive('get');
+
+        try {
+            $this->form->add('name', 'text')->add('name', 'textarea');
+        } catch (\InvalidArgumentException $e) {
+            return;
+        }
+
+        $this->fail('Exception was not thrown when adding fields with same name');
+    }
+
+    /** @test */
     public function it_throws_InvalidArgumentException_on_non_existing_property()
     {
         $this->config->shouldReceive('get');
