@@ -28,7 +28,10 @@ class FormBuilder
      */
     public function create($formClass, array $options = [])
     {
-        $form = $this->container->make($formClass)->setFormHelper($this->formHelper);
+        $form = $this->container
+            ->make($formClass)
+            ->setUrl($this->container->request->getUri())
+            ->setFormHelper($this->formHelper);
 
         $form->buildForm();
 
@@ -46,6 +49,7 @@ class FormBuilder
         return $this->container
             ->make('Kris\LaravelFormBuilder\Form')
             ->setFormHelper($this->formHelper)
+            ->setUrl($this->container->request->getUri())
             ->setFormOptions($options);
     }
 }
