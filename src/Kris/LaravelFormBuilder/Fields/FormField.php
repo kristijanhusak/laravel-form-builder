@@ -212,7 +212,7 @@ abstract class FormField
             'attr' => ['class' => $config->get('laravel-form-builder::defaults.field_class')],
             'default_value' => null,
             'label' => $this->name,
-            'label_attr' => [],
+            'label_attr' => ['class' => $config->get('laravel-form-builder::defaults.label_class')],
             'errors' => ['class' => $config->get('laravel-form-builder::defaults.error_class')]
         ];
     }

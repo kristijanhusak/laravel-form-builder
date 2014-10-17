@@ -2,6 +2,7 @@
 
 use Illuminate\Contracts\View\Factory as View;
 use Illuminate\Contracts\Config\Repository as Config;
+use Illuminate\Http\Request;
 
 class FormHelper
 {
@@ -15,6 +16,11 @@ class FormHelper
      * @var Config
      */
     protected $config;
+
+    /**
+     * @var Request
+     */
+    protected $request;
 
     /**
      * All available field types
@@ -40,6 +46,7 @@ class FormHelper
         'choice'
     ];
 
+
     /**
      * Custom types
      *
@@ -47,10 +54,11 @@ class FormHelper
      */
     private $customTypes = [];
 
-    public function __construct(View $view, Config $config)
+    public function __construct(View $view, Config $config, Request $request)
     {
         $this->view = $view;
         $this->config = $config;
+        $this->request = $request;
     }
 
     /**
@@ -67,6 +75,14 @@ class FormHelper
     public function getView()
     {
         return $this->view;
+    }
+
+    /**
+     * @return Request
+     */
+    public function getRequest()
+    {
+        return $this->request;
     }
 
     /**

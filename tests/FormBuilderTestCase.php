@@ -14,16 +14,20 @@ abstract class FormBuilderTestCase extends PHPUnit_Framework_TestCase {
      */
     protected $config;
 
+    protected $request;
+
     /**
      * @var FormHelper
      */
     protected $formHelper;
 
+
     public function setUp()
     {
         $this->view = Mockery::mock('Illuminate\Contracts\View\Factory');
         $this->config = Mockery::mock('Illuminate\Contracts\Config\Repository');
-        $this->formHelper = new FormHelper($this->view, $this->config);
+        $this->request = Mockery::mock('Illuminate\Http\Request');
+        $this->formHelper = new FormHelper($this->view, $this->config, $this->request);
     }
 
     public function tearDown()

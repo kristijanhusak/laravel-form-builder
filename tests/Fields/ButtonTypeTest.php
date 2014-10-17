@@ -105,7 +105,7 @@ class ButtonTypeTest extends FormBuilderTestCase
             'attr' => array_merge(['class' => 'form-control'], $attr),
             'default_value' => null,
             'label' => $label,
-            'label_attr' => [],
+            'label_attr' => ['class' => 'control-label'],
             'errors' => ['class' => 'text-danger'],
             'wrapperAttrs' => 'class="form-group" ',
             'errorAttrs' => 'class="text-danger" '
@@ -124,6 +124,10 @@ class ButtonTypeTest extends FormBuilderTestCase
         $this->config->shouldReceive('get')
             ->with('laravel-form-builder::defaults.wrapper_class')
             ->andReturn('form-group');
+
+        $this->config->shouldReceive('get')
+                     ->with('laravel-form-builder::defaults.label_class')
+                     ->andReturn('control-label');
 
         $this->config->shouldReceive('get')
             ->with('laravel-form-builder::defaults.field_class')

@@ -2,9 +2,11 @@
 
 return [
     'defaults' => [
+        'form_error_class' => 'has-error',
         'wrapper_class' => 'form-group',
+        'label_class' => 'control-label',
         'field_class' => 'form-control',
-        'errors_class' => 'text-danger'
+        'error_class' => 'text-danger'
     ],
 
     'form' => 'laravel-form-builder::form',

@@ -103,6 +103,10 @@ class ChoiceTypeTest extends FormBuilderTestCase
             ->andReturn('laravel-form-builder::'.$childType);
 
         $this->config->shouldReceive('get')
+                     ->with('laravel-form-builder::defaults.label_class')
+                     ->andReturn('control-label');
+
+        $this->config->shouldReceive('get')
                      ->with('laravel-form-builder::defaults.wrapper_class')
                      ->andReturn('form-group');
 

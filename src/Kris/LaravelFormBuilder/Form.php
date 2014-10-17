@@ -76,6 +76,8 @@ class Form
      */
     public function renderForm(array $options = [], $showStart = true, $showFields = true, $showEnd = true)
     {
+        $this->addErrorClass($options);
+
         return $this->render($options, $this->fields, $showStart, $showFields, $showEnd);
     }
 
@@ -326,5 +328,19 @@ class Form
     public function addCustomField($name, $class)
     {
         $this->formHelper->addCustomField($name, $class);
+    }
+
+    /**
+     * Add error class to form if errors exist
+     *
+     * @param $options
+     */
+    private function addErrorClass(&$options)
+    {
+        if ($this->formHelper->getRequest()->getSession()->has('errors')) {
+            $options['class'] = $this->formHelper
+                ->getConfig()
+                ->get('laravel-form-builder::defaults.form_error_class');
+        }
     }
 }

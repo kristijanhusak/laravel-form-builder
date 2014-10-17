@@ -144,8 +144,14 @@ class FormTest extends FormBuilderTestCase
     {
         $options = [
             'method' => 'POST',
-            'url' => '/someurl'
+            'url' => '/someurl',
+            'class' => 'has-error'
         ];
+
+        $session = Mockery::mock('Symfony\Component\HttpFoundation\Session\SessionInterface');
+        $session->shouldReceive('has')->once()->andReturn(true);
+
+        $this->request->shouldReceive('getSession')->once()->andReturn($session);
 
         $this->prepareRender($options);
 
@@ -215,6 +221,9 @@ class FormTest extends FormBuilderTestCase
     ) {
         $viewRenderer = Mockery::mock('Illuminate\Contracts\View\View');
 
+        $this->config->shouldReceive('get')->with('laravel-form-builder::defaults.form_error_class')
+                     ->andReturn('has-error');
+
         $this->config->shouldReceive('get')->with('laravel-form-builder::form')
                      ->andReturn('laravel-form-builder::form');
 
@@ -258,6 +267,10 @@ class FormTest extends FormBuilderTestCase
             ->with('laravel-form-builder::' . $configViewVar, 'laravel-form-builder::' . $configViewVar)
             ->times($times)
             ->andReturn('laravel-form-builder::' . $realView);
+
+        $this->config->shouldReceive('get')
+            ->with('laravel-form-builder::defaults.label_class')
+            ->times($times);
 
         $this->config->shouldReceive('get')
             ->with('laravel-form-builder::defaults.wrapper_class')
