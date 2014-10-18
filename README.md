@@ -30,6 +30,8 @@ By default it supports Bootstrap 3.
 }
 ```
 
+run `composer update`
+
 Then add Service provider to `config/app.php`
 
 ``` php
@@ -469,7 +471,8 @@ And then in view you can use what you need:
 
 **Notice:** Package templates uses plain PHP for printing because of plans for supporting version 4 (prevent conflict with tags), but you can use blade for custom fields, just make sure to use tags that are not escaping html (`{!! !!}`)
 
-And then add to `config.custom-fields` key this:
+And then add it to published config file(`config/packages/kris/laravel-form-builder/config.php`) in key `custom-fields` key this:
+
 ``` php
 // ...
     'custom_fields' => [
@@ -499,5 +502,5 @@ class PostForm extends Form
 ```
 
 ### Todo
-* Add possibility to disable showing validation errors under fields
+* Add possibility to disable showing validation errors under fields - **DONE**
 * Add event dispatcher ?
