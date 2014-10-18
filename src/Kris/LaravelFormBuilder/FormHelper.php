@@ -1,6 +1,6 @@
 <?php  namespace Kris\LaravelFormBuilder;
 
-use Illuminate\Contracts\View\Factory as View;
+use Illuminate\View\Factory as View;
 use Illuminate\Http\Request;
 
 class FormHelper
