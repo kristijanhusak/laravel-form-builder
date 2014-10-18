@@ -12,7 +12,7 @@ class FormMakeCommand extends GeneratorCommand {
 	 *
 	 * @var string
 	 */
-	protected $name = 'laravel-form-builder:make';
+	protected $name = 'form:make';
 
 	/**
 	 * The console command description.
