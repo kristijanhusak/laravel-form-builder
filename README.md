@@ -10,6 +10,9 @@
 Form builder for Laravel 5 inspired by Symfony's form builder. With help of Laravels FormBuilder class creates forms that can be easy modified and reused.
 By default it supports Bootstrap 3.
 
+## Laravel 4
+For laravel 4 version check branch [laravel-4](https://github.com/kristijanhusak/laravel-form-builder/tree/laravel-4)
+
 ## Table of contents
 1. [Installation](#installation)
 2. [Basic usage](#usage)
@@ -80,7 +83,7 @@ class PostForm extends Form
 You can add fields which you want when creating command like this:
 
 ``` sh
-php artisan laravel-form-builder:make Forms/SongForm --fields="name:text, lyrics:textarea, publish:checkbox"
+php artisan form:make Forms/SongForm --fields="name:text, lyrics:textarea, publish:checkbox"
 ```
 
 And that will create form in path `app/Forms/SongForm.php` with content:
