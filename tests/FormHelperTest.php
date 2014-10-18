@@ -5,17 +5,6 @@ use Kris\LaravelFormBuilder\FormHelper;
 class FormHelperTest extends FormBuilderTestCase
 {
 
-    protected $view;
-
-    protected $config;
-
-    protected $request;
-
-    /**
-     * @var FormHelper
-     */
-    protected $formHelper;
-
     /** @test */
     public function it_sets_constructor_dependencies_to_properties()
     {
@@ -95,5 +84,18 @@ class FormHelperTest extends FormBuilderTestCase
             'class="form-control" data-id="1" id="post" ',
             $attributes
         );
+    }
+
+    /** @test */
+    public function it_adds_custom_field_types_from_config()
+    {
+        $view = Mockery::mock('Illuminate\Contracts\View\Factory');
+        $config = Mockery::mock('Illuminate\Contracts\Config\Repository');
+        $request = Mockery::mock('Illuminate\Http\Request');
+
+        $config->shouldReceive('get')->with('laravel-form-builder::custom_fields')
+            ->andReturn(['datetime', 'Forms/DatetimeType']);
+
+        $formHelper = new FormHelper($view, $config, $request);
     }
 }

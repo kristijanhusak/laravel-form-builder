@@ -77,6 +77,10 @@ abstract class FormField
             $this->rendered = true;
         }
 
+        if (!$this->needsLabel()) {
+            $showLabel = false;
+        }
+
         $options = $this->prepareOptions($options);
 
         return $this->parent->getFormHelper()->getView()->make(
@@ -233,7 +237,7 @@ abstract class FormField
         $this->options = $formHelper->mergeOptions($this->allDefaults(), $this->getDefaults());
         $this->options = $this->prepareOptions($options);
 
-        if (isset($this->options['template']) && $this->options['template'] !== null) {
+        if (array_get($this->options, 'template') !== null) {
             $this->template = $this->options['template'];
             unset($this->options['template']);
         }
@@ -271,4 +275,23 @@ abstract class FormField
 
         return $options;
     }
+
+    /**
+     * Check if fields needs label
+     *
+     * @param array $options
+     * @return bool
+     */
+    protected function needsLabel(array $options = [])
+    {
+        // If field is <select> and child of choice, we don't need label for it
+        $isChildSelect = $this->type == 'select' && array_get($options, 'is_child') === true;
+
+        if ($this->type == 'hidden' || $isChildSelect) {
+            return false;
+        }
+
+        return true;
+    }
+
 }

@@ -36,6 +36,13 @@ class Form
     ];
 
     /**
+     * Should errors for each field be shown when called form($form) or form_rest($form) ?
+     *
+     * @var bool
+     */
+    protected $showFieldErrors = true;
+
+    /**
      * Build the form
      *
      * @return mixed
@@ -312,6 +319,7 @@ class Form
             ->with('formOptions', $formOptions)
             ->with('fields', $fields)
             ->with('model', $this->getModel())
+            ->with('showFieldErrors', $this->showFieldErrors)
             ->render();
     }
 

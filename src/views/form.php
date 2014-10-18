@@ -8,7 +8,7 @@
 
 <?php if ($showFields): ?>
     <?php foreach ($fields as $field): ?>
-        <?= $field->render() ?>
+        <?= $field->render([], true, true, $showFieldErrors) ?>
     <?php endforeach; ?>
 <?php endif; ?>
 

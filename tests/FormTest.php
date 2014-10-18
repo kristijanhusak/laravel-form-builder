@@ -287,6 +287,11 @@ class FormTest extends FormBuilderTestCase
             $formOptions
         )->andReturnSelf();
 
+        $viewRenderer->shouldReceive('with')->with(
+            'showFieldErrors',
+            true
+        )->andReturnSelf();
+
         $viewRenderer->shouldReceive('with')->with('fields', $fields)
                      ->andReturnSelf();
 

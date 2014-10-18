@@ -25,9 +25,9 @@ class ChoiceTypeTest extends FormBuilderTestCase
             'selected' => 'yes'
         ];
 
-        $this->fieldExpetations(Mockery::any(), 'select');
+        $this->fieldExpetations('select', Mockery::any());
 
-        $this->fieldExpetations(Mockery::any(), 'choice');
+        $this->fieldExpetations('choice', Mockery::any());
 
         $choice = new ChoiceType('some_choice', 'choice', $this->form, $options);
 
@@ -49,11 +49,11 @@ class ChoiceTypeTest extends FormBuilderTestCase
             'expanded' => true
         ];
 
-        $this->fieldExpetations(Mockery::any(), 'checkbox');
+        $this->fieldExpetations('checkbox', Mockery::any());
 
-        $this->fieldExpetations(Mockery::any(), 'checkbox');
+        $this->fieldExpetations('checkbox', Mockery::any());
 
-        $this->fieldExpetations(Mockery::any(), 'choice');
+        $this->fieldExpetations('choice', Mockery::any());
 
         $choice = new ChoiceType('some_choice', 'choice', $this->form, $options);
 
@@ -76,11 +76,11 @@ class ChoiceTypeTest extends FormBuilderTestCase
             'expanded' => true
         ];
 
-        $this->fieldExpetations(Mockery::any(), 'radio');
+        $this->fieldExpetations('radio', Mockery::any());
 
-        $this->fieldExpetations(Mockery::any(), 'radio');
+        $this->fieldExpetations('radio', Mockery::any());
 
-        $this->fieldExpetations(Mockery::any(), 'choice');
+        $this->fieldExpetations('choice', Mockery::any());
 
         $choice = new ChoiceType('some_choice', 'choice', $this->form, $options);
 
@@ -92,42 +92,4 @@ class ChoiceTypeTest extends FormBuilderTestCase
 
         $this->assertContainsOnlyInstancesOf('Kris\LaravelFormBuilder\Fields\CheckableType', $choice->getChildren());
     }
-
-    private function fieldExpetations($expectedViewData, $childType = 'select')
-    {
-        $viewRenderer = Mockery::mock('Illuminate\Contracts\View\View');
-        $viewRenderer->shouldReceive('render');
-
-        $this->config->shouldReceive('get')
-            ->with('laravel-form-builder::'.$childType, 'laravel-form-builder::'.$childType)
-            ->andReturn('laravel-form-builder::'.$childType);
-
-        $this->config->shouldReceive('get')
-                     ->with('laravel-form-builder::defaults.label_class')
-                     ->andReturn('control-label');
-
-        $this->config->shouldReceive('get')
-                     ->with('laravel-form-builder::defaults.wrapper_class')
-                     ->andReturn('form-group');
-
-        $this->config->shouldReceive('get')
-                     ->with('laravel-form-builder::defaults.wrapper_error_class')
-                     ->andReturn('has-error');
-
-        $this->config->shouldReceive('get')
-                     ->with('laravel-form-builder::defaults.field_class')
-                     ->andReturn('form-control');
-
-        $this->config->shouldReceive('get')
-                     ->with('laravel-form-builder::defaults.error_class')
-                     ->andReturn('text-danger');
-
-        $this->view->shouldReceive('make')
-                   ->with(
-                       'laravel-form-builder::choice',
-                       $expectedViewData
-                   )
-                   ->andReturn($viewRenderer);
-    }
-
 }

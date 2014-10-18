@@ -17,4 +17,8 @@ return [
     'checkbox' => 'laravel-form-builder::checkbox',
     'select' => 'laravel-form-builder::select',
     'choice' => 'laravel-form-builder::choice',
+
+    'custom-fields' => [
+//        'datetime' => 'App\Forms\Fields\Datetime'
+    ]
 ];

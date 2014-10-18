@@ -34,6 +34,7 @@ class FormHelper
         'tel',
         'password',
         'hidden',
+        'date',
         'textarea',
         'submit',
         'reset',
@@ -45,7 +46,6 @@ class FormHelper
         'radio',
         'choice'
     ];
-
 
     /**
      * Custom types
@@ -59,6 +59,7 @@ class FormHelper
         $this->view = $view;
         $this->config = $config;
         $this->request = $request;
+        $this->loadCustomTypes();
     }
 
     /**
@@ -94,16 +95,7 @@ class FormHelper
      */
     public function mergeOptions(array $first, array $second)
     {
-        $merged = [];
-        foreach ($first as $key => $value) {
-            if (is_array($value)) {
-                $merged[$key] = isset($second[$key]) ? array_merge($value, $second[$key]) : $value;
-                continue;
-            }
-            $merged[$key] = isset($second[$key]) ? $second[$key] : $value;
-        }
-
-        return array_merge($merged, array_diff_key($second, $merged));
+        return array_replace_recursive($first, $second);
     }
 
     /**
@@ -183,5 +175,16 @@ class FormHelper
         }
 
         throw new \InvalidArgumentException('Custom field ['.$name.'] already exists on this form object.');
+    }
+
+    private function loadCustomTypes()
+    {
+        $customFields = (array)$this->config->get('laravel-form-builder::custom_fields');
+
+        if (!empty($customFields)) {
+            foreach ($customFields as $fieldName => $fieldClass) {
+                $this->addCustomField($fieldName, $fieldClass);
+            }
+        }
     }
 }

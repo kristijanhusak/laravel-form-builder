@@ -25,7 +25,7 @@ By default it supports Bootstrap 3.
 ``` json
 {
     "require": {
-        "kris/laravel-form-builder": "1.0"
+        "kris/laravel-form-builder": "1.1"
     }
 }
 ```
@@ -51,7 +51,7 @@ And Facade (also in `config/app.php`)
 
 **Notice**: This package will add `illuminate/html` package and load Aliases (Form, Html) if they does not exist in the IoC container
 
-### Usage
+### Basic usage
 
 Creating form classes is easy. With a simple artisan command:
 
@@ -254,6 +254,13 @@ use Kris\LaravelFormBuilder\Form;
 
 class PostForm extends Form
 {
+    /**
+     * By default validation error for each field is
+     * shown under it. If you want to totally disable
+     * showing those errors, set this to false
+     */
+    protected $showFieldErrors = true;
+
     public function buildForm()
     {
         $this
@@ -462,7 +469,16 @@ And then in view you can use what you need:
 
 **Notice:** Package templates uses plain PHP for printing because of plans for supporting version 4 (prevent conflict with tags), but you can use blade for custom fields, just make sure to use tags that are not escaping html (`{!! !!}`)
 
-And then add it to form like this:
+And then add to `config.custom-fields` key this:
+``` php
+// ...
+    'custom_fields' => [
+        'datetime' => 'App\Forms\Fields\DatetimeType'
+    ]
+// ...
+```
+
+Or if you want to load it only for a single form, you can do it directly in BuildForm method:
 
 ``` php
 <?php namespace App\Forms;
