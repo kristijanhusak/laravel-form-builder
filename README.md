@@ -58,7 +58,7 @@ And Facade (also in `config/app.php`)
 Creating form classes is easy. With a simple artisan command:
 
 ``` sh
-    php artisan laravel-form-builder:make Forms/PostForm
+    php artisan form:make Forms/PostForm
 ```
 
 you create form class in path `app/Forms/PostForm.php` that looks like this:
