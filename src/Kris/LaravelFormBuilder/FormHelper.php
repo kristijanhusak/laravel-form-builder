@@ -34,6 +34,7 @@ class FormHelper
         'tel',
         'password',
         'hidden',
+        'number',
         'date',
         'textarea',
         'submit',
@@ -177,6 +178,9 @@ class FormHelper
         throw new \InvalidArgumentException('Custom field ['.$name.'] already exists on this form object.');
     }
 
+    /**
+     * Load custom field types from config file
+     */
     private function loadCustomTypes()
     {
         $customFields = (array)$this->config->get('laravel-form-builder::custom_fields');

@@ -315,6 +315,8 @@ Here is the list of all available field types:
 * email
 * url
 * tel
+* number
+* date
 * password
 * hidden
 * textarea
