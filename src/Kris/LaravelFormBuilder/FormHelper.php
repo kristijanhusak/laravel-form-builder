@@ -1,7 +1,7 @@
 <?php  namespace Kris\LaravelFormBuilder;
 
-use Illuminate\View\Factory as View;
 use Illuminate\Http\Request;
+use Illuminate\View\Factory as View;
 
 class FormHelper
 {
@@ -63,7 +63,7 @@ class FormHelper
     }
 
     /**
-     * @param null $key
+     * @param string $key
      * @param null $default
      * @return mixed
      */

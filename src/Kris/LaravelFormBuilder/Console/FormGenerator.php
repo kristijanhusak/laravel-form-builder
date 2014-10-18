@@ -19,7 +19,7 @@ class FormGenerator
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return object
      */
     public function getClassInfo($name)

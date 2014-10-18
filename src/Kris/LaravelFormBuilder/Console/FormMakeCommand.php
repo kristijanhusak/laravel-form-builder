@@ -1,9 +1,9 @@
 <?php namespace Kris\LaravelFormBuilder\Console;
 
-use Illuminate\Filesystem\Filesystem;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class FormMakeCommand extends Command
 {
@@ -173,4 +173,3 @@ class FormMakeCommand extends Command
         return __DIR__ . '/stubs/form-class-template.stub';
     }
 }
-

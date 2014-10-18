@@ -1,8 +1,5 @@
 <?php namespace Kris\LaravelFormBuilder;
 
-use Illuminate\Foundation\AliasLoader;
-use Illuminate\Html\FormBuilder as LaravelForm;
-use Illuminate\Html\HtmlBuilder;
 use Illuminate\Support\ServiceProvider;
 
 class FormBuilderServiceProvider extends ServiceProvider
@@ -36,7 +33,7 @@ class FormBuilderServiceProvider extends ServiceProvider
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function provides()
     {

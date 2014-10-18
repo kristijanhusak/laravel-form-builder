@@ -10,7 +10,6 @@
         <?php endif; ?>
     <?php endif; ?>
 
-
     <?php if ($showField): ?>
     <?= Form::checkbox($name, $options['default_value'], $options['checked'], $options['attr']) ?>
     <?php endif; ?>
@@ -22,4 +21,3 @@
 <?php if ($showLabel && $showField && !$options['is_child']): ?>
 </div>
 <?php endif; ?>
-
