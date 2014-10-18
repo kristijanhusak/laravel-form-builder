@@ -248,7 +248,7 @@ abstract class FormField
     private function setTemplate()
     {
         $this->template = $this->parent->getFormHelper()
-            ->getConfig($this->getTemplate());
+            ->getConfig($this->getTemplate(), $this->getTemplate());
     }
 
     /**
