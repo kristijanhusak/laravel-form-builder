@@ -28,7 +28,7 @@ For laravel 4 version check branch [laravel-4](https://github.com/kristijanhusak
 ``` json
 {
     "require": {
-        "kris/laravel-form-builder": "1.1"
+        "kris/laravel-form-builder": "1.*"
     }
 }
 ```
