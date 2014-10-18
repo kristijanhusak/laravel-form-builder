@@ -16,8 +16,6 @@ class FormBuilderServiceProvider extends ServiceProvider
     public function register()
     {
         $this->commands('Kris\LaravelFormBuilder\Console\FormMakeCommand');
-        $this->bindHtmlIfNeeded();
-        $this->bindFormIfNeeded();
 
         $this->app->bindShared('Kris/LaravelFormBuilder/FormBuilder', function ($app) {
 
@@ -43,44 +41,5 @@ class FormBuilderServiceProvider extends ServiceProvider
     public function provides()
     {
         return ['laravel-form-builder'];
-    }
-
-    /**
-     * Add Laravel Form to container if not already set
-     */
-    private function bindFormIfNeeded()
-    {
-        if (!$this->app->offsetExists('form')) {
-
-            $this->app->bindShared('form', function($app) {
-
-                $form = new LaravelForm($app['html'], $app['url'], $app['session.store']->getToken());
-
-                return $form->setSessionStore($app['session.store']);
-            });
-
-            AliasLoader::getInstance()->alias(
-                'Form',
-                'Illuminate\Html\FormFacade'
-            );
-        }
-    }
-
-    /**
-     * Add Laravel Html to container if not already set
-     */
-    private function bindHtmlIfNeeded()
-    {
-        if (!$this->app->offsetExists('html')) {
-
-            $this->app->bindShared('html', function($app) {
-                return new HtmlBuilder($app['url']);
-            });
-
-            AliasLoader::getInstance()->alias(
-                'Html',
-                'Illuminate\Html\HtmlFacade'
-            );
-        }
     }
 }

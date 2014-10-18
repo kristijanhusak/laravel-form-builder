@@ -17,7 +17,7 @@ class FormBuilderTest extends FormBuilderTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->container = Mockery::mock('Illuminate\Contracts\Container\Container');
+        $this->container = Mockery::mock('Illuminate\Foundation\Application');
         $this->model = Mockery::mock('Illuminate\Database\Eloquent\Model');
         $this->formBuilder = new FormBuilder($this->container, $this->formHelper);
         $this->form = new Form();

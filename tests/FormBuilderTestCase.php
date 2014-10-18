@@ -27,7 +27,7 @@ abstract class FormBuilderTestCase extends PHPUnit_Framework_TestCase {
 
     public function setUp()
     {
-        $this->view = Mockery::mock('Illuminate\Contracts\View\Factory');
+        $this->view = Mockery::mock('Illuminate\View\Factory');
         $this->request = Mockery::mock('Illuminate\Http\Request');
         $this->config = include __DIR__.'/../src/config/config.php';
 
