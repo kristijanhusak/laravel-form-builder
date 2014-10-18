@@ -21,6 +21,12 @@ class FormMakeCommand extends GeneratorCommand {
 	 */
 	protected $description = 'Creates a form builder class.';
 
+
+    /**
+     * Type of the file generated
+     */
+    protected $type = 'Form';
+
     /**
      * @var FormGenerator
      */
