@@ -10,8 +10,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "illuminate/html": "4.2.*",
-        "illuminate/console": "dev-master"
+        "illuminate/html": "4.2.*"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",
