@@ -45,25 +45,15 @@ class FormGeneratorTest extends PHPUnit_Framework_TestCase
     public function it_gets_class_info_for_given_full_class_name()
     {
         // Parsed in this format from Laravels GeneratorCommand
-        $className = 'VendorName\\Posts/Form/MainForm';
+        $className = 'app/ProjectNamespace/Forms/PostForm';
 
         $expected = (object) [
-            'namespace' => 'VendorName\\Posts\\Form',
-            'className' => 'MainForm'
-        ];
-
-        $shorterName = 'VendorName\\PostForm';
-
-        $expectedForShorter = (object) [
-            'namespace' => 'VendorName',
+            'namespace' => 'ProjectNamespace\\Forms',
             'className' => 'PostForm'
         ];
 
         $classInfo = $this->formGenerator->getClassInfo($className);
-        $shorterClassInfo = $this->formGenerator->getClassInfo($shorterName);
 
         $this->assertEquals($expected, $classInfo);
-        $this->assertEquals($expectedForShorter, $shorterClassInfo);
-
     }
 }

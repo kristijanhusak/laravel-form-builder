@@ -24,20 +24,12 @@ class FormGenerator
      */
     public function getClassInfo($name)
     {
-        if (strpos($name, '/') !== false) {
-            $explodedClassNamespace = explode('\\', $name);
-            $mainNamespace = array_shift($explodedClassNamespace);
-            $overleftNamespace = explode('/', join('', $explodedClassNamespace));
-            // Get class name from end of overleft namespace
-            $className = array_pop($overleftNamespace);
-            // Merge main namespace with overleft and remove any backslashes at the end
-            $fullNamespacedPath = rtrim($mainNamespace.'\\'.join('\\', $overleftNamespace), '\\');
-        } else {
-            list($fullNamespacedPath, $className) = explode('\\', $name);
-        }
+        $fullNamespacedPath = explode('/', $name);
+        array_shift($fullNamespacedPath);
+        $className = array_pop($fullNamespacedPath);
 
         return (object)[
-            'namespace' => $fullNamespacedPath,
+            'namespace' => join('\\', $fullNamespacedPath),
             'className' => $className
         ];
     }
@@ -82,5 +74,4 @@ class FormGenerator
 
         return join('', $textArr);
     }
-
 }
