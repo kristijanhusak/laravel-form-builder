@@ -25,7 +25,7 @@ By default it supports Bootstrap 3.
 ``` json
 {
     "require": {
-        "kris/laravel-form-builder": "0.1"
+        "kris/laravel-form-builder": "0.*"
     }
 }
 ```
