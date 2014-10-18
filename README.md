@@ -5,9 +5,9 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/kris/laravel-form-builder.svg?style=flat)](https://packagist.org/packages/kris/laravel-form-builder)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE)
 
-# Laravel 5 form builder
+# Laravel form builder
 
-Form builder for Laravel 5 inspired by Symfony's form builder. With help of Laravels FormBuilder class creates forms that can be easy modified and reused.
+Form builder for **Laravel 4** inspired by Symfony's form builder. With help of Laravels FormBuilder class creates forms that can be easy modified and reused.
 By default it supports Bootstrap 3.
 
 ## Table of contents
@@ -25,7 +25,7 @@ By default it supports Bootstrap 3.
 ``` json
 {
     "require": {
-        "kris/laravel-form-builder": "1.1"
+        "kris/laravel-form-builder": "0.1"
     }
 }
 ```
@@ -51,20 +51,18 @@ And Facade (also in `config/app.php`)
 
 ```
 
-**Notice**: This package will add `illuminate/html` package and load Aliases (Form, Html) if they does not exist in the IoC container
-
 ### Basic usage
 
-Creating form classes is easy. With a simple artisan command:
+Creating form classes is easy. Lets assume PSR-4 is set for loading namespace `Project` in `app/Project` folder. With a simple artisan command we can create form:
 
 ``` sh
-    php artisan laravel-form-builder:make Forms/PostForm
+    php artisan form:make app/Project/Forms/PostForm
 ```
 
-you create form class in path `app/Forms/PostForm.php` that looks like this:
+you create form class in path `app/Project/Forms/PostForm.php` that looks like this:
 
 ``` php
-<?php namespace App\Forms;
+<?php namespace Project\Forms;
 
 use Kris\LaravelFormBuilder\Form;
 
@@ -80,13 +78,13 @@ class PostForm extends Form
 You can add fields which you want when creating command like this:
 
 ``` sh
-php artisan laravel-form-builder:make Forms/SongForm --fields="name:text, lyrics:textarea, publish:checkbox"
+php artisan form:make app/Project/Forms/SongForm --fields="name:text, lyrics:textarea, publish:checkbox"
 ```
 
-And that will create form in path `app/Forms/SongForm.php` with content:
+And that will create form in path `app/Project/Forms/SongForm.php` with content:
 
 ``` php
-<?php namespace App\Forms;
+<?php namespace Project\Forms;
 
 use Kris\LaravelFormBuilder\Form;
 
@@ -107,7 +105,7 @@ class SongForm extends Form
 Forms can be used in controller like this:
 
 ``` php
-<?php namespace App/Http/Controllers;
+<?php namespace Project\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 
@@ -118,7 +116,7 @@ class SongsController extends BaseController {
      */
     public function index()
     {
-        $form = \FormBuilder::create('App\Forms\SongForm', [
+        $form = \FormBuilder::create('Project\Forms\SongForm', [
             'method' => 'POST',
             'url' => route('song.store')
         ]);
@@ -145,11 +143,11 @@ From controller they can be used in views like this:
 @extend('layouts.master')
 
 @section('content')
-    {!! form($form) !!}
+    {{ form($form) }}
 @endsection
 ```
 
-`{!! form($form) !!}` Will generate this html:
+`{{ form($form) }}` Will generate this html:
 
 ``` html
 <form method="POST" action="http://example.dev/songs">
@@ -175,7 +173,7 @@ There are several helper methods that can help you customize your rendering:
 ``` html
 <!-- This function: -->
 
-{!! form_row($form->lyrics, ['attr' => ['class' => 'big-textarea']]) !!}
+{{ form_row($form->lyrics, ['attr' => ['class' => 'big-textarea']]) }}
 
 <!-- Renders this: -->
 
@@ -187,19 +185,19 @@ There are several helper methods that can help you customize your rendering:
 
 You can also split it even more:
 ``` html
-{!! form_start($form) !!}
+{{ form_start($form) }}
 <form method="POST" action="http://example.dev/songs">
 
-{!! form_label($form->publish) !!}
+{{ form_label($form->publish) }}
 <label for="publish" class="control-label">publish</label>
 
-{!! form_widget($form->publish, ['checked' => true]) !!}
+{{ form_widget($form->publish, ['checked' => true]) }}
 <input type="checkbox" name="publish" checked="checked">
 
-{!! form_errors($form->publish) !!}
+{{ form_errors($form->publish) }}
 <div class="text-danger">This field is required.</div> <!-- Rendered only if validation errors occur. -->
 
-{!! form_rest($form) !!}
+{{ form_rest($form) }}
 <div class="form-group">
     <label for="name" class="control-label">name</label>
     <input type="text" class="form-control" id="name">
@@ -209,7 +207,7 @@ You can also split it even more:
     <input type="text" name="publish" id="publish">
 </div>
 
-{!! form_end($form) !!}
+{{ form_end($form) }}
 </form>
 
 ```
@@ -250,7 +248,7 @@ class SongsController extends BaseController {
 Fields can be easily customized within the class or view:
 
 ``` php
-<?php namespace App\Forms;
+<?php namespace Project\Forms;
 
 use Kris\LaravelFormBuilder\Form;
 
@@ -346,7 +344,7 @@ class PostsController extends BaseController {
     {
         $model = Post::findOrFail($id);
 
-        $form = \FormBuilder::create('App\Forms\PostForm')
+        $form = \FormBuilder::create('Project\Forms\PostForm')
             ->setMethod('PUT')
             ->setUrl(route('post.update'))
             ->setModel($model); // This will automatically do Form::model($model) in the form
@@ -366,7 +364,7 @@ class PostsController extends BaseController {
 And in form, you can use that model to populate some fields like this
 
 ``` php
-<?php namespace App\Forms;
+<?php namespace Project\Forms;
 
 use Kris\LaravelFormBuilder\Form;
 
@@ -388,19 +386,19 @@ class PostForm extends Form
 
 As mentioned above, bootstrap 3 form classes are used. If you want to change the defaults you need to publish the config like this:
 ``` sh
-php artisan publish:config kris/laravel-form-builder
+php artisan config:publish kris/laravel-form-builder
 ```
-This will create folder `kris` in `config/packages` folder which will contain
+This will create folder `kris` in `app/config/packages` folder which will contain
 [config.php](https://github.com/kristijanhusak/laravel-form-builder/blob/master/src/config/config.php) file.
 
 change values in `defaults` key as you wish.
 
 If you want to customize the views for fields and forms you can publish the views like this:
 ``` sh
-php artisan publish:views kris/laravel-form-builder
+php artisan views:publish kris/laravel-form-builder
 ```
 
-This will create folder with all files in `resources/views/packages/kris/laravel-form-builder`
+This will create folder with all files in `app/views/packages/kris/laravel-form-builder`
 
 Other way is to change path to the templates in the
 [config.php](https://github.com/kristijanhusak/laravel-form-builder/blob/master/src/config/config.php) file.
@@ -416,7 +414,7 @@ return [
 One more way to change template is directly from Form class:
 
 ``` php
-<?php namespace App\Forms;
+<?php namespace Project\Forms;
 
 use Kris\LaravelFormBuilder\Form;
 
@@ -440,7 +438,7 @@ class PostForm extends Form
 If you want to create your own custom field, you can do it like this:
 
 ``` php
-<?php namespace App\Forms\Fields;
+<?php namespace Project\Forms\Fields;
 
 use Kris\LaravelFormBuilder\Fields\FormField;
 
@@ -471,14 +469,14 @@ And then in view you can use what you need:
 // ...
 ```
 
-**Notice:** Package templates uses plain PHP for printing because of plans for supporting version 4 (prevent conflict with tags), but you can use blade for custom fields, just make sure to use tags that are not escaping html (`{!! !!}`)
+**Notice:** Package templates uses plain PHP for printing because of plans for supporting version 4 (prevent conflict with tags), but you can use blade for custom fields, just make sure to use tags that are not escaping html (`{{ }}`)
 
-And then add it to published config file(`config/packages/kris/laravel-form-builder/config.php`) in key `custom-fields` key this:
+And then add it to published config file(`app/config/packages/kris/laravel-form-builder/config.php`) in key `custom-fields` key this:
 
 ``` php
 // ...
     'custom_fields' => [
-        'datetime' => 'App\Forms\Fields\DatetimeType'
+        'datetime' => 'Project\Forms\Fields\DatetimeType'
     ]
 // ...
 ```
@@ -486,7 +484,7 @@ And then add it to published config file(`config/packages/kris/laravel-form-buil
 Or if you want to load it only for a single form, you can do it directly in BuildForm method:
 
 ``` php
-<?php namespace App\Forms;
+<?php namespace Project\Forms;
 
 use Kris\LaravelFormBuilder\Form;
 
@@ -494,7 +492,7 @@ class PostForm extends Form
 {
     public function buildForm()
     {
-        $this->addCustomField('datetime', 'App\Forms\Fields\DatetimeType');
+        $this->addCustomField('datetime', 'Project\Forms\Fields\DatetimeType');
 
         $this
             ->add('title', 'text')

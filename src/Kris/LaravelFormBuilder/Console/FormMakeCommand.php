@@ -13,7 +13,7 @@ class FormMakeCommand extends Command
      *
      * @var string
      */
-    protected $name = 'laravel-form-builder:make';
+    protected $name = 'form:make';
 
     /**
      * The filesystem instance.
