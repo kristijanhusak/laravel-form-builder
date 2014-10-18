@@ -6,7 +6,6 @@
     <?= Form::label($name, $options['label'], $options['label_attr']) ?>
     <?php endif; ?>
 
-
     <?php if ($showField): ?>
     <?= Form::select($name, $options['choices'], array_search($options['selected'], $options['choices']), $options['attr']) ?>
     <?php endif; ?>
@@ -18,4 +17,3 @@
 <?php if ($showLabel && $showField): ?>
 </div>
 <?php endif; ?>
-

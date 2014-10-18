@@ -38,7 +38,7 @@ class FormBuilderServiceProvider extends ServiceProvider
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function provides()
     {

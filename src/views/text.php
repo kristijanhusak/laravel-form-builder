@@ -6,7 +6,6 @@
     <?= Form::label($name, $options['label'], $options['label_attr']) ?>
     <?php endif; ?>
 
-
     <?php if ($showField): ?>
     <?= Form::input($type, $name, $options['default_value'], $options['attr']) ?>
     <?php endif; ?>
