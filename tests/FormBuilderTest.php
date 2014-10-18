@@ -21,7 +21,6 @@ class FormBuilderTest extends FormBuilderTestCase
         $this->model = Mockery::mock('Illuminate\Database\Eloquent\Model');
         $this->formBuilder = new FormBuilder($this->container, $this->formHelper);
         $this->form = new Form();
-        $this->config->shouldReceive('get')->zeroOrMoreTimes();
     }
 
     /** @test */
@@ -49,7 +48,6 @@ class FormBuilderTest extends FormBuilderTestCase
     public function it_creates_custom_form_and_sets_options_on_it()
     {
         $customForm = new CustomForm($this->formHelper);
-        $this->config->shouldReceive('get');
 
         $this->container->shouldReceive('make')
                 ->with('CustomForm')

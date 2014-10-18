@@ -6,7 +6,7 @@ class TextareaType extends FormField
 
     protected function getTemplate()
     {
-        return 'laravel-form-builder::textarea';
+        return 'textarea';
     }
 
 }

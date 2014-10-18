@@ -12,9 +12,12 @@ abstract class FormBuilderTestCase extends PHPUnit_Framework_TestCase {
     /**
      * @var Mockery\MockInterface
      */
-    protected $config;
-
     protected $request;
+
+    /**
+     * @var array
+     */
+    protected $config;
 
     /**
      * @var FormHelper
@@ -25,19 +28,16 @@ abstract class FormBuilderTestCase extends PHPUnit_Framework_TestCase {
     public function setUp()
     {
         $this->view = Mockery::mock('Illuminate\Contracts\View\Factory');
-        $this->config = Mockery::mock('Illuminate\Contracts\Config\Repository');
         $this->request = Mockery::mock('Illuminate\Http\Request');
+        $this->config = include __DIR__.'/../src/config/config.php';
 
         $session = Mockery::mock('Symfony\Component\HttpFoundation\Session\SessionInterface');
         $session->shouldReceive('get')->zeroOrMoreTimes()->andReturnSelf();
         $session->shouldReceive('has')->zeroOrMoreTimes()->andReturn(true);
 
-        $this->config->shouldReceive('get')->with('laravel-form-builder::custom_fields')
-            ->andReturn([]);
-
         $this->request->shouldReceive('getSession')->zeroOrMoreTimes()->andReturn($session);
 
-        $this->formHelper = new FormHelper($this->view, $this->config, $this->request);
+        $this->formHelper = new FormHelper($this->view, $this->request, $this->config);
     }
 
     public function tearDown()
@@ -49,30 +49,6 @@ abstract class FormBuilderTestCase extends PHPUnit_Framework_TestCase {
     {
         $viewRenderer = Mockery::mock('Illuminate\Contracts\View\View');
         $viewRenderer->shouldReceive('render');
-
-        $this->config->shouldReceive('get')
-            ->with('laravel-form-builder::'.$name, 'laravel-form-builder::' . $name)
-            ->andReturn('laravel-form-builder::'.$name);
-
-        $this->config->shouldReceive('get')
-            ->with('laravel-form-builder::defaults.wrapper_class')
-            ->andReturn('form-group');
-
-        $this->config->shouldReceive('get')
-            ->with('laravel-form-builder::defaults.wrapper_error_class')
-            ->andReturn('has-error');
-
-        $this->config->shouldReceive('get')
-            ->with('laravel-form-builder::defaults.label_class')
-            ->andReturn('control-label');
-
-        $this->config->shouldReceive('get')
-            ->with('laravel-form-builder::defaults.field_class')
-            ->andReturn('form-control');
-
-        $this->config->shouldReceive('get')
-            ->with('laravel-form-builder::defaults.error_class')
-            ->andReturn('text-danger');
 
         $this->view->shouldReceive('make')
             ->with(

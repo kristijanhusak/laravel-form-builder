@@ -213,15 +213,15 @@ abstract class FormField
      */
     private function allDefaults()
     {
-        $config = $this->parent->getFormHelper()->getConfig();
+        $formHelper = $this->parent->getFormHelper();
 
         return [
-            'wrapper' => ['class' => $config->get('laravel-form-builder::defaults.wrapper_class')],
-            'attr' => ['class' => $config->get('laravel-form-builder::defaults.field_class')],
+            'wrapper' => ['class' => $formHelper->getConfig('defaults.wrapper_class')],
+            'attr' => ['class' => $formHelper->getConfig('defaults.field_class')],
             'default_value' => null,
             'label' => $this->name,
-            'label_attr' => ['class' => $config->get('laravel-form-builder::defaults.label_class')],
-            'errors' => ['class' => $config->get('laravel-form-builder::defaults.error_class')]
+            'label_attr' => ['class' => $formHelper->getConfig('defaults.label_class')],
+            'errors' => ['class' => $formHelper->getConfig('defaults.error_class')]
         ];
     }
 
@@ -249,7 +249,7 @@ abstract class FormField
     private function setTemplate()
     {
         $this->template = $this->parent->getFormHelper()
-            ->getConfig()->get($this->getTemplate(), $this->getTemplate());
+            ->getConfig($this->getTemplate());
     }
 
 
@@ -265,8 +265,7 @@ abstract class FormField
         $errors = $formHelper->getRequest()->getSession()->get('errors');
 
         if ($errors && $errors->has($this->name)) {
-            $errorClass = $formHelper->getConfig()
-                ->get('laravel-form-builder::defaults.wrapper_error_class');
+            $errorClass = $formHelper->getConfig('defaults.wrapper_error_class');
 
             if (strpos($options['wrapper']['class'], $errorClass) === false) {
                 $options['wrapper']['class'] .= ' '.$errorClass;

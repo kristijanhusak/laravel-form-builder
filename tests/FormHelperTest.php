@@ -8,8 +8,8 @@ class FormHelperTest extends FormBuilderTestCase
     /** @test */
     public function it_sets_constructor_dependencies_to_properties()
     {
-        $this->assertEquals($this->config, $this->formHelper->getConfig());
         $this->assertEquals($this->view, $this->formHelper->getView());
+        $this->assertEquals($this->request, $this->formHelper->getRequest());
     }
 
     /** @test */
@@ -87,15 +87,14 @@ class FormHelperTest extends FormBuilderTestCase
     }
 
     /** @test */
-    public function it_adds_custom_field_types_from_config()
+    public function it_load_custom_field_types_from_config()
     {
-        $view = Mockery::mock('Illuminate\Contracts\View\Factory');
-        $config = Mockery::mock('Illuminate\Contracts\Config\Repository');
-        $request = Mockery::mock('Illuminate\Http\Request');
+        $config = $this->config;
 
-        $config->shouldReceive('get')->with('laravel-form-builder::custom_fields')
-            ->andReturn(['datetime', 'Forms/DatetimeType']);
+        $config['custom_fields'][] = [
+            'datetime' => 'App\Forms\DatetimeType'
+        ];
 
-        $formHelper = new FormHelper($view, $config, $request);
+        $formHelper = new FormHelper($this->view, $this->request, $config);
     }
 }

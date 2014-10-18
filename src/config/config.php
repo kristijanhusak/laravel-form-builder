@@ -9,6 +9,7 @@ return [
         'error_class' => 'text-danger'
     ],
 
+    // Templates
     'form' => 'laravel-form-builder::form',
     'text' => 'laravel-form-builder::text',
     'textarea' => 'laravel-form-builder::textarea',

@@ -29,7 +29,7 @@ class ChoiceType extends FormField
 
     protected function getTemplate()
     {
-        return 'laravel-form-builder::choice';
+        return 'choice';
     }
 
     public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)

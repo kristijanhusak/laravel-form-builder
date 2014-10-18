@@ -6,7 +6,7 @@ class SelectType extends FormField
 
     protected function getTemplate()
     {
-        return 'laravel-form-builder::select';
+        return 'select';
     }
 
     public function getDefaults()

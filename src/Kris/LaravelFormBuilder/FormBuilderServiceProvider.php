@@ -20,7 +20,11 @@ class FormBuilderServiceProvider extends ServiceProvider
         $this->bindFormIfNeeded();
 
         $this->app->bindShared('Kris/LaravelFormBuilder/FormBuilder', function ($app) {
-            $formHelper = new FormHelper($app['view'], $app['config'], $app['request']);
+
+            // Load complete config file and handle it with form helper
+            $configuration = $app['config']->get('laravel-form-builder::config');
+
+            $formHelper = new FormHelper($app['view'], $app['request'], $configuration);
             return new FormBuilder($app, $formHelper);
         });
 

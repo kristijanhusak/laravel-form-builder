@@ -1,7 +1,6 @@
 <?php  namespace Kris\LaravelFormBuilder;
 
 use Illuminate\Contracts\View\Factory as View;
-use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Http\Request;
 
 class FormHelper
@@ -13,7 +12,7 @@ class FormHelper
     protected $view;
 
     /**
-     * @var Config
+     * @var array
      */
     protected $config;
 
@@ -55,7 +54,7 @@ class FormHelper
      */
     private $customTypes = [];
 
-    public function __construct(View $view, Config $config, Request $request)
+    public function __construct(View $view, Request $request, array $config = [])
     {
         $this->view = $view;
         $this->config = $config;
@@ -64,11 +63,13 @@ class FormHelper
     }
 
     /**
-     * @return Config
+     * @param null $key
+     * @param null $default
+     * @return mixed
      */
-    public function getConfig()
+    public function getConfig($key, $default = null)
     {
-        return $this->config;
+        return array_get($this->config, $key, $default);
     }
 
     /**
@@ -183,7 +184,7 @@ class FormHelper
      */
     private function loadCustomTypes()
     {
-        $customFields = (array)$this->config->get('laravel-form-builder::custom_fields');
+        $customFields = (array) $this->getConfig('custom_fields');
 
         if (!empty($customFields)) {
             foreach ($customFields as $fieldName => $fieldClass) {

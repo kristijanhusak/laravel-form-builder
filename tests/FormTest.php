@@ -24,8 +24,6 @@ class FormTest extends FormBuilderTestCase
     /** @test */
     public function it_adds_fields()
     {
-        $this->config->shouldReceive('get');
-
         $this->form
             ->add('name', 'text')
             ->add('description', 'textarea')
@@ -58,8 +56,6 @@ class FormTest extends FormBuilderTestCase
     /** @test */
     public function it_can_remove_existing_fields_from_form_object()
     {
-        $this->config->shouldReceive('get');
-
         $this->form
             ->add('name', 'text')
             ->add('description', 'textarea')
@@ -79,7 +75,6 @@ class FormTest extends FormBuilderTestCase
     /** @test */
     public function it_throws_exception_when_removing_nonexisting_field()
     {
-        $this->config->shouldReceive('get');
         $this->form->add('name', 'text');
 
         try {
@@ -89,14 +84,11 @@ class FormTest extends FormBuilderTestCase
         }
 
         $this->fail('Exception was not thrown when tried removing non existing field.');
-
     }
 
     /** @test */
     public function it_prevents_adding_fields_with_same_name()
     {
-        $this->config->shouldReceive('get');
-
         try {
             $this->form->add('name', 'text')->add('name', 'textarea');
         } catch (\InvalidArgumentException $e) {
@@ -109,8 +101,6 @@ class FormTest extends FormBuilderTestCase
     /** @test */
     public function it_throws_InvalidArgumentException_on_non_existing_property()
     {
-        $this->config->shouldReceive('get');
-
         $exceptionThrown = false;
 
         $this->form
@@ -183,8 +173,6 @@ class FormTest extends FormBuilderTestCase
     /** @test */
     public function it_sets_file_option_to_true_if_file_type_added()
     {
-        $this->config->shouldReceive('get');
-
         $this->form->add('upload_file', 'file');
 
         $this->assertTrue($this->form->getFormOptions()['files']);
@@ -213,10 +201,8 @@ class FormTest extends FormBuilderTestCase
             'url' => '/some/url/10'
         ];
 
-        $this->prepareFieldRender('select', 'select');
-        // Expect text 4 times because we are not mocking passed fields
-        // We need them that way so we can test if they are passed correctly
-        $this->prepareFieldRender('text', 'text', 4, false);
+        $this->prepareFieldRender('select');
+        $this->prepareFieldRender('text');
 
         $fields = [
             new InputType('name', 'text', $this->form),
@@ -268,12 +254,6 @@ class FormTest extends FormBuilderTestCase
     ) {
         $viewRenderer = Mockery::mock('Illuminate\Contracts\View\View');
 
-        $this->config->shouldReceive('get')->with('laravel-form-builder::defaults.form_error_class')
-                     ->andReturn('has-error');
-
-        $this->config->shouldReceive('get')->with('laravel-form-builder::form')
-                     ->andReturn('laravel-form-builder::form');
-
         $this->view->shouldReceive('make')->with('laravel-form-builder::form')
                    ->andReturn($viewRenderer);
 
@@ -299,45 +279,16 @@ class FormTest extends FormBuilderTestCase
                      ->andReturnSelf();
 
         $viewRenderer->shouldReceive('render');
-
     }
 
-    private function prepareFieldRender($configViewVar, $realView, $times = 1, $mockViewMake = true)
+    private function prepareFieldRender($view)
     {
-        if ($mockViewMake) {
             $viewRenderer = Mockery::mock('Illuminate\Contracts\View\View');
             $viewRenderer->shouldReceive('with')->andReturnSelf();
             $viewRenderer->shouldReceive('render');
 
             $this->view->shouldReceive('make')
-                   ->with('laravel-form-builder::' . $realView, Mockery::any())
-                   ->times($times)
+                   ->with('laravel-form-builder::' . $view, Mockery::any())
                    ->andReturn($viewRenderer);
-        }
-
-        $this->config->shouldReceive('get')
-            ->with('laravel-form-builder::' . $configViewVar, 'laravel-form-builder::' . $configViewVar)
-            ->times($times)
-            ->andReturn('laravel-form-builder::' . $realView);
-
-        $this->config->shouldReceive('get')
-            ->with('laravel-form-builder::defaults.label_class')
-            ->times($times);
-
-        $this->config->shouldReceive('get')
-            ->with('laravel-form-builder::defaults.wrapper_class')
-            ->times($times);
-
-        $this->config->shouldReceive('get')
-                     ->with('laravel-form-builder::defaults.wrapper_error_class');
-
-        $this->config->shouldReceive('get')
-            ->with('laravel-form-builder::defaults.field_class')
-            ->times($times);
-
-        $this->config->shouldReceive('get')
-             ->with('laravel-form-builder::defaults.error_class')
-             ->times($times);
-
     }
 }

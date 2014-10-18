@@ -314,7 +314,7 @@ class Form
         $formOptions = $this->formHelper->mergeOptions($this->formOptions, $options);
 
         return $this->formHelper->getView()
-            ->make($this->formHelper->getConfig()->get('laravel-form-builder::form'))
+            ->make($this->formHelper->getConfig('form'))
             ->with(compact('showStart', 'showFields', 'showEnd'))
             ->with('formOptions', $formOptions)
             ->with('fields', $fields)
@@ -328,8 +328,8 @@ class Form
      */
     private function getModelFromOptions()
     {
-        if (isset($this->formOptions['model']) && $this->formOptions['model'] instanceof Model) {
-            $this->setModel($this->formOptions['model']);
+        if (($model = array_get($this->formOptions, 'model')) instanceof Model) {
+            $this->setModel($model);
             unset($this->formOptions['model']);
         }
     }

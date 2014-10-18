@@ -6,7 +6,7 @@ class CheckableType extends FormField
 
     protected function getTemplate()
     {
-        return 'laravel-form-builder::'.$this->type;
+        return $this->type;
     }
 
     public function getDefaults()

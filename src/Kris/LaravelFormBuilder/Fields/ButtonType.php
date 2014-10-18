@@ -5,7 +5,7 @@ class ButtonType extends FormField
 {
     protected function getTemplate()
     {
-        return 'laravel-form-builder::button';
+        return 'button';
     }
 
     protected function getDefaults()
