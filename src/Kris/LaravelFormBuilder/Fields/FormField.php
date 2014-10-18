@@ -111,7 +111,6 @@ abstract class FormField
         $options['wrapperAttrs'] = $formHelper->prepareAttributes($options['wrapper']);
         $options['errorAttrs'] = $formHelper->prepareAttributes($options['errors']);
 
-
         return $options;
     }
 
@@ -251,7 +250,6 @@ abstract class FormField
         $this->template = $this->parent->getFormHelper()
             ->getConfig($this->getTemplate());
     }
-
 
     /**
      * Add error class to wrapper if validation errors exist

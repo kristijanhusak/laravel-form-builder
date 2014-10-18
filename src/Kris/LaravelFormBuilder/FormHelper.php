@@ -63,7 +63,7 @@ class FormHelper
     }
 
     /**
-     * @param null $key
+     * @param string $key
      * @param null $default
      * @return mixed
      */

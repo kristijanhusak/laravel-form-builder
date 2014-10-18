@@ -10,7 +10,6 @@
         <?php endif; ?>
     <?php endif; ?>
 
-
     <?php if ($showField): ?>
     <?= Form::radio($name, $options['default_value'], $options['checked'], $options['attr']) ?>
     <?php endif; ?>

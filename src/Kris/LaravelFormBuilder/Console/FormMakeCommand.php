@@ -2,25 +2,24 @@
 
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Filesystem\Filesystem;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class FormMakeCommand extends GeneratorCommand {
 
-	/**
-	 * The console command name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'form:make';
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'form:make';
 
-	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'Creates a form builder class.';
-
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Creates a form builder class.';
 
     /**
      * Type of the file generated
@@ -38,29 +37,29 @@ class FormMakeCommand extends GeneratorCommand {
         $this->formGenerator = $formGenerator;
     }
 
-	/**
-	 * Get the console command arguments.
-	 *
-	 * @return array
-	 */
-	protected function getArguments()
-	{
-		return array(
-			array('name', InputArgument::REQUIRED, 'Full class name of the desired form class.'),
-		);
-	}
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    protected function getArguments()
+    {
+        return array(
+            array('name', InputArgument::REQUIRED, 'Full class name of the desired form class.'),
+        );
+    }
 
-	/**
-	 * Get the console command options.
-	 *
-	 * @return array
-	 */
-	protected function getOptions()
-	{
-		return array(
-			array('fields', null, InputOption::VALUE_OPTIONAL, 'Fields for the form'),
-		);
-	}
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return array(
+            array('fields', null, InputOption::VALUE_OPTIONAL, 'Fields for the form'),
+        );
+    }
 
     /**
      * Replace the class name for the given stub.
@@ -103,7 +102,6 @@ class FormMakeCommand extends GeneratorCommand {
 
         return $this;
     }
-
 
     /**
      * Get the stub file for the generator.
