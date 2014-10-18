@@ -1,7 +1,7 @@
 <?php namespace Kris\LaravelFormBuilder;
 
-use Kris\LaravelFormBuilder\Fields\FormField;
 use Illuminate\Database\Eloquent\Model;
+use Kris\LaravelFormBuilder\Fields\FormField;
 
 class Form
 {
@@ -96,7 +96,7 @@ class Form
      * @param bool  $showStart
      * @param bool  $showFields
      * @param bool  $showEnd
-     * @return mixed
+     * @return string
      */
     public function renderForm(array $options = [], $showStart = true, $showFields = true, $showEnd = true)
     {
@@ -167,7 +167,6 @@ class Form
         return $this;
     }
 
-
     /**
      * Get form http method
      *
@@ -213,7 +212,6 @@ class Form
 
         return $this;
     }
-
 
     /**
      * Get model that is bind to form object
@@ -304,9 +302,9 @@ class Form
      *
      * @param $options
      * @param $fields
-     * @param $showStart
-     * @param $showFields
-     * @param $showEnd
+     * @param boolean $showStart
+     * @param boolean $showFields
+     * @param boolean $showEnd
      * @return string
      */
     protected function render($options, $fields, $showStart, $showFields, $showEnd)
@@ -356,7 +354,7 @@ class Form
     /**
      * Prevent adding fields with same name
      *
-     * @param $name
+     * @param string $name
      */
     private function preventDuplicate($name)
     {

@@ -1,6 +1,5 @@
 <?php namespace  Kris\LaravelFormBuilder\Fields;
 
-
 use Kris\LaravelFormBuilder\Form;
 
 class ChoiceType extends FormField
@@ -101,8 +100,8 @@ class ChoiceType extends FormField
     /**
      * Build checkable children fields from choice type
      *
-     * @param $fieldType
-     * @param $fieldMultiple
+     * @param string $fieldType
+     * @param string $fieldMultiple
      */
     protected function buildCheckableChildren($fieldType, $fieldMultiple)
     {
