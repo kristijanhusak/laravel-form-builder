@@ -1,6 +1,6 @@
 <?php  namespace Kris\LaravelFormBuilder;
 
-use Illuminate\Contracts\Container\Container;
+use Illuminate\Foundation\Application as Container;
 
 class FormBuilder
 {
