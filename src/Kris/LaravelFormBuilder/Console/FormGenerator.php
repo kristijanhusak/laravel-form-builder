@@ -38,7 +38,8 @@ class FormGenerator
 
         return (object)[
             'namespace' => $fullNamespacedPath,
-            'className' => $className
+            'className' => $className,
+            'fullClassPath' => $fullNamespacedPath.'\\'.$className
         ];
     }
 
