@@ -64,7 +64,7 @@ class FormHelper
 
     /**
      * @param string $key
-     * @param null $default
+     * @param string $default
      * @return mixed
      */
     public function getConfig($key, $default = null)
