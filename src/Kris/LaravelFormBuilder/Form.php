@@ -104,16 +104,13 @@ class Form
 
         // If we don't want to overwrite options, we merge them with old options
         if ($overwriteOptions === false) {
-
-            $modifiedOptions = $this->formHelper->mergeOptions(
+            $options = $this->formHelper->mergeOptions(
                 $this->getField($name)->getOptions(),
                 $options
             );
-
-            $this->fields[$name] = new $fieldType($name, $type, $this, $modifiedOptions);
-        } else {
-            $this->fields[$name] = new $fieldType($name, $type, $this, $options);
         }
+
+        $this->fields[$name] = new $fieldType($name, $type, $this, $options);
 
         return $this;
     }
