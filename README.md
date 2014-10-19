@@ -22,7 +22,7 @@ For laravel 4 version check branch [laravel-4](https://github.com/kristijanhusak
 4. [Field customization](#field-customization)
 5. [Changing configuration and templates](#changing-configuration-and-templates)
 6. [Custom fields](#custom-fields)
-7. [Contributing[#contributing]
+7. [Contributing](#contributing)
 
 ###Installation
 
