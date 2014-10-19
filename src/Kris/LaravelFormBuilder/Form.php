@@ -32,7 +32,7 @@ class Form
      */
     protected $formOptions = [
         'method' => 'GET',
-        'url' => ''
+        'url' => null
     ];
 
     /**
