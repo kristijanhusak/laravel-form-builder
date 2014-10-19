@@ -77,11 +77,11 @@ abstract class FormField
             $this->rendered = true;
         }
 
+        $options = $this->prepareOptions($options);
+
         if (!$this->needsLabel()) {
             $showLabel = false;
         }
-
-        $options = $this->prepareOptions($options);
 
         return $this->parent->getFormHelper()->getView()->make(
             $this->template, [
