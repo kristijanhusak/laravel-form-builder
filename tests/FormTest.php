@@ -73,6 +73,59 @@ class FormTest extends FormBuilderTestCase
     }
 
     /** @test */
+    public function it_can_modify_existing_fields()
+    {
+        $this->form
+            ->add('name', 'text')
+            ->add('description', 'textarea', [
+                'attr' => ['placeholder' => 'Enter text here...']
+            ])
+            ->add('category', 'select', [
+                'choices' => [ 1 => 'category-1', 2 => 'category-2']
+            ]);
+        // Adds new if provided name doesn't exist
+        $this->form->modify('remember', 'checkbox');
+
+        // Modifies without complete ovewrite of options
+
+        $this->assertEquals('textarea', $this->form->description->getType());
+        $this->assertEquals(
+            ['placeholder' => 'Enter text here...', 'class' => 'form-control'],
+            $this->form->description->getOption('attr')
+        );
+
+        $this->form->modify('description', 'text', [
+            'attr' => ['class' => 'modified-input']
+        ]);
+
+        $this->assertEquals('text', $this->form->description->getType());
+        $this->assertEquals(
+            ['placeholder' => 'Enter text here...', 'class' => 'modified-input'],
+            $this->form->description->getOption('attr')
+        );
+
+        // Check if complete option ovewrite work
+        $this->assertEquals(
+            [ 1 => 'category-1', 2 => 'category-2'],
+            $this->form->category->getOption('choices')
+        );
+
+        $this->assertArrayNotHasKey('expanded', $this->form->category->getOptions());
+
+        $this->form->modify('category', 'choice', [
+            'expanded' => true
+        ], true);
+
+        $this->assertNotEquals(
+            [ 1 => 'category-1', 2 => 'category-2'],
+            $this->form->category->getOption('choices')
+        );
+
+        $this->assertTrue($this->form->category->getOption('expanded'));
+
+    }
+
+    /** @test */
     public function it_throws_exception_when_removing_nonexisting_field()
     {
         $this->form->add('name', 'text');

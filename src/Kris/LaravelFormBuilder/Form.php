@@ -63,11 +63,7 @@ class Form
     {
         $this->preventDuplicate($name);
 
-        $fieldType = $this->formHelper->getFieldType($type);
-
-        if ($type == 'file') {
-            $this->formOptions['files'] = true;
-        }
+        $fieldType = $this->getFieldType($type);
 
         $this->fields[$name] = new $fieldType($name, $type, $this, $options);
 
@@ -87,6 +83,39 @@ class Form
         }
 
         throw new \InvalidArgumentException('Field ['.$name.'] does not exist in '.get_class($this));
+    }
+
+    /**
+     * Modify existing field. If it doesn't exist, it is added to form
+     *
+     * @param        $name
+     * @param string $type
+     * @param array  $options
+     * @param bool   $overwriteOptions
+     * @return Form
+     */
+    public function modify($name, $type = 'text', array $options = [], $overwriteOptions = false)
+    {
+        if (!$this->has($name)) {
+            return $this->add($name, $type, $options);
+        }
+
+        $fieldType = $this->getFieldType($type);
+
+        // If we don't want to overwrite options, we merge them with old options
+        if ($overwriteOptions === false) {
+
+            $modifiedOptions = $this->formHelper->mergeOptions(
+                $this->getField($name)->getOptions(),
+                $options
+            );
+
+            $this->fields[$name] = new $fieldType($name, $type, $this, $modifiedOptions);
+        } else {
+            $this->fields[$name] = new $fieldType($name, $type, $this, $options);
+        }
+
+        return $this;
     }
 
     /**
@@ -360,5 +389,20 @@ class Form
         if ($this->has($name)) {
             throw new \InvalidArgumentException('Field ['.$name.'] already exists in the form '.get_class($this));
         }
+    }
+
+    /**
+     * @param $type
+     * @return string
+     */
+    protected function getFieldType($type)
+    {
+        $fieldType = $this->formHelper->getFieldType($type);
+
+        if ($type == 'file') {
+            $this->formOptions['files'] = true;
+        }
+
+        return $fieldType;
     }
 }

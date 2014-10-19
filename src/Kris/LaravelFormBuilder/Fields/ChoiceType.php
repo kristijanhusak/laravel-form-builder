@@ -105,7 +105,7 @@ class ChoiceType extends FormField
      */
     protected function buildCheckableChildren($fieldType, $fieldMultiple)
     {
-        foreach ($this->options['choices'] as $key => $choice) {
+        foreach ((array)$this->options['choices'] as $key => $choice) {
             $this->children[] = new $fieldType(
                 $this->name . $fieldMultiple,
                 $this->choiceType,
