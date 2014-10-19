@@ -136,7 +136,7 @@ class ChoiceType extends FormField
             $this->name . $fieldMultiple,
             $this->choiceType,
             $this->parent,
-            $this->options
+            $this->parent->getFormHelper()->mergeOptions($this->options, ['is_child' => true])
         );
     }
 }

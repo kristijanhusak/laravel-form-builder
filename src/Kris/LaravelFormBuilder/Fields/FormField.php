@@ -79,7 +79,7 @@ abstract class FormField
 
         $options = $this->prepareOptions($options);
 
-        if (!$this->needsLabel()) {
+        if (!$this->needsLabel($options)) {
             $showLabel = false;
         }
 
