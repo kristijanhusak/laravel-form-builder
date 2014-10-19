@@ -262,7 +262,9 @@ class FormTest extends FormBuilderTestCase
             new InputType('email', 'email', $this->form),
         ];
 
-        $this->prepareRender($options, false, true, false, $fields);
+        $this->prepareRender($options, false, true, true, $fields);
+
+        $this->form->setFormOptions($options);
 
         $this->form
             ->add('gender', 'select')
@@ -271,7 +273,7 @@ class FormTest extends FormBuilderTestCase
 
         $this->form->gender->render();
 
-        $this->form->renderRest($options);
+        $this->form->renderRest();
     }
 
     /** @test */
