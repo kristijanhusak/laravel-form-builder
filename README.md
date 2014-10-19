@@ -313,6 +313,73 @@ class PostForm extends Form
     }
 }
 ```
+
+You can also remove fields from the form when neccessary. For example you don't want to show `clear` button and `subscription` fields on the example above on edit page:
+
+``` php
+<?php namespace App/Http/Controllers;
+
+use App\Forms\PostForm;
+
+class PostsController extends BaseController {
+
+    /**
+     * @Get("/posts/{id}/edit", as="posts.edit")
+     */
+    public function edit($id)
+    {
+        $post = Post::findOrFail($id);
+        $form = \FormBuilder::create(PostForm::class, [
+            'method' => 'PUT',
+            'url' => route('posts.update', $id),
+            'model' => $post,
+        ])
+        ->remove('clear')
+        ->remove('subscription');
+
+        return view('posts.edit', compact('form'));
+    }
+
+    /**
+     * @Post("/posts/{id}", as="post.update")
+     */
+    public function update($id)
+    {
+    }
+}
+```
+
+In a case when `choice` type has `expanded` set to `true` and/or `multiple` also set to true, you get a list of
+radios/checkboxes:
+
+``` html
+<div class="form-group">
+    <label for="languages" class="control-label">languages</label>
+
+    <label for="France_fr">France</label>
+    <input id="France_fr" name="languages[]" type="checkbox" value="fr">
+
+    <label for="English_en">English</label>
+    <input id="English_en" name="languages[]" type="checkbox" value="en">
+
+    <label for="German_de">German</label>
+    <input id="German_de" name="languages[]" type="checkbox" value="de">
+</div>
+```
+
+If you maybe want to customize how each radio/checkbox is rendered, maybe wrap it in some container, you can loop over children on `languages` choice field:
+
+``` php
+    // ...
+
+    <?php foreach($form->languages->getChildren() as $child): ?>
+        <div class="checkbox-wrapper">
+            <?= form_row($child, ['checked' => true]) ?>
+        </div>
+    <?php endforeach; ?>
+    // ...
+```
+
 Here is the list of all available field types:
 * text
 * email
@@ -451,6 +518,8 @@ class DatetimeType extends FormField {
 
     protected function getTemplate()
     {
+        // At first it tries to load config variable,
+        // and if fails falls back to loading view
         // resources/views/fields/datetime.blade.php
         return 'fields.datetime';
     }
