@@ -278,13 +278,13 @@ class PostForm extends Form
             // This creates a select field
             ->add('subscription', 'choice', [
                 'choices' => ['monthly' => 'Monthly', 'yearly' => 'Yearly'],
-                'selected' => 'yearly',
+                'empty_value' => '==== Select subscription ===',
                 'multiple' => false // This is default. If set to true, it creates select with multiple select posibility
             ])
             // This creates radio buttons
             ->add('gender', 'choice', [
                 'choices' => ['m' => 'Male', 'f' => 'Female'],
-                'selected' => 'Male',
+                'selected' => 'm',
                 'expanded' => true
             ])
             // Automatically adds enctype="multipart/form-data" to form
@@ -294,7 +294,7 @@ class PostForm extends Form
             // This creates a checkbox list
             ->add('languages', 'choice', [
                 'choices' => ['en' => 'English', 'de' => 'German', 'fr' => 'France'],
-                'selected' => ['English', 'France']
+                'selected' => ['en', 'de']
                 'expanded' => true,
                 'multiple' => true
             ])
