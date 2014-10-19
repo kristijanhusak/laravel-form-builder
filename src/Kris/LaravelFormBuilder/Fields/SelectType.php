@@ -12,6 +12,7 @@ class SelectType extends FormField
     {
         return [
             'choices' => [],
+            'empty_value' => null,
             'selected' => null
         ];
     }

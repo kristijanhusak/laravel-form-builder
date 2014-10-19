@@ -114,7 +114,7 @@ class ChoiceType extends FormField
                     'attr'          => ['id' => $choice . '_' . $key],
                     'label'         => $choice,
                     'is_child'      => true,
-                    'checked'       => in_array($choice, (array)$this->options['selected']),
+                    'checked'       => in_array($key, (array)$this->options['selected']),
                     'default_value' => $key,
                     'labelAttrs'    => $this->parent->getFormHelper()->prepareAttributes([
                         'for' => $choice . '_' . $key

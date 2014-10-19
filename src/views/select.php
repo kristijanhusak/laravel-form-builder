@@ -7,7 +7,7 @@
     <?php endif; ?>
 
     <?php if ($showField): ?>
-    <?= Form::select($name, $options['choices'], array_search($options['selected'], $options['choices']), $options['attr']) ?>
+    <?= Form::select($name, (array)$options['empty_value'] + $options['choices'], (array)$options['selected'], $options['attr']) ?>
     <?php endif; ?>
 
     <?php if ($showError && isset($errors)): ?>

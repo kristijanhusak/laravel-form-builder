@@ -237,8 +237,7 @@ abstract class FormField
         $this->options = $this->prepareOptions($options);
 
         if (array_get($this->options, 'template') !== null) {
-            $this->template = $this->options['template'];
-            unset($this->options['template']);
+            $this->template = array_pull($this->options, 'template');
         }
     }
 

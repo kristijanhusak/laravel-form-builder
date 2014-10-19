@@ -327,8 +327,7 @@ class Form
     private function getModelFromOptions()
     {
         if (($model = array_get($this->formOptions, 'model')) instanceof Model) {
-            $this->setModel($model);
-            unset($this->formOptions['model']);
+            $this->setModel(array_pull($this->formOptions, 'model'));
         }
     }
 
