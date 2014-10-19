@@ -390,7 +390,7 @@ class Form
     }
 
     /**
-     * @param $type
+     * @param string $type
      * @return string
      */
     protected function getFieldType($type)
