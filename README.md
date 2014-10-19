@@ -349,6 +349,28 @@ class PostsController extends BaseController {
 }
 ```
 
+Or you can modify it in the similar way (options passed will be merged with options from old field,
+if you want to overwrite it pass 4th parameter as `true`)
+
+``` php
+    // ...
+    public function edit($id)
+    {
+        $post = Post::findOrFail($id);
+        $form = \FormBuilder::create(PostForm::class, [
+            'method' => 'PUT',
+            'url' => route('posts.update', $id),
+            'model' => $post,
+        ])
+        // If passed name does not exist, add() method will be called with provided params
+        ->modify('gender', 'select', [
+            'attr' => ['class' => 'form-select']
+        ], false)   // If this is set to true, options will be overwritten - default: false
+
+        return view('posts.edit', compact('form'));
+    }
+```
+
 In a case when `choice` type has `expanded` set to `true` and/or `multiple` also set to true, you get a list of
 radios/checkboxes:
 

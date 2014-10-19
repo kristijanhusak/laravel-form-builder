@@ -148,6 +148,17 @@ abstract class FormField
     }
 
     /**
+     * Get single option from options array. Can be used with dot notation ('attr.class')
+     *
+     * @param      $option
+     * @param null $default
+     * @return mixed
+     */
+    public function getOption($option, $default = null) {
+        return array_get($this->options, $option, $default);
+    }
+
+    /**
      * Set field options
      *
      * @param array $options
