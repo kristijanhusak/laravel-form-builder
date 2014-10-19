@@ -1,6 +1,6 @@
 [![Build Status](https://img.shields.io/travis/kristijanhusak/laravel-form-builder/master.svg?style=flat)](https://travis-ci.org/kristijanhusak/laravel-form-builder)
-[![Coverage Status](http://img.shields.io/scrutinizer/coverage/g/kristijanhusak/laravel-form-builder.svg?style=flat)](https://scrutinizer-ci.com/g/kristijanhusak/laravel-form-builder/?branch=master)
-[![Quality Score](http://img.shields.io/scrutinizer/g/kristijanhusak/laravel-form-builder.svg?style=flat)](https://scrutinizer-ci.com/g/kris/laravel-form-builder)
+[![Coverage Status](http://img.shields.io/scrutinizer/coverage/g/kristijanhusak/laravel-form-builder.svg?style=flat)](https://scrutinizer-ci.com/g/kristijanhusak/laravel-form-builder/?branch=laravel-4)
+[![Quality Score](http://img.shields.io/scrutinizer/g/kristijanhusak/laravel-form-builder.svg?style=flat)](https://scrutinizer-ci.com/g/kristijanhusak/laravel-form-builder)
 [![Total Downloads](https://img.shields.io/packagist/dt/kris/laravel-form-builder.svg?style=flat)](https://packagist.org/packages/kris/laravel-form-builder)
 [![Latest Stable Version](https://img.shields.io/packagist/v/kris/laravel-form-builder.svg?style=flat)](https://packagist.org/packages/kris/laravel-form-builder)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE)
@@ -19,6 +19,7 @@ By default it supports Bootstrap 3.
 4. [Field customization](#field-customization)
 5. [Changing configuration and templates](#changing-configuration-and-templates)
 6. [Custom fields](#custom-fields)
+7. [Contributing](#contributing)
 
 ###Installation
 
@@ -591,6 +592,14 @@ class PostForm extends Form
     }
 }
 ```
+
+### Contributing
+Project follows [PSR-2](http://www.php-fig.org/psr/psr-2/) standard and it's 100% covered with PHPUnit tests.
+Pull requests should include tests and pass [Travis CI](https://travis-ci.org/kristijanhusak/laravel-form-builder) build.
+
+To run tests first install dependencies with `composer install`.
+
+After that tests can be run with `vendor/bin/phpunit`
 
 ### Todo
 * Add possibility to disable showing validation errors under fields - **DONE**
