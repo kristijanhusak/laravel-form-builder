@@ -222,7 +222,7 @@ form_end($form)
 If form_rest($form) is not called before this,
 it will render the rest of the form and add
 form close tag (</form>). If form_rest($form) IS
-called, it will render ondly closing tag (</form>)
+called, it will render only closing tag (</form>)
 
 If you want to render only the closing tag, even
 if form_rest($form) is not called, pass false as
