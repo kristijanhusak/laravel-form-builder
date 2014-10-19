@@ -132,14 +132,15 @@ class Form
     /**
      * Render rest of the form
      *
-     * @param array $options
+     * @param bool $showFormEnd
+     * @param bool $showFields
      * @return string
      */
-    public function renderRest(array $options = [])
+    public function renderRest($showFormEnd = true, $showFields = true)
     {
         $fields = $this->getUnrenderedFields();
 
-        return $this->render($options, $fields, false, true, false);
+        return $this->render([], $fields, false, $showFields, $showFormEnd);
     }
 
     /**

@@ -23,18 +23,18 @@ if (!function_exists('form_start')) {
 
 if (!function_exists('form_end')) {
 
-    function form_end(Form $form, array $options = [])
+    function form_end(Form $form, $showFields = true)
     {
-        return $form->renderForm($options, false, false, true);
+        return $form->renderRest(true, $showFields);
     }
 
 }
 
 if (!function_exists('form_rest')) {
 
-    function form_rest(Form $form, array $options = [])
+    function form_rest(Form $form)
     {
-        return $form->renderRest($options, false, false, true);
+        return $form->renderRest(false);
     }
 
 }

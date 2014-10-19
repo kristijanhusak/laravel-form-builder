@@ -204,6 +204,11 @@ You can also split it even more:
 <div class="text-danger">This field is required.</div> <!-- Rendered only if validation errors occur. -->
 
 {!! form_rest($form) !!}
+<!--
+Renders the rest of the form WITHOUT closing tag.
+If you want to render a closing tag also, use
+form_end($form)
+-->
 <div class="form-group">
     <label for="name" class="control-label">name</label>
     <input type="text" class="form-control" id="name">
@@ -213,6 +218,16 @@ You can also split it even more:
     <input type="text" name="publish" id="publish">
 </div>
 
+<!--
+If form_rest($form) is not called before this,
+it will render the rest of the form and add
+form close tag (</form>). If form_rest($form) IS
+called, it will render ondly closing tag (</form>)
+
+If you want to render only the closing tag, even
+if form_rest($form) is not called, pass false as
+second param (form_end($form, false))
+-->
 {!! form_end($form) !!}
 </form>
 
@@ -408,10 +423,11 @@ Here is the list of all available field types:
 * email
 * url
 * tel
-* number
-* date
+* search
 * password
 * hidden
+* number
+* date
 * textarea
 * submit
 * reset

@@ -31,6 +31,7 @@ class FormHelper
         'email',
         'url',
         'tel',
+        'search',
         'password',
         'hidden',
         'number',
