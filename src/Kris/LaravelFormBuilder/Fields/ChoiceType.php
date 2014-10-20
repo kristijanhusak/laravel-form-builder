@@ -45,8 +45,8 @@ class ChoiceType extends FormField
      */
     protected function determineChoiceField()
     {
-        $expanded = (bool) $this->options['expanded'];
-        $multiple = (bool) $this->options['multiple'];
+        $expanded = $this->options['expanded'];
+        $multiple = $this->options['multiple'];
 
         if ($multiple) {
             $this->options['attr']['multiple'] = true;
