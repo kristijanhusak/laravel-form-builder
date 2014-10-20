@@ -15,7 +15,7 @@ checks:
         fix_identation_4spaces: true
         fix_doc_comments: true
 filter:
-    excluded_paths: [tests/*, vendor/*]
+    excluded_paths: [tests/*, vendor/*, src/Kris/LaravelFormBuilder/FormBuilderServiceProvider.php]
 tools:
     external_code_coverage:
         timeout: 600

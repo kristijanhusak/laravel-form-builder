@@ -1,41 +1,15 @@
 <?php namespace  Kris\LaravelFormBuilder\Fields;
 
-use Kris\LaravelFormBuilder\Form;
-
-class ChoiceType extends FormField
+class ChoiceType extends ParentType
 {
-
     /**
-     * All children of the choice field
-     *
-     * @var array
-     */
-    protected $children = [];
-
-    /**
-     * Choice type
-     *
      * @var string
      */
     protected $choiceType = 'select';
 
-    public function __construct($name, $type, Form $parent, array $options = [])
-    {
-        parent::__construct($name, $type, $parent, $options);
-        $this->determineChoiceField();
-        $this->createChildren();
-    }
-
     protected function getTemplate()
     {
         return 'choice';
-    }
-
-    public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
-    {
-        $options['children'] = $this->children;
-
-        return parent::render($options, $showLabel, $showField, $showError);
     }
 
     /**
@@ -72,20 +46,12 @@ class ChoiceType extends FormField
     }
 
     /**
-     * Get all children of the choice field
-     *
-     * @return mixed
-     */
-    public function getChildren()
-    {
-        return $this->children;
-    }
-
-    /**
      * Create children depending on choice type
      */
     protected function createChildren()
     {
+        $this->determineChoiceField();
+
         $fieldMultiple = $this->options['multiple'] ? '[]' : '';
         $fieldType = $this->formHelper->getFieldType($this->choiceType);
 
@@ -134,7 +100,7 @@ class ChoiceType extends FormField
      */
     protected function buildSelect($fieldType, $fieldMultiple)
     {
-        $this->children[] = new $fieldType(
+        $this->children = new $fieldType(
             $this->name . $fieldMultiple,
             $this->choiceType,
             $this->parent,

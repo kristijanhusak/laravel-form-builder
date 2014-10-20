@@ -23,10 +23,11 @@ Changelog can be found [here](https://github.com/kristijanhusak/laravel-form-bui
   1. [Usage in controllers](#usage-in-controllers)
   2. [Usage in views](#usage-in-views)
 3. [Plain form](#plain-form)
-4. [Field customization](#field-customization)
-5. [Changing configuration and templates](#changing-configuration-and-templates)
-6. [Custom fields](#custom-fields)
-7. [Contributing](#contributing)
+4. [Child form](#child-form)
+5. [Field customization](#field-customization)
+6. [Changing configuration and templates](#changing-configuration-and-templates)
+7. [Custom fields](#custom-fields)
+8. [Contributing](#contributing)
 
 ###Installation
 
@@ -269,6 +270,54 @@ class SongsController extends BaseController {
 }
 ```
 
+### Child form
+You can add one form as a child in another form. This will render all fields from that child form and wrap them in name provided:
+
+``` php
+
+class PostForm
+{
+    public function buildForm()
+    {
+        $this
+            ->add('title', 'text')
+            ->add('body', 'textarea');
+    }
+}
+
+class SongForm extends Form
+{
+    public function buildForm()
+    {
+        $this
+            ->add('name', 'text')
+            ->add('song', 'form', [
+                'class' => \FormBuilder::create('App\Forms\SongForm')
+            ])
+            ->add('lyrics', 'textarea');
+    }
+}
+```
+So now song form will render this:
+```html
+    <div class="form-group">
+        <label for="name" class="control-label">name</label>
+        <input type="text" name="name" id="name">
+    </div>
+    <div class="form-group">
+        <label for="song[title]" class="control-label">title</label>
+        <input type="text" name="song[title]" id="song[title]">
+    </div>
+    <div class="form-group">
+        <label for="song[body]" class="control-label">body</label>
+        <textarea name="song[body]" id="song[body]"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="lyrics" class="control-label">textarea</label>
+        <textarea name="lyrics" id="lyrics"></textarea>
+    </div>
+```
+
 ### Field Customization
 Fields can be easily customized within the class or view:
 
@@ -317,6 +366,11 @@ class PostForm extends Form
                 'selected' => ['en', 'de']
                 'expanded' => true,
                 'multiple' => true
+            ])
+            // Renders all fieds from song form and wraps names for better handling
+            // <input type="text" name="song-title"> becomes <input type="text" name="song[song-title]">
+            ->add('song', 'form', [
+                'class' => \FormBuilder::create('App\Forms\SongForm')
             ])
             ->add('policy-agree', 'checkbox', [
                 'default_value' => 1,    //  <input type="checkbox" value="1">
@@ -442,6 +496,7 @@ Here is the list of all available field types:
 * checkbox
 * radio
 * choice
+* form
 
 You can also bind the model to the class and add other options with setters
 

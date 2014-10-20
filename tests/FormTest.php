@@ -277,6 +277,31 @@ class FormTest extends FormBuilderTestCase
     }
 
     /** @test */
+    public function it_can_add_child_form_as_field()
+    {
+        $form = (new Form())->setFormHelper($this->formHelper);
+        $customForm = (new CustomDummyForm())->setFormHelper($this->formHelper);
+
+        $form
+            ->add('title', 'text')
+            ->add('song', 'form', [
+                'class' => $customForm
+            ]);
+
+        $this->prepareFieldRender('title');
+        $this->prepareFieldRender('child_form');
+        $this->prepareRender(Mockery::any(), true, true, true, Mockery::any());
+
+        $this->assertEquals($form, $form->title->getParent());
+
+        $form->renderForm();
+
+        $this->assertTrue($customForm->isChildForm());
+
+        $this->assertEquals('song[title]', $form->song->getChildren()['title']->getName());
+    }
+
+    /** @test */
     public function it_adds_custom_type()
     {
         $this->form->addCustomField('datetime', 'Some\\Namespace\\DatetimeType');

@@ -47,18 +47,18 @@ class FormBuilderTest extends FormBuilderTestCase
     /** @test */
     public function it_creates_custom_form_and_sets_options_on_it()
     {
-        $customForm = new CustomForm($this->formHelper);
-
-        $this->container->shouldReceive('make')
-                ->with('CustomForm')
-                ->andReturn($customForm);
-
         $options = [
             'method' => 'POST',
             'url' => '/posts',
         ];
 
-        $customFormInstance = $this->formBuilder->create('CustomForm', $options);
+        $customForm = new CustomDummyForm();
+
+        $this->container->shouldReceive('make')
+                ->with('CustomDummyForm')
+                ->andReturn($customForm);
+
+        $customFormInstance = $this->formBuilder->create('CustomDummyForm', $options);
 
         $this->assertEquals('POST', $customFormInstance->getMethod());
         $this->assertEquals('/posts', $customFormInstance->getUrl());
@@ -67,10 +67,27 @@ class FormBuilderTest extends FormBuilderTestCase
         $this->assertArrayHasKey('body', $customForm->getFields());
     }
 
+
+    /** @test */
+    public function it_throws_exception_if_child_form_is_not_valid_class()
+    {
+        $form = (new Form())->setFormHelper($this->formHelper);
+
+        try {
+            $form->add('song', 'form', [
+                'class' => 'nonvalid'
+            ]);
+        } catch (\Exception $e) {
+            return;
+        }
+
+        $this->fail('Exception was not thrown for invalid child form class.');
+    }
+
     /** @test */
     public function it_can_set_form_helper_once_and_call_build_form()
     {
-        $form = new CustomForm();
+        $form = new CustomDummyForm();
         $form->setFormHelper($this->formHelper);
         $form->buildForm();
 
@@ -80,7 +97,7 @@ class FormBuilderTest extends FormBuilderTestCase
     }
 }
 
-class CustomForm extends Form {
+class CustomDummyForm extends Form {
 
     public function buildForm()
     {

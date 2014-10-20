@@ -204,6 +204,14 @@ abstract class FormField
     }
 
     /**
+     * @return Form
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
      * Check if the field is rendered
      *
      * @return bool

@@ -28,11 +28,14 @@ class FormBuilder
      */
     public function create($formClass, array $options = [])
     {
-        $form = $this->container->make($formClass)->setFormHelper($this->formHelper);
+        $form = $this->container
+            ->make($formClass)
+            ->setFormHelper($this->formHelper)
+            ->setFormOptions($options);
 
         $form->buildForm();
 
-        return $form->setFormOptions($options);
+        return $form;
     }
 
     /**
