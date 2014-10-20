@@ -66,6 +66,15 @@ class Form
     }
 
     /**
+     * Rebuild the form from scratch
+     */
+    public function rebuildForm()
+    {
+        $this->fields = [];
+        return $this->buildForm();
+    }
+
+    /**
      * Add a single field to the form
      *
      * @param string $name
@@ -79,6 +88,8 @@ class Form
         if (!$modify) {
             $this->preventDuplicate($name);
         }
+
+        $this->setupFieldOptions($name, $options);
 
         $fieldName = $this->getFieldName($name);
 
@@ -460,7 +471,7 @@ class Form
     /**
      * If form is child of another form, modify names to be contained in single key (parent[child_field_name])
      *
-     * @param $name
+     * @param string $name
      * @return string
      */
     protected function getFieldName($name)
@@ -470,5 +481,18 @@ class Form
         }
 
         return $name;
+    }
+
+    /**
+     * Set up options on single field depending on form options
+     *
+     * @param $name
+     * @param $options
+     */
+    private function setupFieldOptions($name, &$options)
+    {
+        if ($this->isChildForm()) {
+            $options['label'] = $name;
+        }
     }
 }

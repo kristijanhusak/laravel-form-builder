@@ -24,7 +24,7 @@ class ChildFormType extends ParentType
         $class->setFormOptions([
             'name' => $this->name,
             'is_child' => true
-        ])->buildForm();
+        ])->rebuildForm();
 
         $this->children = $class->getFields();
     }
