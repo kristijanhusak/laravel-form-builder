@@ -56,12 +56,15 @@ class Form
      *
      * @param string $name
      * @param string $type
-     * @param array $options
+     * @param array  $options
+     * @param bool   $modify
      * @return $this
      */
-    public function add($name, $type = 'text', array $options = [])
+    public function add($name, $type = 'text', array $options = [], $modify = false)
     {
-        $this->preventDuplicate($name);
+        if (!$modify) {
+            $this->preventDuplicate($name);
+        }
 
         $fieldType = $this->getFieldType($type);
 
@@ -96,23 +99,15 @@ class Form
      */
     public function modify($name, $type = 'text', array $options = [], $overwriteOptions = false)
     {
-        if (!$this->has($name)) {
-            return $this->add($name, $type, $options);
-        }
-
-        $fieldType = $this->getFieldType($type);
-
         // If we don't want to overwrite options, we merge them with old options
-        if ($overwriteOptions === false) {
+        if ($overwriteOptions === false && $this->has($name)) {
             $options = $this->formHelper->mergeOptions(
                 $this->getField($name)->getOptions(),
                 $options
             );
         }
 
-        $this->fields[$name] = new $fieldType($name, $type, $this, $options);
-
-        return $this;
+        return $this->add($name, $type, $options, true);
     }
 
     /**
@@ -155,7 +150,9 @@ class Form
             return $this->fields[$name];
         }
 
-        throw new \InvalidArgumentException('field with name ['. $name .'] does not exits.');
+        throw new \InvalidArgumentException(
+            'Field with name ['. $name .'] does not exist in class '.get_class($this)
+        );
     }
 
     /**
@@ -284,8 +281,6 @@ class Form
         if ($this->has($name)) {
             return $this->getField($name);
         }
-
-        throw new \InvalidArgumentException('No property ['.$name.'] on '.get_class($this));
     }
 
     /**
@@ -296,9 +291,7 @@ class Form
      */
     public function setFormHelper(FormHelper $formHelper)
     {
-        if ($this->formHelper === null) {
-            $this->formHelper = $formHelper;
-        }
+        $this->formHelper = $formHelper;
 
         return $this;
     }
@@ -325,6 +318,16 @@ class Form
     }
 
     /**
+     * Should form errors be shown under every field ?
+     *
+     * @return bool
+     */
+    public function haveErrorsEnabled()
+    {
+        return $this->showFieldErrors;
+    }
+
+    /**
      * Render the form
      *
      * @param $options
@@ -344,7 +347,6 @@ class Form
             ->with('formOptions', $formOptions)
             ->with('fields', $fields)
             ->with('model', $this->getModel())
-            ->with('showFieldErrors', $this->showFieldErrors)
             ->render();
     }
 
@@ -353,7 +355,7 @@ class Form
      */
     private function getModelFromOptions()
     {
-        if (($model = array_get($this->formOptions, 'model')) instanceof Model) {
+        if (array_get($this->formOptions, 'model') instanceof Model) {
             $this->setModel(array_pull($this->formOptions, 'model'));
         }
     }

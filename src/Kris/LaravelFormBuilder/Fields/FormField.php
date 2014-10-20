@@ -1,6 +1,7 @@
 <?php  namespace Kris\LaravelFormBuilder\Fields;
 
 use Kris\LaravelFormBuilder\Form;
+use Kris\LaravelFormBuilder\FormHelper;
 
 abstract class FormField
 {
@@ -43,6 +44,11 @@ abstract class FormField
     protected $template;
 
     /**
+     * @var FormHelper
+     */
+    protected $formHelper;
+
+    /**
      * @param             $name
      * @param             $type
      * @param Form        $parent
@@ -53,6 +59,7 @@ abstract class FormField
         $this->name = $name;
         $this->type = $type;
         $this->parent = $parent;
+        $this->formHelper = $this->parent->getFormHelper();
         $this->setTemplate();
         $this->setDefaultOptions($options);
     }
@@ -83,7 +90,7 @@ abstract class FormField
             $showLabel = false;
         }
 
-        return $this->parent->getFormHelper()->getView()->make(
+        return $this->formHelper->getView()->make(
             $this->template, [
                 'name' => $this->name,
                 'type' => $this->type,
@@ -102,14 +109,14 @@ abstract class FormField
      */
     protected function prepareOptions(array $options = [])
     {
-        $formHelper = $this->parent->getFormHelper();
+        $options = $this->formHelper->mergeOptions($this->options, $options);
 
-        $options = $formHelper->mergeOptions($this->options, $options);
+        if ($this->parent->haveErrorsEnabled()) {
+            $this->addErrorClass($options);
+        }
 
-        $this->addErrorClass($options);
-
-        $options['wrapperAttrs'] = $formHelper->prepareAttributes($options['wrapper']);
-        $options['errorAttrs'] = $formHelper->prepareAttributes($options['errors']);
+        $options['wrapperAttrs'] = $this->formHelper->prepareAttributes($options['wrapper']);
+        $options['errorAttrs'] = $this->formHelper->prepareAttributes($options['errors']);
 
         return $options;
     }
@@ -189,7 +196,7 @@ abstract class FormField
      */
     public function setType($type)
     {
-        if ($this->parent->getFormHelper()->getFieldType($type)) {
+        if ($this->formHelper->getFieldType($type)) {
             $this->type = $type;
         }
 
@@ -223,15 +230,13 @@ abstract class FormField
      */
     private function allDefaults()
     {
-        $formHelper = $this->parent->getFormHelper();
-
         return [
-            'wrapper' => ['class' => $formHelper->getConfig('defaults.wrapper_class')],
-            'attr' => ['class' => $formHelper->getConfig('defaults.field_class')],
+            'wrapper' => ['class' => $this->formHelper->getConfig('defaults.wrapper_class')],
+            'attr' => ['class' => $this->formHelper->getConfig('defaults.field_class')],
             'default_value' => null,
             'label' => $this->name,
-            'label_attr' => ['class' => $formHelper->getConfig('defaults.label_class')],
-            'errors' => ['class' => $formHelper->getConfig('defaults.error_class')]
+            'label_attr' => ['class' => $this->formHelper->getConfig('defaults.label_class')],
+            'errors' => ['class' => $this->formHelper->getConfig('defaults.error_class')]
         ];
     }
 
@@ -242,9 +247,7 @@ abstract class FormField
      */
     protected function setDefaultOptions(array $options = [])
     {
-        $formHelper = $this->parent->getFormHelper();
-
-        $this->options = $formHelper->mergeOptions($this->allDefaults(), $this->getDefaults());
+        $this->options = $this->formHelper->mergeOptions($this->allDefaults(), $this->getDefaults());
         $this->options = $this->prepareOptions($options);
 
         if (array_get($this->options, 'template') !== null) {
@@ -257,8 +260,7 @@ abstract class FormField
      */
     private function setTemplate()
     {
-        $this->template = $this->parent->getFormHelper()
-            ->getConfig($this->getTemplate(), $this->getTemplate());
+        $this->template = $this->formHelper->getConfig($this->getTemplate(), $this->getTemplate());
     }
 
     /**
@@ -268,14 +270,12 @@ abstract class FormField
      */
     protected function addErrorClass(&$options)
     {
-        $formHelper = $this->parent->getFormHelper();
-
-        $errors = $formHelper->getRequest()->getSession()->get('errors');
+        $errors = $this->formHelper->getRequest()->getSession()->get('errors');
 
         if ($errors && $errors->has($this->name)) {
-            $errorClass = $formHelper->getConfig('defaults.wrapper_error_class');
+            $errorClass = $this->formHelper->getConfig('defaults.wrapper_error_class');
 
-            if (strpos($options['wrapper']['class'], $errorClass) === false) {
+            if (!str_contains($options['wrapper']['class'], $errorClass)) {
                 $options['wrapper']['class'] .= ' '.$errorClass;
             }
         }
