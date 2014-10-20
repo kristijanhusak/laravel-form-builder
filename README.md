@@ -13,6 +13,10 @@ By default it supports Bootstrap 3.
 ## Laravel 4
 For laravel 4 version check branch [laravel-4](https://github.com/kristijanhusak/laravel-form-builder/tree/laravel-4)
 
+
+## Changelog
+Changelog can be found [here](https://github.com/kristijanhusak/laravel-form-builder/blob/master/CHANGELOG.md)
+
 ## Table of contents
 1. [Installation](#installation)
 2. [Basic usage](#usage)
