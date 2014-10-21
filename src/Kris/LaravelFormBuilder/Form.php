@@ -518,7 +518,7 @@ class Form
     /**
      * Set up options on single field depending on form options
      *
-     * @param $name
+     * @param string $name
      * @param $options
      */
     protected function setupFieldOptions($name, &$options)
@@ -533,7 +533,7 @@ class Form
      */
     protected function getDataFromOptions()
     {
-        if ($data = array_get($this->formOptions, 'data')) {
+        if (array_get($this->formOptions, 'data')) {
             $this->data = array_pull($this->formOptions, 'data');
         }
     }

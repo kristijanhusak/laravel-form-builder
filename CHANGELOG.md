@@ -1,5 +1,11 @@
 **Note:** [Laravel 4](https://github.com/kristijanhusak/laravel-form-builder/tree/laravel-4) branch is also affected by changes from version **1.1** and above (tagged as 0.* instead of 1.*)
 
+## 1.1.3
+- Added [Child form](https://github.com/kristijanhusak/laravel-form-builder#child-form) type
+- Added `rebuildForm` method
+- Added `setData` and `getData` options to form
+- Minor fixes
+
 ## 1.1.2
 - `form_end()` function now also renders rest of the form fields - can be changed with 2nd parameter as false(`form_end($form, false)`)
 - Minor fixes
