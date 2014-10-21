@@ -292,7 +292,7 @@ class SongForm extends Form
         $this
             ->add('name', 'text')
             ->add('song', 'form', [
-                'class' => \FormBuilder::create('App\Forms\SongForm')
+                'class' => \FormBuilder::create('App\Forms\PostForm')
             ])
             ->add('lyrics', 'textarea');
     }
