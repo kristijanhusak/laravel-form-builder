@@ -535,7 +535,7 @@ class Form
      */
     private function getDataFromOptions()
     {
-         if ($data = array_get($this->formOptions, 'data')) {
+         if (array_get($this->formOptions, 'data')) {
              $this->data = array_pull($this->formOptions, 'data');
          }
     }
