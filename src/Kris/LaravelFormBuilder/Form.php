@@ -36,6 +36,13 @@ class Form
     ];
 
     /**
+     * Additional data which can be used to build fields
+     *
+     * @var array
+     */
+    protected $data = [];
+
+    /**
      * Should errors for each field be shown when called form($form) or form_rest($form) ?
      *
      * @var bool
@@ -227,6 +234,8 @@ class Form
 
         $this->getModelFromOptions();
 
+        $this->getDataFromOptions();
+
         $this->checkIfChildForm();
 
         return $this;
@@ -379,6 +388,29 @@ class Form
     }
 
     /**
+     * Add any aditional data that field needs (ex. array of choices)
+     *
+     * @param string $name
+     * @param mixed $data
+     */
+    public function setData($name, $data)
+    {
+        $this->data[$name] = $data;
+    }
+
+    /**
+     * Get single additional data
+     *
+     * @param string $name
+     * @param null   $default
+     * @return mixed
+     */
+    public function getData($name, $default = null)
+    {
+        return array_get($this->data, $name, $default);
+    }
+
+    /**
      * Render the form
      *
      * @param $options
@@ -435,7 +467,7 @@ class Form
      *
      * @param string $name
      */
-    private function preventDuplicate($name)
+    protected function preventDuplicate($name)
     {
         if ($this->has($name)) {
             throw new \InvalidArgumentException('Field ['.$name.'] already exists in the form '.get_class($this));
@@ -460,7 +492,7 @@ class Form
     /**
      * Check if form is child of another form
      */
-    private function checkIfChildForm()
+    protected function checkIfChildForm()
     {
         if ($this->getFormOption('is_child')) {
             $this->isChildForm = array_pull($this->formOptions, 'is_child');
@@ -489,10 +521,20 @@ class Form
      * @param $name
      * @param $options
      */
-    private function setupFieldOptions($name, &$options)
+    protected function setupFieldOptions($name, &$options)
     {
         if ($this->isChildForm()) {
             $options['label'] = $name;
+        }
+    }
+
+    /**
+     * Get any data from options and remove it
+     */
+    protected function getDataFromOptions()
+    {
+        if ($data = array_get($this->formOptions, 'data')) {
+            $this->data = array_pull($this->formOptions, 'data');
         }
     }
 }
