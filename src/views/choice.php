@@ -7,7 +7,7 @@
     <?php endif; ?>
 
     <?php if ($showField): ?>
-        <?php foreach ($options['children'] as $child): ?>
+        <?php foreach ((array)$options['children'] as $child): ?>
             <?= $child->render() ?>
         <?php endforeach; ?>
     <?php endif; ?>

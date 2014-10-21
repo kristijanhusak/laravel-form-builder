@@ -43,12 +43,37 @@ class Form
     protected $showFieldErrors = true;
 
     /**
+     * Is this form instance child of another form
+     *
+     * @var bool
+     */
+    protected $isChildForm = false;
+
+    /**
+     * Name of the parent form if any
+     *
+     * @var null
+     */
+    protected $childFormName = null;
+
+    /**
      * Build the form
      *
      * @return mixed
      */
     public function buildForm()
     {
+    }
+
+    /**
+     * Rebuilds the form
+     *
+     * @return mixed
+     */
+    public function rebuildForm()
+    {
+        $this->fields = [];
+        return $this->buildForm();
     }
 
     /**
@@ -66,9 +91,13 @@ class Form
             $this->preventDuplicate($name);
         }
 
+        $this->setupFieldOptions($name, $options);
+
+        $fieldName = $this->getFieldName($name);
+
         $fieldType = $this->getFieldType($type);
 
-        $this->fields[$name] = new $fieldType($name, $type, $this, $options);
+        $this->fields[$name] = new $fieldType($fieldName, $type, $this, $options);
 
         return $this;
     }
@@ -177,6 +206,18 @@ class Form
     }
 
     /**
+     * Get single form option
+     *
+     * @param string $option
+     * @param        $default
+     * @return mixed
+     */
+    public function getFormOption($option, $default = null)
+    {
+       return array_get($this->formOptions, $option, $default);
+    }
+
+    /**
      * Set form options
      *
      * @param array $formOptions
@@ -187,6 +228,8 @@ class Form
         $this->formOptions = $this->formHelper->mergeOptions($this->formOptions, $formOptions);
 
         $this->getModelFromOptions();
+
+        $this->checkIfChildForm();
 
         return $this;
     }
@@ -328,6 +371,16 @@ class Form
     }
 
     /**
+     * Is form child of another form ?
+     *
+     * @return bool
+     */
+    public function isChildForm()
+    {
+        return $this->isChildForm && $this->childFormName !== null;
+    }
+
+    /**
      * Render the form
      *
      * @param $options
@@ -405,4 +458,43 @@ class Form
 
         return $fieldType;
     }
+
+     /**
+      * Check if form is child of another form
+      */
+     private function checkIfChildForm()
+     {
+         if ($this->getFormOption('is_child')) {
+             $this->isChildForm = array_pull($this->formOptions, 'is_child');
+             $this->childFormName = array_pull($this->formOptions, 'name');
+         }
+     }
+
+     /**
+      * If form is child of another form, modify names to be contained in single key (parent[child_field_name])
+      *
+      * @param string $name
+      * @return string
+      */
+     protected function getFieldName($name)
+     {
+         if ($this->isChildForm && $this->childFormName !== null) {
+             return $this->childFormName.'['.$name.']';
+         }
+
+         return $name;
+     }
+
+     /**
+      * Set up options on single field depending on form options
+      *
+      * @param $name
+      * @param $options
+      */
+     private function setupFieldOptions($name, &$options)
+     {
+         if ($this->isChildForm()) {
+             $options['label'] = $name;
+         }
+     }
 }

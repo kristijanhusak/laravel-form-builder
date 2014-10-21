@@ -45,7 +45,8 @@ class FormHelper
         'select',
         'checkbox',
         'radio',
-        'choice'
+        'choice',
+        'form'
     ];
 
     /**
@@ -137,6 +138,9 @@ class FormHelper
                 break;
             case 'choice':
                 $fieldType = __NAMESPACE__.'\\Fields\\ChoiceType';
+                break;
+            case 'form':
+                $fieldType = __NAMESPACE__.'\\Fields\\ChildFormType';
                 break;
             default:
                 $fieldType = __NAMESPACE__.'\\Fields\\InputType';
