@@ -50,6 +50,7 @@ class FormBuilderTest extends FormBuilderTestCase
         $options = [
             'method' => 'POST',
             'url' => '/posts',
+            'data' => ['dummy_choices' => [1 => 'choice_1', 2 => 'choice_2']]
         ];
 
         $customForm = new CustomDummyForm();
@@ -62,6 +63,7 @@ class FormBuilderTest extends FormBuilderTestCase
 
         $this->assertEquals('POST', $customFormInstance->getMethod());
         $this->assertEquals('/posts', $customFormInstance->getUrl());
+        $this->assertEquals([1 => 'choice_1', 2 => 'choice_2'], $customFormInstance->getData('dummy_choices'));
         $this->assertInstanceOf('Kris\\LaravelFormBuilder\\Form', $customFormInstance);
         $this->assertArrayHasKey('title', $customForm->getFields());
         $this->assertArrayHasKey('body', $customForm->getFields());
