@@ -211,6 +211,7 @@ class FormTest extends FormBuilderTestCase
         $this->form->setMethod('DELETE');
         $this->form->setUrl('/posts/all');
         $this->form->setModel($this->model);
+        $this->form->setData('some_data', ['this', 'is', 'some', 'data']);
 
         $this->assertEquals(
             ['method' => 'DELETE', 'url' => '/posts/all'],
@@ -220,6 +221,11 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals(
             $this->model,
             $this->form->getModel()
+        );
+
+        $this->assertEquals(
+            ['this', 'is', 'some', 'data'],
+            $this->form->getData('some_data')
         );
     }
 

@@ -403,7 +403,7 @@ class PostsController extends BaseController {
         $form = \FormBuilder::create(PostForm::class, [
             'method' => 'PUT',
             'url' => route('posts.update', $id),
-            'model' => $post,
+            'model' => $post
         ])
         ->remove('clear')
         ->remove('subscription');
@@ -516,6 +516,30 @@ class PostsController extends BaseController {
             ->setMethod('PUT')
             ->setUrl(route('post.update'))
             ->setModel($model); // This will automatically do Form::model($model) in the form
+            ->setData('post_choices', [ 'y' => 'yes', 'n' => 'no']); // This can be used in form like $this->getData('post_choices')
+            
+             
+         // Code above is similar to this:
+         
+         $form = \FormBuilder::create('App\Forms\PostForm', [
+             'method' => 'PUT',
+             'url' => route('post.update'),
+             'model' => $model,
+             'data' => [ 'post_choices' => [ 'y' => 'yes', 'n' => 'no'] ]
+         ]);
+         
+         or this:
+         
+         $form = \FormBuilder::create('App\Forms\PostForm')->setFormOptions([
+             'method' => 'PUT',
+             'url' => route('post.update'),
+             'model' => $model,
+             'data' => [ 'post_choices' => [ 'y' => 'yes', 'n' => 'no'] ]
+         ]);
+         
+         // Any options passed like this except 'model' and 'data' will be passed to the view for form options
+         // So if you need to pass any data to form class, and use it only there, use setData() method or 'data' key
+         // and pass what you need            
 
         return view('posts.edit', compact('form'));
     }
@@ -543,6 +567,9 @@ class PostForm extends Form
         $this
             ->add('title', 'text')
             ->add('body', 'textearea')
+             ->add('some_choices', 'choices', [
+                 'choices' => $this->getData('post_choices')     // When form is created passed as ->setData('post_choices', ['some' => 'array'])
+             ])            
             ->add('category', 'select', [
                 'choices' => $this->model->categories()->lists('id', 'name')
             ]);
