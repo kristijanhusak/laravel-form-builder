@@ -564,6 +564,10 @@ class PostForm extends Form
 {
     public function buildForm()
     {
+    
+        // Request ca be accessed if needed
+        $someRequestData = $this->getRequest()->all();
+        
         $this
             ->add('title', 'text')
             ->add('body', 'textearea')

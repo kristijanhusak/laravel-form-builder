@@ -24,7 +24,6 @@ class FormBuilderServiceProvider extends ServiceProvider
         });
 
         $this->app->alias('Kris/LaravelFormBuilder/FormBuilder', 'laravel-form-builder');
-
     }
 
     public function boot()

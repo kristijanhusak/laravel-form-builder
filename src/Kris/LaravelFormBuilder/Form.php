@@ -32,15 +32,15 @@ class Form
      */
     protected $formOptions = [
         'method' => 'GET',
-        'url' => null
+        'url'    => null
     ];
 
-     /**
-      * Additional data which can be used to build fields
-      *
-      * @var array
-      */
-     protected $data = [];
+    /**
+     * Additional data which can be used to build fields
+     *
+     * @var array
+     */
+    protected $data = [];
 
     /**
      * Should errors for each field be shown when called form($form) or form_rest($form) ?
@@ -121,7 +121,7 @@ class Form
             return $this;
         }
 
-        throw new \InvalidArgumentException('Field ['.$name.'] does not exist in '.get_class($this));
+        throw new \InvalidArgumentException('Field [' . $name . '] does not exist in ' . get_class($this));
     }
 
     /**
@@ -187,7 +187,7 @@ class Form
         }
 
         throw new \InvalidArgumentException(
-            'Field with name ['. $name .'] does not exist in class '.get_class($this)
+            'Field with name [' . $name . '] does not exist in class ' . get_class($this)
         );
     }
 
@@ -221,7 +221,7 @@ class Form
      */
     public function getFormOption($option, $default = null)
     {
-       return array_get($this->formOptions, $option, $default);
+        return array_get($this->formOptions, $option, $default);
     }
 
     /**
@@ -389,34 +389,44 @@ class Form
         return $this->isChildForm && $this->childFormName !== null;
     }
 
-     /**
-      * Add any aditional data that field needs (ex. array of choices)
-      *
-      * @param string $name
-      * @param mixed $data
-      */
-     public function setData($name, $data)
-     {
-         $this->data[$name] = $data;
-     }
+    /**
+     * Add any aditional data that field needs (ex. array of choices)
+     *
+     * @param string $name
+     * @param mixed  $data
+     */
+    public function setData($name, $data)
+    {
+        $this->data[$name] = $data;
+    }
 
-     /**
-      * Get single additional data
-      *
-      * @param string $name
-      * @param null   $default
-      * @return mixed
-      */
-     public function getData($name, $default = null)
-     {
-         return array_get($this->data, $name, $default);
-     }
+    /**
+     * Get single additional data
+     *
+     * @param string $name
+     * @param null   $default
+     * @return mixed
+     */
+    public function getData($name, $default = null)
+    {
+        return array_get($this->data, $name, $default);
+    }
+
+    /**
+     * Get current request
+     *
+     * @return \Illuminate\Http\Request
+     */
+    public function getRequest()
+    {
+        return $this->formHelper->getRequest();
+    }
 
     /**
      * Render the form
      *
-     * @param $options
-     * @param $fields
+     * @param         $options
+     * @param         $fields
      * @param boolean $showStart
      * @param boolean $showFields
      * @param boolean $showEnd
@@ -472,7 +482,7 @@ class Form
     protected function preventDuplicate($name)
     {
         if ($this->has($name)) {
-            throw new \InvalidArgumentException('Field ['.$name.'] already exists in the form '.get_class($this));
+            throw new \InvalidArgumentException('Field [' . $name . '] already exists in the form ' . get_class($this));
         }
     }
 
@@ -491,52 +501,52 @@ class Form
         return $fieldType;
     }
 
-     /**
-      * Check if form is child of another form
-      */
-     protected function checkIfChildForm()
-     {
-         if ($this->getFormOption('is_child')) {
-             $this->isChildForm = array_pull($this->formOptions, 'is_child');
-             $this->childFormName = array_pull($this->formOptions, 'name');
-         }
-     }
+    /**
+     * Check if form is child of another form
+     */
+    protected function checkIfChildForm()
+    {
+        if ($this->getFormOption('is_child')) {
+            $this->isChildForm = array_pull($this->formOptions, 'is_child');
+            $this->childFormName = array_pull($this->formOptions, 'name');
+        }
+    }
 
-     /**
-      * If form is child of another form, modify names to be contained in single key (parent[child_field_name])
-      *
-      * @param string $name
-      * @return string
-      */
-     protected function getFieldName($name)
-     {
-         if ($this->isChildForm && $this->childFormName !== null) {
-             return $this->childFormName.'['.$name.']';
-         }
+    /**
+     * If form is child of another form, modify names to be contained in single key (parent[child_field_name])
+     *
+     * @param string $name
+     * @return string
+     */
+    protected function getFieldName($name)
+    {
+        if ($this->isChildForm && $this->childFormName !== null) {
+            return $this->childFormName . '[' . $name . ']';
+        }
 
-         return $name;
-     }
+        return $name;
+    }
 
-     /**
-      * Set up options on single field depending on form options
-      *
-      * @param string $name
-      * @param $options
-      */
-     protected function setupFieldOptions($name, &$options)
-     {
-         if ($this->isChildForm()) {
-             $options['label'] = $name;
-         }
-     }
+    /**
+     * Set up options on single field depending on form options
+     *
+     * @param string $name
+     * @param        $options
+     */
+    protected function setupFieldOptions($name, &$options)
+    {
+        if ($this->isChildForm()) {
+            $options['label'] = $name;
+        }
+    }
 
     /**
      * Get any data from options and remove it
      */
     private function getDataFromOptions()
     {
-         if (array_get($this->formOptions, 'data')) {
-             $this->data = array_pull($this->formOptions, 'data');
-         }
+        if (array_get($this->formOptions, 'data')) {
+            $this->data = array_pull($this->formOptions, 'data');
+        }
     }
 }
