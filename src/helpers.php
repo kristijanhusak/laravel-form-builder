@@ -25,7 +25,7 @@ if (!function_exists('form_end')) {
 
     function form_end(Form $form, $showFields = true)
     {
-        return $form->renderForm(true, $showFields);
+        return $form->renderRest(true, $showFields);
     }
 
 }

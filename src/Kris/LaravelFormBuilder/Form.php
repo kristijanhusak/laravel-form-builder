@@ -488,7 +488,7 @@ class Form
      /**
       * Set up options on single field depending on form options
       *
-      * @param $name
+      * @param string $name
       * @param $options
       */
      private function setupFieldOptions($name, &$options)
