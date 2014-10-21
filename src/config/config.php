@@ -19,7 +19,7 @@ return [
     'choice'        => 'laravel-form-builder::choice',
     'child_form'    => 'laravel-form-builder::child_form',
 
-    'custom-fields' => [
+    'custom_fields' => [
 //        'datetime' => 'App\Forms\Fields\Datetime'
     ]
 ];
