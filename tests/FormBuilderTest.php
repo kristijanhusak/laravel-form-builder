@@ -62,6 +62,7 @@ class FormBuilderTest extends FormBuilderTestCase
         $customFormInstance = $this->formBuilder->create('CustomDummyForm', $options);
 
         $this->assertEquals('POST', $customFormInstance->getMethod());
+        $this->assertEquals($this->request, $customFormInstance->getRequest());
         $this->assertEquals('/posts', $customFormInstance->getUrl());
         $this->assertEquals([1 => 'choice_1', 2 => 'choice_2'], $customFormInstance->getData('dummy_choices'));
         $this->assertInstanceOf('Kris\\LaravelFormBuilder\\Form', $customFormInstance);

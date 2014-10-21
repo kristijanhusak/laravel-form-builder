@@ -411,6 +411,16 @@ class Form
     }
 
     /**
+     * Get current request
+     *
+     * @return \Illuminate\Http\Request
+     */
+    public function getRequest()
+    {
+        return $this->formHelper->getRequest();
+    }
+
+    /**
      * Render the form
      *
      * @param $options

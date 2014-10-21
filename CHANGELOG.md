@@ -3,6 +3,7 @@
 ## 1.1.3
 - Added [Child form](https://github.com/kristijanhusak/laravel-form-builder#child-form) type
 - Added `rebuildForm` method
+- Added `getRequest` method
 - Added `setData` and `getData` options to form
 - Minor fixes
 
