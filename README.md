@@ -24,6 +24,7 @@ Changelog can be found [here](https://github.com/kristijanhusak/laravel-form-bui
 6. [Changing configuration and templates](#changing-configuration-and-templates)
 7. [Custom fields](#custom-fields)
 8. [Contributing](#contributing)
+9. [Issues and bug reporting](#issues-and-bug-reporting)
 
 ###Installation
 
@@ -517,29 +518,29 @@ class PostsController extends BaseController {
             ->setUrl(route('post.update'))
             ->setModel($model); // This will automatically do Form::model($model) in the form
             ->setData('post_choices', [ 'y' => 'yes', 'n' => 'no']); // This can be used in form like $this->getData('post_choices')
-            
-             
+
+
          // Code above is similar to this:
-         
+
          $form = \FormBuilder::create('App\Forms\PostForm', [
              'method' => 'PUT',
              'url' => route('post.update'),
              'model' => $model,
              'data' => [ 'post_choices' => [ 'y' => 'yes', 'n' => 'no'] ]
          ]);
-         
+
          or this:
-         
+
          $form = \FormBuilder::create('App\Forms\PostForm')->setFormOptions([
              'method' => 'PUT',
              'url' => route('post.update'),
              'model' => $model,
              'data' => [ 'post_choices' => [ 'y' => 'yes', 'n' => 'no'] ]
          ]);
-         
+
          // Any options passed like this except 'model' and 'data' will be passed to the view for form options
          // So if you need to pass any data to form class, and use it only there, use setData() method or 'data' key
-         // and pass what you need            
+         // and pass what you need
 
         return view('posts.edit', compact('form'));
     }
@@ -564,16 +565,16 @@ class PostForm extends Form
 {
     public function buildForm()
     {
-    
+
         // Request ca be accessed if needed
         $someRequestData = $this->getRequest()->all();
-        
+
         $this
             ->add('title', 'text')
             ->add('body', 'textearea')
              ->add('some_choices', 'choices', [
                  'choices' => $this->getData('post_choices')     // When form is created passed as ->setData('post_choices', ['some' => 'array'])
-             ])            
+             ])
             ->add('category', 'select', [
                 'choices' => $this->model->categories()->lists('id', 'name')
             ]);
@@ -709,6 +710,9 @@ Pull requests should include tests and pass [Travis CI](https://travis-ci.org/kr
 To run tests first install dependencies with `composer install`.
 
 After that tests can be run with `vendor/bin/phpunit`
+
+### Issues and bug reporting
+When creating an issue, please mark it with label **Laravel 4** or **Laravel 5** so it can be easier to handle.
 
 ### Todo
 * Add possibility to disable showing validation errors under fields - **DONE**
