@@ -112,4 +112,14 @@ class FormMakeCommand extends GeneratorCommand {
     {
         return __DIR__.'/stubs/form-class-template.stub';
     }
+
+	/**
+	 * Get the desired class name from the input.
+	 *
+	 * @return string
+	 */
+	protected function getNameInput()
+	{
+		return str_replace('/', '\\', $this->argument('name'));
+	}
 }
