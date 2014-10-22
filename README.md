@@ -10,6 +10,8 @@
 Form builder for Laravel 5 inspired by Symfony's form builder. With help of Laravels FormBuilder class creates forms that can be easy modified and reused.
 By default it supports Bootstrap 3.
 
+### Note: Laravel 5 is still in development, so it can break functionality of this package. If you want a stable version use Laravel 4 and [laravel-4](http://github.com/kristijanhusak/laravel-form-builder/tree/laravel-4) branch.
+
 ## Laravel 4
 For laravel 4 version check branch [laravel-4](https://github.com/kristijanhusak/laravel-form-builder/tree/laravel-4)
 
@@ -28,6 +30,7 @@ Changelog can be found [here](https://github.com/kristijanhusak/laravel-form-bui
 6. [Changing configuration and templates](#changing-configuration-and-templates)
 7. [Custom fields](#custom-fields)
 8. [Contributing](#contributing)
+9. [Issues and bug reporting](#issues-and-bug-reporting)
 
 ###Installation
 
@@ -519,25 +522,25 @@ class PostsController extends BaseController {
             ->setUrl(route('post.update'))
             ->setModel($model)   // This will automatically do Form::model($model) in the form
             ->setData('post_choices', [ 'y' => 'yes', 'n' => 'no']); // This can be used in form like $this->getData('post_choices')
-            
+
         // Code above is similar to this:
-        
+
         $form = \FormBuilder::create('App\Forms\PostForm', [
             'method' => 'PUT',
             'url' => route('post.update'),
             'model' => $model,
             'data' => [ 'post_choices' => [ 'y' => 'yes', 'n' => 'no'] ]
         ]);
-        
+
         or this:
-        
+
         $form = \FormBuilder::create('App\Forms\PostForm')->setFormOptions([
             'method' => 'PUT',
             'url' => route('post.update'),
             'model' => $model,
             'data' => [ 'post_choices' => [ 'y' => 'yes', 'n' => 'no'] ]
         ]);
-        
+
         // Any options passed like this except 'model' and 'data' will be passed to the view for form options
         // So if you need to pass any data to form class, and use it only there, use setData() method or 'data' key
         // and pass what you need
@@ -567,7 +570,7 @@ class PostForm extends Form
     {
         // Request can be acessed if needed
         $someRequestData = $this->getRequest()->all();
-        
+
         $this
             ->add('title', 'text')
             ->add('body', 'textearea')
@@ -705,6 +708,9 @@ class PostForm extends Form
 ### Contributing
 Project follows [PSR-2](http://www.php-fig.org/psr/psr-2/) standard and it's 100% covered with PHPUnit tests.
 Pull requests should include tests and pass [Travis CI](https://travis-ci.org/kristijanhusak/laravel-form-builder) build.
+
+### Issues and bug reporting
+When creating an issue, please mark it with label **Laravel 4** or **Laravel 5** so it can be easier to handle.
 
 To run tests first install dependencies with `composer install`.
 
