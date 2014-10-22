@@ -709,12 +709,12 @@ class PostForm extends Form
 Project follows [PSR-2](http://www.php-fig.org/psr/psr-2/) standard and it's 100% covered with PHPUnit tests.
 Pull requests should include tests and pass [Travis CI](https://travis-ci.org/kristijanhusak/laravel-form-builder) build.
 
-### Issues and bug reporting
-When creating an issue, please mark it with label **Laravel 4** or **Laravel 5** so it can be easier to handle.
-
 To run tests first install dependencies with `composer install`.
 
 After that tests can be run with `vendor/bin/phpunit`
+
+### Issues and bug reporting
+When creating an issue, please mark it with label **Laravel 4** or **Laravel 5** so it can be easier to handle.
 
 ### Todo
 * Add possibility to disable showing validation errors under fields - **DONE**
