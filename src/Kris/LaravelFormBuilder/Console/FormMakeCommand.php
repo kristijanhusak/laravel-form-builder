@@ -5,7 +5,8 @@ use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class FormMakeCommand extends GeneratorCommand {
+class FormMakeCommand extends GeneratorCommand
+{
 
     /**
      * The console command name.
@@ -64,8 +65,8 @@ class FormMakeCommand extends GeneratorCommand {
     /**
      * Replace the class name for the given stub.
      *
-     * @param  string  $stub
-     * @param  string  $name
+     * @param  string $stub
+     * @param  string $name
      * @return string
      */
     protected function replaceClass($stub, $name)
@@ -88,8 +89,8 @@ class FormMakeCommand extends GeneratorCommand {
     /**
      * Replace the namespace for the given stub.
      *
-     * @param  string  $stub
-     * @param  string  $name
+     * @param  string $stub
+     * @param  string $name
      * @return $this
      */
     protected function replaceNamespace(&$stub, $name)
@@ -110,16 +111,16 @@ class FormMakeCommand extends GeneratorCommand {
      */
     protected function getStub()
     {
-        return __DIR__.'/stubs/form-class-template.stub';
+        return __DIR__ . '/stubs/form-class-template.stub';
     }
 
-	/**
-	 * Get the desired class name from the input.
-	 *
-	 * @return string
-	 */
-	protected function getNameInput()
-	{
-		return str_replace('/', '\\', $this->argument('name'));
-	}
+    /**
+     * Get the desired class name from the input.
+     *
+     * @return string
+     */
+    protected function getNameInput()
+    {
+        return str_replace('/', '\\', $this->argument('name'));
+    }
 }
