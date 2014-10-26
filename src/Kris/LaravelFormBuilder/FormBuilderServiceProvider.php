@@ -14,16 +14,24 @@ class FormBuilderServiceProvider extends ServiceProvider
     {
         $this->commands('Kris\LaravelFormBuilder\Console\FormMakeCommand');
 
-        $this->app->bindShared('Kris/LaravelFormBuilder/FormBuilder', function ($app) {
+        $this->registerFormHelper();
 
-            // Load complete config file and handle it with form helper
+        $this->app->bindShared('laravel-form-builder', function ($app) {
+
+            return new FormBuilder($app, $app['laravel-form-helper']);
+        });
+    }
+
+    protected function registerFormHelper()
+    {
+        $this->app->bindShared('laravel-form-helper', function ($app) {
+
             $configuration = $app['config']->get('laravel-form-builder::config');
 
-            $formHelper = new FormHelper($app['view'], $app['request'], $configuration);
-            return new FormBuilder($app, $formHelper);
+            return new FormHelper($app['view'], $app['request'], $configuration);
         });
 
-        $this->app->alias('Kris/LaravelFormBuilder/FormBuilder', 'laravel-form-builder');
+        $this->app->alias('laravel-form-helper', 'Kris\LaravelFormBuilder\FormHelper');
     }
 
     public function boot()
