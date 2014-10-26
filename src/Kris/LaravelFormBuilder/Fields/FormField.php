@@ -244,6 +244,7 @@ abstract class FormField
             'attr' => ['class' => $this->formHelper->getConfig('defaults.field_class')],
             'default_value' => null,
             'label' => $this->name,
+            'is_child' => false,
             'label_attr' => ['class' => $this->formHelper->getConfig('defaults.label_class')],
             'errors' => ['class' => $this->formHelper->getConfig('defaults.error_class')]
         ];
