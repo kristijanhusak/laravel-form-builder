@@ -16,20 +16,28 @@ class FormBuilderServiceProvider extends ServiceProvider
     public function register()
     {
         $this->commands('Kris\LaravelFormBuilder\Console\FormMakeCommand');
-        $this->bindHtmlIfNeeded();
-        $this->bindFormIfNeeded();
 
-        $this->app->bindShared('Kris/LaravelFormBuilder/FormBuilder', function ($app) {
+        $this->registerHtmlIfNeeded();
+        $this->registerFormIfHeeded();
 
-            // Load complete config file and handle it with form helper
+        $this->registerFormHelper();
+
+        $this->app->bindShared('laravel-form-builder', function ($app) {
+
+            return new FormBuilder($app, $app['laravel-form-helper']);
+        });
+    }
+
+    protected function registerFormHelper()
+    {
+        $this->app->bindShared('laravel-form-helper', function ($app) {
+
             $configuration = $app['config']->get('laravel-form-builder::config');
 
-            $formHelper = new FormHelper($app['view'], $app['request'], $configuration);
-            return new FormBuilder($app, $formHelper);
+            return new FormHelper($app['view'], $app['request'], $configuration);
         });
 
-        $this->app->alias('Kris/LaravelFormBuilder/FormBuilder', 'laravel-form-builder');
-
+        $this->app->alias('laravel-form-helper', 'Kris\LaravelFormBuilder\FormHelper');
     }
 
     public function boot()
@@ -48,7 +56,7 @@ class FormBuilderServiceProvider extends ServiceProvider
     /**
      * Add Laravel Form to container if not already set
      */
-    private function bindFormIfNeeded()
+    private function registerFormIfHeeded()
     {
         if (!$this->app->offsetExists('form')) {
 
@@ -69,7 +77,7 @@ class FormBuilderServiceProvider extends ServiceProvider
     /**
      * Add Laravel Html to container if not already set
      */
-    private function bindHtmlIfNeeded()
+    private function registerHtmlIfNeeded()
     {
         if (!$this->app->offsetExists('html')) {
 
