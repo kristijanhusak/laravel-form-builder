@@ -380,6 +380,15 @@ class PostForm extends Form
                 'label' => 'I agree to policy',
                 'checked' => false    // This is the default.
             ])
+            // These are the defaults. 'type' can be anything that fits <input type="type-here">
+            // Creates 2 inputs
+            ->add('password', 'repeated', [
+                'type' => 'password'
+                'first_name' => 'password',
+                'second_name' => 'password_confirmation',
+                'first_options => [],   // Same options available as for text type
+                'second_options => [],   // Same options available as for text type
+            ])
             ->add('save', 'submit', [
                 'attr' = ['class' => 'btn btn-primary']
             ])
@@ -500,6 +509,7 @@ Here is the list of all available field types:
 * radio
 * choice
 * form
+* repeated
 
 You can also bind the model to the class and add other options with setters
 

@@ -17,6 +17,7 @@ return [
     'checkbox'      => 'laravel-form-builder::checkbox',
     'select'        => 'laravel-form-builder::select',
     'choice'        => 'laravel-form-builder::choice',
+    'repeated'      => 'laravel-form-builder::repeated',
     'child_form'    => 'laravel-form-builder::child_form',
 
     'custom_fields' => [

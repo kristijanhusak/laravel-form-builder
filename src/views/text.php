@@ -1,4 +1,4 @@
-<?php if ($showLabel && $showField): ?>
+<?php if ($showLabel && $showField && !$options['is_child']): ?>
 <div <?= $options['wrapperAttrs'] ?> >
 <?php endif; ?>
 
@@ -14,6 +14,6 @@
         <?= $errors->first($name, '<div '.$options['errorAttrs'].'>:message</div>') ?>
     <?php endif; ?>
 
-<?php if ($showLabel && $showField): ?>
+<?php if ($showLabel && $showField && !$options['is_child']): ?>
 </div>
 <?php endif; ?>

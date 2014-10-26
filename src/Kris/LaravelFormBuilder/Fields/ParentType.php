@@ -34,4 +34,16 @@ abstract class ParentType extends FormField
     {
         return $this->children;
     }
+
+    public function isRendered()
+    {
+        foreach ($this->children as $key => $child) {
+            if ($child->isRendered()) {
+                return true;
+            }
+        }
+
+        return parent::isRendered();
+    }
+
 }
