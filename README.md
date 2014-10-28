@@ -604,7 +604,7 @@ change values in `defaults` key as you wish.
 
 If you want to customize the views for fields and forms you can publish the views like this:
 ``` sh
-php artisan views:publish kris/laravel-form-builder
+php artisan view:publish kris/laravel-form-builder
 ```
 
 This will create folder with all files in `app/views/packages/kris/laravel-form-builder`
