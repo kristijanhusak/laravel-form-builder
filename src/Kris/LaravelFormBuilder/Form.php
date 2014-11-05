@@ -533,7 +533,7 @@ class Form
      */
     protected function setupFieldOptions($name, &$options)
     {
-        if ($this->isChildForm()) {
+        if ($this->isChildForm() && !isset($options['label'])) {
             $options['label'] = $name;
         }
     }
