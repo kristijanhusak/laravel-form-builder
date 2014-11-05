@@ -100,7 +100,7 @@ class ChoiceType extends ParentType
      */
     protected function buildSelect($fieldType, $fieldMultiple)
     {
-        $this->children = new $fieldType(
+        $this->children[] = new $fieldType(
             $this->name . $fieldMultiple,
             $this->choiceType,
             $this->parent,
