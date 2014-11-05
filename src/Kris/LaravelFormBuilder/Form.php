@@ -411,6 +411,20 @@ class Form
     }
 
     /**
+     * Add multiple peices of data at once
+     *
+     * @param $data
+     * @return $this
+     **/
+    public function addData(array $data)
+    {
+        foreach ($data as $key => $value) {
+            $this->setData($key, $value);
+        }
+        return $this;
+    }
+
+    /**
      * Get current request
      *
      * @return \Illuminate\Http\Request

@@ -24,14 +24,16 @@ class FormBuilder
     /**
      * @param       $formClass
      * @param       $options
+     * @param       $data
      * @return Form
      */
-    public function create($formClass, array $options = [])
+    public function create($formClass, array $options = [], array $data = [])
     {
         $form = $this->container
             ->make($formClass)
             ->setFormHelper($this->formHelper)
-            ->setFormOptions($options);
+            ->setFormOptions($options)
+            ->addData($data);
 
         $form->buildForm();
 
