@@ -43,14 +43,16 @@ class FormBuilder
     /**
      * Get instance of the empty form which can be modified
      *
-     * @param $options
+     * @param array $options
+     * @param array $data
      * @return Form
      */
-    public function plain(array $options = [])
+    public function plain(array $options = [], array $data = [])
     {
         return $this->container
             ->make('Kris\LaravelFormBuilder\Form')
             ->setFormHelper($this->formHelper)
-            ->setFormOptions($options);
+            ->setFormOptions($options)
+            ->addData($data);
     }
 }

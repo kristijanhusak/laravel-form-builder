@@ -421,6 +421,7 @@ class Form
         foreach ($data as $key => $value) {
             $this->setData($key, $value);
         }
+
         return $this;
     }
 
@@ -558,7 +559,7 @@ class Form
     protected function getDataFromOptions()
     {
         if (array_get($this->formOptions, 'data')) {
-            $this->data = array_pull($this->formOptions, 'data');
+            $this->addData(array_pull($this->formOptions, 'data'));
         }
     }
 }
