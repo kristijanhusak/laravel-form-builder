@@ -73,9 +73,7 @@ class Form
     }
 
     /**
-     * Rebuilds the form
-     *
-     * @return mixed
+     * Rebuild the form from scratch
      */
     public function rebuildForm()
     {
@@ -386,7 +384,7 @@ class Form
      */
     public function isChildForm()
     {
-        return $this->isChildForm && $this->childFormName !== null;
+        return $this->isChildForm;
     }
 
     /**
@@ -410,6 +408,21 @@ class Form
     public function getData($name, $default = null)
     {
         return array_get($this->data, $name, $default);
+    }
+
+    /**
+     * Add multiple peices of data at once
+     *
+     * @param $data
+     * @return $this
+     **/
+    public function addData(array $data)
+    {
+        foreach ($data as $key => $value) {
+            $this->setData($key, $value);
+        }
+
+        return $this;
     }
 
     /**
@@ -543,10 +556,10 @@ class Form
     /**
      * Get any data from options and remove it
      */
-    private function getDataFromOptions()
+    protected function getDataFromOptions()
     {
         if (array_get($this->formOptions, 'data')) {
-            $this->data = array_pull($this->formOptions, 'data');
+            $this->addData(array_pull($this->formOptions, 'data'));
         }
     }
 }
