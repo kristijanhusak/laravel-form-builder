@@ -530,10 +530,10 @@ class PostsController extends BaseController {
             ->setUrl(route('post.update'))
             ->setModel($model)   // This will automatically do Form::model($model) in the form
             ->setData('post_choices', [ 'y' => 'yes', 'n' => 'no']) // This can be used in form like $this->getData('post_choices')
-            ->addData(   // Add multiple data values at once
-                ['name' => 'some_name']
-                ['some_other_data' => 'some other data']
-            );
+            ->addData([   // Add multiple data values at once
+                'name' => 'some_name',
+                'some_other_data' => 'some other data'
+            ]);
 
         // Code above is similar to this:
 
