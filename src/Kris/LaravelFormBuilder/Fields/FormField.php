@@ -80,6 +80,7 @@ abstract class FormField
      */
     public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
     {
+
         if ($showField) {
             $this->rendered = true;
         }
@@ -117,6 +118,10 @@ abstract class FormField
 
         $options['wrapperAttrs'] = $this->formHelper->prepareAttributes($options['wrapper']);
         $options['errorAttrs'] = $this->formHelper->prepareAttributes($options['errors']);
+
+        if ($options['is_child']) {
+            $options['labelAttrs'] = $this->formHelper->prepareAttributes($options['label_attr']);
+        }
 
         return $options;
     }
