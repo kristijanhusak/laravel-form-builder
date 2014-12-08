@@ -6,8 +6,11 @@
 
 # Laravel 5 form builder
 
+### Package is not working for Laravel 5 at this moment because package handling is being worked on. Check [here](https://github.com/laravel/framework/commit/3a0afc20f25ad3bed640ff1a14957f972d123cf7). Will be updated accordingly.
+
 Form builder for Laravel 5 inspired by Symfony's form builder. With help of Laravels FormBuilder class creates forms that can be easy modified and reused.
 By default it supports Bootstrap 3.
+
 
 ##### Note: Laravel 5 is still in development, so it can break functionality of this package. If you want a stable version use Laravel 4 and [laravel-4](http://github.com/kristijanhusak/laravel-form-builder/tree/laravel-4) branch.
 
