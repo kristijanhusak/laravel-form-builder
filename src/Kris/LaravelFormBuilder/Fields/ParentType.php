@@ -35,6 +35,16 @@ abstract class ParentType extends FormField
         return $this->children;
     }
 
+    /**
+     * Get a child of the choice field
+     *
+     * @return mixed
+     */
+    public function getChild($key)
+    {
+        return $this->children[$key];
+    }
+
     public function isRendered()
     {
         foreach ($this->children as $key => $child) {
