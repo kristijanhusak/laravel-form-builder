@@ -34,6 +34,16 @@ abstract class ParentType extends FormField
     {
         return $this->children;
     }
+    
+    /**
+     * Get a child of the choice field
+     *
+     * @return mixed
+     */
+    public function getChild($key)
+    {
+        return array_get($this->children, $key);
+    }
 
     public function isRendered()
     {
