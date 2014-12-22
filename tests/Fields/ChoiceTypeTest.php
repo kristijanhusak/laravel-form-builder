@@ -88,6 +88,11 @@ class ChoiceTypeTest extends FormBuilderTestCase
 
         $this->assertEquals(2, count($choice->getChildren()));
 
+        $this->assertInstanceOf(
+            'Kris\LaravelFormBuilder\Fields\CheckableType',
+            $choice->getChild(1)
+        );
+
         $this->assertEquals('no', $choice->getOption('selected'));
 
         $this->assertContainsOnlyInstancesOf('Kris\LaravelFormBuilder\Fields\CheckableType', $choice->getChildren());

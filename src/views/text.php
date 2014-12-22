@@ -11,7 +11,7 @@
     <?php endif; ?>
 
     <?php if ($showError && isset($errors)): ?>
-        <?= $errors->first($name, '<div '.$options['errorAttrs'].'>:message</div>') ?>
+        <?= $errors->first(array_get($options, 'real_name', $name), '<div '.$options['errorAttrs'].'>:message</div>') ?>
     <?php endif; ?>
 
 <?php if ($showLabel && $showField && !$options['is_child']): ?>
