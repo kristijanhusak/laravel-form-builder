@@ -1,5 +1,8 @@
 **Note:** [Laravel 4](https://github.com/kristijanhusak/laravel-form-builder/tree/laravel-4) branch is also affected by changes from version **1.1** and above (tagged as 0.* instead of 1.*)
 
+## 1.1.6
+- Append `[]` to field name automatically if multiple attribute is set to true.
+
 ## 1.1.5
 - Fix `child form validation errors not showing` bug.
 
