@@ -116,6 +116,10 @@ abstract class FormField
             $this->addErrorClass($options);
         }
 
+        if ($this->getOption('attr.multiple') === true) {
+            $this->name = $this->name.'[]';
+        }
+
         $options['wrapperAttrs'] = $this->formHelper->prepareAttributes($options['wrapper']);
         $options['errorAttrs'] = $this->formHelper->prepareAttributes($options['errors']);
 
