@@ -1,5 +1,8 @@
 **Note:** [Laravel 4](https://github.com/kristijanhusak/laravel-form-builder/tree/laravel-4) branch is also affected by changes from version **1.1** and above (tagged as 0.* instead of 1.*)
 
+## 1.1.7
+- Fix empty select value to be empty string instead of `0`
+
 ## 1.1.6
 - Append `[]` to field name automatically if multiple attribute is set to true.
 
