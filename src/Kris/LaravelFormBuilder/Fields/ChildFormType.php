@@ -43,4 +43,15 @@ class ChildFormType extends ParentType
 
         throw new \Exception('Please provide instance of Form class.');
     }
+
+    /**
+     * Get child dynamically
+     *
+     * @param $name
+     * @return FormField
+     */
+    public function __get($name)
+    {
+        return $this->getChild($name);
+    }
 }
