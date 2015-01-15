@@ -56,4 +56,15 @@ abstract class ParentType extends FormField
         return parent::isRendered();
     }
 
+    /**
+     * Get child dynamically
+     *
+     * @param $name
+     * @return FormField
+     */
+    public function __get($name)
+    {
+        return $this->getChild($name);
+    }
+
 }
