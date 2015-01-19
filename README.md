@@ -6,8 +6,6 @@
 
 # Laravel 5 form builder
 
-### Package is not working for Laravel 5 at this moment because package handling is being worked on. Check [here](https://github.com/laravel/framework/commit/3a0afc20f25ad3bed640ff1a14957f972d123cf7). Will be updated accordingly.
-
 Form builder for Laravel 5 inspired by Symfony's form builder. With help of Laravels FormBuilder class creates forms that can be easy modified and reused.
 By default it supports Bootstrap 3.
 
@@ -598,22 +596,15 @@ class PostForm extends Form
 
 ### Changing configuration and templates
 
-~~ As mentioned above, bootstrap 3 form classes are used. If you want to change the defaults you need to publish the config like this:
-``` sh
-php artisan publish:config kris/laravel-form-builder
-```
-~~
-This will create folder `kris` in `config/packages` folder which will contain
+As mentioned above, bootstrap 3 form classes are used. If you want to change the defaults you can override it with new config file that needs to be put in `config/packages/kris/laravel-form-builder/config.php`
+
+Structure of the config needs to be like this:
 [config.php](https://github.com/kristijanhusak/laravel-form-builder/blob/master/src/config/config.php) file.
 
 change values in `defaults` key as you wish.
 
-If you want to customize the views for fields and forms you can publish the views like this:
-``` sh
-php artisan publish:views kris/laravel-form-builder
-```
-
-This will create folder with all files in `resources/views/packages/kris/laravel-form-builder`
+If you want to customize the views for fields and forms you can override it by creating folder `resources/views/packages/kris/laravel-form-builder` and putting all views in there as you wish.
+All views for fields and forms needs to be similar to this: [views](https://github.com/kristijanhusak/laravel-form-builder/tree/master/src/views)
 
 Other way is to change path to the templates in the
 [config.php](https://github.com/kristijanhusak/laravel-form-builder/blob/master/src/config/config.php) file.
