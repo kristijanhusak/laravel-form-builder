@@ -11,9 +11,6 @@
 Form builder for Laravel 5 inspired by Symfony's form builder. With help of Laravels FormBuilder class creates forms that can be easy modified and reused.
 By default it supports Bootstrap 3.
 
-
-##### Note: Laravel 5 is still in development, so it can break functionality of this package. If you want a stable version use Laravel 4 and [laravel-4](http://github.com/kristijanhusak/laravel-form-builder/tree/laravel-4) branch.
-
 ## Laravel 4
 For laravel 4 version check branch [laravel-4](https://github.com/kristijanhusak/laravel-form-builder/tree/laravel-4)
 
@@ -601,10 +598,11 @@ class PostForm extends Form
 
 ### Changing configuration and templates
 
-As mentioned above, bootstrap 3 form classes are used. If you want to change the defaults you need to publish the config like this:
+~~ As mentioned above, bootstrap 3 form classes are used. If you want to change the defaults you need to publish the config like this:
 ``` sh
 php artisan publish:config kris/laravel-form-builder
 ```
+~~
 This will create folder `kris` in `config/packages` folder which will contain
 [config.php](https://github.com/kristijanhusak/laravel-form-builder/blob/master/src/config/config.php) file.
 
