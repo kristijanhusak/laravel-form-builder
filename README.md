@@ -339,7 +339,9 @@ class PostForm extends Form
     {
         $this
             ->add('name', 'text', [
-                'wrapper' => 'name-input-container',
+                'wrapper' => [
+                  'class' => 'name-input-container'
+                ],
                 'attr' => ['class' => 'input-name', 'placeholder' => 'Enter name here...'],
                 'label' => 'Full name'
             ])
