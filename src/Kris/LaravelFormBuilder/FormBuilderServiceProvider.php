@@ -20,6 +20,11 @@ class FormBuilderServiceProvider extends ServiceProvider
         $this->registerHtmlIfNeeded();
         $this->registerFormIfHeeded();
 
+        $this->mergeConfigFrom(
+            __DIR__ . '/../../config/config.php',
+            'laravel-form-builder'
+        );
+
         $this->registerFormHelper();
 
         $this->app->bindShared('laravel-form-builder', function ($app) {
@@ -32,7 +37,7 @@ class FormBuilderServiceProvider extends ServiceProvider
     {
         $this->app->bindShared('laravel-form-helper', function ($app) {
 
-            $configuration = $app['config']->get('laravel-form-builder::config');
+            $configuration = $app['config']->get('laravel-form-builder');
 
             return new FormHelper($app['view'], $app['request'], $configuration);
         });
@@ -42,7 +47,12 @@ class FormBuilderServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->registerConfig();
+        $this->loadViewsFrom(__DIR__ . '/../../views', 'laravel-form-builder');
+
+        $this->publishes([
+            __DIR__ . '/../../views' => base_path('resources/views/vendor/laravel-form-builder'),
+            __DIR__ . '/../../config/config.php' => config_path('laravel-form-builder.php')
+        ]);
     }
 
     /**
@@ -90,38 +100,5 @@ class FormBuilderServiceProvider extends ServiceProvider
                 'Illuminate\Html\HtmlFacade'
             );
         }
-    }
-
-     /**
-     * Register our config file
-     *
-     * @return void
-     */
-    protected function registerConfig()
-    {
-        // The path to the user config file
-        $userConfigPath = app()->configPath() . '/packages/kris/laravel-form-builder/config.php';
-
-        // Path to the default config
-        $defaultConfigPath = __DIR__ . '/../../config/config.php';
-
-        // Load the default config
-        $config = $this->app['files']->getRequire($defaultConfigPath);
-
-        if (file_exists($userConfigPath))
-        {
-            // User has their own config, let's merge them properly
-            $userConfig = $this->app['files']->getRequire($userConfigPath);
-            $config = array_replace_recursive($config, $userConfig);
-        }
-
-        // Set each of the items like ->package() previously did
-        $this->app['config']->set('laravel-form-builder::config', $config);
-        $this->loadViewsFrom(__DIR__ . '/../../views', 'laravel-form-builder');
-
-        $this->publishes([
-            __DIR__ . '/../../views' => base_path('resources/views/vendor/laravel-form-builder'),
-            $defaultConfigPath => $userConfigPath
-        ]);
     }
 }
