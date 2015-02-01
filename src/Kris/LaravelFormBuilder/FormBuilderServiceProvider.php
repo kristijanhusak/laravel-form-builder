@@ -117,6 +117,6 @@ class FormBuilderServiceProvider extends ServiceProvider
 
         // Set each of the items like ->package() previously did
         $this->app['config']->set('laravel-form-builder::config', $config);
-        $this->loadViewsFrom('laravel-form-builder', __DIR__ . '/../../views');
+        $this->loadViewsFrom(__DIR__ . '/../../views', 'laravel-form-builder');
     }
 }

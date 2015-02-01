@@ -1,3 +1,6 @@
+## 1.1.10
+- Fix `loadViewsFrom` in the service provider.
+
 ## 1.1.9
 - Fix service provider.
 
