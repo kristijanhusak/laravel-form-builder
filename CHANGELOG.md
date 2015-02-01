@@ -1,5 +1,5 @@
 ## 1.1.10
-- Fix `loadViewsFrom` in the service provider.
+- Fix `loadViewsFrom` in the service provider and add publishes paths.
 
 ## 1.1.9
 - Fix service provider.
