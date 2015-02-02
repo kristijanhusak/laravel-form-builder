@@ -34,7 +34,8 @@ Changelog can be found [here](https://github.com/kristijanhusak/laravel-form-bui
 ``` json
 {
     "require": {
-        "kris/laravel-form-builder": "1.*"
+        "illuminate/html": "5.0.*@dev",
+        "kris/laravel-form-builder": "~1.1"
     }
 }
 ```
