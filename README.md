@@ -598,14 +598,19 @@ class PostForm extends Form
 
 ### Changing configuration and templates
 
-As mentioned above, bootstrap 3 form classes are used. If you want to change the defaults you can override it with new config file that needs to be put in `config/packages/kris/laravel-form-builder/config.php`
+As mentioned above, bootstrap 3 form classes are used. If you want to change the defaults you can override it by running
+
+```sh
+php artisan vendor:publish
+```
+
+This will create config file `config/laravel-form-builder.php` and folder with views in `resources/views/vendor/laravel-form-builder`.
 
 Structure of the config needs to be like this:
 [config.php](https://github.com/kristijanhusak/laravel-form-builder/blob/master/src/config/config.php) file.
 
 change values in `defaults` key as you wish.
 
-If you want to customize the views for fields and forms you can override it by creating folder `resources/views/packages/kris/laravel-form-builder` and putting all views in there as you wish.
 All views for fields and forms needs to be similar to this: [views](https://github.com/kristijanhusak/laravel-form-builder/tree/master/src/views)
 
 Other way is to change path to the templates in the
