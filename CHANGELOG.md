@@ -1,3 +1,6 @@
+## 1.1.11
+- Add `default_namespace` configuration to allow typing only class name when creating form (Same functionality like for routes)
+
 ## 1.1.10
 - Fix `loadViewsFrom` in the service provider and add publishes paths.
 

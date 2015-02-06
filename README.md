@@ -611,6 +611,27 @@ Structure of the config needs to be like this:
 
 change values in `defaults` key as you wish.
 
+If you would like to avoid typing in full namespace of the form class when creating, you can add default namespace to the config that was just published, and it will prepend it every time you want to create form:
+
+``` php
+<?php
+
+// config/app/laravel-form-builder.php
+
+return [
+    'default_namespace' => 'App\Forms'
+]
+
+// app/Http/Controllers/HomeController
+
+public function indexAction()
+{
+    \FormBuilder::create('SongForm');
+}
+```
+
+It is empty by default.
+
 All views for fields and forms needs to be similar to this: [views](https://github.com/kristijanhusak/laravel-form-builder/tree/master/src/views)
 
 Other way is to change path to the templates in the
