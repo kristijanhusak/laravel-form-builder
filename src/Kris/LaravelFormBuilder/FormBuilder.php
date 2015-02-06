@@ -30,7 +30,7 @@ class FormBuilder
     public function create($formClass, array $options = [], array $data = [])
     {
         $form = $this->container
-            ->make($formClass)
+            ->make($this->getNamespaceFromConfig() . $formClass)
             ->setFormHelper($this->formHelper)
             ->setFormOptions($options)
             ->addData($data);
@@ -38,6 +38,22 @@ class FormBuilder
         $form->buildForm();
 
         return $form;
+    }
+
+    /**
+     * Get the namespace from the config
+     *
+     * @return string
+     */
+    protected function getNamespaceFromConfig()
+    {
+        $namespace = $this->formHelper->getConfig('default_namespace');
+
+        if (!$namespace) {
+            return '';
+        }
+
+        return $namespace . '\\';
     }
 
     /**

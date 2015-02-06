@@ -20,6 +20,8 @@ return [
     'repeated'      => 'laravel-form-builder::repeated',
     'child_form'    => 'laravel-form-builder::child_form',
 
+    'default_namespace' => '',
+
     'custom_fields' => [
 //        'datetime' => 'App\Forms\Fields\Datetime'
     ]
