@@ -1,3 +1,9 @@
+## 1.2.0
+- Allow adding child forms with full class name which will be instantiated automatically
+- Add FormBuilder class instance to the Form class
+- Setting label explicitly to false in the field options disables printing label for that field
+- Minor fixes
+
 ## 1.1.11
 - Add `default_namespace` configuration to allow typing only class name when creating form (Same functionality like for routes)
 
