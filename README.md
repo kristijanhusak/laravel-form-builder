@@ -285,14 +285,31 @@ class PostForm
     }
 }
 
+class GenderForm
+{
+    public function buildForm()
+    {
+        $this
+            ->add('gender', 'select', [
+                'choices' => $this->getData('genders')
+            ]);
+    }
+}
+
 class SongForm extends Form
 {
     public function buildForm()
     {
         $this
             ->add('name', 'text')
+            ->add('gender', 'form', [
+                'class' => 'App\Forms\GenderForm',
+                // Passed to gender form as data (same as calling addData($data) method),
+                // works only if class is passed as string
+                'data' => ['m' => 'Male', 'f' => 'Female']
+            ])
             ->add('song', 'form', [
-                'class' => \FormBuilder::create('App\Forms\PostForm')
+                'class' => $this->formBuilder->create('App\Forms\PostForm')
             ])
             ->add('lyrics', 'textarea');
     }
@@ -354,6 +371,7 @@ class PostForm extends Form
             ])
             // This creates radio buttons
             ->add('gender', 'choice', [
+                'label' => false    // This forces hiding label, even when calling form_row
                 'choices' => ['m' => 'Male', 'f' => 'Female'],
                 'selected' => 'm',
                 'expanded' => true
@@ -372,7 +390,7 @@ class PostForm extends Form
             // Renders all fieds from song form and wraps names for better handling
             // <input type="text" name="song-title"> becomes <input type="text" name="song[song-title]">
             ->add('song', 'form', [
-                'class' => \FormBuilder::create('App\Forms\SongForm')
+                'class' => $this->formBuilder->create('App\Forms\SongForm')
             ])
             ->add('policy-agree', 'checkbox', [
                 'default_value' => 1,    //  <input type="checkbox" value="1">

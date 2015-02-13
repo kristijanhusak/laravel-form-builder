@@ -15,7 +15,7 @@ class Form
     /**
      * Model to use
      *
-     * @var mix
+     * @var mixed
      */
     protected $model = null;
 
