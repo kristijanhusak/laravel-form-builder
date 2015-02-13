@@ -119,15 +119,16 @@ Forms can be used in controller like this:
 <?php namespace App/Http/Controllers;
 
 use Illuminate\Routing\Controller;
+use Kris\LaravelFormBuilder\FormBuilder;
 
 class SongsController extends BaseController {
 
     /**
      * @Get("/songs/create", as="song.create")
      */
-    public function index()
+    public function index(FormBuilder $formBuilder)
     {
-        $form = \FormBuilder::create('App\Forms\SongForm', [
+        $form = $formBuilder->create('App\Forms\SongForm', [
             'method' => 'POST',
             'url' => route('song.store')
         ]);
@@ -306,7 +307,7 @@ class SongForm extends Form
                 'class' => 'App\Forms\GenderForm',
                 // Passed to gender form as data (same as calling addData($data) method),
                 // works only if class is passed as string
-                'data' => ['m' => 'Male', 'f' => 'Female']
+                'data' => ['genders' => ['m' => 'Male', 'f' => 'Female']]
             ])
             ->add('song', 'form', [
                 'class' => $this->formBuilder->create('App\Forms\PostForm')
