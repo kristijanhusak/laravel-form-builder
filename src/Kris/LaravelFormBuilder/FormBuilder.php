@@ -18,7 +18,7 @@ class FormBuilder
     public function __construct(Container $container, FormHelper $formHelper)
     {
         $this->container = $container;
-        $this->formHelper = $formHelper;
+        $this->formHelper = $formHelper->setFormBuilder($this);
     }
 
     /**
@@ -29,8 +29,15 @@ class FormBuilder
      */
     public function create($formClass, array $options = [], array $data = [])
     {
+        $class = $this->getNamespaceFromConfig() . $formClass;
+        if (!class_exists($class)) {
+            throw new \InvalidArgumentException(
+                'Form class with name ' . $class . ' does not exist.'
+            );
+        }
+        
         $form = $this->container
-            ->make($this->getNamespaceFromConfig() . $formClass)
+            ->make($class)
             ->setFormHelper($this->formHelper)
             ->setFormOptions($options)
             ->addData($data);

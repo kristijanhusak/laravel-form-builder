@@ -555,7 +555,7 @@ class Form
         $options['real_name'] = $name;
 
         if (!isset($options['label'])) {
-            $options['label'] = $name;
+            $options['label'] = $this->formHelper->formatLabel($name);
         }
     }
 

@@ -22,6 +22,11 @@ class FormHelper
     protected $request;
 
     /**
+     * @var FormBuilder
+     */
+    protected $formBuilder;
+
+    /**
      * All available field types
      *
      * @var array
@@ -89,6 +94,14 @@ class FormHelper
     public function getRequest()
     {
         return $this->request;
+    }
+
+    /**
+     * @return FormBuilder
+     */
+    public function getFormBuilder()
+    {
+        return $this->formBuilder;
     }
 
     /**
@@ -204,5 +217,33 @@ class FormHelper
                 $this->addCustomField($fieldName, $fieldClass);
             }
         }
+    }
+
+    /**
+     * Format the label to the proper format
+     *
+     * @param $name
+     * @return string
+     */
+    public function formatLabel($name)
+    {
+        if (!$name) {
+            return null;
+        }
+
+        return ucwords(str_replace('_', ' ', $name));
+    }
+
+    /**
+     * Set form builder instance on helper so we can use it later
+     *
+     * @param FormBuilder $formBuilder
+     * @return $this
+     */
+    public function setFormBuilder(FormBuilder $formBuilder)
+    {
+        $this->formBuilder = $formBuilder;
+
+        return $this;
     }
 }

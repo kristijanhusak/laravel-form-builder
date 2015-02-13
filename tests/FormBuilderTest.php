@@ -80,7 +80,23 @@ class FormBuilderTest extends FormBuilderTestCase
             $form->add('song', 'form', [
                 'class' => 'nonvalid'
             ]);
-        } catch (\Exception $e) {
+        } catch (\InvalidArgumentException $e) {
+            return;
+        }
+
+        $this->fail('Exception was not thrown for invalid child form class.');
+    }
+
+    /** @test */
+    public function it_throws_exception_if_child_form_class_is_not_passed()
+    {
+        $form = (new Form())->setFormHelper($this->formHelper);
+
+        try {
+            $form->add('song', 'form', [
+                'class' => null
+            ]);
+        } catch (\InvalidArgumentException $e) {
             return;
         }
 

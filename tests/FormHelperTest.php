@@ -99,4 +99,18 @@ class FormHelperTest extends FormBuilderTestCase
 
         $formHelper = new FormHelper($this->view, $this->request, $config);
     }
+
+    /** @test */
+    public function it_formats_the_label()
+    {
+        $this->assertEquals(
+            'Some Name',
+            $this->formHelper->formatLabel('some_name')
+        );
+
+        $this->assertEquals(
+            'Song',
+            $this->formHelper->formatLabel('song')
+        );
+    }
 }

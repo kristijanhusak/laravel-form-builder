@@ -26,7 +26,8 @@ class ButtonTypeTest extends FormBuilderTestCase
 
         $expectedOptions = $this->getDefaults(
             ['class' => 'btn-class', 'type' => 'button', 'disabled' => 'disabled'],
-            'some_button'
+            'some_button',
+            'Some Button'
         );
 
         $expectedViewData = [
@@ -48,7 +49,7 @@ class ButtonTypeTest extends FormBuilderTestCase
     /** @test */
     public function it_can_handle_object_with_getters_and_setters()
     {
-        $expectedOptions = $this->getDefaults(['type' => 'submit'], 'save');
+        $expectedOptions = $this->getDefaults(['type' => 'submit'], 'save', 'Save');
 
         $this->fieldExpetations('button', Mockery::any());
 
@@ -63,7 +64,7 @@ class ButtonTypeTest extends FormBuilderTestCase
         $button->setType('reset');
         $button->setOptions(['attr' => ['id' => 'button-id'], 'label' => 'Cancel it']);
 
-        $expectedOptions = $this->getDefaults(['type' => 'submit', 'id' => 'button-id'], 'Cancel it');
+        $expectedOptions = $this->getDefaults(['type' => 'submit', 'id' => 'button-id'], null, 'Cancel it');
 
         $this->assertEquals('cancel', $button->getName());
         $this->assertEquals('reset', $button->getType());
@@ -79,7 +80,8 @@ class ButtonTypeTest extends FormBuilderTestCase
     {
         $expectedOptions = $this->getDefaults(
             ['type' => 'submit'],
-            'some_submit'
+            'some_submit',
+            'Some Submit'
         );
 
         $expectedViewData = [

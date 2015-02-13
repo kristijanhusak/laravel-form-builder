@@ -251,7 +251,7 @@ abstract class FormField
             'wrapper' => ['class' => $this->formHelper->getConfig('defaults.wrapper_class')],
             'attr' => ['class' => $this->formHelper->getConfig('defaults.field_class'), 'id' => $this->name],
             'default_value' => null,
-            'label' => $this->name,
+            'label' => $this->formHelper->formatLabel($this->name),
             'is_child' => false,
             'label_attr' => ['class' => $this->formHelper->getConfig('defaults.label_class')],
             'errors' => ['class' => $this->formHelper->getConfig('defaults.error_class')]
@@ -312,7 +312,7 @@ abstract class FormField
         // If field is <select> and child of choice, we don't need label for it
         $isChildSelect = $this->type == 'select' && array_get($options, 'is_child') === true;
 
-        if ($this->type == 'hidden' || $isChildSelect) {
+        if ($this->type == 'hidden' || $isChildSelect || $options['label'] === false) {
             return false;
         }
 

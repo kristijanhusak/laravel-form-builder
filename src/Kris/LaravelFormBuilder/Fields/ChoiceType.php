@@ -83,7 +83,7 @@ class ChoiceType extends ParentType
                 [
                     'attr'       => ['id' => $id],
                     'label_attr' => ['for' => $id],
-                    'label'         => $choice,
+                    'label'         => $this->formHelper->formatLabel($choice),
                     'is_child'      => true,
                     'checked'       => in_array($key, (array)$this->options['selected']),
                     'default_value' => $key

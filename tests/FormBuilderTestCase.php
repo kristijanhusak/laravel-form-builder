@@ -58,11 +58,11 @@ abstract class FormBuilderTestCase extends PHPUnit_Framework_TestCase {
             ->andReturn($viewRenderer);
     }
 
-    protected function getDefaults($attr = [], $label = '', $defaultValue = null)
+    protected function getDefaults($attr = [], $id = '', $label = '', $defaultValue = null)
     {
         return [
             'wrapper' => ['class' => 'form-group has-error'],
-            'attr' => array_merge(['class' => 'form-control', 'id' => $label], $attr),
+            'attr' => array_merge(['class' => 'form-control', 'id' => $id], $attr),
             'default_value' => $defaultValue,
             'label' => $label,
             'is_child' => false,
