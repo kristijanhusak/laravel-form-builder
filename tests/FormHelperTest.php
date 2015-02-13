@@ -112,5 +112,7 @@ class FormHelperTest extends FormBuilderTestCase
             'Song',
             $this->formHelper->formatLabel('song')
         );
+
+        $this->assertNull($this->formHelper->formatLabel(false));
     }
 }

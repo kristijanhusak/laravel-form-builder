@@ -1,6 +1,5 @@
 <?php namespace Kris\LaravelFormBuilder;
 
-use Illuminate\Database\Eloquent\Model;
 use Kris\LaravelFormBuilder\Fields\FormField;
 
 class Form
@@ -14,9 +13,9 @@ class Form
     protected $fields = [];
 
     /**
-     * Eloquent model to use
+     * Model to use
      *
-     * @var Model
+     * @var mix
      */
     protected $model = null;
 
@@ -62,6 +61,11 @@ class Form
      * @var null
      */
     protected $childFormName = null;
+
+    /**
+     * @var FormBuilder
+     */
+    protected $formBuilder;
 
     /**
      * Build the form
@@ -111,6 +115,7 @@ class Form
      * Remove field with specified name from the form
      *
      * @param $name
+     * @return $this
      */
     public function remove($name)
     {
@@ -290,7 +295,7 @@ class Form
     /**
      * Get model that is bind to form object
      *
-     * @return Model
+     * @return mixed
      */
     public function getModel()
     {
@@ -300,10 +305,10 @@ class Form
     /**
      * Set model to form object
      *
-     * @param Model $model
+     * @param mixed $model
      * @return $this
      */
-    public function setModel(Model $model)
+    public function setModel($model)
     {
         $this->model = $model;
 
@@ -463,7 +468,7 @@ class Form
      */
     private function getModelFromOptions()
     {
-        if (array_get($this->formOptions, 'model') instanceof Model) {
+        if (array_get($this->formOptions, 'model')) {
             $this->setModel(array_pull($this->formOptions, 'model'));
         }
     }
@@ -567,5 +572,27 @@ class Form
         if (array_get($this->formOptions, 'data')) {
             $this->addData(array_pull($this->formOptions, 'data'));
         }
+    }
+
+
+    /**
+     * Set form builder instance on helper so we can use it later
+     *
+     * @param FormBuilder $formBuilder
+     * @return $this
+     */
+    public function setFormBuilder(FormBuilder $formBuilder)
+    {
+        $this->formBuilder = $formBuilder;
+
+        return $this;
+    }
+
+    /**
+     * @return FormBuilder
+     */
+    public function getFormBuilder()
+    {
+        return $this->formBuilder;
     }
 }

@@ -18,7 +18,7 @@ class FormBuilder
     public function __construct(Container $container, FormHelper $formHelper)
     {
         $this->container = $container;
-        $this->formHelper = $formHelper->setFormBuilder($this);
+        $this->formHelper = $formHelper;
     }
 
     /**
@@ -30,15 +30,17 @@ class FormBuilder
     public function create($formClass, array $options = [], array $data = [])
     {
         $class = $this->getNamespaceFromConfig() . $formClass;
+
         if (!class_exists($class)) {
             throw new \InvalidArgumentException(
                 'Form class with name ' . $class . ' does not exist.'
             );
         }
-        
+
         $form = $this->container
             ->make($class)
             ->setFormHelper($this->formHelper)
+            ->setFormBuilder($this)
             ->setFormOptions($options)
             ->addData($data);
 
@@ -75,6 +77,7 @@ class FormBuilder
         return $this->container
             ->make('Kris\LaravelFormBuilder\Form')
             ->setFormHelper($this->formHelper)
+            ->setFormBuilder($this)
             ->setFormOptions($options)
             ->addData($data);
     }

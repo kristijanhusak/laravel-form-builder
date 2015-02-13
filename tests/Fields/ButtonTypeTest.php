@@ -14,7 +14,9 @@ class ButtonTypeTest extends FormBuilderTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->form = (new Form())->setFormHelper($this->formHelper);
+        $this->form = (new Form())->setFormHelper($this->formHelper)
+            ->setFormBuilder($this->formBuilder);
+
     }
 
     /** @test */

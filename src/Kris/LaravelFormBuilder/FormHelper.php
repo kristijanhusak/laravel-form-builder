@@ -97,14 +97,6 @@ class FormHelper
     }
 
     /**
-     * @return FormBuilder
-     */
-    public function getFormBuilder()
-    {
-        return $this->formBuilder;
-    }
-
-    /**
      * Merge options array
      *
      * @param array $first
@@ -183,6 +175,7 @@ class FormHelper
 
         foreach ($options as $name => $option) {
             if ($option !== null) {
+                $name = is_numeric($name) ? $option : $name;
                 $attributes[] = $name.'="'.$option.'" ';
             }
         }
@@ -232,18 +225,5 @@ class FormHelper
         }
 
         return ucwords(str_replace('_', ' ', $name));
-    }
-
-    /**
-     * Set form builder instance on helper so we can use it later
-     *
-     * @param FormBuilder $formBuilder
-     * @return $this
-     */
-    public function setFormBuilder(FormBuilder $formBuilder)
-    {
-        $this->formBuilder = $formBuilder;
-
-        return $this;
     }
 }

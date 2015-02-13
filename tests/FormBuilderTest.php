@@ -12,6 +12,9 @@ class FormBuilderTest extends FormBuilderTestCase
 
     protected $model;
 
+    /**
+     * @var Form
+     */
     protected $form;
 
     public function setUp()
@@ -20,7 +23,8 @@ class FormBuilderTest extends FormBuilderTestCase
         $this->container = Mockery::mock('Illuminate\Contracts\Container\Container');
         $this->model = Mockery::mock('Illuminate\Database\Eloquent\Model');
         $this->formBuilder = new FormBuilder($this->container, $this->formHelper);
-        $this->form = new Form();
+        $this->form = (new Form())->setFormBuilder($this->formBuilder)
+                                ->setFormHelper($this->formHelper);
     }
 
     /** @test */
@@ -74,10 +78,8 @@ class FormBuilderTest extends FormBuilderTestCase
     /** @test */
     public function it_throws_exception_if_child_form_is_not_valid_class()
     {
-        $form = (new Form())->setFormHelper($this->formHelper);
-
         try {
-            $form->add('song', 'form', [
+            $this->form->add('song', 'form', [
                 'class' => 'nonvalid'
             ]);
         } catch (\InvalidArgumentException $e) {
@@ -90,11 +92,25 @@ class FormBuilderTest extends FormBuilderTestCase
     /** @test */
     public function it_throws_exception_if_child_form_class_is_not_passed()
     {
-        $form = (new Form())->setFormHelper($this->formHelper);
 
         try {
-            $form->add('song', 'form', [
+            $this->form->add('song', 'form', [
                 'class' => null
+            ]);
+        } catch (\InvalidArgumentException $e) {
+            return;
+        }
+
+        $this->fail('Exception was not thrown for invalid child form class.');
+    }
+
+    /** @test */
+    public function it_throws_exception_if_child_form_class_is_not_valid_format()
+    {
+
+        try {
+            $this->form->add('song', 'form', [
+                'class' => 1
             ]);
         } catch (\InvalidArgumentException $e) {
             return;

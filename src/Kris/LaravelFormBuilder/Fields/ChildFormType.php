@@ -44,7 +44,7 @@ class ChildFormType extends ParentType
         }
 
         if (is_string($class)) {
-            return $this->formHelper->getFormBuilder()->create($class);
+            return $this->parent->getFormBuilder()->create($class);
         }
 
         if ($class instanceof Form) {

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Contracts\Container\Container;
+use Kris\LaravelFormBuilder\FormBuilder;
 use Kris\LaravelFormBuilder\FormHelper;
 
 abstract class FormBuilderTestCase extends PHPUnit_Framework_TestCase {
@@ -24,11 +26,27 @@ abstract class FormBuilderTestCase extends PHPUnit_Framework_TestCase {
      */
     protected $formHelper;
 
+    /**
+     * @var Container
+     */
+    protected $container;
+
+    /**
+     * Model
+     */
+    protected $model;
+
+    /**
+     * @var FormBuilder
+     */
+    protected $formBuilder;
 
     public function setUp()
     {
         $this->view = Mockery::mock('Illuminate\Contracts\View\Factory');
         $this->request = Mockery::mock('Illuminate\Http\Request');
+        $this->container = Mockery::mock('Illuminate\Contracts\Container\Container');
+        $this->model = Mockery::mock('Illuminate\Database\Eloquent\Model');
         $this->config = include __DIR__.'/../src/config/config.php';
 
         $session = Mockery::mock('Symfony\Component\HttpFoundation\Session\SessionInterface');
@@ -38,6 +56,7 @@ abstract class FormBuilderTestCase extends PHPUnit_Framework_TestCase {
         $this->request->shouldReceive('getSession')->zeroOrMoreTimes()->andReturn($session);
 
         $this->formHelper = new FormHelper($this->view, $this->request, $this->config);
+        $this->formBuilder = new FormBuilder($this->container, $this->formHelper);
     }
 
     public function tearDown()

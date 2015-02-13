@@ -116,7 +116,7 @@ abstract class FormField
             $this->addErrorClass($options);
         }
 
-        if ($this->getOption('attr.multiple') === true) {
+        if ($this->getOption('attr.multiple')) {
             $this->name = $this->name.'[]';
         }
 
