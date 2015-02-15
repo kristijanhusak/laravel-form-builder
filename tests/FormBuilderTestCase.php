@@ -3,6 +3,7 @@
 use Illuminate\Contracts\Container\Container;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Kris\LaravelFormBuilder\FormHelper;
+use Kris\LaravelFormBuilder\Form;
 
 abstract class FormBuilderTestCase extends PHPUnit_Framework_TestCase {
 
@@ -41,6 +42,11 @@ abstract class FormBuilderTestCase extends PHPUnit_Framework_TestCase {
      */
     protected $formBuilder;
 
+    /**
+     * @var Form
+     */
+    protected $plainForm;
+
     public function setUp()
     {
         $this->view = Mockery::mock('Illuminate\Contracts\View\Factory');
@@ -57,11 +63,21 @@ abstract class FormBuilderTestCase extends PHPUnit_Framework_TestCase {
 
         $this->formHelper = new FormHelper($this->view, $this->request, $this->config);
         $this->formBuilder = new FormBuilder($this->container, $this->formHelper);
+
+        $this->plainForm = $this->setupForm(new Form());
     }
 
     public function tearDown()
     {
         Mockery::close();
+        $this->view = null;
+        $this->request = null;
+        $this->container = null;
+        $this->model = null;
+        $this->config = null;
+        $this->formHelper = null;
+        $this->formBuilder = null;
+        $this->plainForm = null;
     }
 
     protected function fieldExpetations($name, $expectedViewData, $templatePrefix = 'laravel-form-builder::')
@@ -90,5 +106,13 @@ abstract class FormBuilderTestCase extends PHPUnit_Framework_TestCase {
             'wrapperAttrs' => 'class="form-group has-error" ',
             'errorAttrs' => 'class="text-danger" '
         ];
+    }
+
+    protected function setupForm(Form $form)
+    {
+        $form->setFormHelper($this->formHelper)
+            ->setFormBuilder($this->formBuilder);
+
+        return $form;
     }
 }

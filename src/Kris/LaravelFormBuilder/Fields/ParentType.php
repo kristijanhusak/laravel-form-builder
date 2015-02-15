@@ -34,7 +34,7 @@ abstract class ParentType extends FormField
     {
         return $this->children;
     }
-    
+
     /**
      * Get a child of the choice field
      *

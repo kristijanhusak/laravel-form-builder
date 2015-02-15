@@ -24,17 +24,6 @@ class RepeatedType extends ParentType
         ];
     }
 
-    /**
-     * @param $name
-     * @return FormField
-     */
-    public function __get($name)
-    {
-        if (($child = array_get($this->children, $name)) !== null) {
-            return $child;
-        }
-    }
-
     protected function createChildren()
     {
         $fieldType = $this->formHelper->getFieldType($this->options['type']);

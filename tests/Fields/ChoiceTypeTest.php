@@ -6,17 +6,6 @@ use Kris\LaravelFormBuilder\Form;
 
 class ChoiceTypeTest extends FormBuilderTestCase
 {
-    /**
-     * @var Form
-     */
-    protected $form;
-
-    public function setUp()
-    {
-        parent::setUp();
-        $this->form = (new Form())->setFormHelper($this->formHelper);
-    }
-
     /** @test */
     public function it_creates_choice_as_select()
     {
@@ -29,7 +18,7 @@ class ChoiceTypeTest extends FormBuilderTestCase
 
         $this->fieldExpetations('choice', Mockery::any());
 
-        $choice = new ChoiceType('some_choice', 'choice', $this->form, $options);
+        $choice = new ChoiceType('some_choice', 'choice', $this->plainForm, $options);
 
         $choice->render();
 
@@ -55,7 +44,7 @@ class ChoiceTypeTest extends FormBuilderTestCase
 
         $this->fieldExpetations('choice', Mockery::any());
 
-        $choice = new ChoiceType('some_choice', 'choice', $this->form, $options);
+        $choice = new ChoiceType('some_choice', 'choice', $this->plainForm, $options);
 
         $choice->render();
 
@@ -82,7 +71,7 @@ class ChoiceTypeTest extends FormBuilderTestCase
 
         $this->fieldExpetations('choice', Mockery::any());
 
-        $choice = new ChoiceType('some_choice', 'choice', $this->form, $options);
+        $choice = new ChoiceType('some_choice', 'choice', $this->plainForm, $options);
 
         $choice->render();
 

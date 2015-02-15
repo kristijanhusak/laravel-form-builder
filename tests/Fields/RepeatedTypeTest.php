@@ -5,18 +5,6 @@ use Kris\LaravelFormBuilder\Form;
 
 class RepeatedTypeTest extends FormBuilderTestCase
 {
-
-    /**
-     * @var Form
-     */
-    protected $form;
-
-    public function setUp()
-    {
-        parent::setUp();
-        $this->form = (new Form())->setFormHelper($this->formHelper);
-    }
-
     /** @test */
     public function it_creates_repeated_as_two_inputs()
     {
@@ -24,7 +12,7 @@ class RepeatedTypeTest extends FormBuilderTestCase
         $this->fieldExpetations('text', Mockery::any());
         $this->fieldExpetations('repeated', Mockery::any());
 
-        $repeated = new RepeatedType('password', 'repeated', $this->form, []);
+        $repeated = new RepeatedType('password', 'repeated', $this->plainForm, []);
 
         $repeated->render();
 
@@ -42,7 +30,7 @@ class RepeatedTypeTest extends FormBuilderTestCase
         $this->fieldExpetations('text', Mockery::any());
         $this->fieldExpetations('repeated', Mockery::any());
 
-        $repeated = new RepeatedType('password', 'repeated', $this->form, []);
+        $repeated = new RepeatedType('password', 'repeated', $this->plainForm, []);
 
         $this->assertFalse($repeated->isRendered());
 

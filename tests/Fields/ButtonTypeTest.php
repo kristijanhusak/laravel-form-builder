@@ -6,19 +6,6 @@ use Kris\LaravelFormBuilder\Form;
 class ButtonTypeTest extends FormBuilderTestCase
 {
 
-    /**
-     * @var Form
-     */
-    protected $form;
-
-    public function setUp()
-    {
-        parent::setUp();
-        $this->form = (new Form())->setFormHelper($this->formHelper)
-            ->setFormBuilder($this->formBuilder);
-
-    }
-
     /** @test */
     public function it_creates_button()
     {
@@ -43,7 +30,7 @@ class ButtonTypeTest extends FormBuilderTestCase
 
         $this->fieldExpetations('button', $expectedViewData);
 
-        $button = new ButtonType('some_button', 'button', $this->form, $options);
+        $button = new ButtonType('some_button', 'button', $this->plainForm, $options);
 
         $button->render();
     }
@@ -55,7 +42,7 @@ class ButtonTypeTest extends FormBuilderTestCase
 
         $this->fieldExpetations('button', Mockery::any());
 
-        $button = new ButtonType('save', 'submit', $this->form);
+        $button = new ButtonType('save', 'submit', $this->plainForm);
 
         $this->assertEquals('save', $button->getName());
         $this->assertEquals('submit', $button->getType());
@@ -97,7 +84,7 @@ class ButtonTypeTest extends FormBuilderTestCase
 
         $this->fieldExpetations('button', $expectedViewData, 'custom-template');
 
-        $button = new ButtonType('some_submit', 'submit', $this->form, ['template' => 'custom-template']);
+        $button = new ButtonType('some_submit', 'submit', $this->plainForm, ['template' => 'custom-template']);
 
         $button->render();
     }
