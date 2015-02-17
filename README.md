@@ -123,10 +123,7 @@ use Kris\LaravelFormBuilder\FormBuilder;
 
 class SongsController extends BaseController {
 
-    /**
-     * @Get("/songs/create", as="song.create")
-     */
-    public function index(FormBuilder $formBuilder)
+    public function create(FormBuilder $formBuilder)
     {
         $form = $formBuilder->create('App\Forms\SongForm', [
             'method' => 'POST',
@@ -136,9 +133,6 @@ class SongsController extends BaseController {
         return view('song.create', compact('form'));
     }
 
-    /**
-     * @Post("/songs", as="song.store")
-     */
     public function store()
     {
     }
@@ -247,12 +241,9 @@ If you need to quick create a small form that does not to be reused, you can use
 
 use Illuminate\Routing\Controller;
 
-class SongsController extends BaseController {
+class AuthController extends BaseController {
 
-    /**
-     * @Get("/login", as="login-page")
-     */
-    public function index()
+    public function login()
     {
         $form = \FormBuilder::plain([
             'method' => 'POST',
@@ -262,10 +253,7 @@ class SongsController extends BaseController {
         return view('auth.login', compact('form'));
     }
 
-    /**
-     * @Post("/login", as="login")
-     */
-    public function login()
+    public function postLogin()
     {
     }
 }
@@ -372,7 +360,7 @@ class PostForm extends Form
             ])
             // This creates radio buttons
             ->add('gender', 'choice', [
-                'label' => false    // This forces hiding label, even when calling form_row
+                'label' => false,    // This forces hiding label, even when calling form_row
                 'choices' => ['m' => 'Male', 'f' => 'Female'],
                 'selected' => 'm',
                 'expanded' => true
@@ -426,9 +414,6 @@ use App\Forms\PostForm;
 
 class PostsController extends BaseController {
 
-    /**
-     * @Get("/posts/{id}/edit", as="posts.edit")
-     */
     public function edit($id)
     {
         $post = Post::findOrFail($id);
@@ -443,9 +428,6 @@ class PostsController extends BaseController {
         return view('posts.edit', compact('form'));
     }
 
-    /**
-     * @Post("/posts/{id}", as="post.update")
-     */
     public function update($id)
     {
     }
@@ -537,9 +519,6 @@ use Illuminate\Routing\Controller;
 
 class PostsController extends BaseController {
 
-    /**
-     * @Get("/posts/{id}/edit", as="posts.edit")
-     */
     public function edit($id)
     {
         $model = Post::findOrFail($id);
@@ -579,9 +558,6 @@ class PostsController extends BaseController {
         return view('posts.edit', compact('form'));
     }
 
-    /**
-     * @Post("/posts/{id}", as="posts.update")
-     */
     public function update()
     {
     }

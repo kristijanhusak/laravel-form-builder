@@ -170,7 +170,8 @@ abstract class FormField
      * @param null $default
      * @return mixed
      */
-    public function getOption($option, $default = null) {
+    public function getOption($option, $default = null)
+    {
         return array_get($this->options, $option, $default);
     }
 
