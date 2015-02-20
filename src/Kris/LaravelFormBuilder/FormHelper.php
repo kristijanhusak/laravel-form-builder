@@ -52,6 +52,7 @@ class FormHelper
         'radio',
         'choice',
         'form',
+        'collection',
         'repeated'
     ];
 
@@ -151,6 +152,9 @@ class FormHelper
                 break;
             case 'form':
                 $fieldType = __NAMESPACE__.'\\Fields\\ChildFormType';
+                break;
+            case 'collection':
+                $fieldType = __NAMESPACE__.'\\Fields\\CollectionType';
                 break;
             case 'repeated':
                 $fieldType = __NAMESPACE__.'\\Fields\\RepeatedType';

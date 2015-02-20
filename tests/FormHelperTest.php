@@ -50,6 +50,7 @@ class FormHelperTest extends FormBuilderTestCase
         $checkbox = $this->formHelper->getFieldType('checkbox');
         $choice = $this->formHelper->getFieldType('choice');
         $repeated = $this->formHelper->getFieldType('repeated');
+        $collection = $this->formHelper->getFieldType('collection');
 
         $this->assertEquals('Kris\\LaravelFormBuilder\\Fields\\InputType', $input);
         $this->assertEquals('Kris\\LaravelFormBuilder\\Fields\\SelectType', $select);
@@ -61,6 +62,7 @@ class FormHelperTest extends FormBuilderTestCase
         $this->assertEquals('Kris\\LaravelFormBuilder\\Fields\\CheckableType', $checkbox);
         $this->assertEquals('Kris\\LaravelFormBuilder\\Fields\\ChoiceType', $choice);
         $this->assertEquals('Kris\\LaravelFormBuilder\\Fields\\RepeatedType', $repeated);
+        $this->assertEquals('Kris\\LaravelFormBuilder\\Fields\\CollectionType', $collection);
     }
 
     /** @test */
