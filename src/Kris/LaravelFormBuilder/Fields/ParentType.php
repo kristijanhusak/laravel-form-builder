@@ -56,6 +56,12 @@ abstract class ParentType extends FormField
         return parent::isRendered();
     }
 
+    public function rebuild()
+    {
+        $this->children = [];
+        return $this->createChildren();
+    }
+
     /**
      * Get child dynamically
      *

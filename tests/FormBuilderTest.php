@@ -55,49 +55,37 @@ namespace {
             $this->assertArrayHasKey('body', $customForm->getFields());
         }
 
-
-        /** @test */
+        /**
+         * @test
+         * @expectedException \InvalidArgumentException
+         */
         public function it_throws_exception_if_child_form_is_not_valid_class()
         {
-            try {
-                $this->plainForm->add('song', 'form', [
-                    'class' => 'nonvalid'
-                ]);
-            } catch (\InvalidArgumentException $e) {
-                return;
-            }
-
-            $this->fail('Exception was not thrown for invalid child form class.');
+            $this->plainForm->add('song', 'form', [
+                'class' => 'nonvalid'
+            ]);
         }
 
-        /** @test */
+        /**
+         * @test
+         * @expectedException \InvalidArgumentException
+         */
         public function it_throws_exception_if_child_form_class_is_not_passed()
         {
-
-            try {
-                $this->plainForm->add('song', 'form', [
-                    'class' => null
-                ]);
-            } catch (\InvalidArgumentException $e) {
-                return;
-            }
-
-            $this->fail('Exception was not thrown for invalid child form class.');
+            $this->plainForm->add('song', 'form', [
+                'class' => null
+            ]);
         }
 
-        /** @test */
+        /**
+         * @test
+         * @expectedException \InvalidArgumentException
+         */
         public function it_throws_exception_if_child_form_class_is_not_valid_format()
         {
-
-            try {
-                $this->plainForm->add('song', 'form', [
-                    'class' => 1
-                ]);
-            } catch (\InvalidArgumentException $e) {
-                return;
-            }
-
-            $this->fail('Exception was not thrown for invalid child form class.');
+            $this->plainForm->add('song', 'form', [
+                'class' => 1
+            ]);
         }
 
         /** @test */

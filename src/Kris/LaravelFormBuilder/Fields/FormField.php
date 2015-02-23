@@ -94,28 +94,31 @@ abstract class FormField
         }
 
         return $this->formHelper->getView()->make(
-            $this->template, [
+            $this->template,
+            [
                 'name' => $this->name,
                 'type' => $this->type,
                 'options' => $options,
                 'showLabel' => $showLabel,
                 'showField' => $showField,
                 'showError' => $showError
-            ])->render();
+            ]
+        )->render();
     }
 
     protected function getModelValueAttribute($model, $name)
     {
+        $transformedName = $this->transformKey($name);
         if (is_object($model)) {
-            return object_get($model, $this->transformKey($name));
+            return object_get($model, $transformedName);
         } elseif (is_array($model)) {
-            return array_get($model, $this->transformKey($name));
+            return array_get($model, $transformedName);
         }
     }
 
     protected function transformKey($key)
     {
-        return str_replace(array('.', '[]', '[', ']'), array('_', '', '.', ''), $key);
+        return str_replace(['.', '[]', '[', ']'], ['_', '', '.', ''], $key);
     }
 
     /**
@@ -273,6 +276,11 @@ abstract class FormField
             'label_attr' => ['class' => $this->formHelper->getConfig('defaults.label_class')],
             'errors' => ['class' => $this->formHelper->getConfig('defaults.error_class')]
         ];
+    }
+
+    protected function setValue($val)
+    {
+        $this->options['default_value'] = $val;
     }
 
     /**

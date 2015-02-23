@@ -12,6 +12,14 @@ class ChoiceType extends ParentType
         return 'choice';
     }
 
+    protected function setValue($val)
+    {
+        $this->options['selected'] = $val;
+        $this->rebuild();
+
+        return $this;
+    }
+
     /**
      * Determine which choice type to use
      *

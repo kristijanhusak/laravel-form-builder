@@ -1,7 +1,6 @@
 <?php  namespace Kris\LaravelFormBuilder\Fields;
 
 use Illuminate\Support\Collection;
-use Kris\LaravelFormBuilder\Form;
 
 class CollectionType extends ParentType
 {
@@ -25,11 +24,13 @@ class CollectionType extends ParentType
             'options' => [],
             'prototype' => true,
             'data' => [],
+            'property' => 'id',
             'prototype_name' => '__NAME__'
         ];
     }
 
-    public function prototype() {
+    public function prototype()
+    {
 
         if ($this->getOption('prototype') === false) {
             throw new \Exception(
@@ -43,12 +44,22 @@ class CollectionType extends ParentType
     protected function createChildren()
     {
         $type = $this->getOption('type');
-        $fieldType = $this->formHelper->getFieldType($type);
+
+        try {
+            $fieldType = $this->formHelper->getFieldType($type);
+        } catch (\Exception $e) {
+            throw new \Exception(
+                'Collection field ['.$this->name.'] requires [type] option'. "\n\n".
+                $e->getMessage()
+            );
+        }
+
         $data = $this->getOption('data');
 
-        /**
-         * @var FormField $field
-         */
+        if ($data instanceof Collection) {
+            $data = $data->all();
+        }
+
         $field = new $fieldType($this->name, $type, $this->parent, $this->getOption('options'));
 
         if ($this->getOption('prototype')) {
@@ -56,7 +67,7 @@ class CollectionType extends ParentType
         }
 
         if (!$data || empty($data)) {
-            return $this->children[] = $this->setupChild($field, '[0]');
+            return $this->children[] = $this->setupChild(clone $field, '[0]');
         }
 
         if (!is_array($data) && !$data instanceof \Traversable) {
@@ -66,27 +77,30 @@ class CollectionType extends ParentType
         }
 
         foreach ($data as $key => $val) {
-            $this->children[] = $this->setupChild($field, '['.$key.']', $val);
+            $this->children[] = $this->setupChild(clone $field, '['.$key.']', $val);
         }
     }
 
     protected function setupChild(FormField $field, $name, $value = null)
     {
         $newFieldName = $field->getName().$name;
+
         $firstFieldOptions = $this->formHelper->mergeOptions(
             $this->getOption('options'),
-            [
-                'attr' => ['id' => $newFieldName],
-                'default_value' => $value
-            ]
+            ['attr' => ['id' => $newFieldName]]
         );
 
         $field->setName($newFieldName);
         $field->setOptions($firstFieldOptions);
 
-        if ($field instanceof ChildFormType) {
-            $field->rebuild(true);
+        if ($value && !$field instanceof ChildFormType) {
+            $value = $this->getModelValueAttribute(
+                $value,
+                $this->getOption('property')
+            );
         }
+
+        $field->setValue($value, true);
 
         return $field;
     }

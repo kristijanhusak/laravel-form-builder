@@ -11,23 +11,21 @@ class CollectionTypeTest extends FormBuilderTestCase
     public function it_creates_collection()
     {
         $options = [
-            'type' => 'email',
+            'type' => 'select',
+            'data' => [['id' => 1], ['id' => 2], ['id' => 3]],
             'options' => [
+                'choices' => ['m' => 'male', 'f' => 'female'],
                 'label' => false
             ]
         ];
 
-        $prototype = '<input class="form-control" id="emails[0][__NAME__]" name="emails[0][__NAME__]" type="email">';
-
-        $this->fieldExpetations('text', Mockery::any(), null, $prototype);
+        $this->fieldExpetations('text', Mockery::any(), null);
         $this->fieldExpetations('child_form', Mockery::any());
 
         $emailsCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
 
-        $emailsCollection->render();
-
-        $this->assertEquals(1, count($emailsCollection->getChildren()));
-        $this->assertEquals($prototype, $emailsCollection->getPrototype());
+        $this->assertEquals(3, count($emailsCollection->getChildren()));
+        $this->assertInstanceOf('Kris\LaravelFormBuilder\Fields\SelectType', $emailsCollection->prototype());
     }
 
     /** @test */
@@ -36,11 +34,22 @@ class CollectionTypeTest extends FormBuilderTestCase
         $form = clone $this->plainForm;
 
         $form->add('name', 'text')
+            ->add('gender', 'choice', [
+                'choices' => ['m' => 'male', 'f' => 'female']
+            ])
              ->add('published', 'checkbox');
+
+        $data = new \Illuminate\Support\Collection([
+            ['name' => 'john doe', 'gender' => 'm'],
+            ['name' => 'jane doe', 'gender' => 'f']
+        ]);
 
         $options = [
             'type' => 'form',
-            'class' => $form
+            'data' => $data,
+            'options' => [
+                'class' => $form
+            ]
         ];
 
         $this->fieldExpetations('child_form', Mockery::any());
@@ -49,6 +58,57 @@ class CollectionTypeTest extends FormBuilderTestCase
 
         $childFormCollection->render();
 
-        $this->assertEquals(1, count($childFormCollection->getChildren()));
+        $this->assertEquals(2, count($childFormCollection->getChildren()));
+    }
+
+    /**
+     * @test
+     * @expectedException \Exception
+     */
+    public function it_throws_exception_when_requesting_prototype_while_it_is_disabled()
+    {
+        $options = [
+            'type' => 'text',
+            'prototype' => false
+        ];
+
+        $this->fieldExpetations('child_form', Mockery::any());
+
+        $childFormCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
+
+        $childFormCollection->render();
+
+        $childFormCollection->prototype();
+    }
+
+    /**
+     * @test
+     * @expectedException \Exception
+     */
+    public function it_throws_exception_when_creating_nonexisting_type()
+    {
+        $options = [
+            'type' => 'nonexisting'
+        ];
+
+        $this->fieldExpetations('child_form', Mockery::any());
+
+        $childFormCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
+    }
+
+    /**
+     * @test
+     * @expectedException \Exception
+     */
+    public function it_throws_exception_when_data_is_not_iterable()
+    {
+        $options = [
+            'type' => 'text',
+            'data' => 'invalid'
+        ];
+
+        $this->fieldExpetations('child_form', Mockery::any());
+
+        $childFormCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
     }
 }

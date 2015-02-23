@@ -65,16 +65,13 @@ class FormHelperTest extends FormBuilderTestCase
         $this->assertEquals('Kris\\LaravelFormBuilder\\Fields\\CollectionType', $collection);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
     public function it_throws_InvalidArgumentException_for_non_existing_field_type()
     {
-        try {
-            $this->formHelper->getFieldType('nonexisting');
-        } catch (\InvalidArgumentException $e) {
-            return;
-        }
-
-        $this->fail('Exception was not thrown for non existing field type');
+        $this->formHelper->getFieldType('nonexisting');
     }
 
     /** @test */

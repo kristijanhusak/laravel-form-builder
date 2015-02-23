@@ -20,11 +20,20 @@ class ChildFormType extends ParentType
         return $this->form;
     }
 
+    protected function setValue($val, $bindValues = false)
+    {
+        $this->options['default_value'] = $val;
+        $this->rebuild($bindValues);
+
+        return $this;
+    }
+
     protected function getDefaults()
     {
         return [
             'is_child' => true,
             'class' => null,
+            'default_value' => null,
             'formOptions' => [],
             'data' => []
         ];
@@ -42,22 +51,15 @@ class ChildFormType extends ParentType
         $this->form->setFormOptions([
             'name' => $this->name,
             'is_child' => true
-        ]);
+        ])->rebuildForm();
 
-        $model = $this->getOption('default_values');
+        $model = $this->getOption('default_value');
 
         if ($bindValues && $model) {
             foreach ($this->form->getFields() as $name => $field) {
-                var_dump($this->getModelValueAttribute($model, $name));
-                $field->setOptions([
-                    'default_value' => $this->getModelValueAttribute($model, $name)
-                ]);
+                $field->setValue($this->getModelValueAttribute($model, $name));
             }
         }
-
-        $this->form->rebuildForm();
-
-        dump($this->form);
 
         $this->children = $this->form->getFields();
     }
