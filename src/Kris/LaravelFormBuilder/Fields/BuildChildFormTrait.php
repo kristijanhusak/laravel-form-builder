@@ -10,7 +10,7 @@ trait BuildChildFormTrait
      */
     protected function getClassFromOptions()
     {
-        $class = array_get($this->options, 'class');
+        $class = $this->getOption('class');
 
         if (!$class) {
             throw new \InvalidArgumentException(

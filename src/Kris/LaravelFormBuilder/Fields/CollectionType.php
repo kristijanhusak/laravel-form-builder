@@ -1,17 +1,16 @@
 <?php  namespace Kris\LaravelFormBuilder\Fields;
 
+use Illuminate\Support\Collection;
 use Kris\LaravelFormBuilder\Form;
 
 class CollectionType extends ParentType
 {
-    use BuildChildFormTrait;
-
     /**
      * Contains template for a collection element
      *
      * @var string
      */
-    protected $prototype = '';
+    protected $proto;
 
     protected function getTemplate()
     {
@@ -23,27 +22,29 @@ class CollectionType extends ParentType
         return [
             'is_child' => true,
             'type' => null,
-            'class' => null,
-            'formOptions' => [],
-            'data' => [],
             'options' => [],
             'prototype' => true,
+            'data' => [],
             'prototype_name' => '__NAME__'
         ];
     }
 
-    public function getPrototype() {
-        return $this->prototype;
+    public function prototype() {
+
+        if ($this->getOption('prototype') === false) {
+            throw new \Exception(
+                'Prototype for collection field [' . $this->name .'] is disabled.'
+            );
+        }
+
+        return $this->proto;
     }
 
     protected function createChildren()
     {
         $type = $this->getOption('type');
         $fieldType = $this->formHelper->getFieldType($type);
-
-        if ($type === 'form') {
-            return $this->buildChildForm();
-        }
+        $data = $this->getOption('data');
 
         /**
          * @var FormField $field
@@ -54,16 +55,40 @@ class CollectionType extends ParentType
             $this->generatePrototype(clone $field);
         }
 
-        $firstFieldName = $field->getName().'[0]';
+        if (!$data || empty($data)) {
+            return $this->children[] = $this->setupChild($field, '[0]');
+        }
+
+        if (!is_array($data) && !$data instanceof \Traversable) {
+            throw new \Exception(
+                'Data for collection field ['.$this->name.'] must be iterable.'
+            );
+        }
+
+        foreach ($data as $key => $val) {
+            $this->children[] = $this->setupChild($field, '['.$key.']', $val);
+        }
+    }
+
+    protected function setupChild(FormField $field, $name, $value = null)
+    {
+        $newFieldName = $field->getName().$name;
         $firstFieldOptions = $this->formHelper->mergeOptions(
             $this->getOption('options'),
-            ['attr' => ['id' => $firstFieldName]]
+            [
+                'attr' => ['id' => $newFieldName],
+                'default_value' => $value
+            ]
         );
 
-        $field->setName($firstFieldName);
+        $field->setName($newFieldName);
         $field->setOptions($firstFieldOptions);
 
-        return $this->children[] = $field;
+        if ($field instanceof ChildFormType) {
+            $field->rebuild(true);
+        }
+
+        return $field;
     }
 
     /**
@@ -73,57 +98,9 @@ class CollectionType extends ParentType
      */
     protected function generatePrototype(FormField $field)
     {
-        $name = $field->getName().$this->getPrototypeName();
-        $field->setName($name);
+        $field = $this->setupChild($field, $this->getPrototypeName());
 
-        $options = $this->formHelper->mergeOptions(
-            $this->getOption('options'),
-            ['attr' => ['id' => $name]]
-        );
-
-        $field->setOptions($options);
-
-        $this->prototype = $field->render();
-    }
-
-    /**
-     * Generate collection from child form
-     *
-     * @return array
-     */
-    protected function buildChildForm()
-    {
-        $class = $this->getClassFromOptions();
-
-        if ($this->getOption('prototype')) {
-            $this->generateChildFormPrototype($class);
-        }
-
-        $class->setFormOptions([
-            'name' => $this->name.'[0]',
-            'is_child' => true
-        ])->rebuildForm();
-
-
-
-        return $this->children[] = $class->getFields();
-    }
-
-    /**
-     * Generate prototype for child form type
-     *
-     * @param Form $class
-     */
-    protected function generateChildFormPrototype(Form $class)
-    {
-        $class->setFormOptions([
-            'name' => $this->name.$this->getPrototypeName(),
-            'is_child' => true
-        ])->rebuildForm();
-
-        $this->children = $class->getFields();
-
-        $this->prototype = $this->render();
+        $this->proto = $field;
     }
 
     /**

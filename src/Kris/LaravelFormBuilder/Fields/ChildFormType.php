@@ -4,11 +4,20 @@ use Kris\LaravelFormBuilder\Form;
 
 class ChildFormType extends ParentType
 {
-    use BuildChildFormTrait;
+
+    /**
+     * @var Form
+     */
+    protected $form;
 
     protected function getTemplate()
     {
         return 'child_form';
+    }
+
+    public function getForm()
+    {
+        return $this->form;
     }
 
     protected function getDefaults()
@@ -23,14 +32,65 @@ class ChildFormType extends ParentType
 
     protected function createChildren()
     {
-        $class = $this->getClassFromOptions();
+        $this->rebuild();
+    }
 
-        $class->setFormOptions([
+    public function rebuild($bindValues = false)
+    {
+        $this->form = $this->getClassFromOptions();
+
+        $this->form->setFormOptions([
             'name' => $this->name,
             'is_child' => true
-        ])->rebuildForm();
+        ]);
 
+        $model = $this->getOption('default_values');
 
-        $this->children = $class->getFields();
+        if ($bindValues && $model) {
+            foreach ($this->form->getFields() as $name => $field) {
+                var_dump($this->getModelValueAttribute($model, $name));
+                $field->setOptions([
+                    'default_value' => $this->getModelValueAttribute($model, $name)
+                ]);
+            }
+        }
+
+        $this->form->rebuildForm();
+
+        dump($this->form);
+
+        $this->children = $this->form->getFields();
+    }
+
+    /**
+     * @return Form
+     * @throws \Exception
+     */
+    protected function getClassFromOptions()
+    {
+        $class = $this->getOption('class');
+
+        if (!$class) {
+            throw new \InvalidArgumentException(
+                'Please provide full name or instance of Form class.'
+            );
+        }
+
+        if (is_string($class)) {
+            return $this->parent->getFormBuilder()->create(
+                $class,
+                $this->getOption('formOptions'),
+                $this->getOption('data')
+            );
+        }
+
+        if ($class instanceof Form) {
+            return $class;
+        }
+
+        throw new \InvalidArgumentException(
+            'Class provided does not exist or it passed in wrong format.'
+        );
+
     }
 }

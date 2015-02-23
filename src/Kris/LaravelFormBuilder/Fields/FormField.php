@@ -1,5 +1,7 @@
 <?php  namespace Kris\LaravelFormBuilder\Fields;
 
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Kris\LaravelFormBuilder\Form;
 use Kris\LaravelFormBuilder\FormHelper;
 
@@ -100,6 +102,20 @@ abstract class FormField
                 'showField' => $showField,
                 'showError' => $showError
             ])->render();
+    }
+
+    protected function getModelValueAttribute($model, $name)
+    {
+        if (is_object($model)) {
+            return object_get($model, $this->transformKey($name));
+        } elseif (is_array($model)) {
+            return array_get($model, $this->transformKey($name));
+        }
+    }
+
+    protected function transformKey($key)
+    {
+        return str_replace(array('.', '[]', '[', ']'), array('_', '', '.', ''), $key);
     }
 
     /**
