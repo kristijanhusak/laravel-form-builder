@@ -24,6 +24,8 @@ Changelog can be found [here](https://github.com/kristijanhusak/laravel-form-bui
 3. [Plain form](#plain-form)
 4. [Child form](#child-form)
 4. [Collection](#collection)
+  1. [Collection of child forms](#collection-of-child-forms)
+  2. [Prototype](#prototype)
 5. [Field customization](#field-customization)
 6. [Changing configuration and templates](#changing-configuration-and-templates)
 7. [Custom fields](#custom-fields)
@@ -404,6 +406,8 @@ Then the view will contain:
 </form>
 ```
 
+#### Collection of child forms
+
 [Child form](#child-form) also can be used as a collection.
 
 ```php
@@ -473,6 +477,76 @@ And with same controller setup as above, we get this:
             </div>
         </div>
     </div>
+```
+
+#### Prototype
+
+If you need to dynamically generate HTML for additional elements in the collection, you can use `prototype()` method on the form field. Let's use example above:
+```html
+@extends('app')
+
+@section('content')
+    {!! form_start($form) !!}
+    <div class="collection-container" data-prototype="{{ form_row($form->tags->prototype()) }}"> // Use {{ }} here to escape html
+        {!! form_row($form->tags) !!}
+    </div>
+    {!! form_end($form) !!}
+    <button type="button" class="add-to-collection">Add to collection</button>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.add-to-collection').on('click', function(e) {
+                e.preventDefault();
+                var container = $('.collection-container');
+                var count = container.children().length;
+                var proto = container.data('prototype').replace(/__NAME__/g, (count + 1));
+                container.append(proto);
+            });
+        });
+    </script>
+@endsection
+```
+
+`data-prototype` will contain:
+```html
+    <div class="form-group">
+        <div class="form-group">
+            <label for="tags[__NAME__][name]">Name</label>
+            <input type="text" id="tags[__NAME__][name]" class="form-control" name="tags[__NAME__][name]">
+        </div>
+        <div class="form-group">
+            <label for="tags[__NAME__][desc]">Desc</label>
+            <textarea id="tags[__NAME__][desc]" name="tags[__NAME__][desc]"></textarea>
+        </div>
+    </div>
+```
+
+And clicking on the button `.add-to-collection` will automatically generate proper html from the prototype.
+
+Prototype can be configured in the form class:
+```php
+use Kris\LaravelFormBuilder\Form;
+
+class PostForm extends Form
+{
+    public function buildForm()
+    {
+        $this
+            ->add('title', 'text')
+            ->add('body', 'textarea')
+            ->add('tags', 'collection', [
+                'type' => 'text',
+                'property' => 'name',
+                'data' => $this->model->tags,
+                'prototype' => true,            // Should prototype be generated. Default: true
+                'prototype_name' => '__NAME__' // Value used for replacing when generating new elements from prototype, default: __NAME__
+                'options' => [
+                    'label' => false,
+                    'attr' => ['class' => 'tag']
+                ]
+            ]);
+    }
+}
 ```
 
 ### Field Customization

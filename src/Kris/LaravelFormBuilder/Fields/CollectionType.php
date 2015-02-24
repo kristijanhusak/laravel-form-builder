@@ -7,7 +7,7 @@ class CollectionType extends ParentType
     /**
      * Contains template for a collection element
      *
-     * @var string
+     * @var FormField
      */
     protected $proto;
 
