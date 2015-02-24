@@ -52,6 +52,7 @@ class FormHelper
         'radio',
         'choice',
         'form',
+        'collection',
         'repeated'
     ];
 
@@ -62,6 +63,11 @@ class FormHelper
      */
     private $customTypes = [];
 
+    /**
+     * @param View    $view
+     * @param Request $request
+     * @param array   $config
+     */
     public function __construct(View $view, Request $request, array $config = [])
     {
         $this->view = $view;
@@ -151,6 +157,9 @@ class FormHelper
                 break;
             case 'form':
                 $fieldType = __NAMESPACE__.'\\Fields\\ChildFormType';
+                break;
+            case 'collection':
+                $fieldType = __NAMESPACE__.'\\Fields\\CollectionType';
                 break;
             case 'repeated':
                 $fieldType = __NAMESPACE__.'\\Fields\\RepeatedType';

@@ -1,8 +1,15 @@
 <?php  namespace Kris\LaravelFormBuilder\Fields;
 
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Kris\LaravelFormBuilder\Form;
 use Kris\LaravelFormBuilder\FormHelper;
 
+/**
+ * Class FormField
+ *
+ * @package Kris\LaravelFormBuilder\Fields
+ */
 abstract class FormField
 {
     /**
@@ -92,14 +99,44 @@ abstract class FormField
         }
 
         return $this->formHelper->getView()->make(
-            $this->template, [
+            $this->template,
+            [
                 'name' => $this->name,
                 'type' => $this->type,
                 'options' => $options,
                 'showLabel' => $showLabel,
                 'showField' => $showField,
                 'showError' => $showError
-            ])->render();
+            ]
+        )->render();
+    }
+
+    /**
+     * Get the attribute value from the model by name
+     *
+     * @param mixed $model
+     * @param string $name
+     * @return mixed
+     */
+    protected function getModelValueAttribute($model, $name)
+    {
+        $transformedName = $this->transformKey($name);
+        if (is_object($model)) {
+            return object_get($model, $transformedName);
+        } elseif (is_array($model)) {
+            return array_get($model, $transformedName);
+        }
+    }
+
+    /**
+     * Transform array like syntax to dot syntax
+     *
+     * @param $key
+     * @return mixed
+     */
+    protected function transformKey($key)
+    {
+        return str_replace(['.', '[]', '[', ']'], ['_', '', '.', ''], $key);
     }
 
     /**
@@ -257,6 +294,14 @@ abstract class FormField
             'label_attr' => ['class' => $this->formHelper->getConfig('defaults.label_class')],
             'errors' => ['class' => $this->formHelper->getConfig('defaults.error_class')]
         ];
+    }
+
+    /**
+     * @param $val
+     */
+    protected function setValue($val)
+    {
+        $this->options['default_value'] = $val;
     }
 
     /**

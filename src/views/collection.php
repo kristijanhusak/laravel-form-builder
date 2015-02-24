@@ -7,10 +7,10 @@
     <?php endif; ?>
 
     <?php if ($showField): ?>
-    <?php $emptyVal = $options['empty_value'] ? ['' => $options['empty_value']] : null; ?>
-    <?= Form::select($name, (array)$emptyVal + $options['choices'], $options['selected'], $options['attr']) ?>
+        <?php foreach ((array)$options['children'] as $child): ?>
+            <?= $child->render() ?>
+        <?php endforeach; ?>
     <?php endif; ?>
-
 
     <?php if ($showError && isset($errors)): ?>
         <?= $errors->first(array_get($options, 'real_name', $name), '<div '.$options['errorAttrs'].'>:message</div>') ?>

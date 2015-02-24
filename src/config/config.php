@@ -19,6 +19,7 @@ return [
     'choice'        => 'laravel-form-builder::choice',
     'repeated'      => 'laravel-form-builder::repeated',
     'child_form'    => 'laravel-form-builder::child_form',
+    'collection'    => 'laravel-form-builder::collection',
 
     'default_namespace' => '',
 

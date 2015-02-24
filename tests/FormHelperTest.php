@@ -50,6 +50,7 @@ class FormHelperTest extends FormBuilderTestCase
         $checkbox = $this->formHelper->getFieldType('checkbox');
         $choice = $this->formHelper->getFieldType('choice');
         $repeated = $this->formHelper->getFieldType('repeated');
+        $collection = $this->formHelper->getFieldType('collection');
 
         $this->assertEquals('Kris\\LaravelFormBuilder\\Fields\\InputType', $input);
         $this->assertEquals('Kris\\LaravelFormBuilder\\Fields\\SelectType', $select);
@@ -61,18 +62,16 @@ class FormHelperTest extends FormBuilderTestCase
         $this->assertEquals('Kris\\LaravelFormBuilder\\Fields\\CheckableType', $checkbox);
         $this->assertEquals('Kris\\LaravelFormBuilder\\Fields\\ChoiceType', $choice);
         $this->assertEquals('Kris\\LaravelFormBuilder\\Fields\\RepeatedType', $repeated);
+        $this->assertEquals('Kris\\LaravelFormBuilder\\Fields\\CollectionType', $collection);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
     public function it_throws_InvalidArgumentException_for_non_existing_field_type()
     {
-        try {
-            $this->formHelper->getFieldType('nonexisting');
-        } catch (\InvalidArgumentException $e) {
-            return;
-        }
-
-        $this->fail('Exception was not thrown for non existing field type');
+        $this->formHelper->getFieldType('nonexisting');
     }
 
     /** @test */

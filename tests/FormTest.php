@@ -111,30 +111,24 @@ class FormTest extends FormBuilderTestCase
 
     }
 
-    /** @test */
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
     public function it_throws_exception_when_removing_nonexisting_field()
     {
         $this->plainForm->add('name', 'text');
 
-        try {
-            $this->plainForm->remove('nonexisting');
-        } catch (\InvalidArgumentException $e) {
-            return;
-        }
-
-        $this->fail('Exception was not thrown when tried removing non existing field.');
+        $this->plainForm->remove('nonexisting');
     }
 
-    /** @test */
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
     public function it_prevents_adding_fields_with_same_name()
     {
-        try {
-            $this->plainForm->add('name', 'text')->add('name', 'textarea');
-        } catch (\InvalidArgumentException $e) {
-            return;
-        }
-
-        $this->fail('Exception was not thrown when adding fields with same name');
+        $this->plainForm->add('name', 'text')->add('name', 'textarea');
     }
 
     /** @test */
@@ -278,7 +272,18 @@ class FormTest extends FormBuilderTestCase
             ->add('title', 'text')
             ->add('song', 'form', [
                 'class' => $customForm
-            ]);
+            ])
+            ->add('songs', 'collection', [
+                'type' => 'form',
+                'data' => [
+                    ['title' => 'lorem', 'body' => 'ipsum'],
+                    new \Illuminate\Support\Collection(['title' => 'dolor', 'body' => 'sit'])
+                ],
+                'options' => [
+                    'class' => $customForm
+                ]
+            ])
+        ;
 
         $this->prepareFieldRender('title');
         $this->prepareFieldRender('child_form');
@@ -291,6 +296,12 @@ class FormTest extends FormBuilderTestCase
         $this->assertTrue($customForm->isChildForm());
 
         $this->assertEquals('song[title]', $form->song->getChild('title')->getName());
+        $this->assertCount(2, $form->songs->getChildren());
+        $this->assertEquals('lorem', $form->songs->getChild(0)->title->getOption('default_value'));
+        $this->assertInstanceOf(
+            'Kris\LaravelFormBuilder\Form',
+            $form->song->getForm()
+        );
     }
 
     /** @test */
@@ -303,18 +314,15 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals('Some\\Namespace\\DatetimeType', $fieldType);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
     public function it_prevents_adding_duplicate_custom_type()
     {
         $this->plainForm->addCustomField('datetime', 'Some\\Namespace\\DatetimeType');
 
-        try {
-            $this->plainForm->addCustomField('datetime', 'Some\\Namespace\\DateType');
-        } catch (\InvalidArgumentException $e) {
-            return;
-        }
-
-        $this->fail('Exception was not thrown when adding duplicate custom fields');
+        $this->plainForm->addCustomField('datetime', 'Some\\Namespace\\DateType');
     }
 
     private function prepareRender(
