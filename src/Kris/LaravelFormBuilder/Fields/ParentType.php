@@ -6,18 +6,36 @@ abstract class ParentType extends FormField
 {
 
     /**
-     * @var mixed
+     * @var FormField[]
      */
     protected $children;
 
+    /**
+     * Populate children array
+     *
+     * @return mixed
+     */
     abstract protected function createChildren();
 
+    /**
+     * @param       $name
+     * @param       $type
+     * @param Form  $parent
+     * @param array $options
+     */
     public function __construct($name, $type, Form $parent, array $options = [])
     {
         parent::__construct($name, $type, $parent, $options);
         $this->createChildren();
     }
 
+    /**
+     * @param array $options
+     * @param bool  $showLabel
+     * @param bool  $showField
+     * @param bool  $showError
+     * @return string
+     */
     public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
     {
         $options['children'] = $this->children;
@@ -45,6 +63,9 @@ abstract class ParentType extends FormField
         return array_get($this->children, $key);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isRendered()
     {
         foreach ($this->children as $key => $child) {
@@ -56,10 +77,17 @@ abstract class ParentType extends FormField
         return parent::isRendered();
     }
 
-    public function rebuild()
+    /**
+     * Rebuild the children array
+     *
+     * @return mixed
+     */
+    protected function rebuild()
     {
         $this->children = [];
-        return $this->createChildren();
+        $this->createChildren();
+
+        return $this;
     }
 
     /**

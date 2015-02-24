@@ -23,6 +23,7 @@ Changelog can be found [here](https://github.com/kristijanhusak/laravel-form-bui
   2. [Usage in views](#usage-in-views)
 3. [Plain form](#plain-form)
 4. [Child form](#child-form)
+4. [Collection](#collection)
 5. [Field customization](#field-customization)
 6. [Changing configuration and templates](#changing-configuration-and-templates)
 7. [Custom fields](#custom-fields)
@@ -324,6 +325,156 @@ So now song form will render this:
     </div>
 ```
 
+### Collection
+Collections are used for working with array of data, mostly used for relationships (OneToMany, ManyToMany).
+
+It can be any type that is available in the package. Here are some examples:
+
+``` php
+<?php
+use Kris\LaravelFormBuilder\Form;
+
+class PostForm extends Form
+{
+    public function buildForm()
+    {
+        $this
+            ->add('title', 'text')
+            ->add('body', 'textarea')
+            ->add('tags', 'collection', [
+                'type' => 'text',
+                'property' => 'name',    // Which property to use on the tags model for value, defualts to id
+                'data' => $this->model->tags        // If existing model is passed and it has tags, it will automatically populate data
+                'options' => [    // these are options for a single type
+                    'label' => false,
+                    'attr' => ['class' => 'tag']
+                ]
+            ]);
+    }
+}
+```
+And in controller:
+```php
+<?php
+
+class MainController extends Controller
+{
+    public function edit($id, FormBuilder $formBuilder)
+    {
+        $post = Post::findOrFail($id);
+        // Post model contains this data
+        // $post = [
+        //     'id' => 1,
+        //     'title' => 'lorem ipsum',
+        //     'body' => 'dolor sit'
+        //     'tags' => [
+        //         ['id' => 1, 'name' => 'work', 'desc' => 'For work'],
+        //         ['id' => 2, 'name' => 'personal', 'desc' => 'For personal usage']
+        //     ]
+        // ]
+        $form = $formBuilder->create('App\Forms\PostForm', [
+            'model' => $post
+        ]);
+
+        return view('posts.edit', compact('form'));
+    }
+}
+```
+
+Then the view will contain:
+```html
+<form method="POST" action="/post/1">
+    <div class="form-group">
+        <label for="title" class="control-label">Title</label>
+        <input type="text" id="title" class="form-control" name="title" value="lorem ipsum">
+    </div>
+    <div class="form-group">
+        <label for="body" class="control-label">Body</label>
+        <textarea id="body" name="body">dolor sit</textarea>
+    </div>
+    <div class="form-group">
+        <label for="tags" class="control-label">Tags</label>
+        <div class="form-group">
+            <input type="text" id="tags[0]" class="form-control" name="tags[0]" value="work">
+        </div>
+        <div class="form-group">
+            <input type="text" id="tags[1]" class="form-control" name="tags[1]" value="personal">
+        </div>
+    </div>
+</form>
+```
+
+[Child form](#child-form) also can be used as a collection.
+
+```php
+
+<?php
+use Kris\LaravelFormBuilder\Form;
+
+class TagsForm extends Form
+{
+    public function buildForm()
+    {
+        $this
+            ->add('name', 'text')
+            ->add('desc', 'textarea');
+    }
+}
+
+class PostForm extends Form
+{
+    public function buildForm()
+    {
+        $this
+            ->add('title', 'text')
+            ->add('body', 'textarea')
+            ->add('tags', 'collection', [
+                'type' => 'form',
+                'data' => $this->model->tags    // If existing model is passed and it has tags, it will automatically populate data
+                'options' => [    // these are options for a single type
+                    'class' => 'App\Forms\TagsForm'
+                    'label' => false,
+                ]
+            ]);
+    }
+}
+```
+And with same controller setup as above, we get this:
+```html
+<form method="POST" action="/post/1">
+    <div class="form-group">
+        <label for="title" class="control-label">Title</label>
+        <input type="text" id="title" class="form-control" name="title" value="lorem ipsum">
+    </div>
+    <div class="form-group">
+        <label for="body" class="control-label">Body</label>
+        <textarea id="body" name="body">dolor sit</textarea>
+    </div>
+    <div class="form-group">
+        <label for="tags" class="control-label">Tags</label>
+        <div class="form-group">
+            <div class="form-group">
+                <label for="tags[0][name]">Name</label>
+                <input type="text" id="tags[0][name]" class="form-control" name="tags[0][name]" value="work">
+            </div>
+            <div class="form-group">
+                <label for="tags[0][desc]">Desc</label>
+                <textarea id="tags[0][desc]" name="tags[0][desc]">For work</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-group">
+                <label for="tags[1][name]">Name</label>
+                <input type="text" id="tags[1][name]" class="form-control" name="tags[1][name]" value="personal">
+            </div>
+            <div class="form-group">
+                <label for="tags[1][desc]">Desc</label>
+                <textarea id="tags[1][desc]" name="tags[1][desc]">For personal usage</textarea>
+            </div>
+        </div>
+    </div>
+```
+
 ### Field Customization
 Fields can be easily customized within the class or view:
 
@@ -507,7 +658,8 @@ Here is the list of all available field types:
 * checkbox
 * radio
 * choice
-* form
+* [form](#child-form)
+* [collection](#collection)
 * repeated
 
 You can also bind the model to the class and add other options with setters

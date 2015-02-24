@@ -5,6 +5,11 @@ use Illuminate\Database\Eloquent\Model;
 use Kris\LaravelFormBuilder\Form;
 use Kris\LaravelFormBuilder\FormHelper;
 
+/**
+ * Class FormField
+ *
+ * @package Kris\LaravelFormBuilder\Fields
+ */
 abstract class FormField
 {
     /**
@@ -106,6 +111,13 @@ abstract class FormField
         )->render();
     }
 
+    /**
+     * Get the attribute value from the model by name
+     *
+     * @param mixed $model
+     * @param string $name
+     * @return mixed
+     */
     protected function getModelValueAttribute($model, $name)
     {
         $transformedName = $this->transformKey($name);
@@ -116,6 +128,12 @@ abstract class FormField
         }
     }
 
+    /**
+     * Transform array like syntax to dot syntax
+     *
+     * @param $key
+     * @return mixed
+     */
     protected function transformKey($key)
     {
         return str_replace(['.', '[]', '[', ']'], ['_', '', '.', ''], $key);
@@ -278,6 +296,9 @@ abstract class FormField
         ];
     }
 
+    /**
+     * @param $val
+     */
     protected function setValue($val)
     {
         $this->options['default_value'] = $val;

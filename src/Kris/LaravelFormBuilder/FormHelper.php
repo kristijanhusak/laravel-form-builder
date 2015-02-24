@@ -63,6 +63,11 @@ class FormHelper
      */
     private $customTypes = [];
 
+    /**
+     * @param View    $view
+     * @param Request $request
+     * @param array   $config
+     */
     public function __construct(View $view, Request $request, array $config = [])
     {
         $this->view = $view;

@@ -10,16 +10,27 @@ class ChildFormType extends ParentType
      */
     protected $form;
 
+    /**
+     * @inheritdoc
+     */
     protected function getTemplate()
     {
         return 'child_form';
     }
 
+    /**
+     * @return Form
+     */
     public function getForm()
     {
         return $this->form;
     }
 
+    /**
+     * @param      $val
+     * @param bool $bindValues
+     * @return $this
+     */
     protected function setValue($val, $bindValues = false)
     {
         $this->options['default_value'] = $val;
@@ -28,6 +39,9 @@ class ChildFormType extends ParentType
         return $this;
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function getDefaults()
     {
         return [
@@ -39,12 +53,19 @@ class ChildFormType extends ParentType
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function createChildren()
     {
         $this->rebuild();
     }
 
-    public function rebuild($bindValues = false)
+    /**
+     * @param bool $bindValues should model value be bound to form
+     * @return mixed|void
+     */
+    protected function rebuild($bindValues = false)
     {
         $this->form = $this->getClassFromOptions();
 
@@ -93,6 +114,5 @@ class ChildFormType extends ParentType
         throw new \InvalidArgumentException(
             'Class provided does not exist or it passed in wrong format.'
         );
-
     }
 }

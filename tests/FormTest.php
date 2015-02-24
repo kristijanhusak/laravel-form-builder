@@ -272,7 +272,18 @@ class FormTest extends FormBuilderTestCase
             ->add('title', 'text')
             ->add('song', 'form', [
                 'class' => $customForm
-            ]);
+            ])
+            ->add('songs', 'collection', [
+                'type' => 'form',
+                'data' => [
+                    ['title' => 'lorem', 'body' => 'ipsum'],
+                    new \Illuminate\Support\Collection(['title' => 'dolor', 'body' => 'sit'])
+                ],
+                'options' => [
+                    'class' => $customForm
+                ]
+            ])
+        ;
 
         $this->prepareFieldRender('title');
         $this->prepareFieldRender('child_form');
@@ -285,6 +296,12 @@ class FormTest extends FormBuilderTestCase
         $this->assertTrue($customForm->isChildForm());
 
         $this->assertEquals('song[title]', $form->song->getChild('title')->getName());
+        $this->assertCount(2, $form->songs->getChildren());
+        $this->assertEquals('lorem', $form->songs->getChild(0)->title->getOption('default_value'));
+        $this->assertInstanceOf(
+            'Kris\LaravelFormBuilder\Form',
+            $form->song->getForm()
+        );
     }
 
     /** @test */

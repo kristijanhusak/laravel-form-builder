@@ -3,11 +3,17 @@
 class CheckableType extends FormField
 {
 
+    /**
+     * @inheritdoc
+     */
     protected function getTemplate()
     {
         return $this->type;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getDefaults()
     {
         return [

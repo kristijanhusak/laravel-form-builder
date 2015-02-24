@@ -20,7 +20,7 @@ class CollectionTypeTest extends FormBuilderTestCase
         ];
 
         $this->fieldExpetations('text', Mockery::any(), null);
-        $this->fieldExpetations('child_form', Mockery::any());
+        $this->fieldExpetations('collection', Mockery::any());
 
         $emailsCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
 
@@ -52,7 +52,7 @@ class CollectionTypeTest extends FormBuilderTestCase
             ]
         ];
 
-        $this->fieldExpetations('child_form', Mockery::any());
+        $this->fieldExpetations('collection', Mockery::any());
 
         $childFormCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
 
@@ -72,7 +72,7 @@ class CollectionTypeTest extends FormBuilderTestCase
             'prototype' => false
         ];
 
-        $this->fieldExpetations('child_form', Mockery::any());
+        $this->fieldExpetations('collection', Mockery::any());
 
         $childFormCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
 
@@ -91,7 +91,7 @@ class CollectionTypeTest extends FormBuilderTestCase
             'type' => 'nonexisting'
         ];
 
-        $this->fieldExpetations('child_form', Mockery::any());
+        $this->fieldExpetations('collection', Mockery::any());
 
         $childFormCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
     }
@@ -107,7 +107,7 @@ class CollectionTypeTest extends FormBuilderTestCase
             'data' => 'invalid'
         ];
 
-        $this->fieldExpetations('child_form', Mockery::any());
+        $this->fieldExpetations('collection', Mockery::any());
 
         $childFormCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
     }

@@ -11,11 +11,17 @@ class CollectionType extends ParentType
      */
     protected $proto;
 
+    /**
+     * @return string
+     */
     protected function getTemplate()
     {
-        return 'child_form';
+        return 'collection';
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function getDefaults()
     {
         return [
@@ -29,6 +35,12 @@ class CollectionType extends ParentType
         ];
     }
 
+    /**
+     * Get the prototype object
+     *
+     * @return FormField
+     * @throws \Exception
+     */
     public function prototype()
     {
 
@@ -41,6 +53,9 @@ class CollectionType extends ParentType
         return $this->proto;
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function createChildren()
     {
         $type = $this->getOption('type');
@@ -81,6 +96,14 @@ class CollectionType extends ParentType
         }
     }
 
+    /**
+     * Set up a single child element for a collection
+     *
+     * @param FormField $field
+     * @param           $name
+     * @param null      $value
+     * @return FormField
+     */
     protected function setupChild(FormField $field, $name, $value = null)
     {
         $newFieldName = $field->getName().$name;

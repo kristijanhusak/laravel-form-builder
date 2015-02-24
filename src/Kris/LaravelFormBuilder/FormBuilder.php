@@ -15,6 +15,10 @@ class FormBuilder
      */
     private $formHelper;
 
+    /**
+     * @param Container  $container
+     * @param FormHelper $formHelper
+     */
     public function __construct(Container $container, FormHelper $formHelper)
     {
         $this->container = $container;

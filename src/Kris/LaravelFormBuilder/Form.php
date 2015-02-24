@@ -318,7 +318,7 @@ class Form
     /**
      * Get all fields
      *
-     * @return array
+     * @return FormField[]
      */
     public function getFields()
     {
