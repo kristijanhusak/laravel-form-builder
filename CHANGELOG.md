@@ -1,3 +1,7 @@
+## 1.3.0
+- Add [Collection](https://github.com/kristijanhusak/laravel-form-builder#collection) type
+- Minor fixes
+
 ## 1.2.0
 - Allow adding child forms with full class name which will be instantiated automatically
 - Add FormBuilder class instance to the Form class
