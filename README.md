@@ -397,10 +397,10 @@ Then the view will contain:
     <div class="form-group">
         <label for="tags" class="control-label">Tags</label>
         <div class="form-group">
-            <input type="text" id="tags[0]" class="form-control" name="tags[0]" value="work">
+            <input type="text" id="tags[0]" class="tag" name="tags[0]" value="work">
         </div>
         <div class="form-group">
-            <input type="text" id="tags[1]" class="form-control" name="tags[1]" value="personal">
+            <input type="text" id="tags[1]" class="tag" name="tags[1]" value="personal">
         </div>
     </div>
 </form>
@@ -452,7 +452,7 @@ And with same controller setup as above, we get this:
     </div>
     <div class="form-group">
         <label for="body" class="control-label">Body</label>
-        <textarea id="body" name="body">dolor sit</textarea>
+        <textarea id="body" name="body" class="form-control">dolor sit</textarea>
     </div>
     <div class="form-group">
         <label for="tags" class="control-label">Tags</label>
@@ -463,7 +463,7 @@ And with same controller setup as above, we get this:
             </div>
             <div class="form-group">
                 <label for="tags[0][desc]">Desc</label>
-                <textarea id="tags[0][desc]" name="tags[0][desc]">For work</textarea>
+                <textarea id="tags[0][desc]" name="tags[0][desc]" class="form-control">For work</textarea>
             </div>
         </div>
         <div class="form-group">
@@ -473,7 +473,7 @@ And with same controller setup as above, we get this:
             </div>
             <div class="form-group">
                 <label for="tags[1][desc]">Desc</label>
-                <textarea id="tags[1][desc]" name="tags[1][desc]">For personal usage</textarea>
+                <textarea id="tags[1][desc]" name="tags[1][desc]" class="form-control">For personal usage</textarea>
             </div>
         </div>
     </div>
@@ -516,7 +516,7 @@ If you need to dynamically generate HTML for additional elements in the collecti
         </div>
         <div class="form-group">
             <label for="tags[__NAME__][desc]">Desc</label>
-            <textarea id="tags[__NAME__][desc]" name="tags[__NAME__][desc]"></textarea>
+            <textarea id="tags[__NAME__][desc]" class="form-control" name="tags[__NAME__][desc]"></textarea>
         </div>
     </div>
 ```
