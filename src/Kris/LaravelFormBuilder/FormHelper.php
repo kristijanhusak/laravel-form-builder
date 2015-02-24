@@ -122,6 +122,10 @@ class FormHelper
      */
     public function getFieldType($type)
     {
+        if (!$type || trim($type) == '') {
+            throw new \InvalidArgumentException('Field type must be provided.');
+        }
+
         if (array_key_exists($type, $this->customTypes)) {
             return $this->customTypes[$type];
         }

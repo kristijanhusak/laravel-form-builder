@@ -318,6 +318,24 @@ class FormTest extends FormBuilderTestCase
      * @test
      * @expectedException \InvalidArgumentException
      */
+    public function it_throws_exception_when_adding_field_with_invalid_name()
+    {
+        $this->plainForm->add('', 'text');
+    }
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
+    public function it_throws_exception_when_adding_field_with_invalid_type()
+    {
+        $this->plainForm->add('name', '');
+    }
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
     public function it_prevents_adding_duplicate_custom_type()
     {
         $this->plainForm->addCustomField('datetime', 'Some\\Namespace\\DatetimeType');
