@@ -6,7 +6,7 @@
         <?= Form::radio($name, $options['default_value'], $options['checked'], $options['attr']) ?>
     <?php endif; ?>
 
-    <?php if ($showLabel): ?>
+    <?php if ($showLabel && $options['label'] !== false): ?>
         <?php if ($options['is_child']): ?>
             <label <?= $options['labelAttrs'] ?>><?= $options['label'] ?></label>
         <?php else: ?>

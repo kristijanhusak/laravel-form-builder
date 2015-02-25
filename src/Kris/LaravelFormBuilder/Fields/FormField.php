@@ -358,7 +358,7 @@ abstract class FormField
         // If field is <select> and child of choice, we don't need label for it
         $isChildSelect = $this->type == 'select' && array_get($options, 'is_child') === true;
 
-        if ($this->type == 'hidden' || $isChildSelect || $options['label'] === false) {
+        if ($this->type == 'hidden' || $isChildSelect) {
             return false;
         }
 
