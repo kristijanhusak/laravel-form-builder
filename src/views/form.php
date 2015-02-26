@@ -1,5 +1,5 @@
 <?php if ($showStart): ?>
-    <?php if ($model && $model->exists): ?>
+    <?php if ($model): ?>
         <?= Form::model($model, $formOptions) ?>
     <?php else: ?>
         <?= Form::open($formOptions) ?>
