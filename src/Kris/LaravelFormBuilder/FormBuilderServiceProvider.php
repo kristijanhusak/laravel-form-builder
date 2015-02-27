@@ -77,10 +77,13 @@ class FormBuilderServiceProvider extends ServiceProvider
                 return $form->setSessionStore($app['session.store']);
             });
 
-            AliasLoader::getInstance()->alias(
-                'Form',
-                'Illuminate\Html\FormFacade'
-            );
+            if (! $this->aliasExists('Form')) {
+
+                AliasLoader::getInstance()->alias(
+                    'Form',
+                    'Illuminate\Html\FormFacade'
+                );
+            }
         }
     }
 
@@ -95,10 +98,24 @@ class FormBuilderServiceProvider extends ServiceProvider
                 return new HtmlBuilder($app['url']);
             });
 
-            AliasLoader::getInstance()->alias(
-                'Html',
-                'Illuminate\Html\HtmlFacade'
-            );
+            if (! $this->aliasExists('Html')) {
+
+                AliasLoader::getInstance()->alias(
+                    'Html',
+                    'Illuminate\Html\HtmlFacade'
+                );
+            }
         }
     }
+
+    /**
+     * Check if an alias already exists in the IOC
+     * @param $alias
+     * @return bool
+     */
+    private function aliasExists($alias)
+    {
+        return array_key_exists($alias, AliasLoader::getInstance()->getAliases());
+    }
+
 }
