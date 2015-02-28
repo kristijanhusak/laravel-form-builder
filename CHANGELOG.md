@@ -1,3 +1,12 @@
+## 1.3.3
+- Don't override existing aliases for Form and Html (Fixed by @squigg)
+
+## 1.3.2
+- Allow passing any type of model to form class (array, object, eloquent model, Collection).
+
+## 1.3.1
+- Fix bug where wrapper was not showing if label was false.
+
 ## 1.3.0
 - Add [Collection](https://github.com/kristijanhusak/laravel-form-builder#collection) type
 - Minor fixes
