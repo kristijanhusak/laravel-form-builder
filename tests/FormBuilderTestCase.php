@@ -118,6 +118,7 @@ abstract class FormBuilderTestCase extends PHPUnit_Framework_TestCase {
         $form->setFormHelper($this->formHelper)
             ->setFormBuilder($this->formBuilder);
 
+        $form->buildForm();
         return $form;
     }
 }

@@ -86,6 +86,16 @@ class Form
     }
 
     /**
+     * Rebuild the fields
+     */
+    public function rebuildFields()
+    {
+        foreach ($this->getFields() as $name => $field) {
+            $this->add($name, $field->getType(), $field->getOptions(), true);
+        }
+    }
+
+    /**
      * Add a single field to the form
      *
      * @param string $name

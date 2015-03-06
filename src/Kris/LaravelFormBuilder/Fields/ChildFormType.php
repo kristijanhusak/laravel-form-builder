@@ -72,7 +72,7 @@ class ChildFormType extends ParentType
         $this->form->setFormOptions([
             'name' => $this->name,
             'is_child' => true
-        ])->rebuildForm();
+        ])->rebuildFields();
 
         $model = $this->getOption('default_value');
 
