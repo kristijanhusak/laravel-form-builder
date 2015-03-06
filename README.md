@@ -576,7 +576,9 @@ class PostForm extends Form
                 'attr' => ['class' => 'input-name', 'placeholder' => 'Enter name here...'],
                 'label' => 'Full name'
             ])
-            ->add('bio', 'textarea')
+            ->add('bio', 'textarea', [
+                'wrapper' => false      // This disables the wrapper for this field
+            ])
             // This creates a select field
             ->add('subscription', 'choice', [
                 'choices' => ['monthly' => 'Monthly', 'yearly' => 'Yearly'],
@@ -588,7 +590,10 @@ class PostForm extends Form
                 'label' => false,    // This forces hiding label, even when calling form_row
                 'choices' => ['m' => 'Male', 'f' => 'Female'],
                 'selected' => 'm',
-                'expanded' => true
+                'expanded' => true,
+                'choice_options' => [ // Handles options when expanded is true and/or multiple is true
+                    'wrapper' => ['class' => 'choice-wrapper'] // Shows the wrapper for each radio or checkbox, default is false
+                ]
             ])
             // Automatically adds enctype="multipart/form-data" to form
             ->add('image', 'file', [
