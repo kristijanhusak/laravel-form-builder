@@ -1,3 +1,6 @@
+## 1.3.4
+- Fix child form rebuild bug.
+
 ## 1.3.3
 - Don't override existing aliases for Form and Html (Fixed by @squigg)
 
