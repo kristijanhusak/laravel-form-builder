@@ -339,7 +339,7 @@ abstract class FormField
         if ($errors && $errors->has($this->name)) {
             $errorClass = $this->formHelper->getConfig('defaults.wrapper_error_class');
 
-            if (!str_contains($options['wrapper']['class'], $errorClass)) {
+            if ($options['wrapper'] && !str_contains($options['wrapper']['class'], $errorClass)) {
                 $options['wrapper']['class'] .= ' '.$errorClass;
             }
         }

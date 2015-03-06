@@ -184,6 +184,10 @@ class FormHelper
      */
     public function prepareAttributes($options)
     {
+        if (!$options) {
+            return null;
+        }
+
         $attributes = [];
 
         foreach ($options as $name => $option) {

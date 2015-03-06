@@ -1,5 +1,7 @@
-<?php if ($showLabel && $showField && !$options['is_child']): ?>
-<div <?= $options['wrapperAttrs'] ?> >
+<?php if ($showLabel && $showField): ?>
+    <?php if ($options['wrapper'] !== false): ?>
+    <div <?= $options['wrapperAttrs'] ?> >
+    <?php endif; ?>
 <?php endif; ?>
 
     <?php if ($showField): ?>
@@ -18,6 +20,8 @@
         <?= $errors->first(array_get($options, 'real_name', $name), '<div '.$options['errorAttrs'].'>:message</div>') ?>
     <?php endif; ?>
 
-<?php if ($showLabel && $showField && !$options['is_child']): ?>
-</div>
+<?php if ($showLabel && $showField): ?>
+    <?php if ($options['wrapper'] !== false): ?>
+    </div>
+    <?php endif; ?>
 <?php endif; ?>

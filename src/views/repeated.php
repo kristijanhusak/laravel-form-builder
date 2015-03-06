@@ -1,5 +1,7 @@
 <?php if ($showLabel && $showField): ?>
-<div <?= $options['wrapperAttrs'] ?> >
+    <?php if ($options['wrapper'] !== false): ?>
+    <div <?= $options['wrapperAttrs'] ?> >
+    <?php endif; ?>
 <?php endif; ?>
 
     <?php if ($showField): ?>
@@ -13,5 +15,7 @@
     <?php endif; ?>
 
 <?php if ($showLabel && $showField): ?>
-</div>
+    <?php if ($options['wrapper'] !== false): ?>
+    </div>
+    <?php endif; ?>
 <?php endif; ?>

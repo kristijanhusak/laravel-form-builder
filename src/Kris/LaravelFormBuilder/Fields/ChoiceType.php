@@ -49,7 +49,11 @@ class ChoiceType extends ParentType
             'choices' => null,
             'selected' => null,
             'expanded' => false,
-            'multiple' => false
+            'multiple' => false,
+            'choice_options' => [
+                'wrapper' => false,
+                'is_child' => true
+            ]
         ];
     }
 
@@ -84,18 +88,21 @@ class ChoiceType extends ParentType
     {
         foreach ((array)$this->options['choices'] as $key => $choice) {
             $id = $choice . '_' . $key;
-            $this->children[] = new $fieldType(
-                $this->name . $fieldMultiple,
-                $this->choiceType,
-                $this->parent,
+            $options = $this->formHelper->mergeOptions(
+                $this->getOption('choice_options'),
                 [
                     'attr'       => ['id' => $id],
                     'label_attr' => ['for' => $id],
                     'label'         => $this->formHelper->formatLabel($choice),
-                    'is_child'      => true,
                     'checked'       => in_array($key, (array)$this->options['selected']),
                     'default_value' => $key
                 ]
+            );
+            $this->children[] = new $fieldType(
+                $this->name . $fieldMultiple,
+                $this->choiceType,
+                $this->parent,
+                $options
             );
         }
     }
