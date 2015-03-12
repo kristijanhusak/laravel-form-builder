@@ -1,3 +1,6 @@
+## 1.3.6
+- Add support for some HTML5 input types(By @bishopb)
+
 ## 1.3.5
 - Add `choice_options` property to `choice` field type that handles each radio/checkbox options when `expanded` is true.
 - Allow disabling wrapper for fields by setting it to `false`

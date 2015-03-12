@@ -51,6 +51,13 @@ class FormHelper
         'checkbox',
         'radio',
         'choice',
+        'color',
+        'datetime-local',
+        'month',
+        'number',
+        'range',
+        'time',
+        'week',
         'form',
         'collection',
         'repeated'
