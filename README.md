@@ -23,14 +23,15 @@ Changelog can be found [here](https://github.com/kristijanhusak/laravel-form-bui
   2. [Usage in views](#usage-in-views)
 3. [Plain form](#plain-form)
 4. [Child form](#child-form)
-4. [Collection](#collection)
+5. [Named form](#named-form)
+6. [Collection](#collection)
   1. [Collection of child forms](#collection-of-child-forms)
   2. [Prototype](#prototype)
-5. [Field customization](#field-customization)
-6. [Changing configuration and templates](#changing-configuration-and-templates)
-7. [Custom fields](#custom-fields)
-8. [Contributing](#contributing)
-9. [Issues and bug reporting](#issues-and-bug-reporting)
+7. [Field customization](#field-customization)
+8. [Changing configuration and templates](#changing-configuration-and-templates)
+9. [Custom fields](#custom-fields)
+10. [Contributing](#contributing)
+11. [Issues and bug reporting](#issues-and-bug-reporting)
 
 ###Installation
 
@@ -327,7 +328,7 @@ So now song form will render this:
     </div>
 ```
 
-### Named forms
+### Named form
 Named forms are very similar to child forms, only difference is that they are used as standalone forms.
 
 ```php
