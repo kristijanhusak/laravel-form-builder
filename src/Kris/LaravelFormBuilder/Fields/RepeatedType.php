@@ -16,7 +16,7 @@ class RepeatedType extends ParentType
     protected function getDefaults()
     {
         return [
-            'type' => 'text',
+            'type' => 'password',
             'second_name' => null,
             'first_options' => ['label' => 'Password', 'is_child' => true],
             'second_options' => ['label' => 'Password confirmation', 'is_child' => true]
