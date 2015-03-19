@@ -54,6 +54,37 @@ class FormBuilder
     }
 
     /**
+     * Create named form to group fields in this form by a name.
+     * Fields are named like name[field].
+     *
+     * @param $name
+     * @param $formClass
+     * @param array $options
+     * @param array $data
+     * @return Form
+     */
+    public function createNamedForm($name, $formClass, array $options = [], array $data = [])
+    {
+        $dataReal = $data;
+        if (empty($dataReal)) {
+            if (isset($options['model']) && is_object($options['model']) && method_exists($options['model'], 'toArray')) {
+                $dataReal = $options['model']->toArray();
+            }
+        }
+
+        return $this->plain(
+            $options
+        )->add(
+            $name,
+            'form',
+            [
+                'class' => $this->create($formClass, $options, $dataReal),
+                'label' => isset($options['label']) ? $options['label'] : false
+            ]
+        );
+    }
+
+    /**
      * Get the namespace from the config
      *
      * @return string
