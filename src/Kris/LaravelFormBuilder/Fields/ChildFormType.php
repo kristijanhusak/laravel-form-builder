@@ -59,6 +59,7 @@ class ChildFormType extends ParentType
     protected function createChildren()
     {
         $this->rebuild();
+        $this->setValue($this->form->getDataArray(), true);
     }
 
     /**
