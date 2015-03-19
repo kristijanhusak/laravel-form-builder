@@ -192,6 +192,7 @@ class FormTest extends FormBuilderTestCase
         $this->plainForm->setUrl('/posts/all');
         $this->plainForm->setModel($this->model);
         $this->plainForm->setData('some_data', ['this', 'is', 'some', 'data']);
+        $this->plainForm->setName('test_name');
 
         $this->assertEquals(
             ['method' => 'DELETE', 'url' => '/posts/all'],
@@ -207,6 +208,8 @@ class FormTest extends FormBuilderTestCase
              ['this', 'is', 'some', 'data'],
              $this->plainForm->getData('some_data')
          );
+
+        $this->assertEquals('test_name', $this->plainForm->getName());
     }
 
     /** @test */
@@ -293,7 +296,7 @@ class FormTest extends FormBuilderTestCase
 
         $form->renderForm();
 
-        $this->assertTrue($customForm->isChildForm());
+        $this->assertEquals('songs[1]', $customForm->getName());
 
         $this->assertEquals('song[title]', $form->song->getChild('title')->getName());
         $this->assertCount(2, $form->songs->getChildren());
@@ -302,6 +305,16 @@ class FormTest extends FormBuilderTestCase
             'Kris\LaravelFormBuilder\Form',
             $form->song->getForm()
         );
+    }
+
+    /** @test */
+    public function it_creates_named_form()
+    {
+        $this->plainForm->add('name', 'text');
+        $this->assertEquals('name', $this->plainForm->getField('name')->getName());
+        $this->plainForm->setName('test_name');
+        $this->plainForm->rebuildFields();
+        $this->assertEquals('test_name[name]', $this->plainForm->getField('name')->getName());
     }
 
     /** @test */

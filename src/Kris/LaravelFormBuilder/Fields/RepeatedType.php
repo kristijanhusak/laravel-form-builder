@@ -16,9 +16,8 @@ class RepeatedType extends ParentType
     protected function getDefaults()
     {
         return [
-            'type' => 'password',
-            'first_name' => 'password',
-            'second_name' => 'password_confirmation',
+            'type' => 'text',
+            'second_name' => null,
             'first_options' => ['label' => 'Password', 'is_child' => true],
             'second_options' => ['label' => 'Password confirmation', 'is_child' => true]
         ];
@@ -26,20 +25,20 @@ class RepeatedType extends ParentType
 
     protected function createChildren()
     {
-        $fieldType = $this->formHelper->getFieldType($this->options['type']);
+        $firstName = $this->getOption('real_name', $this->name);
+        $secondName = $this->getOption('second_name');
 
-        $this->children['first'] = new $fieldType(
-            $this->options['first_name'],
-            $this->options['type'],
-            $this->parent,
-            $this->options['first_options']
-        );
+        if (is_null($secondName)) {
+            $secondName = $this->getOption('real_name', $this->name).'_confirmation';
+        }
 
-        $this->children['second'] = new $fieldType(
-            $this->options['second_name'],
-            $this->options['type'],
-            $this->parent,
-            $this->options['second_options']
-        );
+        $form = $this->parent->getFormBuilder()->plain([
+            'name' => $this->parent->getName()
+        ])
+        ->add($firstName, $this->getOption('type'), $this->getOption('first_options'))
+        ->add($secondName, $this->getOption('type'), $this->getOption('second_options'));
+
+        $this->children['first'] = $form->getField($firstName);
+        $this->children['second'] = $form->getField($secondName);
     }
 }

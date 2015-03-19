@@ -49,18 +49,11 @@ class Form
     protected $showFieldErrors = true;
 
     /**
-     * Is this form instance child of another form
-     *
-     * @var bool
-     */
-    protected $isChildForm = false;
-
-    /**
      * Name of the parent form if any
      *
      * @var null
      */
-    protected $childFormName = null;
+    protected $name = null;
 
     /**
      * @var FormBuilder
@@ -257,7 +250,7 @@ class Form
 
         $this->getDataFromOptions();
 
-        $this->checkIfChildForm();
+        $this->checkIfNamedForm();
 
         return $this;
     }
@@ -306,6 +299,22 @@ class Form
         $this->formOptions['url'] = $url;
 
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string|null $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 
     /**
@@ -396,16 +405,6 @@ class Form
     public function haveErrorsEnabled()
     {
         return $this->showFieldErrors;
-    }
-
-    /**
-     * Is form child of another form ?
-     *
-     * @return bool
-     */
-    public function isChildForm()
-    {
-        return $this->isChildForm;
     }
 
     /**
@@ -536,26 +535,25 @@ class Form
     }
 
     /**
-     * Check if form is child of another form
+     * Check if form is named form
      */
-    protected function checkIfChildForm()
+    protected function checkIfNamedForm()
     {
-        if ($this->getFormOption('is_child')) {
-            $this->isChildForm = array_pull($this->formOptions, 'is_child');
-            $this->childFormName = array_pull($this->formOptions, 'name');
+        if ($this->getFormOption('name')) {
+            $this->setName(array_pull($this->formOptions, 'name', $this->name));
         }
     }
 
     /**
-     * If form is child of another form, modify names to be contained in single key (parent[child_field_name])
+     * If form is named form, modify names to be contained in single key (parent[child_field_name])
      *
      * @param string $name
      * @return string
      */
     protected function getFieldName($name)
     {
-        if ($this->isChildForm && $this->childFormName !== null) {
-            return $this->childFormName.'['.$name.']';
+        if ($this->getName() !== null) {
+            return $this->getName().'['.$name.']';
         }
 
         return $name;
@@ -569,7 +567,7 @@ class Form
      */
     protected function setupFieldOptions($name, &$options)
     {
-        if (!$this->isChildForm()) {
+        if (!$this->getName()) {
             return;
         }
 

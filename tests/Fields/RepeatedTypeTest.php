@@ -11,6 +11,7 @@ class RepeatedTypeTest extends FormBuilderTestCase
         $this->fieldExpetations('text', Mockery::any());
         $this->fieldExpetations('text', Mockery::any());
         $this->fieldExpetations('repeated', Mockery::any());
+        $this->container->shouldReceive('make')->andReturn($this->plainForm);
 
         $repeated = new RepeatedType('password', 'repeated', $this->plainForm, []);
 
@@ -29,6 +30,7 @@ class RepeatedTypeTest extends FormBuilderTestCase
         $this->fieldExpetations('text', Mockery::any());
         $this->fieldExpetations('text', Mockery::any());
         $this->fieldExpetations('repeated', Mockery::any());
+        $this->container->shouldReceive('make')->andReturn($this->plainForm);
 
         $repeated = new RepeatedType('password', 'repeated', $this->plainForm, []);
 
