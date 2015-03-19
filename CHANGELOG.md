@@ -1,3 +1,7 @@
+## 1.3.7
+- Update `repeated` type to work with child forms
+- Add possibility to create named forms (fields get name[fieldname])
+
 ## 1.3.6
 - Add support for some HTML5 input types(By @bishopb)
 
