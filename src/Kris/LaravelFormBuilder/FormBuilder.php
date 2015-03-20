@@ -52,10 +52,15 @@ class FormBuilder
 
         // reset model to match named form logic
         if ($form->getName()) {
+            $modelData = [];
             if ($form->getModel() instanceof Model && method_exists($form->getModel(), 'toArray')) {
-                $form->setModel([$form->getName() => $form->getModel()->toArray()]);
+                $modelData = $form->getModel()->toArray();
             } elseif (is_array($form->getModel())) {
-                $form->setModel([$form->getName() => $form->getModel()]);
+                $modelData = $form->getModel();
+            }
+
+            if (!isset($modelData[$form->getName()])) {
+                $form->setModel([$form->getName() => $modelData]);
             }
         }
 
