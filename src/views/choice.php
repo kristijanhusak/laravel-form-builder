@@ -10,7 +10,7 @@
 
     <?php if ($showField): ?>
         <?php foreach ((array)$options['children'] as $child): ?>
-            <?= $child->render() ?>
+            <?= $child->render([], true, true, false) ?>
         <?php endforeach; ?>
     <?php endif; ?>
 
