@@ -315,6 +315,10 @@ class Form
     public function setName($name)
     {
         $this->name = $name;
+
+        $this->rebuildFields();
+
+        return $this;
     }
 
     /**
@@ -469,6 +473,8 @@ class Form
     {
         $formOptions = $this->formHelper->mergeOptions($this->formOptions, $options);
 
+        $this->setupNamedModel();
+
         return $this->formHelper->getView()
             ->make($this->formHelper->getConfig('form'))
             ->with(compact('showStart', 'showFields', 'showEnd'))
@@ -540,7 +546,7 @@ class Form
     protected function checkIfNamedForm()
     {
         if ($this->getFormOption('name')) {
-            $this->setName(array_pull($this->formOptions, 'name', $this->name));
+            $this->name = array_pull($this->formOptions, 'name', $this->name);
         }
     }
 
@@ -585,6 +591,21 @@ class Form
     {
         if (array_get($this->formOptions, 'data')) {
             $this->addData(array_pull($this->formOptions, 'data'));
+        }
+    }
+
+    protected function setupNamedModel()
+    {
+        if (!$this->getModel() || !$this->getName()) {
+            return;
+        }
+
+        $model = $this->formHelper->convertModelToArray($this->getModel());
+
+        if (!array_get($model, $this->getName())) {
+            $this->model = [
+                $this->getName() => $model
+            ];
         }
     }
 

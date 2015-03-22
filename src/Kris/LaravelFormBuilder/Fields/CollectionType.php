@@ -71,6 +71,11 @@ class CollectionType extends ParentType
 
         $data = $this->getOption('data');
 
+        if (!$data) {
+            $data = $this->parent->getModel();
+            $data = $this->getModelValueAttribute($data, $this->getName());
+        }
+
         if ($data instanceof Collection) {
             $data = $data->all();
         }

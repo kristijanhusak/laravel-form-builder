@@ -1,6 +1,8 @@
 <?php  namespace Kris\LaravelFormBuilder;
 
 use Illuminate\Contracts\View\Factory as View;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 
 class FormHelper
@@ -234,6 +236,23 @@ class FormHelper
                 $this->addCustomField($fieldName, $fieldClass);
             }
         }
+    }
+
+    public function convertModelToArray($model)
+    {
+        if (!$model) {
+            return null;
+        }
+
+        if ($model instanceof Model) {
+            return $model->toArray();
+        }
+
+        if ($model instanceof Collection) {
+            return $model->all();
+        }
+
+        return $model;
     }
 
     /**

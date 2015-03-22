@@ -68,6 +68,10 @@ class ChildFormType extends ParentType
     {
         $this->form = $this->getClassFromOptions();
 
+        if (!$this->form->getModel()) {
+            $this->form->setModel($this->parent->getModel());
+        }
+
         $this->form->setFormOptions([
             'name' => $this->name
         ])->rebuildFields();
