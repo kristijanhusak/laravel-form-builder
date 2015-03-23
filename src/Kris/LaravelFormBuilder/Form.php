@@ -435,6 +435,16 @@ class Form
     }
 
     /**
+     * Get all data. ($this->data)
+     *
+     * @return mixed
+     */
+    public function getDataArray()
+    {
+        return $this->data;
+    }
+
+    /**
      * Add multiple peices of data at once
      *
      * @param $data

@@ -1,6 +1,7 @@
 <?php  namespace Kris\LaravelFormBuilder;
 
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Database\Eloquent\Model;
 
 class FormBuilder
 {
@@ -41,12 +42,27 @@ class FormBuilder
             );
         }
 
+        /** @var Form $form */
         $form = $this->container
             ->make($class)
             ->setFormHelper($this->formHelper)
             ->setFormBuilder($this)
             ->setFormOptions($options)
             ->addData($data);
+
+        // reset model to match named form logic
+        if ($form->getName()) {
+            $modelData = [];
+            if ($form->getModel() instanceof Model && method_exists($form->getModel(), 'toArray')) {
+                $modelData = $form->getModel()->toArray();
+            } elseif (is_array($form->getModel())) {
+                $modelData = $form->getModel();
+            }
+
+            if (!isset($modelData[$form->getName()])) {
+                $form->setModel([$form->getName() => $modelData]);
+            }
+        }
 
         $form->buildForm();
 
