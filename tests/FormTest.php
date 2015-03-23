@@ -310,11 +310,24 @@ class FormTest extends FormBuilderTestCase
     /** @test */
     public function it_creates_named_form()
     {
+        $model = new \Illuminate\Support\Collection([
+            'name' => 'John Doe',
+            'gender' => 'f'
+        ]);
+
+        $expectModel = [
+            'test_name' => $model->all()
+        ];
         $this->plainForm->add('name', 'text');
         $this->assertEquals('name', $this->plainForm->getField('name')->getName());
-        $this->plainForm->setName('test_name');
+        $this->plainForm->setName('test_name')->setModel($model);
         $this->plainForm->rebuildFields();
+        $this->prepareFieldRender('text');
+        $this->prepareRender(Mockery::any(), true, true, true, Mockery::any(), $expectModel);
+        $this->plainForm->renderForm();
+
         $this->assertEquals('test_name[name]', $this->plainForm->getField('name')->getName());
+        $this->assertEquals($expectModel, $this->plainForm->getModel());
     }
 
     /** @test */
@@ -361,7 +374,8 @@ class FormTest extends FormBuilderTestCase
         $showStart = true,
         $showFields = true,
         $showEnd = true,
-        $fields = []
+        $fields = [],
+        $model = null
     ) {
         $viewRenderer = Mockery::mock('Illuminate\Contracts\View\View');
 
@@ -386,7 +400,7 @@ class FormTest extends FormBuilderTestCase
         $viewRenderer->shouldReceive('with')->with('fields', $fields)
                      ->andReturnSelf();
 
-        $viewRenderer->shouldReceive('with')->with('model', null)
+        $viewRenderer->shouldReceive('with')->with('model', $model)
                      ->andReturnSelf();
 
         $viewRenderer->shouldReceive('render');

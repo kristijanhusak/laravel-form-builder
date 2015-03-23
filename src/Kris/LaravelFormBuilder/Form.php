@@ -310,7 +310,8 @@ class Form
     }
 
     /**
-     * @param string|null $name
+     * @param string $name
+     * @return $this
      */
     public function setName($name)
     {

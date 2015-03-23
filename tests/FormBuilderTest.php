@@ -114,6 +114,7 @@ namespace {
 
             $formBuilder->create('NamespacedDummyForm');
         }
+
     }
 
     class CustomDummyForm extends Form
