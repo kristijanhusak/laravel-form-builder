@@ -1,3 +1,7 @@
+## 1.4.0
+- Fix custom field template for child forms
+- Allow calling form methods directly from child form
+
 ## 1.3.8
 - Fix form model binding for named forms
 - Collection type now pulls data from model if data not passed in `data` option

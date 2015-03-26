@@ -19,56 +19,12 @@ class ChildFormType extends ParentType
     }
 
     /**
-     * Add a single field to the form
-     *
-     * @param        $name
-     * @param string $type
-     * @param array  $options
-     * @param bool   $modify
-     *
-     * @return Form
+     * @inheritdoc
      */
-    public function add($name, $type = 'text', array $options = [], $modify = false)
+    public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
     {
-        $this->form->add($name, $type, $options, $modify);
-        $this->children[$name] = $this->form->getField($name);
-
-        return $this->form;
-    }
-
-    /**
-     * Remove field with specified name from the form
-     *
-     * @param $name
-     *
-     * @return Form
-     */
-    public function remove($name)
-    {
-        $this->form->remove($name);
-        if ($this->getChild($name)) {
-            unset($this->children[$name]);
-        }
-
-        return $this->form;
-    }
-
-    /**
-     * Modify existing field. If it doesn't exist, it is added to form
-     *
-     * @param        $name
-     * @param string $type
-     * @param array  $options
-     * @param bool   $overwriteOptions
-     *
-     * @return Form
-     */
-    public function modify($name, $type = 'text', array $options = [], $overwriteOptions = false)
-    {
-        $this->form->modify($name, $type, $options, $overwriteOptions);
-        $this->children[$name] = $this->form->getField($name);
-
-        return $this->form;
+        $this->rebuild();
+        return parent::render($options, $showLabel, $showField, $showError);
     }
 
     /**
@@ -146,6 +102,10 @@ class ChildFormType extends ParentType
      */
     protected function getClassFromOptions()
     {
+        if ($this->form instanceof Form) {
+            return $this->form;
+        }
+
         $class = $this->getOption('class');
 
         if (!$class) {
@@ -169,5 +129,18 @@ class ChildFormType extends ParentType
         throw new \InvalidArgumentException(
             'Class provided does not exist or it passed in wrong format.'
         );
+    }
+
+    /**
+     * @param $method
+     * @param $arguments
+     *
+     * @return Form|null
+     */
+    public function __call($method, $arguments)
+    {
+        if (method_exists($this->form, $method)) {
+            return call_user_func_array([$this->form, $method], $arguments);
+        }
     }
 }
