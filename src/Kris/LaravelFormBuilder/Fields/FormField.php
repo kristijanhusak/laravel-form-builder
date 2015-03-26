@@ -98,6 +98,10 @@ abstract class FormField
             $showLabel = false;
         }
 
+        if ($showError) {
+            $showError = $this->parent->haveErrorsEnabled();
+        }
+
         return $this->formHelper->getView()->make(
             $this->template,
             [
