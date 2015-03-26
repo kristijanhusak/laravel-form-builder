@@ -19,6 +19,59 @@ class ChildFormType extends ParentType
     }
 
     /**
+     * Add a single field to the form
+     *
+     * @param        $name
+     * @param string $type
+     * @param array  $options
+     * @param bool   $modify
+     *
+     * @return Form
+     */
+    public function add($name, $type = 'text', array $options = [], $modify = false)
+    {
+        $this->form->add($name, $type, $options, $modify);
+        $this->children[$name] = $this->form->getField($name);
+
+        return $this->form;
+    }
+
+    /**
+     * Remove field with specified name from the form
+     *
+     * @param $name
+     *
+     * @return Form
+     */
+    public function remove($name)
+    {
+        $this->form->remove($name);
+        if ($this->getChild($name)) {
+            unset($this->children[$name]);
+        }
+
+        return $this->form;
+    }
+
+    /**
+     * Modify existing field. If it doesn't exist, it is added to form
+     *
+     * @param        $name
+     * @param string $type
+     * @param array  $options
+     * @param bool   $overwriteOptions
+     *
+     * @return Form
+     */
+    public function modify($name, $type = 'text', array $options = [], $overwriteOptions = false)
+    {
+        $this->form->modify($name, $type, $options, $overwriteOptions);
+        $this->children[$name] = $this->form->getField($name);
+
+        return $this->form;
+    }
+
+    /**
      * @return Form
      */
     public function getForm()

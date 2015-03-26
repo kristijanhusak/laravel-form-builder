@@ -157,6 +157,10 @@ abstract class FormField
             $this->name = $this->name.'[]';
         }
 
+        if (array_get($options, 'template') !== null) {
+            $this->template = array_pull($this->options, 'template');
+        }
+
         $options['wrapperAttrs'] = $this->formHelper->prepareAttributes($options['wrapper']);
         $options['errorAttrs'] = $this->formHelper->prepareAttributes($options['errors']);
 
@@ -205,6 +209,7 @@ abstract class FormField
      *
      * @param        $option
      * @param string $default
+     *
      * @return mixed
      */
     public function getOption($option, $default = null)
@@ -313,10 +318,6 @@ abstract class FormField
     {
         $this->options = $this->formHelper->mergeOptions($this->allDefaults(), $this->getDefaults());
         $this->options = $this->prepareOptions($options);
-
-        if (array_get($this->options, 'template') !== null) {
-            $this->template = array_pull($this->options, 'template');
-        }
     }
 
     /**
