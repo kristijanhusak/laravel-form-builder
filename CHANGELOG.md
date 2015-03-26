@@ -1,6 +1,8 @@
 ## 1.4.0
-- Fix custom field template for child forms
 - Allow calling form methods directly from child form
+- Update views to print all errors for single field
+- Fix custom field template for child forms
+- Fix disabling errors for fields in form class
 
 ## 1.3.8
 - Fix form model binding for named forms
