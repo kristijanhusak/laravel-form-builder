@@ -19,5 +19,4 @@ class ButtonType extends FormField
             'attr' => ['type' => $this->type]
         ];
     }
-
 }

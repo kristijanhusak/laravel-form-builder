@@ -31,7 +31,7 @@ abstract class FormField
      *
      * @var
      */
-    protected $options;
+    protected $options = [];
 
     /**
      * Is field rendered
@@ -87,7 +87,6 @@ abstract class FormField
      */
     public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
     {
-
         if ($showField) {
             $this->rendered = true;
         }
@@ -298,11 +297,21 @@ abstract class FormField
             'wrapper' => ['class' => $this->formHelper->getConfig('defaults.wrapper_class')],
             'attr' => ['class' => $this->formHelper->getConfig('defaults.field_class'), 'id' => $this->name],
             'default_value' => null,
-            'label' => $this->formHelper->formatLabel($this->name),
+            'label' => $this->formHelper->formatLabel($this->getRealName()),
             'is_child' => false,
-            'label_attr' => ['class' => $this->formHelper->getConfig('defaults.label_class')],
+            'label_attr' => ['class' => $this->formHelper->getConfig('defaults.label_class'), 'for' => $this->name],
             'errors' => ['class' => $this->formHelper->getConfig('defaults.error_class')]
         ];
+    }
+
+    /**
+     * Get real name of the field without form namespace
+     *
+     * @return string
+     */
+    public function getRealName()
+    {
+        return $this->getOption('real_name', $this->name);
     }
 
     /**
@@ -311,17 +320,6 @@ abstract class FormField
     protected function setValue($val)
     {
         $this->options['default_value'] = $val;
-    }
-
-    /**
-     * Merge all defaults with field specific defaults and set template if passed
-     *
-     * @param array $options
-     */
-    protected function setDefaultOptions(array $options = [])
-    {
-        $this->options = $this->formHelper->mergeOptions($this->allDefaults(), $this->getDefaults());
-        $this->options = $this->prepareOptions($options);
     }
 
     /**
@@ -350,6 +348,18 @@ abstract class FormField
         }
 
         return $options;
+    }
+
+
+    /**
+     * Merge all defaults with field specific defaults and set template if passed
+     *
+     * @param array $options
+     */
+    protected function setDefaultOptions(array $options = [])
+    {
+        $this->options = $this->formHelper->mergeOptions($this->allDefaults(), $this->getDefaults());
+        $this->options = $this->prepareOptions($options);
     }
 
     /**

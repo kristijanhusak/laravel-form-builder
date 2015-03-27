@@ -84,7 +84,13 @@ class Form
     public function rebuildFields()
     {
         foreach ($this->getFields() as $name => $field) {
-            $this->add($name, $field->getType(), $field->getOptions(), true);
+            $options = $field->getOptions();
+            // Remove id attribute if form is named so we can link it
+            // properly to label
+            if ($this->getName() && $field->getOption('attr.id') === $name) {
+                unset($options['attr']['id']);
+            }
+            $this->add($name, $field->getType(), $options, true);
         }
     }
 

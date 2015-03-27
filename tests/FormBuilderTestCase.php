@@ -106,7 +106,7 @@ abstract class FormBuilderTestCase extends PHPUnit_Framework_TestCase {
             'default_value' => $defaultValue,
             'label' => $label,
             'is_child' => false,
-            'label_attr' => ['class' => 'control-label'],
+            'label_attr' => ['class' => 'control-label', 'for' => $id],
             'errors' => ['class' => 'text-danger'],
             'wrapperAttrs' => 'class="form-group has-error" ',
             'errorAttrs' => 'class="text-danger" '

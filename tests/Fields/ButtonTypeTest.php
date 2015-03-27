@@ -53,7 +53,7 @@ class ButtonTypeTest extends FormBuilderTestCase
         $button->setType('reset');
         $button->setOptions(['attr' => ['id' => 'button-id'], 'label' => 'Cancel it']);
 
-        $expectedOptions = $this->getDefaults(['type' => 'submit', 'id' => 'button-id'], null, 'Cancel it');
+        $expectedOptions = $this->getDefaults(['type' => 'submit', 'id' => 'button-id'], 'save', 'Cancel it');
 
         $this->assertEquals('cancel', $button->getName());
         $this->assertEquals('reset', $button->getType());
