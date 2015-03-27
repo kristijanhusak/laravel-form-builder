@@ -1,3 +1,6 @@
+## 1.4.01
+- Fix setting field id on child forms.
+
 ## 1.4.0
 - Allow calling form methods directly from child form
 - Update views to print all errors for single field
