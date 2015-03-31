@@ -32,12 +32,16 @@ class RepeatedTypeTest extends FormBuilderTestCase
         $this->fieldExpetations('repeated', Mockery::any());
         $this->container->shouldReceive('make')->andReturn($this->plainForm);
 
-        $repeated = new RepeatedType('password', 'repeated', $this->plainForm, []);
+        $repeated = new RepeatedType('password', 'repeated', $this->plainForm, [
+            'type' => 'file'
+        ]);
 
         $this->assertFalse($repeated->isRendered());
 
         $repeated->first->render();
 
         $this->assertTrue($repeated->isRendered());
+
+        $this->assertTrue($this->plainForm->getFormOption('files'));
     }
 }

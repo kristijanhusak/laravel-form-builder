@@ -270,6 +270,7 @@ class FormTest extends FormBuilderTestCase
     {
         $form = $this->setupForm(new Form());
         $customForm = $this->setupForm(new CustomDummyForm());
+        $customForm->add('img', 'file');
 
         $form
             ->add('title', 'text')
@@ -305,6 +306,15 @@ class FormTest extends FormBuilderTestCase
             'Kris\LaravelFormBuilder\Form',
             $form->song->getForm()
         );
+
+        $this->assertTrue($form->song->getFormOption('files'));
+
+        try {
+            $form->song->badMethod();
+        } catch (\BadMethodCallException $e) {
+            return;
+        }
+        $this->fail('No exception on bad method call on child form.');
     }
 
     /** @test */

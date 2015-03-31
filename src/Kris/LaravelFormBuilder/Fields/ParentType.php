@@ -27,6 +27,7 @@ abstract class ParentType extends FormField
     {
         parent::__construct($name, $type, $parent, $options);
         $this->createChildren();
+        $this->checkIfFileType();
     }
 
     /**
@@ -99,5 +100,15 @@ abstract class ParentType extends FormField
     public function __get($name)
     {
         return $this->getChild($name);
+    }
+
+    /**
+     * Check if field has type property and if it's file add enctype/multipart to form
+     */
+    protected function checkIfFileType()
+    {
+        if ($this->getOption('type') === 'file') {
+            $this->parent->setFormOption('files', true);
+        }
     }
 }

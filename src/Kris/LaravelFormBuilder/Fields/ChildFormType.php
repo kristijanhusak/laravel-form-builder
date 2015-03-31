@@ -85,6 +85,10 @@ class ChildFormType extends ParentType
             'name' => $this->name
         ])->rebuildFields();
 
+        if ($this->form->getFormOption('files')) {
+            $this->parent->setFormOption('files', true);
+        }
+
         $model = $this->getOption('default_value');
 
         if ($bindValues && $model) {
@@ -142,5 +146,9 @@ class ChildFormType extends ParentType
         if (method_exists($this->form, $method)) {
             return call_user_func_array([$this->form, $method], $arguments);
         }
+
+        throw new \BadMethodCallException(
+            'Method ['.$method.'] does not exist on form ['.get_class($this->form).']'
+        );
     }
 }
