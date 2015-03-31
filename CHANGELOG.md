@@ -1,3 +1,6 @@
+## 1.4.02
+- Fix adding enctype multipart/form-data to form when field is of type file.
+
 ## 1.4.01
 - Fix setting field id on child forms.
 

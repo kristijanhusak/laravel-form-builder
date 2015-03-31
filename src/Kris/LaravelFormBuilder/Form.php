@@ -51,7 +51,7 @@ class Form
     /**
      * Name of the parent form if any
      *
-     * @var null
+     * @var string|null
      */
     protected $name = null;
 
@@ -246,7 +246,7 @@ class Form
      * Set single form option on form
      *
      * @param string $option
-     * @param string $value
+     * @param mixed $value
      *
      * @return $this
      */
