@@ -150,8 +150,8 @@ abstract class FormField
      */
     protected function prepareOptions(array $options = [])
     {
-        if (array_get($options, 'template') !== null) {
-            $this->template = array_pull($options, 'template');
+        if (array_get($this->options, 'template') !== null) {
+            $this->template = array_pull($this->options, 'template');
         }
 
         $options = $this->formHelper->mergeOptions($this->options, $options);
