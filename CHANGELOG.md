@@ -1,3 +1,6 @@
+## 1.4.03
+- Fix custom template per field.
+
 ## 1.4.02
 - Fix adding enctype multipart/form-data to form when field is of type file.
 
