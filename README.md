@@ -676,7 +676,7 @@ class PostForm extends Form
                 'second_options' => [],   // Same options available as for text type
             ])
             ->add('save', 'submit', [
-                'attr' = ['class' => 'btn btn-primary']
+                'attr' => ['class' => 'btn btn-primary']
             ])
             ->add('clear', 'reset', [
                 'label' => 'Clear the form',
