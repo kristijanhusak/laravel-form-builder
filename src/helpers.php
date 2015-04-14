@@ -39,6 +39,15 @@ if (!function_exists('form_rest')) {
 
 }
 
+if (!function_exists('form_until')) {
+
+    function form_until(Form $form, $field_name)
+    {
+        return $form->renderUntil($field_name, false);
+    }
+
+}
+
 if (!function_exists('form_row')) {
 
     function form_row(FormField $formField, array $options = [])
