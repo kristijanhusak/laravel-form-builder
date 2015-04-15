@@ -1,3 +1,6 @@
+## 1.4.06
+- Bind data to child form every time to allow setting null.
+
 ## 1.4.05
 - Fix id and name collision.
 
