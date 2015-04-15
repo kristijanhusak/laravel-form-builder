@@ -17,10 +17,9 @@ class CheckableType extends FormField
     public function getDefaults()
     {
         return [
-            'attr' => ['class' => null],
+            'attr' => ['class' => null, 'id' => $this->getName()],
             'default_value' => null,
             'checked' => false
         ];
     }
-
 }

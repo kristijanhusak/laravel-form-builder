@@ -295,7 +295,7 @@ abstract class FormField
     {
         return [
             'wrapper' => ['class' => $this->formHelper->getConfig('defaults.wrapper_class')],
-            'attr' => ['class' => $this->formHelper->getConfig('defaults.field_class'), 'id' => $this->name],
+            'attr' => ['class' => $this->formHelper->getConfig('defaults.field_class')],
             'default_value' => null,
             'label' => $this->formHelper->formatLabel($this->getRealName()),
             'is_child' => false,

@@ -1,3 +1,6 @@
+## 1.4.05
+- Fix id and name collision.
+
 ## 1.4.04
 - Fix collection type form model binding.
 
