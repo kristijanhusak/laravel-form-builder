@@ -40,10 +40,10 @@ class ChildFormType extends ParentType
      * @param bool $bindValues
      * @return $this
      */
-    protected function setValue($val, $bindValues = false)
+    protected function setValue($val)
     {
         $this->options['default_value'] = $val;
-        $this->rebuild($bindValues);
+        $this->rebuild();
 
         return $this;
     }
@@ -70,10 +70,9 @@ class ChildFormType extends ParentType
     }
 
     /**
-     * @param bool $bindValues should model value be bound to form
      * @return mixed|void
      */
-    protected function rebuild($bindValues = false)
+    protected function rebuild()
     {
         $this->form = $this->getClassFromOptions();
 
@@ -91,7 +90,7 @@ class ChildFormType extends ParentType
 
         $model = $this->getOption('default_value');
 
-        if ($bindValues && $model) {
+        if ($model) {
             foreach ($this->form->getFields() as $name => $field) {
                 $field->setValue($this->getModelValueAttribute($model, $name));
             }

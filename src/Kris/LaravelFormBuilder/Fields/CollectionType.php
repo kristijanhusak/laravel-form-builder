@@ -128,7 +128,7 @@ class CollectionType extends ParentType
             );
         }
 
-        $field->setValue($value, true);
+        $field->setValue($value);
 
         return $field;
     }

@@ -1,3 +1,6 @@
+## 1.4.04
+- Fix collection type form model binding.
+
 ## 1.4.03
 - Fix custom template per field.
 
