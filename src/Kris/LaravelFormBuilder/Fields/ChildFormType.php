@@ -90,10 +90,8 @@ class ChildFormType extends ParentType
 
         $model = $this->getOption('default_value');
 
-        if ($model) {
-            foreach ($this->form->getFields() as $name => $field) {
-                $field->setValue($this->getModelValueAttribute($model, $name));
-            }
+        foreach ($this->form->getFields() as $name => $field) {
+            $field->setValue($this->getModelValueAttribute($model, $name));
         }
 
         $this->children = $this->form->getFields();
