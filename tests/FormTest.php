@@ -288,11 +288,13 @@ class FormTest extends FormBuilderTestCase
         $this->plainForm
             ->add('gender', 'select')
             ->add('name', 'text')
-            ->add('email', 'email');
+            ->add('email', 'email')
+            ->add('address', 'text');
 
         $this->plainForm->gender->render();
 
-        $this->plainForm->renderUntil('name');
+        $this->plainForm->renderUntil('email');
+        $this->assertEquals($this->plainForm->address->isRendered(), false);
     }
 
     /** @test */

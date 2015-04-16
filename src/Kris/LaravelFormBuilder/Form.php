@@ -195,23 +195,24 @@ class Form
     /**
      * Renders the rest of the form up until the specified field name
      *
-     * @param bool $showFormEnd
-     * @param bool $showFields
+     * @param string $field_name
+     * @param bool   $showFormEnd
+     * @param bool   $showFields
      * @return string
      */
     public function renderUntil($field_name, $showFormEnd = true, $showFields = true)
     {
         $fields = $this->getUnrenderedFields();
 
-		$i = 1;
-		foreach ($fields as $key => $value) {
-			if ($value->getName() == $field_name) {
-				break;
-			}
-			$i++;
-		}
+        $i = 1;
+        foreach ($fields as $key => $value) {
+            if ($value->getName() == $field_name) {
+                break;
+            }
+            $i++;
+        }
 
-		$fields = array_slice($fields, 0, $i, true);
+        $fields = array_slice($fields, 0, $i, true);
 
         return $this->render([], $fields, false, $showFields, $showFormEnd);
     }
