@@ -152,7 +152,7 @@ class Form
      * @return Form
      */
     public function modify($name, $type = 'text', array $options = [], $overwriteOptions = false)
-    {
+    {g
         // If we don't want to overwrite options, we merge them with old options
         if ($overwriteOptions === false && $this->has($name)) {
             $options = $this->formHelper->mergeOptions(
@@ -480,9 +480,13 @@ class Form
      * @param null   $default
      * @return mixed
      */
-    public function getData($name, $default = null)
+    public function getData($name = null, $default = null)
     {
-        return array_get($this->data, $name, $default);
+        if( is_null($name) ) {
+            return $this->data;
+        } else {
+            return array_get($this->data, $name, $default);
+        }
     }
 
     /**
