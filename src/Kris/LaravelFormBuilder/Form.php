@@ -152,7 +152,7 @@ class Form
      * @return Form
      */
     public function modify($name, $type = 'text', array $options = [], $overwriteOptions = false)
-    {g
+    {
         // If we don't want to overwrite options, we merge them with old options
         if ($overwriteOptions === false && $this->has($name)) {
             $options = $this->formHelper->mergeOptions(
