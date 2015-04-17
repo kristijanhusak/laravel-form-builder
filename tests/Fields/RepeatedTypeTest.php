@@ -11,9 +11,16 @@ class RepeatedTypeTest extends FormBuilderTestCase
         $this->fieldExpetations('text', Mockery::any());
         $this->fieldExpetations('text', Mockery::any());
         $this->fieldExpetations('repeated', Mockery::any());
-        $this->container->shouldReceive('make')->andReturn($this->plainForm);
+        $repeatedForm = $this->setupForm(new Form());
+        // Child fields are initialized when constructing a repeated type
+        // from plain form
+        $this->container->shouldReceive('make')->once()->andReturn($this->plainForm);
 
         $repeated = new RepeatedType('password', 'repeated', $this->plainForm, []);
+
+        // We need to give another form instance because at render we rebuild
+        // the child fields, so they collect regular data when rendering
+        $this->container->shouldReceive('make')->once()->andReturn($repeatedForm);
 
         $repeated->render();
 

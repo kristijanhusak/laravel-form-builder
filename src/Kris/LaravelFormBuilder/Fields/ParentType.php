@@ -39,8 +39,9 @@ abstract class ParentType extends FormField
      */
     public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
     {
+        $this->options = $this->formHelper->mergeOptions($this->options, $options);
+        $this->rebuild();
         $options['children'] = $this->children;
-
         return parent::render($options, $showLabel, $showField, $showError);
     }
 

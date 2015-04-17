@@ -25,11 +25,11 @@ class RepeatedType extends ParentType
 
     protected function createChildren()
     {
-        $firstName = $this->getOption('real_name', $this->name);
+        $firstName = $this->getRealName();
         $secondName = $this->getOption('second_name');
 
         if (is_null($secondName)) {
-            $secondName = $this->getOption('real_name', $this->name).'_confirmation';
+            $secondName = $firstName.'_confirmation';
         }
 
         $form = $this->parent->getFormBuilder()->plain([
