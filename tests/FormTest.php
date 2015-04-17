@@ -266,6 +266,38 @@ class FormTest extends FormBuilderTestCase
     }
 
     /** @test */
+    public function it_renders_rest_of_the_form_until_specified_field()
+    {
+        $options = [
+            'method' => 'GET',
+            'url' => '/some/url/10'
+        ];
+
+        $this->prepareFieldRender('select');
+        $this->prepareFieldRender('text');
+
+        $fields = [
+            new InputType('name', 'text', $this->plainForm),
+            new InputType('email', 'email', $this->plainForm),
+        ];
+
+        $this->prepareRender($options, false, true, true, $fields);
+
+        $this->plainForm->setFormOptions($options);
+
+        $this->plainForm
+            ->add('gender', 'select')
+            ->add('name', 'text')
+            ->add('email', 'email')
+            ->add('address', 'text');
+
+        $this->plainForm->gender->render();
+
+        $this->plainForm->renderUntil('email');
+        $this->assertEquals($this->plainForm->address->isRendered(), false);
+    }
+
+    /** @test */
     public function it_can_add_child_form_as_field()
     {
         $form = $this->setupForm(new Form());
