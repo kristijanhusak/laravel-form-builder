@@ -389,6 +389,7 @@ class Form
     {
         $this->model = $model;
 
+        $this->setupNamedModel();
         // Rebuild so new data is bound to the fields
         $this->rebuildFields();
 
@@ -482,11 +483,11 @@ class Form
      */
     public function getData($name = null, $default = null)
     {
-        if( is_null($name) ) {
+        if (is_null($name)) {
             return $this->data;
-        } else {
-            return array_get($this->data, $name, $default);
         }
+
+        return array_get($this->data, $name, $default);
     }
 
     /**

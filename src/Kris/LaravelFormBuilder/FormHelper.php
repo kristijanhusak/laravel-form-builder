@@ -62,7 +62,8 @@ class FormHelper
         'week',
         'form',
         'collection',
-        'repeated'
+        'repeated',
+        'static'
     ];
 
     /**
@@ -176,6 +177,9 @@ class FormHelper
                 break;
             case 'repeated':
                 $fieldType = __NAMESPACE__.'\\Fields\\RepeatedType';
+                break;
+            case 'static':
+                $fieldType = __NAMESPACE__.'\\Fields\\StaticType';
                 break;
             default:
                 $fieldType = __NAMESPACE__.'\\Fields\\InputType';

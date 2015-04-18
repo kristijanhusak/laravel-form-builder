@@ -59,6 +59,7 @@ class CollectionType extends ParentType
     protected function createChildren()
     {
         $type = $this->getOption('type');
+        $oldInput = $this->parent->getRequest()->old($this->transformKey($this->getName()));
 
         try {
             $fieldType = $this->formHelper->getFieldType($type);
@@ -71,7 +72,10 @@ class CollectionType extends ParentType
 
         $data = $this->getOption('data');
 
-        if (!$data) {
+        // Needs to have more than 1 item because 1 is rendered by default
+        if (count($oldInput) > 1) {
+            $data = $oldInput;
+        } elseif (!$data) {
             $data = $this->parent->getModel();
             $data = $this->getModelValueAttribute($data, $this->getName());
         }

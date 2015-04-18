@@ -13,9 +13,10 @@ class FormTest extends FormBuilderTestCase
         $this->plainForm
             ->add('name', 'text')
             ->add('description', 'textarea')
+            ->add('address', 'static')
             ->add('remember', 'checkbox');
 
-        $this->assertEquals(3, count($this->plainForm->getFields()));
+        $this->assertEquals(4, count($this->plainForm->getFields()));
 
         $this->assertTrue($this->plainForm->has('name'));
         $this->assertFalse($this->plainForm->has('body'));
@@ -36,6 +37,11 @@ class FormTest extends FormBuilderTestCase
         $this->assertInstanceOf(
             'Kris\LaravelFormBuilder\Fields\CheckableType',
             $this->plainForm->getField('remember')
+        );
+
+        $this->assertInstanceOf(
+            'Kris\LaravelFormBuilder\Fields\StaticType',
+            $this->plainForm->getField('address')
         );
     }
 
@@ -209,6 +215,11 @@ class FormTest extends FormBuilderTestCase
              $this->plainForm->getData('some_data')
          );
 
+        $this->assertEquals(
+            $this->plainForm->getData(),
+            ['some_data' => ['this', 'is', 'some', 'data']]
+        );
+
         $this->assertEquals('test_name', $this->plainForm->getName());
     }
 
@@ -303,6 +314,7 @@ class FormTest extends FormBuilderTestCase
         $form = $this->setupForm(new Form());
         $customForm = $this->setupForm(new CustomDummyForm());
         $customForm->add('img', 'file');
+        $this->request->shouldReceive('old');
 
         $form
             ->add('title', 'text')
@@ -360,15 +372,20 @@ class FormTest extends FormBuilderTestCase
         $expectModel = [
             'test_name' => $model->all()
         ];
-        $this->plainForm->add('name', 'text');
+        $this->plainForm
+            ->add('name', 'text')
+            ->add('address', 'static');
         $this->assertEquals('name', $this->plainForm->getField('name')->getName());
+        $this->assertEquals('address', $this->plainForm->getField('address')->getName());
         $this->plainForm->setName('test_name')->setModel($model);
         $this->plainForm->rebuildFields();
         $this->prepareFieldRender('text');
+        $this->prepareFieldRender('static');
         $this->prepareRender(Mockery::any(), true, true, true, Mockery::any(), $expectModel);
         $this->plainForm->renderForm();
 
         $this->assertEquals('test_name[name]', $this->plainForm->getField('name')->getName());
+        $this->assertEquals('test_name[address]', $this->plainForm->getField('address')->getName());
         $this->assertEquals($expectModel, $this->plainForm->getModel());
     }
 
