@@ -1,3 +1,9 @@
+## 1.4.10
+- Use old input for collection field type. (Example: after failed validation, redirect back withInput).
+- Add `static` type field.
+- Add `form_until` function that renders fields until specified field(Thanks to [@hackel](https://github.com/hackel))
+- using `getData` without param returns all data
+
 ## 1.4.06
 - Bind data to child form every time to allow setting null.
 

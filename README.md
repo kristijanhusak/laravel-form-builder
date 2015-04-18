@@ -647,6 +647,12 @@ class PostForm extends Form
                     'wrapper' => ['class' => 'choice-wrapper'] // Shows the wrapper for each radio or checkbox, default is false
                 ]
             ])
+            // Static text, holds only text, no input
+            ->add('address', 'static', [
+                'tag' => 'div' // Tag to be used for holding static data,
+                'attr' => ['class' => 'form-control-static'], // This is the default
+                'default_value' => null // If nothing is passed, data is pulled from model if any
+            ])
             // Automatically adds enctype="multipart/form-data" to form
             ->add('image', 'file', [
                 'label' => 'Upload your image'
@@ -779,6 +785,7 @@ Here is a categorized list of all available field types:
   * password
   * hidden
   * file
+  * static
 * Date and Time
   * date
   * datetime-local
