@@ -480,9 +480,13 @@ class Form
      * @param null   $default
      * @return mixed
      */
-    public function getData($name, $default = null)
+    public function getData($name = null, $default = null)
     {
-        return array_get($this->data, $name, $default);
+        if( is_null($name) ) {
+            return $this->data;
+        } else {
+            return array_get($this->data, $name, $default);
+        }
     }
 
     /**
