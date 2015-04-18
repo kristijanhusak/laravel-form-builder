@@ -10,7 +10,9 @@
 
     <?php if ($showField): ?>
         <?php foreach ((array)$options['children'] as $child): ?>
-            <?= $child->render() ?>
+            <?php if( ! in_array( $child->getRealName(), (array)$options['exclude']) ) { ?>
+                <?= $child->render() ?>
+            <?php } ?>
         <?php endforeach; ?>
     <?php endif; ?>
 
