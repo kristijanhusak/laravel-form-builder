@@ -1,3 +1,6 @@
+## 1.4.11
+- Add ability to exclude some fields from rendering ([PR-77](https://github.com/kristijanhusak/laravel-form-builder/pull/77). Thanks to [@theshaunwalker](https://github.com/theshaunwalker))
+
 ## 1.4.10
 - Use old input for collection field type. (Example: after failed validation, redirect back withInput).
 - Add `static` type field.
