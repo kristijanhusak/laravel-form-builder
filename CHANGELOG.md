@@ -1,3 +1,7 @@
+## 1.4.1
+- Use old input for collection field type. (Example: after failed validation, redirect back withInput).
+- Add `static` type field.
+
 ## 1.4.06
 - Bind data to child form every time to allow setting null.
 
