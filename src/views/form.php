@@ -8,7 +8,9 @@
 
 <?php if ($showFields): ?>
     <?php foreach ($fields as $field): ?>
-        <?= $field->render() ?>
+    	<?php if( ! in_array($field->getName(), $exclude) ) { ?>
+        	<?= $field->render() ?>
+		<?php } ?>
     <?php endforeach; ?>
 <?php endif; ?>
 

@@ -417,7 +417,8 @@ class FormTest extends FormBuilderTestCase
         $showFields = true,
         $showEnd = true,
         $fields = [],
-        $model = null
+        $model = null,
+        $exclude = []
     ) {
         $viewRenderer = Mockery::mock('Illuminate\Contracts\View\View');
 
@@ -443,6 +444,9 @@ class FormTest extends FormBuilderTestCase
                      ->andReturnSelf();
 
         $viewRenderer->shouldReceive('with')->with('model', $model)
+                     ->andReturnSelf();
+
+        $viewRenderer->shouldReceive('with')->with('exclude', $exclude)
                      ->andReturnSelf();
 
         $viewRenderer->shouldReceive('render');

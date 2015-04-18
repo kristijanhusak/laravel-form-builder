@@ -61,6 +61,13 @@ class Form
     protected $formBuilder;
 
     /**
+     * List of fields to not render
+     *
+     * @var array
+     **/
+    protected $exclude = [];
+
+    /**
      * Build the form
      *
      * @return mixed
@@ -532,6 +539,7 @@ class Form
             ->with('formOptions', $formOptions)
             ->with('fields', $fields)
             ->with('model', $this->getModel())
+            ->with('exclude', $this->exclude)
             ->render();
     }
 
@@ -683,5 +691,18 @@ class Form
     public function getFormBuilder()
     {
         return $this->formBuilder;
+    }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     * @author 
+     **/
+    public function exclude(array $fields)
+    {
+        $this->exclude = array_merge($this->exclude, $fields);
+
+        return $this;
     }
 }

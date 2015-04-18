@@ -47,7 +47,8 @@ class ChildFormType extends ParentType
             'class' => null,
             'default_value' => null,
             'formOptions' => [],
-            'data' => []
+            'data' => [],
+            'exclude' => []
         ];
     }
 
