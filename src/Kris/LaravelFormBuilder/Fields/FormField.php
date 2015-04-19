@@ -105,6 +105,7 @@ abstract class FormField
             $this->template,
             [
                 'name' => $this->name,
+                'nameKey' => $this->getNameKey(),
                 'type' => $this->type,
                 'options' => $options,
                 'showLabel' => $showLabel,
@@ -195,6 +196,16 @@ abstract class FormField
         $this->name = $name;
 
         return $this;
+    }
+
+    /**
+     * Get dot notation key for fields
+     *
+     * @return string
+     **/
+    public function getNameKey()
+    {
+        return $this->transformKey($this->name);
     }
 
     /**
@@ -339,7 +350,7 @@ abstract class FormField
     {
         $errors = $this->formHelper->getRequest()->getSession()->get('errors');
 
-        if ($errors && $errors->has($this->name)) {
+        if ($errors && $errors->has($this->getNameKey())) {
             $errorClass = $this->formHelper->getConfig('defaults.wrapper_error_class');
 
             if ($options['wrapper'] && !str_contains($options['wrapper']['class'], $errorClass)) {

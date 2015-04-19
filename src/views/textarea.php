@@ -13,7 +13,7 @@
     <?php endif; ?>
 
     <?php if ($showError && isset($errors)): ?>
-        <?php foreach ($errors->get(array_get($options, 'real_name', $name)) as $err): ?>
+        <?php foreach ($errors->get($nameKey) as $err): ?>
             <div <?= $options['errorAttrs'] ?>><?= $err ?></div>
         <?php endforeach; ?>
     <?php endif; ?>
