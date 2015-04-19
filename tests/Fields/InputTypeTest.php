@@ -22,6 +22,7 @@ class InputTypeTest extends FormBuilderTestCase
 
         $expectedViewData = [
             'name' => 'hidden_id',
+            'nameKey' => 'hidden_id',
             'type' => 'hidden',
             'options' => $expectedOptions,
             'showLabel' => false,

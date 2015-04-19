@@ -21,6 +21,7 @@ class ButtonTypeTest extends FormBuilderTestCase
 
         $expectedViewData = [
             'name' => 'some_button',
+            'nameKey' => 'some_button',
             'type' => 'button',
             'options' => $expectedOptions,
             'showLabel' => true,
@@ -75,6 +76,7 @@ class ButtonTypeTest extends FormBuilderTestCase
 
         $expectedViewData = [
             'name' => 'some_submit',
+            'nameKey' => 'some_submit',
             'type' => 'submit',
             'options' => $expectedOptions,
             'showLabel' => true,

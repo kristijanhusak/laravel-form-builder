@@ -33,6 +33,7 @@ class StaticTypeTest extends FormBuilderTestCase
 
         $expectedViewData = [
             'name' => 'some_static',
+            'nameKey' => 'some_static',
             'type' => 'static',
             'options' => $expectedOptions,
             'showLabel' => true,
