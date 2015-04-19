@@ -1,3 +1,6 @@
+## 1.4.12
+- Fix issue with showing validation errors for nested forms ([#78](https://github.com/kristijanhusak/laravel-form-builder/issues/78). Thanks to [@theshaunwalker](https://github.com/theshaunwalker))
+
 ## 1.4.11
 - Add ability to exclude some fields from rendering ([PR-77](https://github.com/kristijanhusak/laravel-form-builder/pull/77). Thanks to [@theshaunwalker](https://github.com/theshaunwalker))
 
