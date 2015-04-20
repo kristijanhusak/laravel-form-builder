@@ -45,7 +45,7 @@ class ChildFormType extends ParentType
     {
         return [
             'class' => null,
-            'default_value' => null,
+            'default_value' => false,
             'formOptions' => [],
             'data' => [],
             'exclude' => []
@@ -71,6 +71,10 @@ class ChildFormType extends ParentType
             $this->form->setModel($this->parent->getModel());
         }
 
+        if (!$this->form->getData()) {
+            $this->form->addData($this->parent->getData());
+        }
+
         $this->form->setFormOptions([
             'name' => $this->name
         ])->rebuildFields();
@@ -81,8 +85,10 @@ class ChildFormType extends ParentType
 
         $model = $this->getOption('default_value');
 
-        foreach ($this->form->getFields() as $name => $field) {
-            $field->setValue($this->getModelValueAttribute($model, $name));
+        if ($model !== false) {
+            foreach ($this->form->getFields() as $name => $field) {
+                $field->setValue($this->getModelValueAttribute($model, $name));
+            }
         }
 
         $this->children = $this->form->getFields();
