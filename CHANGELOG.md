@@ -1,3 +1,7 @@
+## 1.4.20
+- Add `help_block` option for fields which renders note under the field (http://getbootstrap.com/css/#forms)
+- Fix repeated type not closing tags properly
+
 ## 1.4.13
 - Fix default_value for child forms ([#77](https://github.com/kristijanhusak/laravel-form-builder/issues/80))
 - Pass form data to child forms.
