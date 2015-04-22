@@ -151,11 +151,13 @@ abstract class FormField
      */
     protected function prepareOptions(array $options = [])
     {
+        $helper = $this->formHelper;
+
         if (array_get($this->options, 'template') !== null) {
             $this->template = array_pull($this->options, 'template');
         }
 
-        $options = $this->formHelper->mergeOptions($this->options, $options);
+        $options = $helper->mergeOptions($this->options, $options);
 
         if ($this->parent->haveErrorsEnabled()) {
             $this->addErrorClass($options);
@@ -165,11 +167,17 @@ abstract class FormField
             $this->name = $this->name.'[]';
         }
 
-        $options['wrapperAttrs'] = $this->formHelper->prepareAttributes($options['wrapper']);
-        $options['errorAttrs'] = $this->formHelper->prepareAttributes($options['errors']);
+        $options['wrapperAttrs'] = $helper->prepareAttributes($options['wrapper']);
+        $options['errorAttrs'] = $helper->prepareAttributes($options['errors']);
 
         if ($options['is_child']) {
-            $options['labelAttrs'] = $this->formHelper->prepareAttributes($options['label_attr']);
+            $options['labelAttrs'] = $helper->prepareAttributes($options['label_attr']);
+        }
+
+        if ($options['help_block']['text']) {
+            $options['help_block']['helpBlockAttrs'] = $helper->prepareAttributes(
+                $options['help_block']['attr']
+            );
         }
 
         return $options;
@@ -307,6 +315,9 @@ abstract class FormField
         return [
             'wrapper' => ['class' => $this->formHelper->getConfig('defaults.wrapper_class')],
             'attr' => ['class' => $this->formHelper->getConfig('defaults.field_class')],
+            'help_block' => ['text' => null, 'tag' => 'p', 'attr' => [
+                'class' => $this->formHelper->getConfig('defaults.help_block_class')
+            ]],
             'default_value' => null,
             'label' => $this->formHelper->formatLabel($this->getRealName()),
             'is_child' => false,

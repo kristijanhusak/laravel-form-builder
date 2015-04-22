@@ -6,6 +6,7 @@ return [
         'wrapper_error_class' => 'has-error',
         'label_class'         => 'control-label',
         'field_class'         => 'form-control',
+        'help_block_class'    => 'help-block',
         'error_class'         => 'text-danger'
     ],
     // Templates

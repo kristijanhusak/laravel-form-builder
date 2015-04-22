@@ -12,7 +12,11 @@
     <<?= $options['tag'] ?> <?= $options['elemAttrs'] ?>><?= $options['default_value'] ?></<?= $options['tag'] ?>>
     <?php endif; ?>
 
-<?php if ($showLabel && $showField && !$options['is_child']): ?>
+    <?php if ($options['help_block']['text']): ?>
+        <<?= $options['help_block']['tag'] ?> <?= $options['helpBlockAttrs'] ?>><?= $options['help_block']['text'] ?></<?= $options['help_block']['tag'] ?>>
+    <?php endif; ?>
+
+<?php if ($showLabel && $showField): ?>
     <?php if ($options['wrapper'] !== false): ?>
     </div>
     <?php endif; ?>

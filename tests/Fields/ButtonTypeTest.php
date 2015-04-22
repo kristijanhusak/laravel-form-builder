@@ -90,5 +90,4 @@ class ButtonTypeTest extends FormBuilderTestCase
 
         $button->render();
     }
-
 }

@@ -10,15 +10,21 @@ class InputTypeTest extends FormBuilderTestCase
     public function it_prevents_rendering_label_for_hidden_field()
     {
         $options = [
-            'default_value' => 12
+            'default_value' => 12,
+            'help_block' => [
+                'text' => 'this is help'
+            ]
         ];
 
         $expectedOptions = $this->getDefaults(
             [],
             'hidden_id',
             'Hidden Id',
-            12
+            12,
+            'this is help'
         );
+
+        $expectedOptions['help_block']['helpBlockAttrs'] = 'class="help-block" ';
 
         $expectedViewData = [
             'name' => 'hidden_id',

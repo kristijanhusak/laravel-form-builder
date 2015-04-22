@@ -9,6 +9,10 @@
         <?= $options['children']['second']->render([], true, true, false) ?>
     <?php endif; ?>
 
+    <?php if ($options['help_block']['text']): ?>
+        <<?= $options['help_block']['tag'] ?> <?= $options['helpBlockAttrs'] ?>><?= $options['help_block']['text'] ?></<?= $options['help_block']['tag'] ?>>
+    <?php endif; ?>
+
     <?php if ($showError && isset($errors)): ?>
         <?= $options['children']['first']->render([], false, false, true) ?>
         <?= $options['children']['second']->render([], false, false, true) ?>

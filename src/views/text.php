@@ -12,13 +12,17 @@
     <?= Form::input($type, $name, $options['default_value'], $options['attr']) ?>
     <?php endif; ?>
 
+    <?php if ($options['help_block']['text']): ?>
+        <<?= $options['help_block']['tag'] ?> <?= $options['helpBlockAttrs'] ?>><?= $options['help_block']['text'] ?></<?= $options['help_block']['tag'] ?>>
+    <?php endif; ?>
+
     <?php if ($showError && isset($errors)): ?>
         <?php foreach ($errors->get($nameKey) as $err): ?>
             <div <?= $options['errorAttrs'] ?>><?= $err ?></div>
         <?php endforeach; ?>
     <?php endif; ?>
 
-<?php if ($showLabel && $showField && !$options['is_child']): ?>
+<?php if ($showLabel && $showField): ?>
     <?php if ($options['wrapper'] !== false): ?>
     </div>
     <?php endif; ?>
