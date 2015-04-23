@@ -9,13 +9,14 @@
     <?php endif; ?>
 
     <?php if ($showField): ?>
-    <?= Form::textarea($name, $options['default_value'], $options['attr']) ?>
-    <?php endif; ?>
+        <?= Form::textarea($name, $options['default_value'], $options['attr']) ?>
 
-    <?php if ($options['help_block']['text']): ?>
-        <<?= $options['help_block']['tag'] ?> <?= $options['help_block']['helpBlockAttrs'] ?>>
-            <?= $options['help_block']['text'] ?>
-        </<?= $options['help_block']['tag'] ?>>
+        <?php if ($options['help_block']['text']): ?>
+            <<?= $options['help_block']['tag'] ?> <?= $options['help_block']['helpBlockAttrs'] ?>>
+                <?= $options['help_block']['text'] ?>
+            </<?= $options['help_block']['tag'] ?>>
+        <?php endif; ?>
+
     <?php endif; ?>
 
     <?php if ($showError && isset($errors)): ?>

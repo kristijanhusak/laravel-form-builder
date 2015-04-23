@@ -9,14 +9,15 @@
     <?php endif; ?>
 
     <?php if ($showField): ?>
-    <?php $emptyVal = $options['empty_value'] ? ['' => $options['empty_value']] : null; ?>
-    <?= Form::select($name, (array)$emptyVal + $options['choices'], $options['selected'], $options['attr']) ?>
-    <?php endif; ?>
+        <?php $emptyVal = $options['empty_value'] ? ['' => $options['empty_value']] : null; ?>
+        <?= Form::select($name, (array)$emptyVal + $options['choices'], $options['selected'], $options['attr']) ?>
 
-    <?php if ($options['help_block']['text']): ?>
-        <<?= $options['help_block']['tag'] ?> <?= $options['help_block']['helpBlockAttrs'] ?>>
-            <?= $options['help_block']['text'] ?>
-        </<?= $options['help_block']['tag'] ?>>
+        <?php if ($options['help_block']['text']): ?>
+            <<?= $options['help_block']['tag'] ?> <?= $options['help_block']['helpBlockAttrs'] ?>>
+                <?= $options['help_block']['text'] ?>
+            </<?= $options['help_block']['tag'] ?>>
+        <?php endif; ?>
+
     <?php endif; ?>
 
     <?php if ($showError && isset($errors)): ?>
