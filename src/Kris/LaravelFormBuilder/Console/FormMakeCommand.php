@@ -13,14 +13,14 @@ class FormMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'form:make';
+    protected $name = 'make:form';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Creates a form builder class.';
+    protected $description = 'Create a form builder class';
 
     /**
      * Type of the file generated
