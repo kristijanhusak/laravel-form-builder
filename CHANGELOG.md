@@ -1,3 +1,7 @@
+## 1.4.21
+- Fix `help_block` rendering twice on repeated field type
+- Fix choice field type adding additional `[]` to the name in child forms/collections
+
 ## 1.4.20
 - Add `help_block` option for fields which renders note under the field (http://getbootstrap.com/css/#forms)
 - Fix repeated type not closing tags properly
