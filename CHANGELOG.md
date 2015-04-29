@@ -1,4 +1,5 @@
 ## 1.4.21
+- Add `wrapper` option for button type, defaults to false
 - Fix `help_block` rendering twice on repeated field type
 - Fix choice field type adding additional `[]` to the name in child forms/collections
 

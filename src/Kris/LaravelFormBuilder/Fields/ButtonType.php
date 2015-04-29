@@ -16,6 +16,7 @@ class ButtonType extends FormField
     protected function getDefaults()
     {
         return [
+            'wrapper' => false,
             'attr' => ['type' => $this->type]
         ];
     }
