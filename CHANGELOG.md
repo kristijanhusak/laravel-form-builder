@@ -1,3 +1,6 @@
+## 1.4.22
+- Fix choice field type not adding `[]` on regular forms
+
 ## 1.4.21
 - Add `wrapper` option for button type, defaults to false
 - Fix `help_block` rendering twice on repeated field type

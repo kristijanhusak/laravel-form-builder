@@ -84,6 +84,8 @@ class ChoiceType extends ParentType
      */
     protected function buildCheckableChildren($fieldType)
     {
+        $multiple = $this->getOption('multiple') ? '[]' : '';
+
         foreach ((array)$this->options['choices'] as $key => $choice) {
             $id = $choice . '_' . $key;
             $options = $this->formHelper->mergeOptions(
@@ -97,7 +99,7 @@ class ChoiceType extends ParentType
                 ]
             );
             $this->children[] = new $fieldType(
-                $this->name,
+                $this->name . $multiple,
                 $this->choiceType,
                 $this->parent,
                 $options
