@@ -134,6 +134,78 @@ class Form
     }
 
     /**
+     * add field to the form before specified field
+     *
+     * @param $name
+     * @return $this
+     */
+    public function addBefore($beforeField,$name, $type = 'text', array $options = [], $modify = false)
+    {
+        if( ! $this->has($beforeField) ){
+            throw new \InvalidArgumentException('Field ['.$beforeField.'] does not exist in '.get_class($this));
+        }
+
+        // put beforeField on temporary variable
+        $tmp = $this->fields[$beforeField];
+
+        $keys = array_keys($this->fields);
+        $beforeIdx = array_search($beforeField, $keys);
+
+        // slice first part of array excluding beforeField
+        $fieldsStart = array_slice( $this->fields, 0 , $beforeIdx );      
+
+        // slice end part of array including beforeField
+        $fieldsEnd = array_slice($this->fields, $beforeIdx); 
+
+        // assign first part        
+        $this->fields = $fieldsStart;
+
+        // adding new field
+        $this->add($name,$type,$options,$modify);
+
+        // join them
+        $this->fields += $fieldsEnd;
+        
+        return $this;
+    }
+
+    /**
+     * add field to the form after specified field
+     *
+     * @param $name
+     * @return $this
+     */
+    public function addAfter($afterField,$name, $type = 'text', array $options = [], $modify = false)
+    {
+        if( ! $this->has($afterField) ){
+            throw new \InvalidArgumentException('Field ['.$afterField.'] does not exist in '.get_class($this));
+        }
+        
+        // put beforeField on temporary variable
+        $tmp = $this->fields[$afterField];
+
+        $keys = array_keys($this->fields);
+        $afterIdx = array_search($afterField, $keys);
+
+        // slice first part of array excluding afterField
+        $fieldsStart = array_slice( $this->fields, 0 , $afterIdx + 1 );      
+        
+        // slice end part of array including afterField
+        $fieldsEnd = array_slice($this->fields, $afterIdx); 
+
+        // assign first part        
+        $this->fields = $fieldsStart;
+
+        // adding new field
+        $this->add($name,$type,$options,$modify);
+
+        // join them
+        $this->fields += $fieldsEnd;
+
+        return $this;
+    }
+
+    /**
      * Remove field with specified name from the form
      *
      * @param $name
@@ -182,6 +254,7 @@ class Form
      */
     public function renderForm(array $options = [], $showStart = true, $showFields = true, $showEnd = true)
     {
+        \Event::fire('form.rendering',$this);
         return $this->render($options, $this->fields, $showStart, $showFields, $showEnd);
     }
 
