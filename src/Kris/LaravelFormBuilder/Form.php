@@ -182,6 +182,8 @@ class Form
      */
     public function renderForm(array $options = [], $showStart = true, $showFields = true, $showEnd = true)
     {
+        // fire event allow listener to modify this form
+        \Event::fire('form.rendering',$this);
         return $this->render($options, $this->fields, $showStart, $showFields, $showEnd);
     }
 
@@ -537,9 +539,6 @@ class Form
         $formOptions = $this->formHelper->mergeOptions($this->formOptions, $options);
 
         $this->setupNamedModel();
-        
-        // fire event allow listener to modify this form
-        \Event::fire('form.rendering',$this);
         
         return $this->formHelper->getView()
             ->make($this->formHelper->getConfig('form'))
