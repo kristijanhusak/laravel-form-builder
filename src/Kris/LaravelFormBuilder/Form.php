@@ -537,7 +537,10 @@ class Form
         $formOptions = $this->formHelper->mergeOptions($this->formOptions, $options);
 
         $this->setupNamedModel();
-
+        
+        // fire event allow listener to modify this form
+        \Event::fire('form.rendering',$this);
+        
         return $this->formHelper->getView()
             ->make($this->formHelper->getConfig('form'))
             ->with(compact('showStart', 'showFields', 'showEnd'))
