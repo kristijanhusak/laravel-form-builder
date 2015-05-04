@@ -625,6 +625,7 @@ class PostForm extends Form
                 'wrapper' => [
                   'class' => 'name-input-container'
                 ],
+                'required' => true, // Adds `required` class to label, and required attribute to field
                 'help_block' => [
                     'text' => 'I am help text',  // If text is set, automatically adds help text under the field. Default: null
                     'tag' => 'p'    // this is default,

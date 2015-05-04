@@ -1,3 +1,7 @@
+## 1.4.25
+- Add `addBefore` and `addAfter` methods to Form class to allow adding fields at specific location
+- Add `required` option for all field types, that adds class `required` (configurable in config) to label, and `required` attribute to field.
+
 ## 1.4.22
 - Fix choice field type not adding `[]` on regular forms
 

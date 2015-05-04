@@ -46,6 +46,79 @@ class FormTest extends FormBuilderTestCase
     }
 
     /** @test */
+    public function it_adds_after_some_field()
+    {
+        $this->plainForm
+            ->add('name', 'text')
+            ->add('description', 'textarea');
+
+        $descIndexBefore = array_search(
+            'description',
+            array_keys($this->plainForm->getFields())
+        );
+
+        $this->assertEquals(1, $descIndexBefore);
+        $this->assertNull($this->plainForm->address);
+
+        $this->plainForm->addAfter('name', 'address');
+
+        $descIndexAfter = array_search(
+            'description',
+            array_keys($this->plainForm->getFields())
+        );
+
+        $addressIndex = array_search(
+            'address',
+            array_keys($this->plainForm->getFields())
+        );
+
+        $this->assertEquals(2, $descIndexAfter);
+        $this->assertEquals(1, $addressIndex);
+
+        $this->assertInstanceOf(
+            'Kris\LaravelFormBuilder\Fields\InputType',
+            $this->plainForm->address
+        );
+    }
+
+    /** @test */
+    public function it_adds_before_some_field()
+    {
+        $this->plainForm
+            ->add('name', 'text')
+            ->add('description', 'textarea');
+
+        $descIndexBefore = array_search(
+            'description',
+            array_keys($this->plainForm->getFields())
+        );
+
+        $this->assertEquals(1, $descIndexBefore);
+        $this->assertNull($this->plainForm->address);
+
+        $this->plainForm->addBefore('name', 'address');
+
+        $descIndexAfter = array_search(
+            'description',
+            array_keys($this->plainForm->getFields())
+        );
+
+        $addressIndex = array_search(
+            'address',
+            array_keys($this->plainForm->getFields())
+        );
+
+        $this->assertEquals(2, $descIndexAfter);
+        $this->assertEquals(0, $addressIndex);
+
+        $this->assertInstanceOf(
+            'Kris\LaravelFormBuilder\Fields\InputType',
+            $this->plainForm->address
+        );
+    }
+
+
+    /** @test */
     public function it_can_remove_existing_fields_from_form_object()
     {
         $this->plainForm

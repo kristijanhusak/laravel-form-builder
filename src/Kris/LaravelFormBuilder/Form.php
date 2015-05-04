@@ -134,6 +134,60 @@ class Form
     }
 
     /**
+     * Add field before another field
+     *
+     * @param string  $name         Name of the field before which new field is added
+     * @param string  $fieldName    Field name which will be added
+     * @param string  $type
+     * @param array   $options
+     * @param boolean $modify
+     * @return $this
+     */
+    public function addBefore($name, $fieldName, $type = 'text', $options = [], $modify = false)
+    {
+        $field = $this->getField($name);
+        $offset = array_search($name, array_keys($this->fields));
+
+        $beforeFields = array_slice($this->fields, 0, $offset);
+        $afterFields = array_slice($this->fields, $offset);
+
+        $this->fields = $beforeFields;
+
+        $this->add($fieldName, $type, $options, $modify);
+
+        $this->fields += $afterFields;
+
+        return $this;
+    }
+
+    /**
+     * Add field before another field
+
+     * @param string  $name         Name of the field after which new field is added
+     * @param string  $fieldName    Field name which will be added
+     * @param string  $type
+     * @param array   $options
+     * @param boolean $modify
+     * @return $this
+     */
+    public function addAfter($name, $fieldName, $type = 'text', $options = [], $modify = false)
+    {
+        $field = $this->getField($name);
+        $offset = array_search($name, array_keys($this->fields));
+
+        $beforeFields = array_slice($this->fields, 0, $offset + 1);
+        $afterFields = array_slice($this->fields, $offset + 1);
+
+        $this->fields = $beforeFields;
+
+        $this->add($fieldName, $type, $options, $modify);
+
+        $this->fields += $afterFields;
+
+        return $this;
+    }
+
+    /**
      * Remove field with specified name from the form
      *
      * @param $name
@@ -702,7 +756,6 @@ class Form
      * undocumented function
      *
      * @return void
-     * @author 
      **/
     public function exclude(array $fields)
     {

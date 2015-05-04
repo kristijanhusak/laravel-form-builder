@@ -167,6 +167,12 @@ abstract class FormField
             $this->name = $this->name.'[]';
         }
 
+        if ($this->getOption('required') === true) {
+            $options['label_attr']['class'] .= ' ' . $this->formHelper
+                ->getConfig('defaults.required_class', 'required');
+            $options['attr']['required'] = 'required';
+        }
+
         $options['wrapperAttrs'] = $helper->prepareAttributes($options['wrapper']);
         $options['errorAttrs'] = $helper->prepareAttributes($options['errors']);
 

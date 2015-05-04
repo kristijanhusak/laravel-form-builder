@@ -7,7 +7,8 @@ return [
         'label_class'         => 'control-label',
         'field_class'         => 'form-control',
         'help_block_class'    => 'help-block',
-        'error_class'         => 'text-danger'
+        'error_class'         => 'text-danger',
+        'required_class'      => 'required'
     ],
     // Templates
     'form'          => 'laravel-form-builder::form',
