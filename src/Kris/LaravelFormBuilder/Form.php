@@ -691,15 +691,17 @@ class Form
      */
     protected function setupFieldOptions($name, &$options)
     {
+        if (!isset($options['label'])) {
+		    $options['label'] = $this->formHelper->formatLabel($name);
+	    } else if(\Lang::has($options['label'])){
+		    $options['label'] = trans($options['label']);
+	    }
+
         if (!$this->getName()) {
             return;
         }
 
         $options['real_name'] = $name;
-
-        if (!isset($options['label'])) {
-            $options['label'] = $this->formHelper->formatLabel($name);
-        }
     }
 
     /**
