@@ -87,7 +87,7 @@ class ChoiceType extends ParentType
         $multiple = $this->getOption('multiple') ? '[]' : '';
 
         foreach ((array)$this->options['choices'] as $key => $choice) {
-            $id = $choice . '_' . $key;
+            $id = str_replace('.', '_', $this->getNameKey()) . '_' . $key;
             $options = $this->formHelper->mergeOptions(
                 $this->getOption('choice_options'),
                 [

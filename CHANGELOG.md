@@ -1,3 +1,6 @@
+## 1.4.26
+- Fix expanded/multiple choice fields id by prefixing it with properly formatted name
+
 ## 1.4.25
 - Add `addBefore` and `addAfter` methods to Form class to allow adding fields at specific location
 - Add `required` option for all field types, that adds class `required` (configurable in config) to label, and `required` attribute to field.
