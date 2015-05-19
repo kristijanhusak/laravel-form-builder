@@ -14,7 +14,9 @@ class ChoiceType extends ParentType
 
     protected function setValue($val)
     {
-        $this->options['selected'] = $val;
+        if (!$this->options['selected']) {
+            $this->options['selected'] = $val;
+        }
         $this->rebuild();
 
         return $this;

@@ -347,7 +347,9 @@ abstract class FormField
      */
     protected function setValue($val)
     {
-        $this->options['default_value'] = $val;
+        if (!$this->options['default_value']) {
+            $this->options['default_value'] = $val;
+        }
     }
 
     /**

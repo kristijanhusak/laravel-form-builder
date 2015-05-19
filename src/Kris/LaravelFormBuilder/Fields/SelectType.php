@@ -10,7 +10,9 @@ class SelectType extends FormField
 
     protected function setValue($val)
     {
-        $this->options['selected'] = $val;
+        if (!$this->options['selected']) {
+            $this->options['selected'] = $val;
+        }
 
         return $this;
     }
