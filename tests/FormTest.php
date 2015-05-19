@@ -451,7 +451,6 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals('name', $this->plainForm->getField('name')->getName());
         $this->assertEquals('address', $this->plainForm->getField('address')->getName());
         $this->plainForm->setName('test_name')->setModel($model);
-        $this->plainForm->rebuildFields();
         $this->prepareFieldRender('text');
         $this->prepareFieldRender('static');
         $this->prepareRender(Mockery::any(), true, true, true, Mockery::any(), $expectModel);

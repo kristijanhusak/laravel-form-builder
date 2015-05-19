@@ -67,18 +67,6 @@ class ChildFormType extends ParentType
     {
         $this->form = $this->getClassFromOptions();
 
-        if (!$this->form->getModel()) {
-            $this->form->setModel($this->parent->getModel());
-        }
-
-        if (!$this->form->getData()) {
-            $this->form->addData($this->parent->getData());
-        }
-
-        $this->form->setFormOptions([
-            'name' => $this->name
-        ])->rebuildFields();
-
         if ($this->form->getFormOption('files')) {
             $this->parent->setFormOption('files', true);
         }
@@ -101,7 +89,7 @@ class ChildFormType extends ParentType
     protected function getClassFromOptions()
     {
         if ($this->form instanceof Form) {
-            return $this->form;
+            return $this->form->setName($this->name);
         }
 
         $class = $this->getOption('class');
@@ -113,15 +101,30 @@ class ChildFormType extends ParentType
         }
 
         if (is_string($class)) {
+            $formOptions = array_merge(
+                ['model' => $this->parent->getModel(), 'name' => $this->name],
+                $this->getOption('formOptions')
+            );
+
+            $data = array_merge($this->parent->getData(), $this->getOption('data'));
+
             return $this->parent->getFormBuilder()->create(
                 $class,
-                $this->getOption('formOptions'),
-                $this->getOption('data')
+                $formOptions,
+                $data
             );
         }
 
         if ($class instanceof Form) {
-            return $class;
+            if (!$class->getModel()) {
+                $class->setModel($this->parent->getModel());
+            }
+
+            if (!$class->getData()) {
+                $class->addData($this->parent->getData());
+            }
+
+            return $class->setName($this->name);
         }
 
         throw new \InvalidArgumentException(

@@ -8,12 +8,12 @@ class FormBuilder
     /**
      * @var Container
      */
-    private $container;
+    protected $container;
 
     /**
      * @var FormHelper
      */
-    private $formHelper;
+    protected $formHelper;
 
     /**
      * @param Container  $container

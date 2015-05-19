@@ -68,6 +68,13 @@ class Form
     protected $exclude = [];
 
     /**
+     * Are form being rebuilt?
+     *
+     * @var bool
+     */
+    protected $rebuilding = false;
+
+    /**
      * Build the form
      *
      * @return mixed
@@ -81,24 +88,17 @@ class Form
      */
     public function rebuildForm()
     {
-        $this->fields = [];
-        return $this->buildForm();
-    }
-
-    /**
-     * Rebuild the fields
-     */
-    public function rebuildFields()
-    {
-        foreach ($this->getFields() as $name => $field) {
-            $options = $field->getOptions();
-            // Remove id attribute if form is named so we can link it
-            // properly to label
-            if ($this->getName() && $field->getOption('attr.id') === $name) {
-                unset($options['attr']['id']);
+        $this->rebuilding = true;
+        // If form is plain, buildForm method is empty, so we need to take
+        // existing fields and add them again
+        if (get_class($this) === 'Kris\LaravelFormBuilder\Form') {
+            foreach ($this->fields as $name => $field) {
+                $this->add($name, $field->getType(), $field->getOptions());
             }
-            $this->add($name, $field->getType(), $options, true);
+        } else {
+            $this->buildForm();
         }
+        $this->rebuilding = false;
     }
 
     /**
@@ -118,8 +118,12 @@ class Form
             );
         }
 
-        if (!$modify) {
+        if (!$modify && !$this->rebuilding) {
             $this->preventDuplicate($name);
+        }
+
+        if ($this->rebuilding && !$this->has($name)) {
+            return $this;
         }
 
         $this->setupFieldOptions($name, $options);
@@ -425,7 +429,7 @@ class Form
     {
         $this->name = $name;
 
-        $this->rebuildFields();
+        $this->rebuildForm();
 
         return $this;
     }
@@ -451,8 +455,6 @@ class Form
         $this->model = $model;
 
         $this->setupNamedModel();
-        // Rebuild so new data is bound to the fields
-        $this->rebuildFields();
 
         return $this;
     }
