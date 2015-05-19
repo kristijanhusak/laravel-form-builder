@@ -15,11 +15,6 @@ class StaticType extends FormField
     {
         $options['elemAttrs'] = $this->formHelper->prepareAttributes($this->getOption('attr'));
         $options['labelAttrs'] = $this->formHelper->prepareAttributes($this->getOption('label_attr'));
-        $this->options = $this->formHelper->mergeOptions($this->options, $options);
-
-        if (!$this->getOption('default_value')) {
-            $options['default_value'] = $this->getModelValueAttribute($this->parent->getModel(), $this->getName());
-        }
     }
 
     /**

@@ -69,6 +69,7 @@ abstract class FormField
         $this->formHelper = $this->parent->getFormHelper();
         $this->setTemplate();
         $this->setDefaultOptions($options);
+        $this->setValue($this->getModelValueAttribute($this->parent->getModel(), $name));
     }
 
     /**
@@ -347,9 +348,7 @@ abstract class FormField
      */
     protected function setValue($val)
     {
-        if (!$this->options['default_value']) {
-            $this->options['default_value'] = $val;
-        }
+        $this->bindValue('default_value', $val);
     }
 
     /**
@@ -408,5 +407,19 @@ abstract class FormField
         }
 
         return true;
+    }
+
+    /**
+     * @param string $valueProperty Name of the property in options (default_value, selected, etc)
+     * @param mixed $value
+     */
+    protected function bindValue($valueProperty, $value)
+    {
+        $data = $this->getOption($valueProperty);
+        if ($data instanceof \Closure) {
+            $this->options[$valueProperty] = $data($value ?: []);
+        } elseif (!$data) {
+            $this->options[$valueProperty] = $value;
+        }
     }
 }

@@ -32,7 +32,7 @@ class ChildFormType extends ParentType
      */
     protected function setValue($val)
     {
-        $this->options['default_value'] = $val;
+        parent::setValue($val);
         $this->rebuild();
 
         return $this;

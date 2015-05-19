@@ -1,9 +1,5 @@
 <?php if ($showStart): ?>
-    <?php if ($model): ?>
-        <?= Form::model($model, $formOptions) ?>
-    <?php else: ?>
-        <?= Form::open($formOptions) ?>
-    <?php endif; ?>
+    <?= Form::open($formOptions) ?>
 <?php endif; ?>
 
 <?php if ($showFields): ?>

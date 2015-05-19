@@ -18,10 +18,6 @@ class RepeatedTypeTest extends FormBuilderTestCase
 
         $repeated = new RepeatedType('password', 'repeated', $this->plainForm, []);
 
-        // We need to give another form instance because at render we rebuild
-        // the child fields, so they collect regular data when rendering
-        $this->container->shouldReceive('make')->once()->andReturn($repeatedForm);
-
         $repeated->render();
 
         $this->assertEquals(2, count($repeated->getChildren()));

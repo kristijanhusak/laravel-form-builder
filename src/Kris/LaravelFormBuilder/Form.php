@@ -17,7 +17,7 @@ class Form
      *
      * @var mixed
      */
-    protected $model = null;
+    protected $model = [];
 
     /**
      * @var FormHelper

@@ -14,9 +14,7 @@ class ChoiceType extends ParentType
 
     protected function setValue($val)
     {
-        if (!$this->options['selected']) {
-            $this->options['selected'] = $val;
-        }
+        $this->bindValue('selected', $val);
         $this->rebuild();
 
         return $this;
@@ -86,6 +84,7 @@ class ChoiceType extends ParentType
      */
     protected function buildCheckableChildren($fieldType)
     {
+        $this->children = [];
         $multiple = $this->getOption('multiple') ? '[]' : '';
 
         foreach ((array)$this->options['choices'] as $key => $choice) {
@@ -116,6 +115,7 @@ class ChoiceType extends ParentType
      */
     protected function buildSelect($fieldType)
     {
+        $this->children = [];
         $this->children[] = new $fieldType(
             $this->name,
             $this->choiceType,

@@ -46,5 +46,7 @@ class StaticTypeTest extends FormBuilderTestCase
         $static = new StaticType('some_static', 'static', $this->plainForm, $options);
 
         $static->render();
+
+        $this->assertEquals('static text', $static->getOption('default_value'));
     }
 }
