@@ -56,6 +56,19 @@ abstract class FormField
     protected $formHelper;
 
     /**
+     * Name of the property for default value
+     *
+     * @var string
+     */
+    protected $valueProperty = 'default_value';
+
+    /**
+     * Is default value set?
+     * @var bool
+     */
+    protected $hasDefault = false;
+
+    /**
      * @param             $name
      * @param             $type
      * @param Form        $parent
@@ -69,7 +82,13 @@ abstract class FormField
         $this->formHelper = $this->parent->getFormHelper();
         $this->setTemplate();
         $this->setDefaultOptions($options);
-        $this->setValue($this->getModelValueAttribute($this->parent->getModel(), $name));
+
+        $defaultValue = $this->getOption($this->valueProperty);
+        if (!$defaultValue || $defaultValue instanceof \Closure) {
+            $this->setValue($this->getModelValueAttribute($this->parent->getModel(), $name));
+        } else {
+            $this->hasDefault = true;
+        }
     }
 
     /**
@@ -344,11 +363,22 @@ abstract class FormField
     }
 
     /**
-     * @param $val
+     * @param $value
+     * @return $this
      */
-    protected function setValue($val)
+    protected function setValue($value)
     {
-        $this->bindValue('default_value', $val);
+        if ($this->hasDefault) {
+            return $this;
+        }
+        $data = $this->getOption($this->valueProperty);
+        if ($data instanceof \Closure) {
+            $this->options[$this->valueProperty] = $data($value ?: []);
+        } else {
+            $this->options[$this->valueProperty] = $value;
+        }
+
+        return $this;
     }
 
     /**
@@ -407,19 +437,5 @@ abstract class FormField
         }
 
         return true;
-    }
-
-    /**
-     * @param string $valueProperty Name of the property in options (default_value, selected, etc)
-     * @param mixed $value
-     */
-    protected function bindValue($valueProperty, $value)
-    {
-        $data = $this->getOption($valueProperty);
-        if ($data instanceof \Closure) {
-            $this->options[$valueProperty] = $data($value ?: []);
-        } elseif (!$data) {
-            $this->options[$valueProperty] = $value;
-        }
     }
 }

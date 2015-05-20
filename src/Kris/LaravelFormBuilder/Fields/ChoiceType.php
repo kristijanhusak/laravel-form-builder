@@ -7,14 +7,22 @@ class ChoiceType extends ParentType
      */
     protected $choiceType = 'select';
 
+    /**
+     * @inheritdoc
+     */
+    protected $valueProperty = 'selected';
+
+    /**
+     * @inheritdoc
+     */
     protected function getTemplate()
     {
         return 'choice';
     }
 
-    protected function setValue($val)
+    public function setValue($value)
     {
-        $this->bindValue('selected', $val);
+        parent::setValue($value);
         $this->rebuild();
 
         return $this;

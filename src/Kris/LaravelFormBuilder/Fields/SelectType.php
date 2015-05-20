@@ -3,16 +3,11 @@
 class SelectType extends FormField
 {
 
+    protected $valueProperty = 'selected';
+
     protected function getTemplate()
     {
         return 'select';
-    }
-
-    protected function setValue($val)
-    {
-        $this->bindValue('selected', $val);
-
-        return $this;
     }
 
     public function getDefaults()

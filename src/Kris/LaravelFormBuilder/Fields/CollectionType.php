@@ -12,11 +12,24 @@ class CollectionType extends ParentType
     protected $proto;
 
     /**
+     * @inheritdoc
+     */
+    protected $valueProperty = 'data';
+
+    /**
      * @return string
      */
     protected function getTemplate()
     {
         return 'collection';
+    }
+
+    protected function setValue($val)
+    {
+        parent::setValue($val);
+        $this->rebuild();
+
+        return $this;
     }
 
     /**
@@ -58,6 +71,7 @@ class CollectionType extends ParentType
      */
     protected function createChildren()
     {
+        $this->children = [];
         $type = $this->getOption('type');
         $oldInput = $this->parent->getRequest()->old($this->transformKey($this->getName()));
 
@@ -125,6 +139,7 @@ class CollectionType extends ParentType
         $field->setName($newFieldName);
         $field->setOptions($firstFieldOptions);
 
+
         if ($value && !$field instanceof ChildFormType) {
             $value = $this->getModelValueAttribute(
                 $value,
@@ -132,7 +147,9 @@ class CollectionType extends ParentType
             );
         }
 
-        $field->setValue($value);
+        if ($value) {
+            $field->setValue($value);
+        }
 
         return $field;
     }
