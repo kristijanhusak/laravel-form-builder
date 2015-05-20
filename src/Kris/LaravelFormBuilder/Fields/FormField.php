@@ -69,6 +69,11 @@ abstract class FormField
     protected $hasDefault = false;
 
     /**
+     * @var \Closure|null
+     */
+    protected $valueClosure = null;
+
+    /**
      * @param             $name
      * @param             $type
      * @param Form        $parent
@@ -84,6 +89,10 @@ abstract class FormField
         $this->setDefaultOptions($options);
 
         $defaultValue = $this->getOption($this->valueProperty);
+
+        if ($defaultValue instanceof \Closure) {
+            $this->valueClosure = $defaultValue;
+        }
         if (!$defaultValue || $defaultValue instanceof \Closure) {
             $this->setValue($this->getModelValueAttribute($this->parent->getModel(), $name));
         } else {
@@ -371,9 +380,11 @@ abstract class FormField
         if ($this->hasDefault) {
             return $this;
         }
-        $data = $this->getOption($this->valueProperty);
-        if ($data instanceof \Closure) {
-            $this->options[$this->valueProperty] = $data($value ?: []);
+
+        $closure = $this->valueClosure;
+
+        if ($closure instanceof \Closure) {
+            $this->options[$this->valueProperty] = $closure($value ?: []);
         } else {
             $this->options[$this->valueProperty] = $value;
         }
