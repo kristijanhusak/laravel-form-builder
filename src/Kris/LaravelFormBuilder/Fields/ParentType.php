@@ -26,8 +26,25 @@ abstract class ParentType extends FormField
     public function __construct($name, $type, Form $parent, array $options = [])
     {
         parent::__construct($name, $type, $parent, $options);
-        $this->createChildren();
+        // If there is default value provided and  setValue was not triggered
+        // in the parent call, make sure we generate child elements
+        if ($this->hasDefault) {
+            $this->createChildren();
+        }
         $this->checkIfFileType();
+    }
+
+    /**
+     * @param  mixed $val
+     *
+     * @return ChildFormType
+     */
+    protected function setValue($val)
+    {
+        parent::setValue($val);
+        $this->createChildren();
+
+        return $this;
     }
 
     /**
@@ -68,26 +85,13 @@ abstract class ParentType extends FormField
      */
     public function isRendered()
     {
-        foreach ($this->children as $key => $child) {
+        foreach ((array) $this->children as $key => $child) {
             if ($child->isRendered()) {
                 return true;
             }
         }
 
         return parent::isRendered();
-    }
-
-    /**
-     * Rebuild the children array
-     *
-     * @return mixed
-     */
-    protected function rebuild()
-    {
-        $this->children = [];
-        $this->createChildren();
-
-        return $this;
     }
 
     /**
@@ -108,6 +112,13 @@ abstract class ParentType extends FormField
     {
         if ($this->getOption('type') === 'file') {
             $this->parent->setFormOption('files', true);
+        }
+    }
+
+    public function __clone()
+    {
+        foreach ((array) $this->children as $key => $child) {
+            $this->children[$key] = clone $child;
         }
     }
 }

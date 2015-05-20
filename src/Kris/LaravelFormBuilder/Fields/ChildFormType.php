@@ -27,18 +27,6 @@ class ChildFormType extends ParentType
     }
 
     /**
-     * @param      $val
-     * @return $this
-     */
-    protected function setValue($val)
-    {
-        parent::setValue($val);
-        $this->rebuild();
-
-        return $this;
-    }
-
-    /**
      * @inheritdoc
      */
     protected function getDefaults()
@@ -53,17 +41,9 @@ class ChildFormType extends ParentType
     }
 
     /**
-     * @inheritdoc
-     */
-    protected function createChildren()
-    {
-        $this->rebuild();
-    }
-
-    /**
      * @return mixed|void
      */
-    protected function rebuild()
+    protected function createChildren()
     {
         $this->form = $this->getClassFromOptions();
 

@@ -89,13 +89,15 @@ abstract class FormField
         $this->setDefaultOptions($options);
 
         $defaultValue = $this->getOption($this->valueProperty);
+        $isChild = $this->getOption('is_child');
 
         if ($defaultValue instanceof \Closure) {
             $this->valueClosure = $defaultValue;
         }
-        if (!$defaultValue || $defaultValue instanceof \Closure) {
+
+        if ((!$defaultValue || $defaultValue instanceof \Closure) && !$isChild) {
             $this->setValue($this->getModelValueAttribute($this->parent->getModel(), $name));
-        } else {
+        } elseif (!$isChild) {
             $this->hasDefault = true;
         }
     }
@@ -122,6 +124,9 @@ abstract class FormField
             $this->rendered = true;
         }
 
+        // Check if default value is passed to render function from view.
+        // If it is, we save it to a variable and then override it before
+        // rendering the view
         if ($defaultVal = array_get($options, $this->valueProperty)) {
             $passedDefault = $defaultVal;
         }
@@ -164,7 +169,9 @@ abstract class FormField
     protected function getModelValueAttribute($model, $name)
     {
         $transformedName = $this->transformKey($name);
-        if (is_object($model)) {
+        if (is_string($model)) {
+            return $model;
+        } elseif (is_object($model)) {
             return object_get($model, $transformedName);
         } elseif (is_array($model)) {
             return array_get($model, $transformedName);

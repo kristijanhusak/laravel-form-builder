@@ -18,8 +18,8 @@ class RepeatedType extends ParentType
         return [
             'type' => 'password',
             'second_name' => null,
-            'first_options' => ['label' => 'Password', 'is_child' => true],
-            'second_options' => ['label' => 'Password confirmation', 'is_child' => true]
+            'first_options' => ['label' => 'Password'],
+            'second_options' => ['label' => 'Password confirmation']
         ];
     }
 
@@ -33,7 +33,8 @@ class RepeatedType extends ParentType
         }
 
         $form = $this->parent->getFormBuilder()->plain([
-            'name' => $this->parent->getName()
+            'name' => $this->parent->getName(),
+            'model' => $this->parent->getModel()
         ])
         ->add($firstName, $this->getOption('type'), $this->getOption('first_options'))
         ->add($secondName, $this->getOption('type'), $this->getOption('second_options'));

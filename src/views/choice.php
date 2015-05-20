@@ -10,7 +10,7 @@
 
     <?php if ($showField): ?>
         <?php foreach ((array)$options['children'] as $child): ?>
-            <?= $child->render($options, true, true, false) ?>
+            <?= $child->render(['selected' => $options['selected']], true, true, false) ?>
         <?php endforeach; ?>
 
         <?php if ($options['help_block']['text']): ?>

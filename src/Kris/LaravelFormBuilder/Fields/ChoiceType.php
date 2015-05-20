@@ -20,14 +20,6 @@ class ChoiceType extends ParentType
         return 'choice';
     }
 
-    public function setValue($value)
-    {
-        parent::setValue($value);
-        $this->rebuild();
-
-        return $this;
-    }
-
     /**
      * Determine which choice type to use
      *
@@ -70,6 +62,7 @@ class ChoiceType extends ParentType
      */
     protected function createChildren()
     {
+        $this->children = [];
         $this->determineChoiceField();
 
         $fieldType = $this->formHelper->getFieldType($this->choiceType);
@@ -92,7 +85,6 @@ class ChoiceType extends ParentType
      */
     protected function buildCheckableChildren($fieldType)
     {
-        $this->children = [];
         $multiple = $this->getOption('multiple') ? '[]' : '';
 
         foreach ((array)$this->options['choices'] as $key => $choice) {
@@ -123,7 +115,6 @@ class ChoiceType extends ParentType
      */
     protected function buildSelect($fieldType)
     {
-        $this->children = [];
         $this->children[] = new $fieldType(
             $this->name,
             $this->choiceType,

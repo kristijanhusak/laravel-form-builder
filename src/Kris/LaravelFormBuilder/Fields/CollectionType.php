@@ -24,23 +24,14 @@ class CollectionType extends ParentType
         return 'collection';
     }
 
-    protected function setValue($val)
-    {
-        parent::setValue($val);
-        $this->rebuild();
-
-        return $this;
-    }
-
     /**
      * @inheritdoc
      */
     protected function getDefaults()
     {
         return [
-            'is_child' => true,
             'type' => null,
-            'options' => [],
+            'options' => ['is_child' => true],
             'prototype' => true,
             'data' => [],
             'property' => 'id',
@@ -73,7 +64,7 @@ class CollectionType extends ParentType
     {
         $this->children = [];
         $type = $this->getOption('type');
-        $oldInput = $this->parent->getRequest()->old($this->transformKey($this->getName()));
+        $oldInput = $this->parent->getRequest()->old($this->getNameKey());
 
         try {
             $fieldType = $this->formHelper->getFieldType($type);
@@ -89,9 +80,6 @@ class CollectionType extends ParentType
         // Needs to have more than 1 item because 1 is rendered by default
         if (count($oldInput) > 1) {
             $data = $oldInput;
-        } elseif (!$data) {
-            $data = $this->parent->getModel();
-            $data = $this->getModelValueAttribute($data, $this->getName());
         }
 
         if ($data instanceof Collection) {
@@ -138,7 +126,6 @@ class CollectionType extends ParentType
 
         $field->setName($newFieldName);
         $field->setOptions($firstFieldOptions);
-
 
         if ($value && !$field instanceof ChildFormType) {
             $value = $this->getModelValueAttribute(

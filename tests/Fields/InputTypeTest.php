@@ -21,7 +21,7 @@ class InputTypeTest extends FormBuilderTestCase
             ['required' => 'required'],
             'hidden_id',
             'Hidden Id',
-            12,
+            13,
             'this is help'
         );
 
@@ -43,6 +43,6 @@ class InputTypeTest extends FormBuilderTestCase
 
         $hidden = new InputType('hidden_id', 'hidden', $this->plainForm, $options);
 
-        $hidden->render();
+        $hidden->render(['default_value' => 13]);
     }
 }

@@ -755,10 +755,10 @@ class Form
     }
 
     /**
-     * undocumented function
+     * Exclude some fields from rendering
      *
-     * @return void
-     **/
+     * @return $this
+     */
     public function exclude(array $fields)
     {
         $this->exclude = array_merge($this->exclude, $fields);

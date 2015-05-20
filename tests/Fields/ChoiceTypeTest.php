@@ -11,6 +11,7 @@ class ChoiceTypeTest extends FormBuilderTestCase
     {
         $options = [
             'attr' => ['class' => 'choice-class'],
+            'choices' => ['yes' => 'Yes', 'no' => 'No'],
             'selected' => 'yes'
         ];
 
