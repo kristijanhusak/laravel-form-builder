@@ -116,11 +116,21 @@ abstract class FormField
      */
     public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
     {
+        $passedDefault = null;
+
         if ($showField) {
             $this->rendered = true;
         }
 
+        if ($defaultVal = array_get($options, $this->valueProperty)) {
+            $passedDefault = $defaultVal;
+        }
+
         $options = $this->prepareOptions($options);
+
+        if ($passedDefault) {
+            $options[$this->valueProperty] = $passedDefault;
+        }
 
         if (!$this->needsLabel($options)) {
             $showLabel = false;
