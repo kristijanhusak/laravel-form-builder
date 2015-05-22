@@ -38,7 +38,7 @@ Changelog can be found [here](https://github.com/kristijanhusak/laravel-form-bui
 ``` json
 {
     "require": {
-        "kris/laravel-form-builder": "~1.4"
+        "kris/laravel-form-builder": "1.5.*"
     }
 }
 ```
@@ -665,8 +665,10 @@ class PostForm extends Form
             ])
             // This creates a checkbox list
             ->add('languages', 'choice', [
-                'choices' => ['en' => 'English', 'de' => 'German', 'fr' => 'France'],
-                'selected' => ['en', 'de']
+                'choices' => [['id' => 1, 'en' => 'English'], ['id' => 2, 'de' => 'German'], ['id' => 3, 'fr' => 'France']],
+                'selected' => function ($data) { // Allows handling data before passed to view for setting default values. Useful for related models
+                    return array_pluck($data, 'id');
+                }
                 'expanded' => true,
                 'multiple' => true
             ])
