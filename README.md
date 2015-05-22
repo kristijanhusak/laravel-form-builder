@@ -643,6 +643,14 @@ class PostForm extends Form
                 'empty_value' => '==== Select subscription ===',
                 'multiple' => false // This is default. If set to true, it creates select with multiple select posibility
             ])
+            ->add('categories', 'entity', [
+                'class' => 'App\Category', // Entity that holds data
+                'property' => 'name', // Value that will be used as a label for each choice option, default: name
+                'property_key' => 'id', // Value that will be used as a value for each choice option, default: id
+                'query_builder' => function(App\Category $category) {   // If provided, gets data from this closure and lists it
+                    return $category->where('active', 1);
+                }
+            ])
             // This creates radio buttons
             ->add('gender', 'choice', [
                 'label' => false,    // This forces hiding label, even when calling form_row
@@ -1041,15 +1049,12 @@ class PostForm extends Form
 ```
 
 ### Contributing
-Project follows [PSR-2](http://www.php-fig.org/psr/psr-2/) standard and it's 100% covered with PHPUnit tests.
+Project follows [PSR-2](http://www.php-fig.org/psr/psr-2/) standard and it's covered with PHPUnit tests.
 Pull requests should include tests and pass [Travis CI](https://travis-ci.org/kristijanhusak/laravel-form-builder) build.
 
 To run tests first install dependencies with `composer install`.
 
 After that tests can be run with `vendor/bin/phpunit`
-
-### Issues and bug reporting
-When creating an issue, please mark it with label **Laravel 4** or **Laravel 5** so it can be easier to handle.
 
 ### Todo
 * Add possibility to disable showing validation errors under fields - **DONE**

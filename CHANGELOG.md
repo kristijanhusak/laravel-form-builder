@@ -1,3 +1,6 @@
+## 1.5.1
+- Add `entity` field type that allows fetching specific Model data
+
 ## 1.5.0
 - Bind all fields values manually without Laravel's form builder `Form::model` (Check note below for possible BC break)
 - Add possibility to use Closure as default value for fields which solves issues like in [#98](https://github.com/kristijanhusak/laravel-form-builder/issues/98#issuecomment-103893235)

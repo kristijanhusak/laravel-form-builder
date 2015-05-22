@@ -60,6 +60,7 @@ class FormHelper
         'range',
         'time',
         'week',
+        'entity',
         'form',
         'collection',
         'repeated',
@@ -171,6 +172,9 @@ class FormHelper
                 break;
             case 'form':
                 $fieldType = __NAMESPACE__.'\\Fields\\ChildFormType';
+                break;
+            case 'entity':
+                $fieldType = __NAMESPACE__.'\\Fields\\EntityType';
                 break;
             case 'collection':
                 $fieldType = __NAMESPACE__.'\\Fields\\CollectionType';
