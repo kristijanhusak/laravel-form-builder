@@ -2,7 +2,6 @@
 
 use Kris\LaravelFormBuilder\Fields\InputType;
 use Kris\LaravelFormBuilder\Form;
-use Illuminate\Contracts\View\View;
 
 class FormTest extends FormBuilderTestCase
 {

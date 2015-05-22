@@ -1,3 +1,13 @@
+## 1.5.0
+- Bind all fields values manually without Laravel's form builder `Form::model` (Check note below for possible BC break)
+- Add possibility to use Closure as default value for fields which solves issues like in [#98](https://github.com/kristijanhusak/laravel-form-builder/issues/98#issuecomment-103893235)
+- Fix passing model to child forms
+- Set FormBuilder class properties to protected to allow extending
+- Optmization and other minor fixes
+
+**Note**: If You published views before, they need to be updated to prevent possible breaking.
+Since value binding is now done in package, and `Form::model` is removed, views needs to be republished (or updated) to remove `Form::model` from [form.php](https://github.com/kristijanhusak/laravel-form-builder/blob/master/src/views/form.php). Also [choice.php](https://github.com/kristijanhusak/laravel-form-builder/blob/master/src/views/choice.php) needs to be updated to pass `selected` value.
+
 ## 1.4.26
 - Fix expanded/multiple choice fields id by prefixing it with properly formatted name
 
