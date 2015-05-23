@@ -56,7 +56,6 @@ class FormHelper
         'color',
         'datetime-local',
         'month',
-        'number',
         'range',
         'time',
         'week',
