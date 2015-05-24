@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width">
 
-        <title>Laravel form builder : Installation</title>
+        <title>Laravel form builder : Choice</title>
         <meta name="description" content="Laravel form builder inspired by Symfony's form component.">
 
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
@@ -125,43 +125,64 @@
 
                     <div id=content class=span10>
                         <div class=page-header>
-    <h2>Installation
+    <h2>Choice
         
     </h2>
 </div>
 
-<h3 id="installation">Installation</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
-    <span class="nt">&quot;require&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;kris/laravel-form-builder&quot;</span><span class="p">:</span> <span class="s2">&quot;1.5.*&quot;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>run <code>composer update</code></p>
-
-<p>Then add Service provider to <code>config/app.php</code></p>
+<p>Choice field is hybrid type, because it can be:
+* Regular select
+* Select with multiple choices
+* List of radio buttons
+* List of checkboxes</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
-<span class="k">return</span> <span class="p">[</span>
-    <span class="c1">// ...</span>
-
-    <span class="s1">&#39;providers&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
-        <span class="c1">// ...</span>
-        <span class="s1">&#39;Kris\LaravelFormBuilder\FormBuilderServiceProvider&#39;</span>
-    <span class="p">]</span>
-<span class="p">];</span>
+<span class="c1">// This creates list of checkboxes</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;languages&#39;</span><span class="p">,</span> <span class="s1">&#39;choice&#39;</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">&#39;en&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;English&#39;</span><span class="p">,</span> <span class="s1">&#39;fr&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;French&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;selected&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">&#39;en&#39;</span><span class="p">,</span> <span class="s1">&#39;fr&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;expanded&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+    <span class="s1">&#39;multiple&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span>
+<span class="p">]);</span>
 </code></pre></div>
-<p>And Facade (also in <code>config/app.php</code>)</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
-<span class="k">return</span> <span class="p">[</span>
-    <span class="c1">// ...</span>
+<p>Beside inherited, there are some additional options available:</p>
 
-    <span class="s1">&#39;aliases&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
-        <span class="c1">// ...</span>
-        <span class="s1">&#39;FormBuilder&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Kris\LaravelFormBuilder\Facades\FormBuilder&#39;</span>
-    <span class="p">]</span>
-<span class="p">];</span>
-</code></pre></div>
-<p><strong>Notice</strong>: This package will add <code>illuminate/html</code> package and load Aliases (Form, Html) if they do not exist in the IoC container</p>
+<ol>
+<li><code>choices</code>(Array)(Default: <code>[]</code>) - key value pairs that will be used in the list</li>
+<li><code>selected</code>(String|Array|Closure)(Default: <code>null</code>) - Item that needs to be selected/checked, if not provided fetched from Model</li>
+<li><code>expanded</code>(Boolean)(Default: <code>false</code>) - If true, list will be of type radios or checkboxes(depending on multiple option)</li>
+<li><code>multiple</code>(Boolean)(Default: <code>false</code>) - If true, allows multiple select or list of checkboxes (depending on expanded option)</li>
+</ol>
+
+<table><thead>
+<tr>
+<th>expanded</th>
+<th>multiple</th>
+<th>Field type</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>false</td>
+<td>false</td>
+<td>Select</td>
+</tr>
+<tr>
+<td>false</td>
+<td>true</td>
+<td>Select with multiple attribute</td>
+</tr>
+<tr>
+<td>true</td>
+<td>false</td>
+<td>List of radio buttons</td>
+</tr>
+<tr>
+<td>true</td>
+<td>true</td>
+<td>List of checkboxes</td>
+</tr>
+</tbody></table>
+
+<p><code>selected</code> can be modified with Closure the same way like in <a href="/laravel-form-builder/field/select.html">Select field type</a></p>
 
 
                     </div>

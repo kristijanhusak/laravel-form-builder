@@ -28,7 +28,7 @@ Here are some useful methods and properties on form class:
 
 * [protected $formOptions = ['method' => 'GET', url => null]`](#formoptions) - Form options passed to view.
 * [protected $showFieldErrors = true](#showfielderrors) - Should validation errors appear under the fields.
-* `protected $name = null` - Name for the [Named form]({% post_url 2015-05-24-named-form %})
+* `protected $name = null` - Name for the [Named form]({{ site.baseurl }}{% post_url 2015-05-24-named-form %})
 
 #### add
 

@@ -1,1 +1,0 @@
-../_posts/2015-05-24-methods-and-properties.md

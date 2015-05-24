@@ -21,7 +21,7 @@ codeurl: 'https://github.com/kristijanhusak/laravel-form-builder'
 sections: [
     ['overview', 'Overview'],
     ['form', 'Form'],
-    ['field', 'Field'],
+    ['field', 'Fields'],
     ['custom', 'Customization']
 ]
 
