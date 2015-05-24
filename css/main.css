@@ -55,7 +55,6 @@ code:not([class]) {
 
 #navigation ul {
     opacity: 0;
-    transition: opacity 0.2s linear;
 }
 
 #navigation ul.loaded {
