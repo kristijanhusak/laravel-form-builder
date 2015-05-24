@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width">
+
+        <title>Laravel form builder : Basics</title>
+        <meta name="description" content="Laravel form builder inspired by Symfony's form component.">
+
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/css/syntax.css">
+        <link rel="stylesheet" href="/css/main.css">
+    </head>
+    <body>
+
+        <div class="container">
+            <div class=row-fluid>
+                <div id=header class=span12>
+                    <h4 id="top"><a class=brand href="/">Laravel form builder</a>
+    <small>Laravel form builder inspired by Symfony's form component.</small>
+</h4>
+
+
+                </div>
+            </div>
+
+            <div class=row-fluid>
+                
+                
+                    <div id=navigation class=span2>
+                        <ul class="nav nav-list">
+    <li><a href="/">Home</a></li>
+    
+        
+        
+
+        
+            
+                <li class=nav-header>Overview</li>
+            
+            <li data-order="2"><a href="/overview/quick-start.html">Quick start</a></li>
+        
+            
+            <li data-order="1"><a href="/overview/installation.html">Installation</a></li>
+        
+    
+        
+        
+
+        
+            
+                <li class=nav-header>Form</li>
+            
+            <li data-order="2"><a href="/form/methods-and-properties.html">Methods and properties</a></li>
+        
+            
+            <li data-order="4"><a href="/form/plain-form.html">Plain form</a></li>
+        
+            
+            <li data-order="3"><a href="/form/named-form.html">Named form</a></li>
+        
+            
+            <li data-order="1"><a href="/form/basics.html">Basics</a></li>
+        
+    
+        
+        
+
+        
+    
+        
+        
+
+        
+            
+                <li class=nav-header>Customization</li>
+            
+            <li data-order=""><a href="/custom/configuration-basics.html">Basics</a></li>
+        
+            
+            <li data-order=""><a href="/custom/templates.html">Templates</a></li>
+        
+            
+            <li data-order=""><a href="/custom/package-configuration.html">Package configuration</a></li>
+        
+    
+<!-- List additional links. It is recommended to add a divider
+    e.g. <li class=divider></li> first to break up the content. -->
+</ul>
+
+                    </div>
+
+                    <div id=content class=span10>
+                        <div class=page-header>
+    <h2>Basics
+        
+    </h2>
+</div>
+
+<p>Form class is the basis of the package. It contains all logic that is handled from instantiation to rendering.</p>
+
+<p>By default, it should contain <code>buildForm</code> method that will be called on form instantiation through <code>FormBuilder</code>.</p>
+
+<p>Here is simple example of a LoginForm:</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Forms</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Kris\LaravelFormBuilder\Form</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">LoginForm</span> <span class="k">extends</span> <span class="nx">Form</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;remember_me&#39;</span><span class="p">,</span> <span class="s1">&#39;checkbox&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Instantiating this form is done with <code>FormBuilder</code> class or Facade that is provided:</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Http\Controllers</span><span class="p">;</span>
+
+    <span class="k">class</span> <span class="nc">AuthController</span> <span class="k">extends</span> <span class="nx">Controller</span>
+    <span class="p">{</span>
+        <span class="k">public</span> <span class="k">function</span> <span class="nf">login</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="nv">$form</span> <span class="o">=</span> <span class="nx">\FormBuilder</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;App\Forms\LoginForm&#39;</span><span class="p">,</span> <span class="p">[</span>
+                <span class="s1">&#39;method&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;route&#39;</span> <span class="o">=&gt;</span> <span class="nx">action</span><span class="p">(</span><span class="s1">&#39;AuthController@postLogin&#39;</span><span class="p">)</span>
+            <span class="p">]);</span>
+        <span class="p">}</span>
+
+        <span class="k">public</span> <span class="k">function</span> <span class="nf">postLogin</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="c1">// Code for logging in user...</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div>
+<p><strong><code>FormBuilder::create</code></strong> accepts 3 parameters:</p>
+
+<table><thead>
+<tr>
+<th>No.</th>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>1</td>
+<td>Form class path</td>
+<td>String (Required)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Form options</td>
+<td>Array  (Optional)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Form data</td>
+<td>Array  (Optional)</td>
+</tr>
+</tbody></table>
+
+<h4 id="form-class-path">Form class path</h4>
+
+<p>This is the full class name of the Form class that we want to create.</p>
+
+<p>Namespace can be skipped if configuration has <code>default_namespace</code> option set.</p>
+
+<p>For more info check <a href="/custom/package-configuration.html">Package configuration</a></p>
+
+<h4 id="form-options">Form options</h4>
+
+<p>These are the options that will be used in the form.</p>
+
+<p>It can contain these items:</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<span class="nv">$model</span> <span class="o">=</span> <span class="nx">User</span><span class="o">::</span><span class="na">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="nv">$formOptions</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;method&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;url&#39;</span> <span class="o">=&gt;</span> <span class="nx">action</span><span class="p">(</span><span class="s1">&#39;AuthController@postLogin&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;form-horizontal&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;model&#39;</span> <span class="o">=&gt;</span> <span class="nv">$model</span><span class="p">,</span>                              <span class="c1">// Not passed to view, just used in form class</span>
+    <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;users&#39;</span><span class="p">,</span>                              <span class="c1">// Not passed to view, just used in form class</span>
+    <span class="s1">&#39;data&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">&#39;some_dummy_data&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;some text&#39;</span><span class="p">],</span>   <span class="c1">// Not passed to view, just used in form class</span>
+<span class="p">];</span>
+</code></pre></div>
+<p>First 3 items are passed to view to <code>Form::open()</code> method, which just set&#39;s the action, method, and some additional attributes like css class.</p>
+
+<h5 id="model">model</h5>
+
+<p><code>model</code> is Eloquent model that will be used to bind values to form.</p>
+
+<p><strong>It will be done automatically!</strong></p>
+
+<p>Another way to set the model for form is with <code>setModel</code> method.
+Check section <a href="/form/methods-and-properties.html">Methods and properties</a> for more info.</p>
+
+<h5 id="name">name</h5>
+
+<p><code>name</code> is used for creating <a href="/form/named-form.html">Named form</a>.</p>
+
+<h5 id="data">data</h5>
+
+<p><code>data</code> is just another way to pass some static data that can be used in the form.</p>
+
+<p>Another way to set data is with <code>addData</code> and <code>setData</code> methods on Form class.
+Check section <a href="/form/methods-and-properties.html">Methods and properties</a> for more info.</p>
+
+<p><strong>Note</strong>: Do not confuse this with <code>model</code>. Data is just passed to the Form class instance to be used for anything inside the class.</p>
+
+
+                    </div>
+                
+            </div>
+
+            
+
+            <div class=row-fluid>
+                <div id=footer class=span12>
+                    <a class="to-top" href="#top" id="to-top"> TOP</a>
+Documentation for <a href="https://github.com/kristijanhusak/laravel-form-builder">Laravel form builder</a>
+
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function orderNav() {
+                var list,
+                    section,
+                    header,
+                    sections = [],
+                    lists = {},
+                    headers = {};
+
+                var navUl = document.querySelectorAll('#navigation ul')[0],
+                    navLis = document.querySelectorAll('#navigation ul li'),
+                    uri = window.location.pathname;
+
+                if (!navUl) return;
+
+                for (var i = 0; i < navLis.length; i++) {
+                    var order, li = navLis[i];
+
+                    if (li.classList.contains('nav-header')) {
+                        section = li.textContent || li.innerText;
+                        sections.push(section);
+                        headers[section] = li;
+                        continue;
+                    }
+
+                    if (!lists[section]) {
+                        lists[section] = [];
+                    }
+
+                    order = parseFloat(li.getAttribute('data-order'))
+                    if (li.querySelector('a').getAttribute('href') === uri) {
+                      li.classList.add('active');
+                    }
+                    lists[section].push([order, li]);
+                }
+
+                for (var i = 0; i < sections.length; i++) {
+                    section = sections[i];
+                    list = lists[section].sort(function(a, b) {
+                        return a[0] - b[0];
+                    });
+
+                    if (header = headers[section]) {
+                        navUl.appendChild(header);
+                    }
+                    for (var j = 0; j < list.length; j++) {
+                        navUl.appendChild(list[j][1]);
+                    }
+                }
+
+
+                navUl.classList.add('loaded');
+            }
+
+            if (document.querySelectorAll) orderNav();
+
+            (function() {
+              var winHeight = parseInt(window.innerHeight, 10);
+              var toTop = document.getElementById('to-top');
+
+              window.addEventListener('scroll', function() {
+                var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+                if (scrollTop > winHeight) {
+                  toTop.classList.add('visible');
+                } else {
+                  toTop.classList.remove('visible');
+                }
+              });
+            })();
+        </script>
+        
+    </body>
+</html>
