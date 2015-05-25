@@ -1,4 +1,11 @@
-<h4 id="top"><a class=brand href="{{ site.baseurl }}/">{{ site.title }}</a>
-    {% if site.subtitle %}<small>{{ site.subtitle }}</small>{% endif %}
+<h4 id="top" class="row">
+  <div class="col-md-6">
+    <a class=brand href="{{ site.baseurl }}/">{{ site.title }}</a>
+  </div>
+  {% if site.subtitle %}
+  <div class="col-md-6 text-right">
+    <small>{{ site.subtitle }}</small>
+  </div>
+  {% endif %}
 </h4>
 
