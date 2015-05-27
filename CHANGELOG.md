@@ -1,3 +1,6 @@
+## 1.5.10
+- Fix collection of forms not rendering when there is no model or any data passed to collection.
+
 ## 1.5.1
 - Add `entity` field type that allows fetching specific Model data
 
