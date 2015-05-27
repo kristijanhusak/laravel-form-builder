@@ -85,6 +85,8 @@ class Form
 
     /**
      * Rebuild the form from scratch
+     *
+     * @return $this
      */
     public function rebuildForm()
     {
@@ -99,6 +101,8 @@ class Form
             $this->buildForm();
         }
         $this->rebuilding = false;
+
+        return $this;
     }
 
     /**
