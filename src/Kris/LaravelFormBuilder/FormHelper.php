@@ -143,7 +143,7 @@ class FormHelper
         if (!in_array($type, static::$availableFieldTypes)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    'Unsupported field type [%s]. Avaiable types are: %s',
+                    'Unsupported field type [%s]. Available types are: %s',
                     $type,
                     join(', ', array_merge(static::$availableFieldTypes, array_keys($this->customTypes)))
                 )
