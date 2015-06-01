@@ -34,36 +34,36 @@ class FormHelper
      * @var array
      */
     protected static $availableFieldTypes = [
-        'text',
-        'email',
-        'url',
-        'tel',
-        'search',
-        'password',
-        'hidden',
-        'number',
-        'date',
-        'textarea',
-        'submit',
-        'reset',
-        'button',
-        'file',
-        'image',
-        'select',
-        'checkbox',
-        'radio',
-        'choice',
-        'color',
-        'datetime-local',
-        'month',
-        'range',
-        'time',
-        'week',
-        'entity',
-        'form',
-        'collection',
-        'repeated',
-        'static'
+        'text'           => 'InputType',
+        'email'          => 'InputType',
+        'url'            => 'InputType',
+        'tel'            => 'InputType',
+        'search'         => 'InputType',
+        'password'       => 'InputType',
+        'hidden'         => 'InputType',
+        'number'         => 'InputType',
+        'date'           => 'InputType',
+        'file'           => 'InputType',
+        'image'          => 'InputType',
+        'color'          => 'InputType',
+        'datetime-local' => 'InputType',
+        'month'          => 'InputType',
+        'range'          => 'InputType',
+        'time'           => 'InputType',
+        'week'           => 'InputType',
+        'select'         => 'SelectType',
+        'textarea'       => 'TextareaType',
+        'button'         => 'ButtonType',
+        'submit'         => 'ButtonType',
+        'reset'          => 'ButtonType',
+        'radio'          => 'CheckableType',
+        'checkbox'       => 'CheckableType',
+        'choice'         => 'ChoiceType',
+        'form'           => 'ChildFormType',
+        'entity'         => 'EntityType',
+        'collection'     => 'CollectionType',
+        'repeated'       => 'RepeatedType',
+        'static'         => 'StaticType'
     ];
 
     /**
@@ -132,6 +132,8 @@ class FormHelper
      */
     public function getFieldType($type)
     {
+        $types = array_keys(static::$availableFieldTypes);
+
         if (!$type || trim($type) == '') {
             throw new \InvalidArgumentException('Field type must be provided.');
         }
@@ -140,56 +142,19 @@ class FormHelper
             return $this->customTypes[$type];
         }
 
-        if (!in_array($type, static::$availableFieldTypes)) {
+        if (!in_array($type, $types)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'Unsupported field type [%s]. Available types are: %s',
                     $type,
-                    join(', ', array_merge(static::$availableFieldTypes, array_keys($this->customTypes)))
+                    join(', ', array_merge($types, array_keys($this->customTypes)))
                 )
             );
         }
 
-        switch($type) {
-            case 'select':
-                $fieldType = __NAMESPACE__.'\\Fields\\SelectType';
-                break;
-            case 'textarea':
-                $fieldType = __NAMESPACE__.'\\Fields\\TextareaType';
-                break;
-            case 'button':
-            case 'submit':
-            case 'reset':
-                $fieldType = __NAMESPACE__.'\\Fields\\ButtonType';
-                break;
-            case 'radio':
-            case 'checkbox':
-                $fieldType = __NAMESPACE__.'\\Fields\\CheckableType';
-                break;
-            case 'choice':
-                $fieldType = __NAMESPACE__.'\\Fields\\ChoiceType';
-                break;
-            case 'form':
-                $fieldType = __NAMESPACE__.'\\Fields\\ChildFormType';
-                break;
-            case 'entity':
-                $fieldType = __NAMESPACE__.'\\Fields\\EntityType';
-                break;
-            case 'collection':
-                $fieldType = __NAMESPACE__.'\\Fields\\CollectionType';
-                break;
-            case 'repeated':
-                $fieldType = __NAMESPACE__.'\\Fields\\RepeatedType';
-                break;
-            case 'static':
-                $fieldType = __NAMESPACE__.'\\Fields\\StaticType';
-                break;
-            default:
-                $fieldType = __NAMESPACE__.'\\Fields\\InputType';
-                break;
-        }
+        $namespace = __NAMESPACE__.'\\Fields\\';
 
-        return $fieldType;
+        return $namespace . static::$availableFieldTypes[$type];
     }
 
     /**

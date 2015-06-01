@@ -81,9 +81,9 @@ abstract class FormField
      */
     public function __construct($name, $type, Form $parent, array $options = [])
     {
-        $this->name = $name;
-        $this->type = $type;
         $this->parent = $parent;
+        $this->name = $this->getFieldName($name);
+        $this->type = $type;
         $this->formHelper = $this->parent->getFormHelper();
         $this->setTemplate();
         $this->setDefaultOptions($options);
@@ -465,5 +465,20 @@ abstract class FormField
         }
 
         return true;
+    }
+
+    /**
+     * If form is named form, modify names to be contained in single key (parent[child_field_name])
+     *
+     * @param string $name
+     * @return string
+     */
+    protected function getFieldName($name)
+    {
+        if ($this->parent->getName() !== null) {
+            return $this->parent->getName().'['.$name.']';
+        }
+
+        return $name;
     }
 }

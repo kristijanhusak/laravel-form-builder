@@ -3,6 +3,9 @@
 class EntityType extends ChoiceType
 {
 
+    /**
+     * @inheritdoc
+     */
     protected function getDefaults()
     {
         $defaults = [

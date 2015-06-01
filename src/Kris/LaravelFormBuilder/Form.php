@@ -132,11 +132,9 @@ class Form
 
         $this->setupFieldOptions($name, $options);
 
-        $fieldName = $this->getFieldName($name);
-
         $fieldType = $this->getFieldType($type);
 
-        $this->fields[$name] = new $fieldType($fieldName, $type, $this, $options);
+        $this->fields[$name] = new $fieldType($name, $type, $this, $options);
 
         return $this;
     }
@@ -153,7 +151,6 @@ class Form
      */
     public function addBefore($name, $fieldName, $type = 'text', $options = [], $modify = false)
     {
-        $field = $this->getField($name);
         $offset = array_search($name, array_keys($this->fields));
 
         $beforeFields = array_slice($this->fields, 0, $offset);
@@ -180,7 +177,6 @@ class Form
      */
     public function addAfter($name, $fieldName, $type = 'text', $options = [], $modify = false)
     {
-        $field = $this->getField($name);
         $offset = array_search($name, array_keys($this->fields));
 
         $beforeFields = array_slice($this->fields, 0, $offset + 1);
@@ -672,21 +668,6 @@ class Form
         if ($this->getFormOption('name')) {
             $this->name = array_pull($this->formOptions, 'name', $this->name);
         }
-    }
-
-    /**
-     * If form is named form, modify names to be contained in single key (parent[child_field_name])
-     *
-     * @param string $name
-     * @return string
-     */
-    protected function getFieldName($name)
-    {
-        if ($this->getName() !== null) {
-            return $this->getName().'['.$name.']';
-        }
-
-        return $name;
     }
 
     /**

@@ -43,6 +43,9 @@ class ChoiceType extends ParentType
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function getDefaults()
     {
         return [
