@@ -2,6 +2,7 @@
 layout: page
 title: "Basic input types"
 category: field
+order: 2
 date: 2015-05-24 21:06:38
 ---
 
@@ -13,6 +14,7 @@ All fields that match this pattern are in this category:
 ```
 
 Here's the full list:
+
 * text
 * email
 * password
@@ -41,7 +43,7 @@ $this->add('name', 'text', [
 ]);
 ```
 
-`default_value`(String)(Default: null) - Used for setting default value.
+`default_value` (String) (Default: null) - Used for setting default value.
 
 If not provided, Form class will search for `name` property on the passed `model`.
 

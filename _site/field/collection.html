@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width">
 
         <title>Laravel form builder : Collection</title>
-        <meta name="description" content="Laravel form builder inspired by Symfony's form component.">
+        <meta name="description" content="Laravel form builder inspired by Symfony's form component">
 
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="/laravel-form-builder/css/syntax.css">
@@ -23,7 +23,7 @@
   </div>
   
   <div class="col-md-6 text-right">
-    <small>Laravel form builder inspired by Symfony's form component.</small>
+    <small>Laravel form builder inspired by Symfony's form component</small>
   </div>
   
 </h4>
@@ -59,6 +59,9 @@
             
                 <li class=nav-header>Form</li>
             
+            <li data-order="5"><a href="/laravel-form-builder/form/viewhelpers.html">View helpers</a></li>
+        
+            
             <li data-order="2"><a href="/laravel-form-builder/form/methods-and-properties.html">Methods and properties</a></li>
         
             
@@ -78,7 +81,10 @@
             
                 <li class=nav-header>Fields</li>
             
-            <li data-order=""><a href="/laravel-form-builder/field/basic-input-types.html">Basic input types</a></li>
+            <li data-order="1"><a href="/laravel-form-builder/field/fieldbasics.html">Field basics</a></li>
+        
+            
+            <li data-order="2"><a href="/laravel-form-builder/field/basic-input-types.html">Basic input types</a></li>
         
             
             <li data-order="10"><a href="/laravel-form-builder/field/static.html">Static</a></li>
@@ -102,10 +108,10 @@
             <li data-order="4"><a href="/laravel-form-builder/field/checkbox-and-radio.html">Checkbox and radio</a></li>
         
             
-            <li data-order="3"><a href="/laravel-form-builder/field/select.html">Select</a></li>
+            <li data-order="4"><a href="/laravel-form-builder/field/select.html">Select</a></li>
         
             
-            <li data-order="2"><a href="/laravel-form-builder/field/buttons.html">Buttons</a></li>
+            <li data-order="3"><a href="/laravel-form-builder/field/buttons.html">Buttons</a></li>
         
     
         
@@ -115,13 +121,13 @@
             
                 <li class=nav-header>Customization</li>
             
-            <li data-order=""><a href="/laravel-form-builder/custom/configuration-basics.html">Basics</a></li>
+            <li data-order="3"><a href="/laravel-form-builder/custom/customfields.html">Custom fields</a></li>
         
             
-            <li data-order=""><a href="/laravel-form-builder/custom/templates.html">Templates</a></li>
+            <li data-order="1"><a href="/laravel-form-builder/custom/configuration-basics.html">Basics</a></li>
         
             
-            <li data-order=""><a href="/laravel-form-builder/custom/package-configuration.html">Package configuration</a></li>
+            <li data-order="2"><a href="/laravel-form-builder/custom/templates.html">Templates</a></li>
         
     
 <!-- List additional links. It is recommended to add a divider
@@ -137,7 +143,230 @@
     </h2>
 </div>
 
-<h3 id="coming-soon">Coming soon</h3>
+<ul>
+<li><a href="#collection-of-child-forms">Collection of child forms</a></li>
+<li><a href="#prototype">Prototype</a></li>
+<li><a href="#options">Options</a></li>
+</ul>
+
+<p>Collections are used for working with array of data, mostly used for relationships (OneToMany, ManyToMany).</p>
+
+<p>It can be any type that is available in the package. Here are some examples:</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<span class="k">use</span> <span class="nx">Kris\LaravelFormBuilder\Form</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">PostForm</span> <span class="k">extends</span> <span class="nx">Form</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="s1">&#39;textarea&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;tags&#39;</span><span class="p">,</span> <span class="s1">&#39;collection&#39;</span><span class="p">,</span> <span class="p">[</span>
+                <span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;property&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span>    <span class="c1">// Which property to use on the tags model for value, defualts to id</span>
+                <span class="s1">&#39;data&#39;</span> <span class="o">=&gt;</span> <span class="p">[],</span>            <span class="c1">// Data is automatically bound from model, here we can override it</span>
+                <span class="s1">&#39;options&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>    <span class="c1">// these are options for a single type</span>
+                    <span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="k">false</span><span class="p">,</span>
+                    <span class="s1">&#39;attr&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;tag&#39;</span><span class="p">]</span>
+                <span class="p">]</span>
+            <span class="p">]);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>And in controller:</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+<span class="k">class</span> <span class="nc">MainController</span> <span class="k">extends</span> <span class="nx">Controller</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">edit</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nx">FormBuilder</span> <span class="nv">$formBuilder</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$post</span> <span class="o">=</span> <span class="nx">Post</span><span class="o">::</span><span class="na">findOrFail</span><span class="p">(</span><span class="nv">$id</span><span class="p">);</span>
+        <span class="c1">// Post model contains this data</span>
+        <span class="c1">// $post = [</span>
+        <span class="c1">//     &#39;id&#39; =&gt; 1,</span>
+        <span class="c1">//     &#39;title&#39; =&gt; &#39;lorem ipsum&#39;,</span>
+        <span class="c1">//     &#39;body&#39; =&gt; &#39;dolor sit&#39;</span>
+        <span class="c1">//     &#39;tags&#39; =&gt; [</span>
+        <span class="c1">//         [&#39;id&#39; =&gt; 1, &#39;name&#39; =&gt; &#39;work&#39;, &#39;desc&#39; =&gt; &#39;For work&#39;],</span>
+        <span class="c1">//         [&#39;id&#39; =&gt; 2, &#39;name&#39; =&gt; &#39;personal&#39;, &#39;desc&#39; =&gt; &#39;For personal usage&#39;]</span>
+        <span class="c1">//     ]</span>
+        <span class="c1">// ]</span>
+
+        <span class="c1">// Collection field type will automatically pull tags data from the model,</span>
+        <span class="c1">// If we want to override the data, we can pass `data` option to the field</span>
+
+        <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$formBuilder</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;App\Forms\PostForm&#39;</span><span class="p">,</span> <span class="p">[</span>
+            <span class="s1">&#39;model&#39;</span> <span class="o">=&gt;</span> <span class="nv">$post</span>
+        <span class="p">]);</span>
+
+        <span class="k">return</span> <span class="nx">view</span><span class="p">(</span><span class="s1">&#39;posts.edit&#39;</span><span class="p">,</span> <span class="nb">compact</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Then the view will contain:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">&quot;POST&quot;</span> <span class="na">action=</span><span class="s">&quot;/post/1&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;title&quot;</span> <span class="na">class=</span><span class="s">&quot;control-label&quot;</span><span class="nt">&gt;</span>Title<span class="nt">&lt;/label&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">id=</span><span class="s">&quot;title&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="na">name=</span><span class="s">&quot;title&quot;</span> <span class="na">value=</span><span class="s">&quot;lorem ipsum&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;body&quot;</span> <span class="na">class=</span><span class="s">&quot;control-label&quot;</span><span class="nt">&gt;</span>Body<span class="nt">&lt;/label&gt;</span>
+        <span class="nt">&lt;textarea</span> <span class="na">id=</span><span class="s">&quot;body&quot;</span> <span class="na">name=</span><span class="s">&quot;body&quot;</span><span class="nt">&gt;</span>dolor sit<span class="nt">&lt;/textarea&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;tags&quot;</span> <span class="na">class=</span><span class="s">&quot;control-label&quot;</span><span class="nt">&gt;</span>Tags<span class="nt">&lt;/label&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">id=</span><span class="s">&quot;tags[0]&quot;</span> <span class="na">class=</span><span class="s">&quot;tag&quot;</span> <span class="na">name=</span><span class="s">&quot;tags[0]&quot;</span> <span class="na">value=</span><span class="s">&quot;work&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">id=</span><span class="s">&quot;tags[1]&quot;</span> <span class="na">class=</span><span class="s">&quot;tag&quot;</span> <span class="na">name=</span><span class="s">&quot;tags[1]&quot;</span> <span class="na">value=</span><span class="s">&quot;personal&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</code></pre></div>
+<h4 id="collection-of-child-forms">Collection of child forms</h4>
+
+<p>Child forms can be also used in a collection:</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<span class="k">use</span> <span class="nx">Kris\LaravelFormBuilder\Form</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">TagsForm</span> <span class="k">extends</span> <span class="nx">Form</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;desc&#39;</span><span class="p">,</span> <span class="s1">&#39;textarea&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">PostForm</span> <span class="k">extends</span> <span class="nx">Form</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="s1">&#39;textarea&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;tags&#39;</span><span class="p">,</span> <span class="s1">&#39;collection&#39;</span><span class="p">,</span> <span class="p">[</span>
+                <span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;form&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;options&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>    <span class="c1">// these are options for a single type</span>
+                    <span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;App\Forms\TagsForm&#39;</span>
+                    <span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="k">false</span><span class="p">,</span>
+                <span class="p">]</span>
+            <span class="p">]);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>And with same controller setup as above, we get this:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">&quot;POST&quot;</span> <span class="na">action=</span><span class="s">&quot;/post/1&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;title&quot;</span> <span class="na">class=</span><span class="s">&quot;control-label&quot;</span><span class="nt">&gt;</span>Title<span class="nt">&lt;/label&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">id=</span><span class="s">&quot;title&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="na">name=</span><span class="s">&quot;title&quot;</span> <span class="na">value=</span><span class="s">&quot;lorem ipsum&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;body&quot;</span> <span class="na">class=</span><span class="s">&quot;control-label&quot;</span><span class="nt">&gt;</span>Body<span class="nt">&lt;/label&gt;</span>
+        <span class="nt">&lt;textarea</span> <span class="na">id=</span><span class="s">&quot;body&quot;</span> <span class="na">name=</span><span class="s">&quot;body&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span><span class="nt">&gt;</span>dolor sit<span class="nt">&lt;/textarea&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;tags&quot;</span> <span class="na">class=</span><span class="s">&quot;control-label&quot;</span><span class="nt">&gt;</span>Tags<span class="nt">&lt;/label&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;tags[0][name]&quot;</span><span class="nt">&gt;</span>Name<span class="nt">&lt;/label&gt;</span>
+                <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">id=</span><span class="s">&quot;tags[0][name]&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="na">name=</span><span class="s">&quot;tags[0][name]&quot;</span> <span class="na">value=</span><span class="s">&quot;work&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;/div&gt;</span>
+            <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;tags[0][desc]&quot;</span><span class="nt">&gt;</span>Desc<span class="nt">&lt;/label&gt;</span>
+                <span class="nt">&lt;textarea</span> <span class="na">id=</span><span class="s">&quot;tags[0][desc]&quot;</span> <span class="na">name=</span><span class="s">&quot;tags[0][desc]&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span><span class="nt">&gt;</span>For work<span class="nt">&lt;/textarea&gt;</span>
+            <span class="nt">&lt;/div&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;tags[1][name]&quot;</span><span class="nt">&gt;</span>Name<span class="nt">&lt;/label&gt;</span>
+                <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">id=</span><span class="s">&quot;tags[1][name]&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="na">name=</span><span class="s">&quot;tags[1][name]&quot;</span> <span class="na">value=</span><span class="s">&quot;personal&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;/div&gt;</span>
+            <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;tags[1][desc]&quot;</span><span class="nt">&gt;</span>Desc<span class="nt">&lt;/label&gt;</span>
+                <span class="nt">&lt;textarea</span> <span class="na">id=</span><span class="s">&quot;tags[1][desc]&quot;</span> <span class="na">name=</span><span class="s">&quot;tags[1][desc]&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span><span class="nt">&gt;</span>For personal usage<span class="nt">&lt;/textarea&gt;</span>
+            <span class="nt">&lt;/div&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+</code></pre></div>
+<h4 id="prototype">Prototype</h4>
+
+<p>If you need to dynamically generate HTML for additional elements in the collection, you can use <code>prototype()</code> method on the form field. Let&#39;s use example above:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html">@extends(&#39;app&#39;)
+
+@section(&#39;content&#39;)
+    {!! form_start($form) !!}
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;collection-container&quot;</span> <span class="na">data-prototype=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span> // Use  here to escape html
+        {!! form_row($form-&gt;tags) !!}
+    <span class="nt">&lt;/div&gt;</span>
+    {!! form_end($form) !!}
+    <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">class=</span><span class="s">&quot;add-to-collection&quot;</span><span class="nt">&gt;</span>Add to collection<span class="nt">&lt;/button&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;https://code.jquery.com/jquery-2.1.3.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script&gt;</span>
+        <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.add-to-collection&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+                <span class="kd">var</span> <span class="nx">container</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.collection-container&#39;</span><span class="p">);</span>
+                <span class="kd">var</span> <span class="nx">count</span> <span class="o">=</span> <span class="nx">container</span><span class="p">.</span><span class="nx">children</span><span class="p">().</span><span class="nx">length</span><span class="p">;</span>
+                <span class="kd">var</span> <span class="nx">proto</span> <span class="o">=</span> <span class="nx">container</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;prototype&#39;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/__NAME__/g</span><span class="p">,</span> <span class="nx">count</span><span class="p">);</span>
+                <span class="nx">container</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">proto</span><span class="p">);</span>
+            <span class="p">});</span>
+        <span class="p">});</span>
+    <span class="nt">&lt;/script&gt;</span>
+@endsection
+</code></pre></div>
+<p><code>data-prototype</code> will contain:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;tags[__NAME__][name]&quot;</span><span class="nt">&gt;</span>Name<span class="nt">&lt;/label&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">id=</span><span class="s">&quot;tags[__NAME__][name]&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="na">name=</span><span class="s">&quot;tags[__NAME__][name]&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;tags[__NAME__][desc]&quot;</span><span class="nt">&gt;</span>Desc<span class="nt">&lt;/label&gt;</span>
+        <span class="nt">&lt;textarea</span> <span class="na">id=</span><span class="s">&quot;tags[__NAME__][desc]&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="na">name=</span><span class="s">&quot;tags[__NAME__][desc]&quot;</span><span class="nt">&gt;&lt;/textarea&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div>
+<p>And clicking on the button <code>.add-to-collection</code> will automatically generate proper html from the prototype.</p>
+
+<p>Prototype can be configured in the form class:</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">use Kris\LaravelFormBuilder\Form;</span>
+
+<span class="x">class PostForm extends Form</span>
+<span class="x">{</span>
+<span class="x">    public function buildForm()</span>
+<span class="x">    {</span>
+<span class="x">        $this</span>
+<span class="x">            -&gt;add(&#39;title&#39;, &#39;text&#39;)</span>
+<span class="x">            -&gt;add(&#39;body&#39;, &#39;textarea&#39;)</span>
+<span class="x">            -&gt;add(&#39;tags&#39;, &#39;collection&#39;, [</span>
+<span class="x">                &#39;type&#39; =&gt; &#39;text&#39;,</span>
+<span class="x">                &#39;property&#39; =&gt; &#39;name&#39;,</span>
+<span class="x">                &#39;prototype&#39; =&gt; true,            // Should prototype be generated. Default: true</span>
+<span class="x">                &#39;prototype_name&#39; =&gt; &#39;__NAME__&#39; // Value used for replacing when generating new elements from prototype, default: __NAME__</span>
+<span class="x">                &#39;options&#39; =&gt; [</span>
+<span class="x">                    &#39;label&#39; =&gt; false,</span>
+<span class="x">                    &#39;attr&#39; =&gt; [&#39;class&#39; =&gt; &#39;tag&#39;]</span>
+<span class="x">                ]</span>
+<span class="x">            ]);</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</code></pre></div>
+<h3 id="options">Options</h3>
+
+<p>Beside inherited, there are some additional options available:</p>
+
+<ol>
+<li><code>type</code> (String) (Default: null) - Type of the collection item</li>
+<li><code>options</code> (Array) (Default: <code>[]</code>) - Options that will be used for the collection item</li>
+<li><code>data</code> (Array) (Default: <code>[]</code>) - This is the <code>default_value</code> for the collection</li>
+<li><code>property</code> (String) (Default: <code>id</code>) - Property to be used when pulling data from model</li>
+<li><code>prototype</code> (Boolean) (Default: <code>true</code>) - Should <a href="#prototype">prototype</a> be generated</li>
+<li><code>prototype_name</code> (String) (Default: <code>__NAME__</code>) - Namespace in the prototype that is generated</li>
+</ol>
 
 
                     </div>

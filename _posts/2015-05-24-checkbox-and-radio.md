@@ -18,8 +18,8 @@ $this->add('remember_me', 'checkbox', [
 ```
 Beside inherited, there are 2 more options:
 
-1. `default_value`(String)(Default: `null`) - value that will be used for the value attribute
-2. `checked`(Boolean)(Default: `false`) - If true, checkbox will be checked
+1. `default_value` (String) (Default: `null`) - value that will be used for the value attribute
+2. `checked` (Boolean) (Default: `false`) - If true, checkbox will be checked
 
 ```html
 <div class="form-group">

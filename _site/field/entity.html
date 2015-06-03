@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width">
 
         <title>Laravel form builder : Entity</title>
-        <meta name="description" content="Laravel form builder inspired by Symfony's form component.">
+        <meta name="description" content="Laravel form builder inspired by Symfony's form component">
 
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="/laravel-form-builder/css/syntax.css">
@@ -23,7 +23,7 @@
   </div>
   
   <div class="col-md-6 text-right">
-    <small>Laravel form builder inspired by Symfony's form component.</small>
+    <small>Laravel form builder inspired by Symfony's form component</small>
   </div>
   
 </h4>
@@ -59,6 +59,9 @@
             
                 <li class=nav-header>Form</li>
             
+            <li data-order="5"><a href="/laravel-form-builder/form/viewhelpers.html">View helpers</a></li>
+        
+            
             <li data-order="2"><a href="/laravel-form-builder/form/methods-and-properties.html">Methods and properties</a></li>
         
             
@@ -78,7 +81,10 @@
             
                 <li class=nav-header>Fields</li>
             
-            <li data-order=""><a href="/laravel-form-builder/field/basic-input-types.html">Basic input types</a></li>
+            <li data-order="1"><a href="/laravel-form-builder/field/fieldbasics.html">Field basics</a></li>
+        
+            
+            <li data-order="2"><a href="/laravel-form-builder/field/basic-input-types.html">Basic input types</a></li>
         
             
             <li data-order="10"><a href="/laravel-form-builder/field/static.html">Static</a></li>
@@ -102,10 +108,10 @@
             <li data-order="4"><a href="/laravel-form-builder/field/checkbox-and-radio.html">Checkbox and radio</a></li>
         
             
-            <li data-order="3"><a href="/laravel-form-builder/field/select.html">Select</a></li>
+            <li data-order="4"><a href="/laravel-form-builder/field/select.html">Select</a></li>
         
             
-            <li data-order="2"><a href="/laravel-form-builder/field/buttons.html">Buttons</a></li>
+            <li data-order="3"><a href="/laravel-form-builder/field/buttons.html">Buttons</a></li>
         
     
         
@@ -115,13 +121,13 @@
             
                 <li class=nav-header>Customization</li>
             
-            <li data-order=""><a href="/laravel-form-builder/custom/configuration-basics.html">Basics</a></li>
+            <li data-order="3"><a href="/laravel-form-builder/custom/customfields.html">Custom fields</a></li>
         
             
-            <li data-order=""><a href="/laravel-form-builder/custom/templates.html">Templates</a></li>
+            <li data-order="1"><a href="/laravel-form-builder/custom/configuration-basics.html">Basics</a></li>
         
             
-            <li data-order=""><a href="/laravel-form-builder/custom/package-configuration.html">Package configuration</a></li>
+            <li data-order="2"><a href="/laravel-form-builder/custom/templates.html">Templates</a></li>
         
     
 <!-- List additional links. It is recommended to add a divider
@@ -140,21 +146,22 @@
 <p>Entity inherits all functionality from <a href="/laravel-form-builder/field/choice.html">Choice type</a>, with additional options:</p>
 
 <ol>
-<li><code>class</code>(String)(Default: <code>null</code>) - Full path to the Model class that will be used to fetch choices.</li>
-<li><code>query_builder</code>(Closure)(Default: <code>null</code>) - If provided, used to filter data before setting as choices. If null, gets all data.</li>
-<li><code>property</code>(String)(Default: <code>name</code>) - Property from model that will be used as label for options in choices</li>
-<li><code>property_key</code>(String)(Default: <code>id</code>) - Property from model that will be used as value for options in choices</li>
+<li><code>class</code> (String) (Default: <code>null</code>) - Full path to the Model class that will be used to fetch choices.</li>
+<li><code>query_builder</code> (Closure) (Default: <code>null</code>) - If provided, used to filter data before setting as choices. If null, gets all data.</li>
+<li><code>property</code> (String) (Default: <code>name</code>) - Property from model that will be used as label for options in choices</li>
+<li><code>property_key</code> (String) (Default: <code>id</code>) - Property from model that will be used as value for options in choices</li>
 </ol>
 
 <p><strong>Note</strong>: If <code>choices</code> are provided in options, <code>class</code> option is ignored, and passed data for <code>choices</code> is used.</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">    $this-&gt;add(&#39;languages&#39;, &#39;entity&#39;, [</span>
-<span class="x">        &#39;class&#39; =&gt; &#39;App\Language&#39;,</span>
-<span class="x">        &#39;property&#39; =&gt; &#39;short_name&#39;,</span>
-<span class="x">        &#39;query_builder&#39; =&gt; function (App\Language $lang) {</span>
-<span class="x">            // If query builder option is not provided, all data is fetched</span>
-<span class="x">            return $lang-&gt;where(&#39;active&#39;, 1);</span>
-<span class="x">        }</span>
-<span class="x">    ]);</span>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;languages&#39;</span><span class="p">,</span> <span class="s1">&#39;entity&#39;</span><span class="p">,</span> <span class="p">[</span>
+        <span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;App\Language&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;property&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;short_name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;query_builder&#39;</span> <span class="o">=&gt;</span> <span class="k">function</span> <span class="p">(</span><span class="nx">App\Language</span> <span class="nv">$lang</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// If query builder option is not provided, all data is fetched</span>
+            <span class="k">return</span> <span class="nv">$lang</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;active&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">]);</span>
 </code></pre></div>
 
                     </div>
