@@ -79,7 +79,7 @@ class SongForm extends Form
 }
 ```
 
-If you want to instantiate empty form withoutl any fields, just skip passing `--fields` parameter:
+If you want to instantiate empty form without any fields, just skip passing `--fields` parameter:
 
 ```sh
     php artisan make:form Forms/PostForm
