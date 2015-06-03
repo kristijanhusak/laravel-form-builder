@@ -132,9 +132,11 @@ class Form
 
         $this->setupFieldOptions($name, $options);
 
+        $fieldName = $this->getFieldName($name);
+
         $fieldType = $this->getFieldType($type);
 
-        $this->fields[$name] = new $fieldType($name, $type, $this, $options);
+        $this->fields[$name] = new $fieldType($fieldName, $type, $this, $options);
 
         return $this;
     }
@@ -749,5 +751,21 @@ class Form
         $this->exclude = array_merge($this->exclude, $fields);
 
         return $this;
+    }
+
+
+    /**
+     * If form is named form, modify names to be contained in single key (parent[child_field_name])
+     *
+     * @param string $name
+     * @return string
+     */
+    protected function getFieldName($name)
+    {
+        if ($this->getName() !== null) {
+            return $this->getName().'['.$name.']';
+        }
+
+        return $name;
     }
 }
