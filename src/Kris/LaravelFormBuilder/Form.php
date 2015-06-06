@@ -273,7 +273,7 @@ class Form
 
         $i = 1;
         foreach ($fields as $key => $value) {
-            if ($value->getName() == $field_name) {
+            if ($value->getRealName() == $field_name) {
                 break;
             }
             $i++;
