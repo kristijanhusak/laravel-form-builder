@@ -95,7 +95,7 @@ abstract class FormField
             $this->valueClosure = $defaultValue;
         }
 
-        if ((!$defaultValue || $defaultValue instanceof \Closure) && !$isChild) {
+        if (($defaultValue === false || $defaultValue === null || $defaultValue instanceof \Closure) && !$isChild) {
             $this->setValue($this->getModelValueAttribute($this->parent->getModel(), $name));
         } elseif (!$isChild) {
             $this->hasDefault = true;
