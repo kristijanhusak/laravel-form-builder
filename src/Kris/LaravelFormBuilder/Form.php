@@ -233,13 +233,16 @@ class Form
             $fields = $class->getForm()->getFields();
         } elseif (is_string($class)) {
             // If its a string of a class make it the usual way
-            $childForm = $this->makeField('', 'form', $options);
-            if (! $childForm instanceof Fields\ChildFormType) {
-                throw new \InvalidArgumentException("Field [{$name}] is not a child form");
+            $options['model'] = $this->model;
+            $options['name'] = $this->name;
+
+            $form = $this->formBuilder->create($class, $options);
+            if (! $form instanceof Form) {
+                throw new \InvalidArgumentException("[{$name}] is not a form");
             }
-            $fields = $childForm->getForm()->getFields();
+            $fields = $form->getFields();
         } else {
-            throw new \InvalidArgumentException("\$class is invalid. Please provide either a string, Form or ChildFormType");
+            throw new \InvalidArgumentException("[{$class}] is invalid. Please provide either a string, Form or ChildFormType");
         }
         foreach ($fields as $field) {
             $this->addField($field);
