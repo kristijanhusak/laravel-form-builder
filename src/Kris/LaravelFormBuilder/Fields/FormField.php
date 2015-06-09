@@ -56,11 +56,25 @@ abstract class FormField
     protected $formHelper;
 
     /**
-     * Name of the property for default value
+     * Option name for setting the value
      *
      * @var string
      */
-    protected $valueProperty = 'default_value';
+    protected $valueProperty = 'value';
+
+    /**
+     * Option name for the default value
+     *
+     * @var string
+     */
+    protected $defaultValueProperty = 'default_value';
+
+    /**
+     * Value set on accompanying model
+     *
+     * @var mixed
+     */
+    protected $modelValue = null;
 
     /**
      * Is default value set?
@@ -88,19 +102,32 @@ abstract class FormField
         $this->setTemplate();
         $this->setDefaultOptions($options);
 
-        $defaultValue = $this->getOption($this->valueProperty);
+        $this->setupValue();
+    }
+
+    /**
+     * Setup the starting value of the field
+     *
+     * @return void
+     */
+    protected function setupValue()
+    {
         $isChild = $this->getOption('is_child');
 
-        if ($defaultValue instanceof \Closure) {
-            $this->valueClosure = $defaultValue;
+        $defaultValue = $this->getOption($this->defaultValueProperty);
+        $value = $this->getOption($this->valueProperty);
+        $hasModel = ($this->parent->getModel() !== null);
+        $setValue = $defaultValue;
+        if ($value !== null) {
+            $setValue = $value;
+        } elseif ($hasModel) {
+            $this->modelValue = $this->getModelValueAttribute($this->parent->getModel(), $this->name);
+            $setValue = $this->modelValue;
         }
-
-        if (($defaultValue === false || $defaultValue === null || $defaultValue instanceof \Closure) && !$isChild) {
-            $this->setValue($this->getModelValueAttribute($this->parent->getModel(), $name));
-        } elseif (!$isChild) {
-            $this->hasDefault = true;
-        }
+        
+        $this->setValue($setValue);
     }
+
 
     /**
      * Get the template, can be config variable or view path
@@ -233,6 +260,16 @@ abstract class FormField
         }
 
         return $options;
+    }
+
+    /**
+     * Get model value associated with this field
+     *
+     * @return string
+     */
+    public function getModelValue()
+    {
+        return $this->modelValue;
     }
 
     /**
@@ -385,6 +422,7 @@ abstract class FormField
                 'class' => $this->formHelper->getConfig('defaults.help_block_class')
             ]],
             'default_value' => null,
+            'value' => null,
             'label' => $this->formHelper->formatLabel($this->getRealName()),
             'is_child' => false,
             'label_attr' => ['class' => $this->formHelper->getConfig('defaults.label_class'), 'for' => $this->name],
@@ -408,17 +446,13 @@ abstract class FormField
      */
     protected function setValue($value)
     {
-        if ($this->hasDefault) {
-            return $this;
-        }
-
-        $closure = $this->valueClosure;
-
-        if ($closure instanceof \Closure) {
-            $this->options[$this->valueProperty] = $closure($value ?: []);
+        if ($value instanceof \Closure) {
+            $setValue = $value($this->modelValue ?: [], $this->parent->getModel());
         } else {
-            $this->options[$this->valueProperty] = $value;
+            $setValue = $value;
         }
+
+        $this->options[$this->valueProperty] = $setValue;
 
         return $this;
     }
