@@ -107,6 +107,7 @@ abstract class FormBuilderTestCase extends PHPUnit_Framework_TestCase {
                 'class' => 'help-block'
             ]],
             'default_value' => $defaultValue,
+            'value' => null,
             'label' => $label,
             'is_child' => false,
             'label_attr' => ['class' => 'control-label', 'for' => $id],
