@@ -305,6 +305,20 @@ abstract class FormField
     }
 
     /**
+     * Set single option on the field
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return $this
+     */
+    public function setOption($name, $value)
+    {
+        $this->options[$name] = $value;
+
+        return $this;
+    }
+
+    /**
      * Get the type of the field
      *
      * @return string
