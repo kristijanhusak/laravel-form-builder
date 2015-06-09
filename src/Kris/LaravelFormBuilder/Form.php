@@ -104,9 +104,28 @@ class Form
 
         return $this;
     }
+    
+    /**
+     * Create the FormField object
+     *
+     * @param string $name
+     * @param string $type
+     * @param array  $options
+     * @return $this
+     */
+    public function makeField($name, $type = 'text', array $options = [])
+    {
+        $this->setupFieldOptions($name, $options);
+
+        $fieldName = $this->getFieldName($name);
+
+        $fieldType = $this->getFieldType($type);
+
+        return new $fieldType($fieldName, $type, $this, $options);
+    }
 
     /**
-     * Add a single field to the form
+     * Create a new field and add it to the form
      *
      * @param string $name
      * @param string $type
@@ -121,24 +140,28 @@ class Form
                 'Please provide valid field name for class ['. get_class($this) .']'
             );
         }
-
-        if (!$modify && !$this->rebuilding) {
-            $this->preventDuplicate($name);
-        }
-
+        
         if ($this->rebuilding && !$this->has($name)) {
             return $this;
         }
 
-        $this->setupFieldOptions($name, $options);
-
-        $fieldName = $this->getFieldName($name);
-
-        $fieldType = $this->getFieldType($type);
-
-        $this->fields[$name] = new $fieldType($fieldName, $type, $this, $options);
-
+        $this->addField($this->makeField($name, $type, $options), $modify);
+        
         return $this;
+    }
+
+    /**
+     * Add a FormField to the form's fields
+     *
+     * @param FormField $field
+     * @return $this
+     */
+    public function addField(FormField $field, $modify = false)
+    {
+        if (!$modify && !$this->rebuilding) {
+            $this->preventDuplicate($field->getRealName());
+        }
+        $this->fields[$field->getRealName()] = $field;
     }
 
     /**
@@ -169,7 +192,6 @@ class Form
 
     /**
      * Add field before another field
-
      * @param string  $name         Name of the field after which new field is added
      * @param string  $fieldName    Field name which will be added
      * @param string  $type
@@ -190,6 +212,41 @@ class Form
 
         $this->fields += $afterFields;
 
+        return $this;
+    }
+    
+    /**
+     * Take another form and add it's fields directly to this form
+     * @param mixed   $class        Form to merge
+     * @param array   $options
+     * @param boolean $modify
+     * @return $this
+     */
+    public function compose($class, array $options = [], $modify = false)
+    {
+        $options['class'] = $class;
+
+        // If we pass a ready made form just extract the fields
+        if ($class instanceof Form) {
+            $fields = $class->getFields();
+        } elseif ($class instanceof Fields\ChildFormType) {
+            $fields = $class->getForm()->getFields();
+        } elseif (is_string($class)) {
+            // If its a string of a class make it the usual way
+            $options['model'] = $this->model;
+            $options['name'] = $this->name;
+
+            $form = $this->formBuilder->create($class, $options);
+            if (! $form instanceof Form) {
+                throw new \InvalidArgumentException("[{$name}] is not a form");
+            }
+            $fields = $form->getFields();
+        } else {
+            throw new \InvalidArgumentException("[{$class}] is invalid. Please provide either a string, Form or ChildFormType");
+        }
+        foreach ($fields as $field) {
+            $this->addField($field);
+        }
         return $this;
     }
 

@@ -50,9 +50,7 @@ class ChildFormType extends ParentType
         if ($this->form->getFormOption('files')) {
             $this->parent->setFormOption('files', true);
         }
-
         $model = $this->getOption('default_value');
-
         if ($model !== false) {
             foreach ($this->form->getFields() as $name => $field) {
                 $field->setValue($this->getModelValueAttribute($model, $name));

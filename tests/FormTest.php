@@ -503,6 +503,28 @@ class FormTest extends FormBuilderTestCase
         $this->plainForm->addCustomField('datetime', 'Some\\Namespace\\DateType');
     }
 
+
+    /** @test */
+    public function it_can_compose_another_forms_fields_into_itself()
+    {
+        $form = $this->setupForm(new Form());
+        $customForm = $this->setupForm(new CustomDummyForm());
+
+
+        $form
+            ->add('name', 'text')
+            ->compose($customForm)
+        ;
+
+        $this->assertEquals($form, $form->name->getParent());
+
+        $this->assertEquals(3, count($form->getFields()));
+        $this->assertEquals(true, $form->has('title'));
+        $this->assertEquals('title', $form->title->getName());
+        $this->assertEquals('title', $form->title->getRealName());
+
+    }
+
     private function prepareRender(
         $formOptions = [],
         $showStart = true,
