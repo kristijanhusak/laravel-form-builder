@@ -47,6 +47,6 @@ class StaticTypeTest extends FormBuilderTestCase
 
         $static->render();
 
-        $this->assertEquals('static text', $static->getOption('default_value'));
+        $this->assertEquals('static text', $static->getOption('value'));
     }
 }

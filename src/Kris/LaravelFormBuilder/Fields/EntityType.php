@@ -1,5 +1,7 @@
 <?php namespace  Kris\LaravelFormBuilder\Fields;
 
+use Illuminate\Support\Collection;
+
 class EntityType extends ChoiceType
 {
 
@@ -49,6 +51,10 @@ class EntityType extends ChoiceType
             }
         } else {
             $data = $entity->lists($value, $key);
+        }
+
+        if ($data instanceof Collection) {
+            $data = $data->all();
         }
 
 
