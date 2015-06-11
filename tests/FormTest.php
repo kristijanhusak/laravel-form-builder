@@ -419,9 +419,9 @@ class FormTest extends FormBuilderTestCase
 
         $this->assertEquals('song[title]', $form->song->getChild('title')->getName());
         $this->assertCount(2, $form->songs->getChildren());
-        $this->assertEquals('lorem', $form->songs->getChild(0)->title->getOption('default_value'));
-        $this->assertEquals('test body', $form->song->body->getOption('default_value'));
-        $this->assertEquals('main title', $form->title->getOption('default_value'));
+        $this->assertEquals('lorem', $form->songs->getChild(0)->title->getOption('value'));
+        $this->assertEquals('test body', $form->song->body->getOption('value'));
+        $this->assertEquals('main title', $form->title->getOption('value'));
         $this->assertInstanceOf(
             'Kris\LaravelFormBuilder\Form',
             $form->song->getForm()

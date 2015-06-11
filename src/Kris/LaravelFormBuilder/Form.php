@@ -104,16 +104,16 @@ class Form
 
         return $this;
     }
-    
+
     /**
      * Create the FormField object
      *
      * @param string $name
      * @param string $type
      * @param array  $options
-     * @return $this
+     * @return FormField
      */
-    public function makeField($name, $type = 'text', array $options = [])
+    protected function makeField($name, $type = 'text', array $options = [])
     {
         $this->setupFieldOptions($name, $options);
 
@@ -140,13 +140,13 @@ class Form
                 'Please provide valid field name for class ['. get_class($this) .']'
             );
         }
-        
+
         if ($this->rebuilding && !$this->has($name)) {
             return $this;
         }
 
         $this->addField($this->makeField($name, $type, $options), $modify);
-        
+
         return $this;
     }
 
@@ -156,12 +156,15 @@ class Form
      * @param FormField $field
      * @return $this
      */
-    public function addField(FormField $field, $modify = false)
+    protected function addField(FormField $field, $modify = false)
     {
         if (!$modify && !$this->rebuilding) {
             $this->preventDuplicate($field->getRealName());
         }
+
         $this->fields[$field->getRealName()] = $field;
+
+        return $this;
     }
 
     /**
@@ -214,7 +217,7 @@ class Form
 
         return $this;
     }
-    
+
     /**
      * Take another form and add it's fields directly to this form
      * @param mixed   $class        Form to merge
@@ -237,16 +240,17 @@ class Form
             $options['name'] = $this->name;
 
             $form = $this->formBuilder->create($class, $options);
-            if (! $form instanceof Form) {
-                throw new \InvalidArgumentException("[{$name}] is not a form");
-            }
             $fields = $form->getFields();
         } else {
-            throw new \InvalidArgumentException("[{$class}] is invalid. Please provide either a string, Form or ChildFormType");
+            throw new \InvalidArgumentException(
+                "[{$class}] is invalid. Please provide either a full class name, Form or ChildFormType"
+            );
         }
+
         foreach ($fields as $field) {
-            $this->addField($field);
+            $this->addField($field, $modify);
         }
+
         return $this;
     }
 

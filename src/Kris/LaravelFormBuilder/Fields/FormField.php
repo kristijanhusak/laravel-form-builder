@@ -56,11 +56,18 @@ abstract class FormField
     protected $formHelper;
 
     /**
+     * Name of the property for value setting
+     *
+     * @var string
+     */
+    protected $valueProperty = 'value';
+
+    /**
      * Name of the property for default value
      *
      * @var string
      */
-    protected $valueProperty = 'default_value';
+    protected $defaultValueProperty = 'default_value';
 
     /**
      * Is default value set?
@@ -87,16 +94,20 @@ abstract class FormField
         $this->formHelper = $this->parent->getFormHelper();
         $this->setTemplate();
         $this->setDefaultOptions($options);
+        $this->setupValue();
+    }
 
-        $defaultValue = $this->getOption($this->valueProperty);
+    protected function setupValue()
+    {
+        $value = $this->getOption($this->valueProperty);
         $isChild = $this->getOption('is_child');
 
-        if ($defaultValue instanceof \Closure) {
-            $this->valueClosure = $defaultValue;
+        if ($value instanceof \Closure) {
+            $this->valueClosure = $value;
         }
 
-        if (($defaultValue === false || $defaultValue === null || $defaultValue instanceof \Closure) && !$isChild) {
-            $this->setValue($this->getModelValueAttribute($this->parent->getModel(), $name));
+        if (($value === false || $value === null || $value instanceof \Closure) && !$isChild) {
+            $this->setValue($this->getModelValueAttribute($this->parent->getModel(), $this->name));
         } elseif (!$isChild) {
             $this->hasDefault = true;
         }
@@ -118,7 +129,9 @@ abstract class FormField
      */
     public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
     {
-        $passedDefault = null;
+        $val = null;
+        $value = array_get($options, $this->valueProperty);
+        $defaultValue = array_get($options, $this->defaultValueProperty);
 
         if ($showField) {
             $this->rendered = true;
@@ -127,14 +140,16 @@ abstract class FormField
         // Check if default value is passed to render function from view.
         // If it is, we save it to a variable and then override it before
         // rendering the view
-        if ($defaultVal = array_get($options, $this->valueProperty)) {
-            $passedDefault = $defaultVal;
+        if ($value) {
+            $val = $value;
+        } elseif ($defaultValue && !$this->getOption($this->valueProperty)) {
+            $val = $defaultValue;
         }
 
         $options = $this->prepareOptions($options);
 
-        if ($passedDefault) {
-            $options[$this->valueProperty] = $passedDefault;
+        if ($val) {
+            $options[$this->valueProperty] = $val;
         }
 
         if (!$this->needsLabel($options)) {
@@ -384,6 +399,7 @@ abstract class FormField
             'help_block' => ['text' => null, 'tag' => 'p', 'attr' => [
                 'class' => $this->formHelper->getConfig('defaults.help_block_class')
             ]],
+            'value' => null,
             'default_value' => null,
             'label' => $this->formHelper->formatLabel($this->getRealName()),
             'is_child' => false,
@@ -415,10 +431,14 @@ abstract class FormField
         $closure = $this->valueClosure;
 
         if ($closure instanceof \Closure) {
-            $this->options[$this->valueProperty] = $closure($value ?: []);
-        } else {
-            $this->options[$this->valueProperty] = $value;
+            $value = $closure($value ?: null);
         }
+
+        if ($value === null || $value === false) {
+            $value = $this->getOption($this->defaultValueProperty);
+        }
+
+        $this->options[$this->valueProperty] = $value;
 
         return $this;
     }

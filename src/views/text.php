@@ -9,7 +9,7 @@
     <?php endif; ?>
 
     <?php if ($showField): ?>
-        <?= Form::input($type, $name, $options['default_value'], $options['attr']) ?>
+        <?= Form::input($type, $name, $options['value'], $options['attr']) ?>
 
         <?php if ($options['help_block']['text']): ?>
             <<?= $options['help_block']['tag'] ?> <?= $options['help_block']['helpBlockAttrs'] ?>>

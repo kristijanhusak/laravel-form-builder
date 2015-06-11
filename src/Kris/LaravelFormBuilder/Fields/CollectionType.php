@@ -75,7 +75,7 @@ class CollectionType extends ParentType
             );
         }
 
-        $data = $this->getOption('data');
+        $data = $this->getOption($this->valueProperty);
 
         // Needs to have more than 1 item because 1 is rendered by default
         if (count($oldInput) > 1) {
