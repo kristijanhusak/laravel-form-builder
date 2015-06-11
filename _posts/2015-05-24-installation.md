@@ -11,7 +11,7 @@ date: 2015-05-24 17:09:14
 ```json
 {
     "require": {
-        "kris/laravel-form-builder": "1.5.*"
+        "kris/laravel-form-builder": "1.6.*"
     }
 }
 ```
