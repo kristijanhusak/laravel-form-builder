@@ -1,3 +1,16 @@
+## 1.6.0
+- **Minor BC Break** - Rename `default_value` to `value`, and use `default_value` as fallback value if no `value` or model data available
+
+    If You published views update all templates and set `$options['default_value']` to `$options['value']`
+
+- Add form composition (Add fields from another form with `compose()` method) - Thanks to [@theshaunwalker](https://github.com/theshaunwalker)
+- Add trait for controller that allows shorter sintax (`$this->form()` and `$this->plain()`)
+- Fix `renderUntil` to check the name by real name instead of namespaced name
+- Fix collection of child forms not rendering when there is no data
+- Fix collection prototype to return proper `prototype_name` for nested collections
+- Return `$this` from `rebuildForm()` method to allow regenerating form in loops
+
+
 ## 1.5.10
 - Fix collection of forms not rendering when there is no model or any data passed to collection.
 
@@ -10,7 +23,7 @@
 - Fix passing model to child forms
 - Set FormBuilder class properties to protected to allow extending
 - Optmization and other minor fixes
-
+gg
 **Note**: If You published views before, they need to be updated to prevent possible breaking.
 Since value binding is now done in package, and `Form::model` is removed, views needs to be republished (or updated) to remove `Form::model` from [form.php](https://github.com/kristijanhusak/laravel-form-builder/blob/master/src/views/form.php). Also [choice.php](https://github.com/kristijanhusak/laravel-form-builder/blob/master/src/views/choice.php) needs to be updated to pass `selected` value.
 
