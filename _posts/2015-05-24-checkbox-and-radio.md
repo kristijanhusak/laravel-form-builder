@@ -12,13 +12,13 @@ Checkbox by itself is not commonly used. Some use case can be `remember me` chec
 ```php
 <?php
 $this->add('remember_me', 'checkbox', [
-    'default_value' => 1,
+    'value' => 1,
     'checked' => true
 ]);
 ```
 Beside inherited, there are 2 more options:
 
-1. `default_value` (String) (Default: `null`) - value that will be used for the value attribute
+1. `value` (String) (Default: `null`) - value that will be used for the value attribute
 2. `checked` (Boolean) (Default: `false`) - If true, checkbox will be checked
 
 ```html
@@ -34,13 +34,13 @@ Radio is also not commonly used in this way, even less than checkbox, because it
 ```php
 <?php
 $this->add('remember_me', 'radio', [
-    'default_value' => 1,
+    'value' => 1,
     'checked' => false
 ]);
 ```
 Beside inherited, there are 2 more options:
 
-1. `default_value` - value that will be used for the value attribute
+1. `value` - value that will be used for the value attribute
 2. `checked` - If true, checkbox will be checked. Default: `false`
 
 ```html

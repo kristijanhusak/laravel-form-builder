@@ -22,4 +22,27 @@ $form = \FormBuilder::plain($formOptions)->add('email', 'email', [
 ]);
 ```
 
+Or if you use the `FormBuilderTrait` in controller:
+
+```php
+<?php
+
+use Kris\LaravelFormBuilder\FormBuilderTrait;
+
+class UserController extends Controller {
+
+    use FormBuilderTrait;
+
+    public function userPage()
+    {
+        $form = $this->plain($formOptions)->add('email', 'email', [
+            'label' => 'Email address'
+        ]);
+
+        return view('user', compact('form'));
+    }
+}
+
+```
+
 

@@ -39,11 +39,11 @@ Beside inherited options, it contains option that is used to set value for the f
 ```php
 <?php
 $this->add('name', 'text', [
-    'default_value' => 'John'
+    'value' => 'John'
 ]);
 ```
 
-`default_value` (String) (Default: null) - Used for setting default value.
+`value` (String) (Default: null) - Used for setting default value.
 
 If not provided, Form class will search for `name` property on the passed `model`.
 
@@ -52,7 +52,7 @@ In case you want to modify the value pulled from model before it's passed to vie
 ```php
 <?php
 $this->add('name', 'text', [
-    'default_value' => function ($name) {
+    'value' => function ($name) {
         return 'This is name: ' + $name;
     }
 ]);

@@ -13,6 +13,7 @@ Here are some useful methods and properties on form class:
 * [add($name, $type, $options)](#add) - adds a field to form class.
 * [addBefore($beforeFieldName, $name, $type, $options)](#addbefore) - add a field before another field.
 * [addAfter($afterFieldName, $name, $type, $options)](#addafter) - add a field after another field.
+* [compose($form, $name, $type, $options)](#compose) - Add fields from passed `$form` to this form.
 * [remove($name)](#remove) - Remove existing field from form.
 * [modify($name, $type, $options, $overwriteOpts = false)](#modify) - modify existing field.
 * [setModel()](#setmodel)- Set the model for the form class that will be used to bind values to the form.
@@ -98,6 +99,53 @@ $form = FormBuilder::plain()
     ->add('save', 'submit');
 
 $form->addAfter('password', 'address', 'text');
+```
+
+#### compose
+
+This method is used when you want to add fields from one form to another form.
+
+It accepts 3 arguments:
+
+| Description                     | Type                      | Required | Default |
+|---------------------------------|---------------------------|----------|---------|
+| Form which fields will be added | Form|ChildFormType|String | true     | -       |
+| $options                        | String                    | false    | []      |
+| $modify                         | String                    | false    | false   |
+
+```php
+<?php namespace App\Forms;
+
+use Kris\LaravelFormBuilder\Form;
+
+class AddressForm extends Form
+{
+    public function buildForm()
+    {
+        $this->add('street', 'text')
+            ->add('city', 'text');
+    }
+}
+
+class UserForm extends Form
+{
+    public function buildForm()
+    {
+        $this->add('name', 'text')
+            ->add('email', 'email')
+            ->compose('App\Forms\AddressForm');
+    }
+}
+
+class CompanyForm extends Form
+{
+    public function buildForm()
+    {
+        $this->add('name', 'text')
+            ->add('phone', 'tel')
+            ->compose('App\Forms\AddressForm');
+    }
+}
 ```
 
 #### modify

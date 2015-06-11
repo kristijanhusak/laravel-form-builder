@@ -247,7 +247,7 @@ Beside inherited, there are some additional options available:
 
 1. `type` (String) (Default: null) - Type of the collection item
 2. `options` (Array) (Default: `[]`) - Options that will be used for the collection item
-3. `data` (Array) (Default: `[]`) - This is the `default_value` for the collection
+3. `data` (Array) (Default: `[]`) - This is the `value` for the collection
 4. `property` (String) (Default: `id`) - Property to be used when pulling data from model
 5. `prototype` (Boolean) (Default: `true`) - Should [prototype](#prototype) be generated
 6. `prototype_name` (String) (Default: `__NAME__`) - Namespace in the prototype that is generated

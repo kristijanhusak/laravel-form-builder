@@ -156,6 +156,25 @@ first parameter is skipped.</p>
     <span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Email address&#39;</span>
 <span class="p">]);</span>
 </code></pre></div>
+<p>Or if you use the <code>FormBuilderTrait</code> in controller:</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+<span class="k">use</span> <span class="nx">Kris\LaravelFormBuilder\FormBuilderTrait</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">UserController</span> <span class="k">extends</span> <span class="nx">Controller</span> <span class="p">{</span>
+
+    <span class="k">use</span> <span class="nx">FormBuilderTrait</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">userPage</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">plain</span><span class="p">(</span><span class="nv">$formOptions</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="p">[</span>
+            <span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Email address&#39;</span>
+        <span class="p">]);</span>
+
+        <span class="k">return</span> <span class="nx">view</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="nb">compact</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 
                     </div>
                 

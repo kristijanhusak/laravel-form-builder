@@ -148,14 +148,14 @@
 <p>Checkbox by itself is not commonly used. Some use case can be <code>remember me</code> checkbox on login:</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;remember_me&#39;</span><span class="p">,</span> <span class="s1">&#39;checkbox&#39;</span><span class="p">,</span> <span class="p">[</span>
-    <span class="s1">&#39;default_value&#39;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s1">&#39;value&#39;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
     <span class="s1">&#39;checked&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span>
 <span class="p">]);</span>
 </code></pre></div>
 <p>Beside inherited, there are 2 more options:</p>
 
 <ol>
-<li><code>default_value</code> (String) (Default: <code>null</code>) - value that will be used for the value attribute</li>
+<li><code>value</code> (String) (Default: <code>null</code>) - value that will be used for the value attribute</li>
 <li><code>checked</code> (Boolean) (Default: <code>false</code>) - If true, checkbox will be checked</li>
 </ol>
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
@@ -168,14 +168,14 @@
 <p>Radio is also not commonly used in this way, even less than checkbox, because it creates only single radio button.</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;remember_me&#39;</span><span class="p">,</span> <span class="s1">&#39;radio&#39;</span><span class="p">,</span> <span class="p">[</span>
-    <span class="s1">&#39;default_value&#39;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s1">&#39;value&#39;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
     <span class="s1">&#39;checked&#39;</span> <span class="o">=&gt;</span> <span class="k">false</span>
 <span class="p">]);</span>
 </code></pre></div>
 <p>Beside inherited, there are 2 more options:</p>
 
 <ol>
-<li><code>default_value</code> - value that will be used for the value attribute</li>
+<li><code>value</code> - value that will be used for the value attribute</li>
 <li><code>checked</code> - If true, checkbox will be checked. Default: <code>false</code></li>
 </ol>
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>

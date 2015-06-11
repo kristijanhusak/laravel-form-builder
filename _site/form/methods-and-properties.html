@@ -151,6 +151,7 @@
 <li><a href="#add">add($name, $type, $options)</a> - adds a field to form class.</li>
 <li><a href="#addbefore">addBefore($beforeFieldName, $name, $type, $options)</a> - add a field before another field.</li>
 <li><a href="#addafter">addAfter($afterFieldName, $name, $type, $options)</a> - add a field after another field.</li>
+<li><a href="#compose">compose($form, $name, $type, $options)</a> - Add fields from passed <code>$form</code> to this form.</li>
 <li><a href="#remove">remove($name)</a> - Remove existing field from form.</li>
 <li><a href="#modify">modify($name, $type, $options, $overwriteOpts = false)</a> - modify existing field.</li>
 <li><a href="#setmodel">setModel()</a>- Set the model for the form class that will be used to bind values to the form.</li>
@@ -307,6 +308,72 @@ It&#39;s mostly useful after the form instantiation, if You want to add new fiel
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">,</span> <span class="s1">&#39;submit&#39;</span><span class="p">);</span>
 
 <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">addAfter</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">);</span>
+</code></pre></div>
+<h4 id="compose">compose</h4>
+
+<p>This method is used when you want to add fields from one form to another form.</p>
+
+<p>It accepts 3 arguments:</p>
+
+<table><thead>
+<tr>
+<th>Description</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Form which fields will be added</td>
+<td>Form</td>
+<td>ChildFormType</td>
+<td>String</td>
+</tr>
+<tr>
+<td>$options</td>
+<td>String</td>
+<td>false</td>
+<td>[]</td>
+</tr>
+<tr>
+<td>$modify</td>
+<td>String</td>
+<td>false</td>
+<td>false</td>
+</tr>
+</tbody></table>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Forms</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Kris\LaravelFormBuilder\Form</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">AddressForm</span> <span class="k">extends</span> <span class="nx">Form</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;street&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;city&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">UserForm</span> <span class="k">extends</span> <span class="nx">Form</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">compose</span><span class="p">(</span><span class="s1">&#39;App\Forms\AddressForm&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">CompanyForm</span> <span class="k">extends</span> <span class="nx">Form</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;phone&#39;</span><span class="p">,</span> <span class="s1">&#39;tel&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">compose</span><span class="p">(</span><span class="s1">&#39;App\Forms\AddressForm&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <h4 id="modify">modify</h4>
 

@@ -166,21 +166,26 @@
 <p>Instantiating this form is done with <code>FormBuilder</code> class or Facade that is provided:</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Http\Controllers</span><span class="p">;</span>
 
-    <span class="k">class</span> <span class="nc">AuthController</span> <span class="k">extends</span> <span class="nx">Controller</span>
-    <span class="p">{</span>
-        <span class="k">public</span> <span class="k">function</span> <span class="nf">login</span><span class="p">()</span>
-        <span class="p">{</span>
-            <span class="nv">$form</span> <span class="o">=</span> <span class="nx">\FormBuilder</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;App\Forms\LoginForm&#39;</span><span class="p">,</span> <span class="p">[</span>
-                <span class="s1">&#39;method&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;route&#39;</span> <span class="o">=&gt;</span> <span class="nx">action</span><span class="p">(</span><span class="s1">&#39;AuthController@postLogin&#39;</span><span class="p">)</span>
-            <span class="p">]);</span>
-        <span class="p">}</span>
+<span class="k">use</span> <span class="nx">Kris\LaravelFormBuilder\FormBuilderTrait</span><span class="p">;</span>
 
-        <span class="k">public</span> <span class="k">function</span> <span class="nf">postLogin</span><span class="p">()</span>
-        <span class="p">{</span>
-            <span class="c1">// Code for logging in user...</span>
-        <span class="p">}</span>
+<span class="k">class</span> <span class="nc">AuthController</span> <span class="k">extends</span> <span class="nx">Controller</span>
+<span class="p">{</span>
+    <span class="k">use</span> <span class="nx">FormBuilderTrait</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">login</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// Note the trait used. FormBuilder class can be injected if wanted.</span>
+        <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">(</span><span class="s1">&#39;App\Forms\LoginForm&#39;</span><span class="p">,</span> <span class="p">[</span>
+            <span class="s1">&#39;method&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;route&#39;</span> <span class="o">=&gt;</span> <span class="nx">action</span><span class="p">(</span><span class="s1">&#39;AuthController@postLogin&#39;</span><span class="p">)</span>
+        <span class="p">]);</span>
     <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">postLogin</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// Code for logging in user...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <p><strong><code>FormBuilder::create</code></strong> accepts 3 parameters:</p>
 
