@@ -12,6 +12,11 @@ By default it supports Bootstrap 3.
 ## Laravel 4
 For laravel 4 version check [laravel4-form-builder](https://github.com/kristijanhusak/laravel4-form-builder)
 
+## Upgrade to 1.6
+If you upgraded to `1.6.0`, and having problems with form value binding, rename `default_value` to `value`.
+
+More info in [changelog](https://github.com/kristijanhusak/laravel-form-builder/blob/master/CHANGELOG.md)
+
 ## Documentation
 For detailed documentation refer to [http://kristijanhusak.github.io/laravel-form-builder/](http://kristijanhusak.github.io/laravel-form-builder/).
 
