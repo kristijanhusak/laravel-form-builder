@@ -1,3 +1,8 @@
+## 1.6.10
+- Replace [Illuminate/Html](https://github.com/illuminate/html) with [LaravelCollective/Html](https://github.com/LaravelCollective/html)
+- add `disableFields` and `enableFields` functions to Form class to allow disabling all fields in the form
+- Fix collection type model value binding
+
 ## 1.6.0
 - **Minor BC Break** - Rename `default_value` to `value`, and use `default_value` as fallback value if no `value` or model data available
 
