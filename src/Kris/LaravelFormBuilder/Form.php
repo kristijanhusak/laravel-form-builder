@@ -829,4 +829,24 @@ class Form
 
         return $name;
     }
+
+    /**
+     * Disable all fields in a form
+     */
+    public function disableFields()
+    {
+        foreach ($this->fields as  $field) {
+            $field->disable();
+        }
+    }
+
+    /**
+     * Enable all fields in a form
+     */
+    public function enableFields()
+    {
+        foreach ($this->fields as $field) {
+            $field->enable();
+        }
+    }
 }

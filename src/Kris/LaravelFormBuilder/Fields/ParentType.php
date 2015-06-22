@@ -121,4 +121,24 @@ abstract class ParentType extends FormField
             $this->children[$key] = clone $child;
         }
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function disable()
+    {
+        foreach ($this->children as $field) {
+            $field->disable();
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function enable()
+    {
+        foreach ($this->children as $field) {
+            $field->enable();
+        }
+    }
 }

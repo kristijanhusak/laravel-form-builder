@@ -328,7 +328,7 @@ abstract class FormField
      */
     public function setOption($name, $value)
     {
-        $this->options[$name] = $value;
+        array_set($this->options, $name, $value);
 
         return $this;
     }
@@ -499,5 +499,29 @@ abstract class FormField
         }
 
         return true;
+    }
+
+    /**
+     * Disable field
+     *
+     * @return $this
+     */
+    public function disable()
+    {
+        $this->setOption('attr.disabled', 'disabled');
+
+        return $this;
+    }
+
+    /**
+     * Enable field
+     *
+     * @return $this
+     */
+    public function enable()
+    {
+        array_forget($this->options, 'attr.disabled');
+
+        return $this;
     }
 }

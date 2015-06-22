@@ -33,7 +33,7 @@ class CollectionType extends ParentType
             'type' => null,
             'options' => ['is_child' => true],
             'prototype' => true,
-            'data' => [],
+            'data' => null,
             'property' => 'id',
             'prototype_name' => '__NAME__'
         ];
@@ -75,7 +75,7 @@ class CollectionType extends ParentType
             );
         }
 
-        $data = $this->getOption($this->valueProperty);
+        $data = $this->getOption($this->valueProperty, []);
 
         // Needs to have more than 1 item because 1 is rendered by default
         if (count($oldInput) > 1) {
