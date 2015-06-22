@@ -1,8 +1,8 @@
 <?php namespace Kris\LaravelFormBuilder;
 
 use Illuminate\Foundation\AliasLoader;
-use Illuminate\Html\FormBuilder as LaravelForm;
-use Illuminate\Html\HtmlBuilder;
+use Collective\Html\FormBuilder as LaravelForm;
+use Collective\Html\HtmlBuilder;
 use Illuminate\Support\ServiceProvider;
 
 class FormBuilderServiceProvider extends ServiceProvider
@@ -81,7 +81,7 @@ class FormBuilderServiceProvider extends ServiceProvider
 
                 AliasLoader::getInstance()->alias(
                     'Form',
-                    'Illuminate\Html\FormFacade'
+                    'Collective\Html\FormFacade'
                 );
             }
         }
@@ -102,7 +102,7 @@ class FormBuilderServiceProvider extends ServiceProvider
 
                 AliasLoader::getInstance()->alias(
                     'Html',
-                    'Illuminate\Html\HtmlFacade'
+                    'Collective\Html\HtmlFacade'
                 );
             }
         }
