@@ -162,6 +162,8 @@
 <li><a href="#getdata">getData($name = null, $default = null)</a> - Get element from $data passed to form class. If null, returns all data.</li>
 <li><a href="#getfields">getFields()</a>- Get all fields for this form class</li>
 <li><a href="#getfield">getField($name)</a> - Get a single field instance from form class</li>
+<li><a href="#disablefields">disableFields</a>- Disable all fields in a form</li>
+<li><a href="#enablefields">enableFields</a> - Enable all fields in the form</li>
 </ul>
 
 <h3 id="properties">Properties</h3>
@@ -691,6 +693,20 @@ Default: <code>[&#39;method&#39; =&gt; &#39;GET&#39;, &#39;url&#39; =&gt; null]<
 
 <p>Default: <code>true</code></p>
 
+<h4 id="disablefields">disableFields</h4>
+
+<p>Disable all fields in a form, by adding <code>disabled</code> attribute to the fields. Useful when you only want to use form as read only.</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$form = FormBuilder::create(&#39;App\Forms\SearchForm&#39;);</span>
+
+<span class="x">$form-&gt;disableFields();</span>
+</code></pre></div>
+<h4 id="enablefields">enableFields</h4>
+
+<p>Enable all fields in a form, by removing <code>disabled</code> attribute to the fields. </p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$form = FormBuilder::create(&#39;App\Forms\SearchForm&#39;);</span>
+
+<span class="x">$form-&gt;enableFields();</span>
+</code></pre></div>
 
                     </div>
                 

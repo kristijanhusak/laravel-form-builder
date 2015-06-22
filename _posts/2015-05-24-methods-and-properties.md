@@ -24,6 +24,8 @@ Here are some useful methods and properties on form class:
 * [getData($name = null, $default = null)](#getdata) - Get element from $data passed to form class. If null, returns all data.
 * [getFields()](#getfields)- Get all fields for this form class
 * [getField($name)](#getfield) - Get a single field instance from form class
+* [disableFields](#disablefields)- Disable all fields in a form
+* [enableFields](#enablefields) - Enable all fields in the form
 
 ### Properties
 
@@ -422,3 +424,21 @@ Type: `Boolean`
 
 Default: `true`
 
+#### disableFields
+Disable all fields in a form, by adding `disabled` attribute to the fields. Useful when you only want to use form as read only.
+
+```php
+$form = FormBuilder::create('App\Forms\SearchForm');
+
+$form->disableFields();
+```
+
+#### enableFields
+
+Enable all fields in a form, by removing `disabled` attribute to the fields. 
+
+```php
+$form = FormBuilder::create('App\Forms\SearchForm');
+
+$form->enableFields();
+```
