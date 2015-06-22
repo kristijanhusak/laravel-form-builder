@@ -835,7 +835,7 @@ class Form
      */
     public function disableFields()
     {
-        foreach ($this->fields as  $field) {
+        foreach ($this->fields as $field) {
             $field->disable();
         }
     }
