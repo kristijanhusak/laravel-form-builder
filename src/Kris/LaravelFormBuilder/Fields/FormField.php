@@ -403,7 +403,7 @@ abstract class FormField
             'default_value' => null,
             'label' => $this->formHelper->formatLabel($this->getRealName()),
             'is_child' => false,
-            'label_attr' => ['class' => $this->formHelper->getConfig('defaults.label_class'), 'for' => $this->name],
+            'label_attr' => ['class' => $this->formHelper->getConfig('defaults.label_class')],
             'errors' => ['class' => $this->formHelper->getConfig('defaults.error_class')]
         ];
     }
