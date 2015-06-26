@@ -89,7 +89,7 @@ class SongForm extends Form
 If you want to instantiate empty form without any fields, just skip passing `--fields` parameter:
 
 ```sh
-    php artisan make:form Forms/PostForm
+php artisan make:form Forms/PostForm
 ```
 
 Gives:
@@ -111,7 +111,7 @@ class PostForm extends Form
 After that instantiate the class in the controller and pass it to view:
 
 ```php
-<?php namespace App/Http/Controllers;
+<?php namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
 use Kris\LaravelFormBuilder\FormBuilder;
@@ -130,19 +130,29 @@ class SongsController extends BaseController {
 }
 ```
 
+Create the routes
+
+```php
+// app/Http/routes.php
+Route::match(['get','post'], 'songs/create', [
+	'uses' => 'SongsController@create',
+	'as' => 'song.create'
+]);
+```
+
 Print the form in view with `form()` helper function:
 
 ```html
 <!-- resources/views/song/create.blade.php -->
 
-@extend('layouts.master')
+@extends('app')
 
 @section('content')
     {!! form($form) !!}
 @endsection
 ```
 
-Above code will generate this html:
+Go to `/songs/create`; above code will generate this html:
 
 ```html
 <form method="POST" action="http://example.dev/songs">
