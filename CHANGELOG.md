@@ -1,3 +1,8 @@
+## 1.6.11
+- Fix checkables checked state not working with model
+- Fix adding `for` attribute twice to label
+- Add some tests
+
 ## 1.6.10
 - Replace [Illuminate/Html](https://github.com/illuminate/html) with [LaravelCollective/Html](https://github.com/LaravelCollective/html)
 - add `disableFields` and `enableFields` functions to Form class to allow disabling all fields in the form

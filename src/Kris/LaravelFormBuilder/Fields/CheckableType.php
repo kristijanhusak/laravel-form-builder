@@ -6,6 +6,11 @@ class CheckableType extends FormField
     /**
      * @inheritdoc
      */
+    protected $valueProperty = 'checked';
+
+    /**
+     * @inheritdoc
+     */
     protected function getTemplate()
     {
         return $this->type;
@@ -18,8 +23,8 @@ class CheckableType extends FormField
     {
         return [
             'attr' => ['class' => null, 'id' => $this->getName()],
-            'value' => null,
-            'checked' => false
+            'value' => 1,
+            'checked' => null
         ];
     }
 }
