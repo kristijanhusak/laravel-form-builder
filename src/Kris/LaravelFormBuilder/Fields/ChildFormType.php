@@ -33,7 +33,7 @@ class ChildFormType extends ParentType
     {
         return [
             'class' => null,
-            'value' => false,
+            'value' => null,
             'formOptions' => [],
             'data' => [],
             'exclude' => []
@@ -51,7 +51,7 @@ class ChildFormType extends ParentType
             $this->parent->setFormOption('files', true);
         }
         $model = $this->getOption($this->valueProperty);
-        if ($model !== false) {
+        if ($model !== null) {
             foreach ($this->form->getFields() as $name => $field) {
                 $field->setValue($this->getModelValueAttribute($model, $name));
             }
