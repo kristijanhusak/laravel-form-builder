@@ -56,7 +56,7 @@ And Facade (also in `config/app.php`)
 
 ```
 
-**Notice**: This package will add `illuminate/html` package and load Aliases (Form, Html) if they do not exist in the IoC container
+**Notice**: This package will add `laravelcollective/html` package and load Aliases (Form, Html) if they do not exist in the IoC container
 
 
 ### Quick start
