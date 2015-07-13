@@ -127,3 +127,11 @@ table tbody tr:nth-child(even) {
 .to-top:before {
     content: '\21E7';
 }
+
+p {
+    margin: 0 0 20px;
+}
+
+pre {
+    margin:  0 0 20px;
+}

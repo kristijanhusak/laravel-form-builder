@@ -46,6 +46,9 @@
             
                 <li class=nav-header>Overview</li>
             
+            <li data-order="3"><a href="/laravel-form-builder/overview/commands.html">Commands</a></li>
+        
+            
             <li data-order="2"><a href="/laravel-form-builder/overview/quick-start.html">Quick start</a></li>
         
             
@@ -146,7 +149,7 @@
 <p>Static field type is used just to print some non editable data into the form.</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="s1">&#39;static&#39;</span><span class="p">,</span> <span class="p">[</span>
-    <span class="s1">&#39;tag&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;div&#39;</span> <span class="c1">// Tag to be used for holding static data,</span>
+    <span class="s1">&#39;tag&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="c1">// Tag to be used for holding static data,</span>
     <span class="s1">&#39;attr&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;form-control-static&#39;</span><span class="p">],</span> <span class="c1">// This is the default</span>
     <span class="s1">&#39;value&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Static Text&#39;</span> <span class="c1">// If nothing is passed, data is pulled from model if any</span>
 <span class="p">])</span>
