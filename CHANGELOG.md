@@ -1,3 +1,6 @@
+## 1.6.12
+- Add `path` and `namespace` options to the form class generator command.
+
 ## 1.6.11
 - Fix checkables checked state not working with model
 - Fix adding `for` attribute twice to label
