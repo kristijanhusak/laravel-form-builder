@@ -59,6 +59,8 @@ class FormMakeCommand extends GeneratorCommand
     {
         return array(
             array('fields', null, InputOption::VALUE_OPTIONAL, 'Fields for the form'),
+            array('namespace', null, InputOption::VALUE_OPTIONAL, 'Class namespace'),
+            array('path', null, InputOption::VALUE_OPTIONAL, 'File path')
         );
     }
 
@@ -95,11 +97,18 @@ class FormMakeCommand extends GeneratorCommand
      */
     protected function replaceNamespace(&$stub, $name)
     {
-        $stub = str_replace(
-            '{{namespace}}',
-            $this->formGenerator->getClassInfo($name)->namespace,
-            $stub
-        );
+        $path = $this->option('path');
+        $namespace = $this->option('namespace');
+
+        if (!$namespace) {
+            $namespace = $this->formGenerator->getClassInfo($name)->namespace;
+
+            if ($path) {
+                $namespace = str_replace('/', '\\', trim($path, '/'));
+            }
+        }
+
+        $stub = str_replace('{{namespace}}', $namespace, $stub);
 
         return $this;
     }
@@ -122,5 +131,23 @@ class FormMakeCommand extends GeneratorCommand
     protected function getNameInput()
     {
         return str_replace('/', '\\', $this->argument('name'));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getPath($name)
+    {
+        $optionsPath = $this->option('path');
+
+        if ($optionsPath !== null) {
+            return join('/', [
+                $this->laravel->basePath(),
+                trim($optionsPath, '/'),
+                $this->getNameInput().'.php'
+            ]);
+        }
+
+        return parent::getPath($name);
     }
 }
