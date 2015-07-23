@@ -17,7 +17,7 @@ class ButtonTypeTest extends FormBuilderTestCase
         $expectedOptions = $this->getDefaults(
             ['class' => 'btn-class', 'type' => 'button', 'disabled' => 'disabled'],
             'some_button',
-            'Some Button'
+            'Some button'
         );
 
         $expectedViewData = [
@@ -77,7 +77,7 @@ class ButtonTypeTest extends FormBuilderTestCase
         $expectedOptions = $this->getDefaults(
             ['type' => 'submit'],
             'some_submit',
-            'Some Submit'
+            'Some submit'
         );
 
         $expectedOptions['wrapper'] = false;
