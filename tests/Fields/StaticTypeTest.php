@@ -18,7 +18,7 @@ class StaticTypeTest extends FormBuilderTestCase
         $expectedOptions = $this->getDefaults(
             ['class' => 'static-class', 'id' => 'some_static'],
             'some_static',
-            'Some Static',
+            'Some static',
             'static text'
         );
 
