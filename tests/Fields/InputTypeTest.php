@@ -22,7 +22,7 @@ class InputTypeTest extends FormBuilderTestCase
             'hidden_id',
             'Hidden Id',
             13,
-            'this is help'
+            'This is help'
         );
 
         $expectedOptions['help_block']['helpBlockAttrs'] = 'class="help-block" ';
