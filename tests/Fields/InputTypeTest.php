@@ -20,9 +20,9 @@ class InputTypeTest extends FormBuilderTestCase
         $expectedOptions = $this->getDefaults(
             ['required' => 'required'],
             'hidden_id',
-            'Hidden Id',
+            'Hidden id',
             13,
-            'This is help'
+            'this is help'
         );
 
         $expectedOptions['help_block']['helpBlockAttrs'] = 'class="help-block" ';
