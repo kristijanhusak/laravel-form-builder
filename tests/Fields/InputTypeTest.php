@@ -20,7 +20,7 @@ class InputTypeTest extends FormBuilderTestCase
         $expectedOptions = $this->getDefaults(
             ['required' => 'required'],
             'hidden_id',
-            'Hidden Id',
+            'Hidden id',
             13,
             'this is help'
         );

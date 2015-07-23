@@ -111,7 +111,7 @@ class FormHelperTest extends FormBuilderTestCase
     public function it_formats_the_label()
     {
         $this->assertEquals(
-            'Some Name',
+            'Some name',
             $this->formHelper->formatLabel('some_name')
         );
 
