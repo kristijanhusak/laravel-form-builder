@@ -239,6 +239,6 @@ class FormHelper
             return null;
         }
 
-        return ucwords(str_replace('_', ' ', $name));
+        return ucfirst(str_replace('_', ' ', $name));
     }
 }
