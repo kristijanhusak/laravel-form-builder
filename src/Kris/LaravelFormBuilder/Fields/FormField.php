@@ -218,7 +218,7 @@ abstract class FormField
             $this->template = array_pull($this->options, 'template');
         }
 
-        $options = $helper->mergeOptions($this->options, $options);
+        $options = $this->options = $helper->mergeOptions($this->options, $options);
 
         if ($this->parent->haveErrorsEnabled()) {
             $this->addErrorClass($options);
@@ -297,7 +297,7 @@ abstract class FormField
      * Get single option from options array. Can be used with dot notation ('attr.class')
      *
      * @param        $option
-     * @param string $default
+     * @param mixed  $default
      *
      * @return mixed
      */
@@ -404,7 +404,8 @@ abstract class FormField
             'label' => $this->formHelper->formatLabel($this->getRealName()),
             'is_child' => false,
             'label_attr' => ['class' => $this->formHelper->getConfig('defaults.label_class')],
-            'errors' => ['class' => $this->formHelper->getConfig('defaults.error_class')]
+            'errors' => ['class' => $this->formHelper->getConfig('defaults.error_class')],
+            'rules' => []
         ];
     }
 
@@ -458,7 +459,7 @@ abstract class FormField
      */
     protected function addErrorClass(&$options)
     {
-        $errors = $this->formHelper->getRequest()->getSession()->get('errors');
+        $errors = $this->formHelper->getRequest()->session()->get('errors');
 
         if ($errors && $errors->has($this->getNameKey())) {
             $errorClass = $this->formHelper->getConfig('defaults.wrapper_error_class');
@@ -523,5 +524,25 @@ abstract class FormField
         array_forget($this->options, 'attr.disabled');
 
         return $this;
+    }
+
+    /**
+     * Get validation rules for a field if any with label for attributes
+     *
+     * @return array|null
+     */
+    public function getValidationRules()
+    {
+        $rules = $this->getOption('rules', []);
+        $name = $this->getNameKey();
+
+        if (!$rules) {
+            return null;
+        }
+
+        return [
+            'rules' => [$name => $rules],
+            'attributes' => [$name => $this->getOption('label')]
+        ];
     }
 }

@@ -141,4 +141,12 @@ abstract class ParentType extends FormField
             $field->enable();
         }
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getValidationRules()
+    {
+        return $this->formHelper->mergeRules($this->children);
+    }
 }

@@ -45,6 +45,7 @@ class FormBuilder
             ->make($class)
             ->setFormHelper($this->formHelper)
             ->setFormBuilder($this)
+            ->setValidator($this->container->make('validator'))
             ->setFormOptions($options)
             ->addData($data);
 
@@ -82,6 +83,7 @@ class FormBuilder
             ->make('Kris\LaravelFormBuilder\Form')
             ->setFormHelper($this->formHelper)
             ->setFormBuilder($this)
+            ->setValidator($this->container->make('validator'))
             ->setFormOptions($options)
             ->addData($data);
     }

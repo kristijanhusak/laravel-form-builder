@@ -15,9 +15,6 @@ class EntityTypeTest extends FormBuilderTestCase
             'selected' => 'yes'
         ];
 
-        $this->fieldExpetations('select', Mockery::any());
-        $this->fieldExpetations('choice', Mockery::any());
-
         $choice = new EntityType('some_entity', 'entity', $this->plainForm, $options);
         $choice->render();
 
@@ -33,9 +30,6 @@ class EntityTypeTest extends FormBuilderTestCase
         $options = [
             'class' => 'DummyModel'
         ];
-
-        $this->fieldExpetations('select', Mockery::any());
-        $this->fieldExpetations('choice', Mockery::any());
 
         $choice = new EntityType('entity_choice', 'entity', $this->plainForm, $options);
         $choice->render();
@@ -57,9 +51,6 @@ class EntityTypeTest extends FormBuilderTestCase
     {
         $options = [];
 
-        $this->fieldExpetations('select', Mockery::any());
-        $this->fieldExpetations('choice', Mockery::any());
-
         $choice = new EntityType('entity_choice', 'entity', $this->plainForm, $options);
     }
 
@@ -76,9 +67,6 @@ class EntityTypeTest extends FormBuilderTestCase
                 });
             }
         ];
-
-        $this->fieldExpetations('select', Mockery::any());
-        $this->fieldExpetations('choice', Mockery::any());
 
         $choice = new EntityType('entity_choice', 'entity', $this->plainForm, $options);
         $choice->render();

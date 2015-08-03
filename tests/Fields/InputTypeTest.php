@@ -19,7 +19,6 @@ class InputTypeTest extends FormBuilderTestCase
 
         $expectedOptions = $this->getDefaults(
             ['required' => 'required'],
-            'hidden_id',
             'Hidden id',
             13,
             'this is help'
@@ -29,21 +28,11 @@ class InputTypeTest extends FormBuilderTestCase
         $expectedOptions['required'] = true;
         $expectedOptions['label_attr']['class'] .= ' required';
 
-        $expectedViewData = [
-            'name' => 'hidden_id',
-            'nameKey' => 'hidden_id',
-            'type' => 'hidden',
-            'options' => $expectedOptions,
-            'showLabel' => false,
-            'showField' => true,
-            'showError' => true
-        ];
-
-        $this->fieldExpetations('text', $expectedViewData);
-
         $hidden = new InputType('hidden_id', 'hidden', $this->plainForm, $options);
 
         $hidden->render(['value' => 13]);
+
+        $this->assertEquals($expectedOptions, $hidden->getOptions());
     }
 
 

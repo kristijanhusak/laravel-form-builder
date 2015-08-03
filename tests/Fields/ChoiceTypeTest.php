@@ -15,10 +15,6 @@ class ChoiceTypeTest extends FormBuilderTestCase
             'selected' => 'yes'
         ];
 
-        $this->fieldExpetations('select', Mockery::any());
-
-        $this->fieldExpetations('choice', Mockery::any());
-
         $choice = new ChoiceType('some_choice', 'choice', $this->plainForm, $options);
 
         $choice->render();
@@ -38,12 +34,6 @@ class ChoiceTypeTest extends FormBuilderTestCase
             'multiple' => true,
             'expanded' => true
         ];
-
-        $this->fieldExpetations('checkbox', Mockery::any());
-
-        $this->fieldExpetations('checkbox', Mockery::any());
-
-        $this->fieldExpetations('choice', Mockery::any());
 
         $choice = new ChoiceType('some_choice', 'choice', $this->plainForm, $options);
 
@@ -65,12 +55,6 @@ class ChoiceTypeTest extends FormBuilderTestCase
             'selected' => 'no',
             'expanded' => true
         ];
-
-        $this->fieldExpetations('radio', Mockery::any());
-
-        $this->fieldExpetations('radio', Mockery::any());
-
-        $this->fieldExpetations('choice', Mockery::any());
 
         $choice = new ChoiceType('some_choice', 'choice', $this->plainForm, $options);
 

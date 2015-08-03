@@ -19,10 +19,6 @@ class CollectionTypeTest extends FormBuilderTestCase
             ]
         ];
 
-        $this->fieldExpetations('text', Mockery::any(), null);
-        $this->fieldExpetations('collection', Mockery::any());
-        $this->request->shouldReceive('old')->andReturn([['id' => 1]]);
-
         $emailsCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
 
         $this->assertEquals(3, count($emailsCollection->getChildren()));
@@ -41,9 +37,9 @@ class CollectionTypeTest extends FormBuilderTestCase
             ]
         ];
 
-        $this->fieldExpetations('text', Mockery::any(), null);
-        $this->fieldExpetations('collection', Mockery::any());
-        $this->request->shouldReceive('old')->andReturn([['id' => 1], ['id' => 2]]);
+        $this->session([
+            '_old_input' => ['emails' => [['id' => 1], ['id' => 2]]]
+        ]);
 
         $emailsCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
 
@@ -55,7 +51,6 @@ class CollectionTypeTest extends FormBuilderTestCase
     public function it_creates_collection_with_child_form()
     {
         $form = clone $this->plainForm;
-        $this->request->shouldReceive('old');
 
         $form->add('name', 'text')
             ->add('gender', 'choice', [
@@ -76,8 +71,6 @@ class CollectionTypeTest extends FormBuilderTestCase
             ]
         ];
 
-        $this->fieldExpetations('collection', Mockery::any());
-
         $childFormCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
 
         $childFormCollection->render();
@@ -87,6 +80,7 @@ class CollectionTypeTest extends FormBuilderTestCase
 
     /**
      * @test
+     * @expectedException \Exception
      */
     public function it_throws_exception_when_requesting_prototype_while_it_is_disabled()
     {
@@ -95,24 +89,16 @@ class CollectionTypeTest extends FormBuilderTestCase
             'prototype' => false
         ];
 
-        $this->fieldExpetations('collection', Mockery::any());
-        $this->request->shouldReceive('old');
-
         $childFormCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
 
         $childFormCollection->render();
 
-        try {
-            $childFormCollection->prototype();
-        } catch (\Exception $e) {
-            return;
-        }
-
-        $this->fail('Exception was not thrown when asked for prototype when disabled.');
+        $childFormCollection->prototype();
     }
 
     /**
      * @test
+     * @expectedException \Exception
      */
     public function it_throws_exception_when_creating_nonexisting_type()
     {
@@ -120,20 +106,12 @@ class CollectionTypeTest extends FormBuilderTestCase
             'type' => 'nonexisting'
         ];
 
-        $this->request->shouldReceive('old');
-        $this->fieldExpetations('collection', Mockery::any());
-
-        try {
-            $childFormCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
-        } catch (\Exception $e) {
-            return;
-        }
-
-        $this->fail('Exception was not thrown when creating non existing type in collection.');
+        $childFormCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
     }
 
     /**
      * @test
+     * @expectedException \Exception
      */
     public function it_throws_exception_when_data_is_not_iterable()
     {
@@ -142,15 +120,6 @@ class CollectionTypeTest extends FormBuilderTestCase
             'data' => 'invalid'
         ];
 
-        $this->request->shouldReceive('old');
-        $this->fieldExpetations('collection', Mockery::any());
-
-        try {
-            $childFormCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
-        } catch (\Exception $e) {
-            return;
-        }
-
-        $this->fail('Exception was not thrown for non iterable collection data');
+        $childFormCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
     }
 }

@@ -1,5 +1,7 @@
 <?php namespace Kris\LaravelFormBuilder;
 
+use Illuminate\Contracts\Validation\Factory as ValidatorFactory;
+use Illuminate\Contracts\Validation\Validator;
 use Kris\LaravelFormBuilder\Fields\FormField;
 
 class Form
@@ -59,6 +61,16 @@ class Form
      * @var FormBuilder
      */
     protected $formBuilder;
+
+    /**
+     * @var ValidatorFactory
+     */
+    protected $validatorFactory;
+
+    /**
+     * @var Validator
+     */
+    protected $validator = null;
 
     /**
      * List of fields to not render
@@ -814,6 +826,17 @@ class Form
     }
 
     /**
+     * @param ValidatorFactory $validator
+     * @return $this
+     */
+    public function setValidator(ValidatorFactory $validator)
+    {
+        $this->validatorFactory = $validator;
+
+        return $this;
+    }
+
+    /**
      * Exclude some fields from rendering
      *
      * @return $this
@@ -859,5 +882,40 @@ class Form
         foreach ($this->fields as $field) {
             $field->enable();
         }
+    }
+
+    /**
+     * Check if the form is valid
+     *
+     * @return bool
+     */
+    public function isValid()
+    {
+        $rules = $this->formHelper->mergeRules($this->fields);
+
+        $this->validator = $this->validatorFactory->make($this->getRequest()->all(), $rules['rules']);
+
+        $this->validator->setAttributeNames($rules['attributes']);
+
+        return !$this->validator->fails();
+    }
+
+    /**
+     * Get validation errors
+     *
+     * @return array
+     */
+    public function getErrors()
+    {
+        if (!$this->validator || !$this->validator instanceof Validator) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Form %s was not validated. To validate it, call "isValid" method before retrieving the errors',
+                    get_class($this)
+                )
+            );
+        }
+
+        return $this->validator->getMessageBag()->getMessages();
     }
 }

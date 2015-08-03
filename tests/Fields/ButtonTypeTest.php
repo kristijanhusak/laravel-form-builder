@@ -10,29 +10,18 @@ class ButtonTypeTest extends FormBuilderTestCase
     public function it_creates_button()
     {
         $options = [
-            'wrapper' => ['class' => 'form-group has-error'],
+            'wrapper' => ['class' => 'form-group'],
             'attr' => ['class' => 'btn-class', 'disabled' => 'disabled']
         ];
 
         $expectedOptions = $this->getDefaults(
             ['class' => 'btn-class', 'type' => 'button', 'disabled' => 'disabled'],
-            'some_button',
             'Some button'
         );
 
-        $expectedViewData = [
-            'name' => 'some_button',
-            'nameKey' => 'some_button',
-            'type' => 'button',
-            'options' => $expectedOptions,
-            'showLabel' => true,
-            'showField' => true,
-            'showError' => true
-        ];
-
-        $this->fieldExpetations('button', $expectedViewData);
-
         $button = new ButtonType('some_button', 'button', $this->plainForm, $options);
+
+        $this->assertEquals($expectedOptions, $button->getOptions());
 
         $button->render();
     }
@@ -40,12 +29,9 @@ class ButtonTypeTest extends FormBuilderTestCase
     /** @test */
     public function it_can_handle_object_with_getters_and_setters()
     {
-        $expectedOptions = $this->getDefaults(['type' => 'submit'], 'save', 'Save');
+        $expectedOptions = $this->getDefaults(['type' => 'submit'], 'Save');
         $expectedOptions['wrapperAttrs'] = null;
         $expectedOptions['wrapper'] = false;
-        /* $expectedOptions['wrapperAttrs'] = null; */
-
-        $this->fieldExpetations('button', Mockery::any());
 
         $button = new ButtonType('save', 'submit', $this->plainForm);
 
@@ -58,15 +44,16 @@ class ButtonTypeTest extends FormBuilderTestCase
         $button->setType('reset');
         $button->setOptions(['attr' => ['id' => 'button-id'], 'label' => 'Cancel it']);
 
-        $expectedOptions = $this->getDefaults(['type' => 'submit', 'id' => 'button-id'], 'save', 'Cancel it');
+        $expectedOptions = $this->getDefaults(['type' => 'submit', 'id' => 'button-id'], 'Cancel it');
         $expectedOptions['wrapperAttrs'] = null;
         $expectedOptions['wrapper'] = false;
 
         $this->assertEquals('cancel', $button->getName());
         $this->assertEquals('reset', $button->getType());
-        $this->assertEquals($expectedOptions, $button->getOptions());
 
         $button->render();
+
+        $this->assertEquals($expectedOptions, $button->getOptions());
 
         $this->assertTrue($button->isRendered());
     }
@@ -76,7 +63,6 @@ class ButtonTypeTest extends FormBuilderTestCase
     {
         $expectedOptions = $this->getDefaults(
             ['type' => 'submit'],
-            'some_submit',
             'Some submit'
         );
 
@@ -93,9 +79,7 @@ class ButtonTypeTest extends FormBuilderTestCase
             'showError' => true
         ];
 
-        $this->fieldExpetations('button', $expectedViewData, 'custom-template');
-
-        $button = new ButtonType('some_submit', 'submit', $this->plainForm, ['template' => 'custom-template']);
+        $button = new ButtonType('some_submit', 'submit', $this->plainForm);
 
         $button->render();
     }

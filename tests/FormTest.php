@@ -45,6 +45,67 @@ class FormTest extends FormBuilderTestCase
     }
 
     /** @test */
+    public function it_passes_validation()
+    {
+        $this->plainForm
+            ->add('name', 'text', [
+                'rules' => 'required|min:5'
+            ])
+            ->add('description', 'textarea', [
+                'rules' => 'max:10'
+            ]);
+
+        $this->request['name'] = 'some name';
+        $this->request['description'] = 'somedesc';
+
+        $isValid = $this->plainForm->isValid();
+
+        $this->assertTrue($isValid);
+    }
+
+    /** @test */
+    public function it_fails_validation()
+    {
+        $this->plainForm
+            ->add('name', 'text', [
+                'rules' => 'required|min:5'
+            ])
+            ->add('description', 'textarea', [
+                'rules' => 'max:10'
+            ]);
+
+        $this->request['description'] = 'some long description';
+        $isValid = $this->plainForm->isValid();
+
+        $this->assertFalse($isValid);
+
+        $errors = [
+            'name' => ['The Name field is required.'],
+            'description' => ['The Description may not be greater than 10 characters.']
+        ];
+
+        $this->assertEquals($errors, $this->plainForm->getErrors());
+    }
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     * */
+    public function it_throws_exception_when_errors_requested_from_non_validated_form()
+    {
+        $this->plainForm
+            ->add('name', 'text', [
+                'rules' => 'required|min:5'
+            ])
+            ->add('description', 'textarea', [
+                'rules' => 'max:10'
+            ]);
+
+        $this->request['description'] = 'some long description';
+        $this->plainForm->getErrors();
+    }
+
+    /** @test */
     public function it_adds_after_some_field()
     {
         $this->plainForm
@@ -149,8 +210,6 @@ class FormTest extends FormBuilderTestCase
             ]);
         // Adds new if provided name doesn't exist
         $this->plainForm->modify('remember', 'checkbox');
-
-        // Modifies without complete ovewrite of options
 
         $this->assertEquals('textarea', $this->plainForm->description->getType());
         $this->assertEquals(
@@ -312,9 +371,6 @@ class FormTest extends FormBuilderTestCase
             'class' => 'has-error'
         ];
 
-
-        $this->prepareRender($options);
-
         $this->plainForm->renderForm($options, true, true, true);
     }
 
@@ -326,15 +382,10 @@ class FormTest extends FormBuilderTestCase
             'url' => '/some/url/10'
         ];
 
-        $this->prepareFieldRender('select');
-        $this->prepareFieldRender('text');
-
         $fields = [
             new InputType('name', 'text', $this->plainForm),
             new InputType('email', 'email', $this->plainForm),
         ];
-
-        $this->prepareRender($options, false, true, true, $fields);
 
         $this->plainForm->setFormOptions($options);
 
@@ -356,15 +407,10 @@ class FormTest extends FormBuilderTestCase
             'url' => '/some/url/10'
         ];
 
-        $this->prepareFieldRender('select');
-        $this->prepareFieldRender('text');
-
         $fields = [
             new InputType('name', 'text', $this->plainForm),
             new InputType('email', 'email', $this->plainForm),
         ];
-
-        $this->prepareRender($options, false, true, true, $fields);
 
         $this->plainForm->setFormOptions($options);
 
@@ -386,7 +432,6 @@ class FormTest extends FormBuilderTestCase
         $form = $this->setupForm(new Form());
         $customForm = $this->setupForm(new CustomDummyForm());
         $customForm->add('img', 'file');
-        $this->request->shouldReceive('old');
         $model = ['song' => ['body' => 'test body'], 'title' => 'main title'];
         $form->setModel($model);
 
@@ -406,10 +451,6 @@ class FormTest extends FormBuilderTestCase
                 ]
             ])
         ;
-
-        $this->prepareFieldRender('title');
-        $this->prepareFieldRender('child_form');
-        $this->prepareRender(Mockery::any(), true, true, true, Mockery::any(), $model, null, $form);
 
         $this->assertEquals($form, $form->title->getParent());
 
@@ -454,9 +495,6 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals('name', $this->plainForm->getField('name')->getName());
         $this->assertEquals('address', $this->plainForm->getField('address')->getName());
         $this->plainForm->setName('test_name')->setModel($model);
-        $this->prepareFieldRender('text');
-        $this->prepareFieldRender('static');
-        $this->prepareRender(Mockery::any(), true, true, true, Mockery::any(), $expectModel);
         $this->plainForm->renderForm();
 
         $this->assertEquals('test_name[name]', $this->plainForm->getField('name')->getName());
@@ -530,7 +568,10 @@ class FormTest extends FormBuilderTestCase
         $form = $this->setupForm(new Form());
 
         $form->add('name', 'text')
-            ->add('email', 'email');
+            ->add('email', 'email')
+            ->add('dummy', 'form', [
+                'class' => 'CustomDummyForm'
+            ]);
 
         $this->assertNull($form->name->getOption('attr.disabled'));
 
@@ -548,7 +589,10 @@ class FormTest extends FormBuilderTestCase
             ->add('name', 'text', [
                 'attr' => ['disabled' => 'disabled']
             ])
-            ->add('email', 'email');
+            ->add('email', 'email')
+            ->add('dummy', 'form', [
+                'class' => 'CustomDummyForm'
+            ]);
 
         $this->assertEquals('disabled', $form->name->getOption('attr.disabled'));
 
@@ -556,61 +600,5 @@ class FormTest extends FormBuilderTestCase
 
         $this->assertNull($form->name->getOption('attr.disabled'));
 
-    }
-
-    private function prepareRender(
-        $formOptions = [],
-        $showStart = true,
-        $showFields = true,
-        $showEnd = true,
-        $fields = [],
-        $model = null,
-        $exclude = [],
-        $form = null
-    ) {
-        $viewRenderer = Mockery::mock('Illuminate\Contracts\View\View');
-
-        $this->view->shouldReceive('make')->with('laravel-form-builder::form')
-                   ->andReturn($viewRenderer);
-
-
-        $viewRenderer->shouldReceive('with')->with(
-            compact('showStart', 'showFields', 'showEnd')
-        )->andReturnSelf();
-
-        $viewRenderer->shouldReceive('with')->with(
-            'formOptions',
-            $formOptions
-        )->andReturnSelf();
-
-        $viewRenderer->shouldReceive('with')->with(
-            'showFieldErrors',
-            true
-        )->andReturnSelf();
-
-        $viewRenderer->shouldReceive('with')->with('fields', $fields)
-                     ->andReturnSelf();
-
-        $viewRenderer->shouldReceive('with')->with('model', $model)
-                     ->andReturnSelf();
-
-        $viewRenderer->shouldReceive('with')->with('exclude', $exclude)
-                     ->andReturnSelf();
-
-        $viewRenderer->shouldReceive('with')->with('form', $form ?: $this->plainForm)
-                     ->andReturnSelf();
-
-        $viewRenderer->shouldReceive('render');
-    }
-
-    private function prepareFieldRender($view)
-    {
-            $viewRenderer = Mockery::mock('Illuminate\Contracts\View\View');
-            $viewRenderer->shouldReceive('with')->andReturnSelf();
-            $viewRenderer->shouldReceive('render');
-
-            $this->view->shouldReceive('make')
-                   ->with('laravel-form-builder::' . $view, Mockery::any())
-                   ->andReturn($viewRenderer);
     }
 }
