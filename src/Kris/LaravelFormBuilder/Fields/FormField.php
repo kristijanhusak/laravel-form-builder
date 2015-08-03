@@ -422,7 +422,7 @@ abstract class FormField
      * @param $value
      * @return $this
      */
-    protected function setValue($value)
+    public function setValue($value)
     {
         if ($this->hasDefault) {
             return $this;

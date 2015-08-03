@@ -409,7 +409,7 @@ class FormTest extends FormBuilderTestCase
 
         $this->prepareFieldRender('title');
         $this->prepareFieldRender('child_form');
-        $this->prepareRender(Mockery::any(), true, true, true, Mockery::any(), $model);
+        $this->prepareRender(Mockery::any(), true, true, true, Mockery::any(), $model, null, $form);
 
         $this->assertEquals($form, $form->title->getParent());
 
@@ -565,7 +565,8 @@ class FormTest extends FormBuilderTestCase
         $showEnd = true,
         $fields = [],
         $model = null,
-        $exclude = []
+        $exclude = [],
+        $form = null
     ) {
         $viewRenderer = Mockery::mock('Illuminate\Contracts\View\View');
 
@@ -594,6 +595,9 @@ class FormTest extends FormBuilderTestCase
                      ->andReturnSelf();
 
         $viewRenderer->shouldReceive('with')->with('exclude', $exclude)
+                     ->andReturnSelf();
+
+        $viewRenderer->shouldReceive('with')->with('form', $form ?: $this->plainForm)
                      ->andReturnSelf();
 
         $viewRenderer->shouldReceive('render');

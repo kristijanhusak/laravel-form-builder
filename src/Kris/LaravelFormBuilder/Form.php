@@ -658,13 +658,24 @@ class Form
         $this->setupNamedModel();
 
         return $this->formHelper->getView()
-            ->make($this->formHelper->getConfig('form'))
+            ->make($this->getTemplate())
             ->with(compact('showStart', 'showFields', 'showEnd'))
             ->with('formOptions', $formOptions)
             ->with('fields', $fields)
             ->with('model', $this->getModel())
             ->with('exclude', $this->exclude)
+            ->with('form', $this)
             ->render();
+    }
+
+    /**
+     * Get template from options if provided, otherwise fallback to config
+     *
+     * @return mixed
+     */
+    protected function getTemplate()
+    {
+        return $this->getFormOption('template', $this->formHelper->getConfig('form'));
     }
 
     /**
