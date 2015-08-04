@@ -8,7 +8,7 @@ class RepeatedTypeTest extends FormBuilderTestCase
     /** @test */
     public function it_creates_repeated_as_two_inputs()
     {
-        $repeatedForm = $this->setupForm(new Form());
+        $repeatedForm = $this->formBuilder->plain();
 
         $repeated = new RepeatedType('password', 'repeated', $this->plainForm, []);
 

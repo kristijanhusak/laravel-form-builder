@@ -87,6 +87,35 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals($errors, $this->plainForm->getErrors());
     }
 
+    /** @test */
+    public function it_overrides_default_rules_and_messages()
+    {
+        $this->plainForm
+            ->add('name', 'text', [
+                'rules' => 'required|min:5'
+            ])
+            ->add('description', 'textarea', [
+                'rules' => 'max:10'
+            ]);
+
+        $this->request['name'] = 'name';
+        $this->request['description'] = 'some long description';
+        $validate = $this->plainForm->validate(['name' => 'numeric'], [
+            'name.numeric' => 'Name field must be numeric.'
+        ]);
+
+        $isValid = $this->plainForm->isValid();
+
+        $this->assertFalse($isValid);
+
+        $errors = [
+            'name' => ['Name field must be numeric.'],
+            'description' => ['The Description may not be greater than 10 characters.']
+        ];
+
+        $this->assertEquals($errors, $this->plainForm->getErrors());
+    }
+
     /**
      * @test
      * @expectedException \InvalidArgumentException
@@ -429,8 +458,8 @@ class FormTest extends FormBuilderTestCase
     /** @test */
     public function it_can_add_child_form_as_field()
     {
-        $form = $this->setupForm(new Form());
-        $customForm = $this->setupForm(new CustomDummyForm());
+        $form = $this->formBuilder->plain();
+        $customForm = $this->formBuilder->create('CustomDummyForm');
         $customForm->add('img', 'file');
         $model = ['song' => ['body' => 'test body'], 'title' => 'main title'];
         $form->setModel($model);
@@ -545,9 +574,8 @@ class FormTest extends FormBuilderTestCase
     /** @test */
     public function it_can_compose_another_forms_fields_into_itself()
     {
-        $form = $this->setupForm(new Form());
-        $customForm = $this->setupForm(new CustomDummyForm());
-
+        $form = $this->formBuilder->plain();
+        $customForm = $this->formBuilder->create('CustomDummyForm');
 
         $form
             ->add('name', 'text')
@@ -565,7 +593,7 @@ class FormTest extends FormBuilderTestCase
     /** @test */
     public function it_disables_all_fields_in_form()
     {
-        $form = $this->setupForm(new Form());
+        $form = $this->formBuilder->plain();
 
         $form->add('name', 'text')
             ->add('email', 'email')
@@ -583,7 +611,7 @@ class FormTest extends FormBuilderTestCase
     /** @test */
     public function it_enables_all_fields_in_form()
     {
-        $form = $this->setupForm(new Form());
+        $form = $this->formBuilder->plain();
 
         $form
             ->add('name', 'text', [

@@ -147,6 +147,6 @@ abstract class ParentType extends FormField
      */
     public function getValidationRules()
     {
-        return $this->formHelper->mergeRules($this->children);
+        return $this->formHelper->mergeFieldsRules($this->children);
     }
 }

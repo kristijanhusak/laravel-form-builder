@@ -69,7 +69,7 @@ abstract class FormBuilderTestCase extends TestCase {
         $this->formHelper = new FormHelper($this->view, $this->request, $this->config);
         $this->formBuilder = new FormBuilder($this->app, $this->formHelper);
 
-        $this->plainForm = $this->setupForm(new Form());
+        $this->plainForm = $this->formBuilder->plain();
     }
 
     public function tearDown()
@@ -103,16 +103,6 @@ abstract class FormBuilderTestCase extends TestCase {
             'errorAttrs' => 'class="text-danger" ',
             'rules' => []
         ];
-    }
-
-    protected function setupForm(Form $form)
-    {
-        $form->setFormHelper($this->formHelper)
-            ->setFormBuilder($this->formBuilder)
-            ->setValidator($this->validatorFactory);
-
-        $form->buildForm();
-        return $form;
     }
 
     protected function getPackageProviders($app)

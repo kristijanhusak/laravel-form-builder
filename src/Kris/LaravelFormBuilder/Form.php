@@ -885,17 +885,33 @@ class Form
     }
 
     /**
+     * Validate the form
+     *
+     * @param array $validationRules
+     * @param array $messages
+     * @return Validator
+     */
+    public function validate($validationRules = [], $messages = [])
+    {
+        $fieldRules = $this->formHelper->mergeFieldsRules($this->fields);
+        $rules = array_merge($fieldRules['rules'], $validationRules);
+
+        $this->validator = $this->validatorFactory->make($this->getRequest()->all(), $rules, $messages);
+        $this->validator->setAttributeNames($fieldRules['attributes']);
+
+        return $this->validator;
+    }
+
+    /**
      * Check if the form is valid
      *
      * @return bool
      */
     public function isValid()
     {
-        $rules = $this->formHelper->mergeRules($this->fields);
-
-        $this->validator = $this->validatorFactory->make($this->getRequest()->all(), $rules['rules']);
-
-        $this->validator->setAttributeNames($rules['attributes']);
+        if (!$this->validator) {
+            $this->validate();
+        }
 
         return !$this->validator->fails();
     }

@@ -247,7 +247,7 @@ class FormHelper
      * @param FormField[] $fields
      * @return array
      */
-    public function mergeRules($fields)
+    public function mergeFieldsRules($fields)
     {
         $rules = [];
         $attributes = [];

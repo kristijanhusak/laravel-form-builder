@@ -81,7 +81,7 @@ namespace {
         /** @test */
         public function it_can_set_form_helper_once_and_call_build_form()
         {
-            $form = $this->setupForm(new CustomDummyForm());
+            $form = $this->formBuilder->create('CustomDummyForm');
 
             $this->assertEquals($this->formHelper, $form->getFormHelper());
             $this->assertEquals($this->formBuilder, $form->getFormBuilder());
