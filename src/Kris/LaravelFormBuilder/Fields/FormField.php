@@ -545,4 +545,26 @@ abstract class FormField
             'attributes' => [$name => $this->getOption('label')]
         ];
     }
+
+    /**
+     * Get value property
+     *
+     * @param mixed|null $default
+     * @return mixed
+     */
+    public function getValue($default = null)
+    {
+        return $this->getOption($this->valueProperty, $default);
+    }
+
+    /**
+     * Get default value property
+     *
+     * @param mixed|null $default
+     * @return mixed
+     */
+    public function getDefaultValue($default = null)
+    {
+        return $this->getOption($this->defaultValueProperty, $default);
+    }
 }
