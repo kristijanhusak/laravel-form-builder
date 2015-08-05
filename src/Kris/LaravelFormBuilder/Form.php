@@ -2,6 +2,7 @@
 
 use Illuminate\Contracts\Validation\Factory as ValidatorFactory;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Request;
 use Kris\LaravelFormBuilder\Fields\FormField;
 
 class Form
@@ -71,6 +72,11 @@ class Form
      * @var Validator
      */
     protected $validator = null;
+
+    /**
+     * @var Request
+     */
+    protected $request;
 
     /**
      * List of fields to not render
@@ -650,7 +656,20 @@ class Form
      */
     public function getRequest()
     {
-        return $this->formHelper->getRequest();
+        return $this->request ?: $this->formHelper->getRequest();
+    }
+
+    /**
+     * Set request on form
+     *
+     * @param Request $request
+     * @return $this
+     */
+    public function setRequest(Request $request)
+    {
+        $this->request = $request;
+
+        return $this;
     }
 
     /**
@@ -900,6 +919,19 @@ class Form
         $this->validator->setAttributeNames($fieldRules['attributes']);
 
         return $this->validator;
+    }
+
+    /**
+     * Get validatdion rules for the form
+     *
+     * @param array $overrideRules
+     * @return array
+     */
+    public function getRules($overrideRules = [])
+    {
+        $fieldRules = $this->formHelper->mergeFieldsRules($this->fields);
+
+        return array_merge($fieldRules['rules'], $overrideRules);
     }
 
     /**

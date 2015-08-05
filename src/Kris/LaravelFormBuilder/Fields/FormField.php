@@ -459,7 +459,7 @@ abstract class FormField
      */
     protected function addErrorClass(&$options)
     {
-        $errors = $this->formHelper->getRequest()->session()->get('errors');
+        $errors = $this->parent->getRequest()->session()->get('errors');
 
         if ($errors && $errors->has($this->getNameKey())) {
             $errorClass = $this->formHelper->getConfig('defaults.wrapper_error_class');

@@ -61,6 +61,11 @@ class FormTest extends FormBuilderTestCase
         $isValid = $this->plainForm->isValid();
 
         $this->assertTrue($isValid);
+
+        $this->assertEquals(
+            ['name' => 'required|min:5', 'description' => 'max:10'],
+            $this->plainForm->getRules()
+        );
     }
 
     /** @test */
