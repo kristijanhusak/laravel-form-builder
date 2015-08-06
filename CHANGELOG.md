@@ -1,3 +1,10 @@
+## 1.6.20
+- Add Validation to the Form class ([#135](https://github.com/kristijanhusak/laravel-form-builder/issues/135))
+- Add getters for value and default_value (getValue() and getDefaultValue())
+- Add option to pass template to form class through options
+- Make setValue method public
+- Make unspecified labels to use ucfirst instead of ucwords
+
 ## 1.6.12
 - Add `path` and `namespace` options to the form class generator command.
 
