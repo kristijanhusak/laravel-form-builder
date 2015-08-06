@@ -362,7 +362,6 @@ class FormTest extends FormBuilderTestCase
         $this->plainForm->setMethod('DELETE');
         $this->plainForm->setUrl('/posts/all');
         $this->plainForm->setModel($this->model);
-        $this->plainForm->setData('some_data', ['this', 'is', 'some', 'data']);
         $this->plainForm->setName('test_name');
 
         $this->assertEquals(
@@ -373,16 +372,6 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals(
             $this->model,
             $this->plainForm->getModel()
-        );
-
-         $this->assertEquals(
-             ['this', 'is', 'some', 'data'],
-             $this->plainForm->getData('some_data')
-         );
-
-        $this->assertEquals(
-            $this->plainForm->getData(),
-            ['some_data' => ['this', 'is', 'some', 'data']]
         );
 
         $this->assertEquals('test_name', $this->plainForm->getName());
