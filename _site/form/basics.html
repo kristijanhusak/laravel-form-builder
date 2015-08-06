@@ -46,6 +46,9 @@
             
                 <li class=nav-header>Overview</li>
             
+            <li data-order="4"><a href="/laravel-form-builder/overview/validation.html">Validation</a></li>
+        
+            
             <li data-order="3"><a href="/laravel-form-builder/overview/commands.html">Commands</a></li>
         
             
@@ -243,6 +246,7 @@
     <span class="s1">&#39;method&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
     <span class="s1">&#39;url&#39;</span> <span class="o">=&gt;</span> <span class="nx">action</span><span class="p">(</span><span class="s1">&#39;AuthController@postLogin&#39;</span><span class="p">),</span>
     <span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;form-horizontal&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;template&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;user.form&#39;</span>                       <span class="c1">// Template used for the main form layout</span>
     <span class="s1">&#39;model&#39;</span> <span class="o">=&gt;</span> <span class="nv">$model</span><span class="p">,</span>                              <span class="c1">// Not passed to view, just used in form class</span>
     <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;users&#39;</span><span class="p">,</span>                              <span class="c1">// Not passed to view, just used in form class</span>
     <span class="s1">&#39;data&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">&#39;some_dummy_data&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;some text&#39;</span><span class="p">],</span>   <span class="c1">// Not passed to view, just used in form class</span>
@@ -262,6 +266,10 @@ Check section <a href="/laravel-form-builder/form/methods-and-properties.html">M
 <h5 id="name">name</h5>
 
 <p><code>name</code> is used for creating <a href="/laravel-form-builder/form/named-form.html">Named form</a>.</p>
+
+<h5 id="template">template</h5>
+
+<p><code>template</code> is used for overriding default template that is used to print main form layout. Make sure it has the similar structure as default one.</p>
 
 <h5 id="data">data</h5>
 

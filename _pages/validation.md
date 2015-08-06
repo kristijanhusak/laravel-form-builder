@@ -1,0 +1,1 @@
+../_posts/2015-08-06-validation.md
