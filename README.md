@@ -79,8 +79,12 @@ class SongForm extends Form
     public function buildForm()
     {
         $this
-            ->add('name', 'text')
-            ->add('lyrics', 'textarea')
+            ->add('name', 'text', [
+                'rules' => 'required|min:5'
+            ])
+            ->add('lyrics', 'textarea', [
+                'rules' => 'max:5000'
+            ])
             ->add('publish', 'checkbox');
     }
 }
@@ -127,6 +131,17 @@ class SongsController extends BaseController {
 
         return view('song.create', compact('form'));
     }
+
+    public function store(FormBuilder $formBuilder)
+    {
+        $form = $formBuilder->create('App\Forms\SongForm');
+
+        if (!$form->isValid()) {
+            return redirect()->back()->withErrors($form->getErrors())->withInput();
+        }
+
+        // Do saving and other things...
+    }
 }
 ```
 
@@ -134,9 +149,14 @@ Create the routes
 
 ```php
 // app/Http/routes.php
-Route::match(['get','post'], 'songs/create', [
+Route::get('songs/create', [
 	'uses' => 'SongsController@create',
 	'as' => 'song.create'
+]);
+
+Route::post('songs', [
+	'uses' => 'SongsController@store',
+	'as' => 'song.store'
 ]);
 ```
 
