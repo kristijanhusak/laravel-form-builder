@@ -160,8 +160,6 @@
 <li><a href="#setmodel">setModel()</a>- Set the model for the form class that will be used to bind values to the form.</li>
 <li><a href="#getmodel">getModel()</a>- Get the model that was passed when creating form. Also available in child forms.</li>
 <li><a href="#getrequest">getRequest()</a> - Get the current request.</li>
-<li><a href="#setdata">setData($data)</a> - Set the static data for the form</li>
-<li><a href="#adddata">addData($key, $value)</a> - Append single data item to data of the form</li>
 <li><a href="#getdata">getData($name = null, $default = null)</a> - Get element from $data passed to form class. If null, returns all data.</li>
 <li><a href="#getfields">getFields()</a>- Get all fields for this form class</li>
 <li><a href="#getfield">getField($name)</a> - Get a single field instance from form class</li>
@@ -508,113 +506,6 @@ or after the instantiation.</p>
 
 <p>returns <code>Illuminiate\Http\Request</code> instance.</p>
 
-<h4 id="setdata">setData</h4>
-
-<p>Form class data is just a helper to transmit some kind of data.</p>
-
-<p>Those data are basically a simple property on the form class of type <code>Array</code>.</p>
-
-<p>This method sets the value of that property.</p>
-
-<p>It accepts 1 argument:</p>
-
-<table><thead>
-<tr>
-<th>Description</th>
-<th>Type</th>
-<th>Required</th>
-<th>Default</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>Data to be passed</td>
-<td>Array</td>
-<td>true</td>
-<td>-</td>
-</tr>
-</tbody></table>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Forms</span><span class="p">;</span>
-
-<span class="k">use</span> <span class="nx">Kris\LaravelFormBuilder\Form</span><span class="p">;</span>
-
-<span class="k">class</span> <span class="nc">CommentForm</span> <span class="k">extends</span> <span class="nx">Form</span>
-<span class="p">{</span>
-    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="s1">&#39;textarea&#39;</span><span class="p">);</span>
-
-        <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getData</span><span class="p">(</span><span class="s1">&#39;is_admin&#39;</span><span class="p">))</span> <span class="p">{</span>
-            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;publish&#39;</span><span class="p">,</span> <span class="s1">&#39;checkbox&#39;</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
-    <span class="nv">$form</span> <span class="o">=</span> <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;App\Forms\CommentForm&#39;</span><span class="p">)</span>
-        <span class="o">-&gt;</span><span class="na">setData</span><span class="p">([</span><span class="s1">&#39;is_admin&#39;</span><span class="p">,</span> <span class="nx">Auth</span><span class="o">::</span><span class="na">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">isAdmin</span><span class="p">()]);</span>
-</code></pre></div>
-<h4 id="adddata">addData</h4>
-
-<p>Add data is another helper method for handling data for the Form class.</p>
-
-<p>only difference between <code>setData</code> and <code>addData</code> is that <code>addData</code> <strong>appends</strong> data to the array,
-where <code>setData</code> overwrites it.</p>
-
-<p>It accepts 2 arguments:</p>
-
-<table><thead>
-<tr>
-<th>Description</th>
-<th>Type</th>
-<th>Required</th>
-<th>Default</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>Name of the data item</td>
-<td>String</td>
-<td>true</td>
-<td>-</td>
-</tr>
-<tr>
-<td>Value of the data item</td>
-<td>Mixed</td>
-<td>true</td>
-<td>-</td>
-</tr>
-</tbody></table>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Forms</span><span class="p">;</span>
-
-<span class="k">use</span> <span class="nx">Kris\LaravelFormBuilder\Form</span><span class="p">;</span>
-
-<span class="k">class</span> <span class="nc">CommentForm</span> <span class="k">extends</span> <span class="nx">Form</span>
-<span class="p">{</span>
-    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getData</span><span class="p">(</span><span class="s1">&#39;is_manager&#39;</span><span class="p">))</span> <span class="p">{</span>
-            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">);</span>
-        <span class="p">}</span>
-
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="s1">&#39;textarea&#39;</span><span class="p">);</span>
-
-        <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getData</span><span class="p">(</span><span class="s1">&#39;is_admin&#39;</span><span class="p">))</span> <span class="p">{</span>
-            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;publish&#39;</span><span class="p">,</span> <span class="s1">&#39;checkbox&#39;</span><span class="p">);</span>
-        <span class="p">}</span>
-
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
-    <span class="nv">$form</span> <span class="o">=</span> <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;App\Forms\CommentForm&#39;</span><span class="p">)</span>
-        <span class="o">-&gt;</span><span class="na">setData</span><span class="p">([</span>
-            <span class="s1">&#39;is_admin&#39;</span><span class="p">,</span> <span class="nx">Auth</span><span class="o">::</span><span class="na">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">isAdmin</span><span class="p">()</span>
-        <span class="p">]);</span>
-
-    <span class="c1">// ...</span>
-
-
-    <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">addData</span><span class="p">([</span>
-        <span class="s1">&#39;is_manager&#39;</span><span class="p">,</span> <span class="nx">Auth</span><span class="o">::</span><span class="na">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">isManager</span><span class="p">()</span>
-    <span class="p">])</span>
-</code></pre></div>
 <h4 id="getfields">getFields</h4>
 
 <p>Get all fields of the single Form class.</p>
@@ -705,7 +596,7 @@ Default: <code>[&#39;method&#39; =&gt; &#39;GET&#39;, &#39;url&#39; =&gt; null]<
 </code></pre></div>
 <h4 id="enablefields">enableFields</h4>
 
-<p>Enable all fields in a form, by removing <code>disabled</code> attribute to the fields. </p>
+<p>Enable all fields in a form, by removing <code>disabled</code> attribute to the fields.</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$form = FormBuilder::create(&#39;App\Forms\SearchForm&#39;);</span>
 
 <span class="x">$form-&gt;enableFields();</span>

@@ -40,7 +40,7 @@ class SongForm extends Form
             ->add('gender', 'form', [
                 'class' => 'App\Forms\GenderForm',
                 'formOptions' => []
-                // Passed to gender form as data (same as calling addData($data) method),
+                // Passed to gender form as data,
                 'data' => ['genders' => ['m' => 'Male', 'f' => 'Female']]
             ])
             ->add('post', 'form', [

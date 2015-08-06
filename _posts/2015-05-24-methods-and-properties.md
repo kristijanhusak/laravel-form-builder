@@ -19,8 +19,6 @@ Here are some useful methods and properties on form class:
 * [setModel()](#setmodel)- Set the model for the form class that will be used to bind values to the form.
 * [getModel()](#getmodel)- Get the model that was passed when creating form. Also available in child forms.
 * [getRequest()](#getrequest) - Get the current request.
-* [setData($data)](#setdata) - Set the static data for the form
-* [addData($key, $value)](#adddata) - Append single data item to data of the form
 * [getData($name = null, $default = null)](#getdata) - Get element from $data passed to form class. If null, returns all data.
 * [getFields()](#getfields)- Get all fields for this form class
 * [getField($name)](#getfield) - Get a single field instance from form class
@@ -254,98 +252,6 @@ Get the current request.
 
 returns `Illuminiate\Http\Request` instance.
 
-
-#### setData
-
-Form class data is just a helper to transmit some kind of data.
-
-Those data are basically a simple property on the form class of type `Array`.
-
-This method sets the value of that property.
-
-It accepts 1 argument:
-
-| Description       | Type   | Required | Default |
-|-------------------|--------|----------|---------|
-| Data to be passed | Array  | true     | -       |
-
-
-```php
-<?php namespace App\Forms;
-
-use Kris\LaravelFormBuilder\Form;
-
-class CommentForm extends Form
-{
-    public function buildForm()
-    {
-        $this->add('body', 'textarea');
-
-        if ($this->getData('is_admin')) {
-            $this->add('publish', 'checkbox');
-        }
-    }
-}
-```
-
-```php
-<?php
-    $form = FormBuilder::create('App\Forms\CommentForm')
-        ->setData(['is_admin', Auth::user()->isAdmin()]);
-```
-
-#### addData
-
-Add data is another helper method for handling data for the Form class.
-
-only difference between `setData` and `addData` is that `addData` **appends** data to the array,
-where `setData` overwrites it.
-
-It accepts 2 arguments:
-
-| Description            | Type    | Required | Default |
-|------------------------|---------|----------|---------|
-| Name of the data item  | String  | true     | -       |
-| Value of the data item | Mixed   | true     | -       |
-
-```php
-<?php namespace App\Forms;
-
-use Kris\LaravelFormBuilder\Form;
-
-class CommentForm extends Form
-{
-    public function buildForm()
-    {
-        if ($this->getData('is_manager')) {
-            $this->add('title', 'text');
-        }
-
-        $this->add('body', 'textarea');
-
-        if ($this->getData('is_admin')) {
-            $this->add('publish', 'checkbox');
-        }
-
-    }
-}
-```
-
-```php
-<?php
-    $form = FormBuilder::create('App\Forms\CommentForm')
-        ->setData([
-            'is_admin', Auth::user()->isAdmin()
-        ]);
-
-    // ...
-
-
-    $form->addData([
-        'is_manager', Auth::user()->isManager()
-    ])
-```
-
 #### getFields
 
 Get all fields of the single Form class.
@@ -435,7 +341,7 @@ $form->disableFields();
 
 #### enableFields
 
-Enable all fields in a form, by removing `disabled` attribute to the fields. 
+Enable all fields in a form, by removing `disabled` attribute to the fields.
 
 ```php
 $form = FormBuilder::create('App\Forms\SearchForm');

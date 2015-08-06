@@ -163,6 +163,14 @@
             <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
             <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">)</span>
             <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;remember_me&#39;</span><span class="p">,</span> <span class="s1">&#39;checkbox&#39;</span><span class="p">);</span>
+
+        <span class="c1">// This data is passed as 3rd parameter to `create` method</span>
+        <span class="c1">// in the controller</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getData</span><span class="p">(</span><span class="s1">&#39;is_admin&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;roles&#39;</span><span class="p">,</span> <span class="s1">&#39;choice&#39;</span><span class="p">,</span> <span class="p">[</span>
+                <span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">&#39;admin&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Admin&#39;</span><span class="p">,</span> <span class="s1">&#39;manager&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Manager&#39;</span><span class="p">]</span>
+            <span class="p">]);</span>
+        <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -181,7 +189,7 @@
         <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">(</span><span class="s1">&#39;App\Forms\LoginForm&#39;</span><span class="p">,</span> <span class="p">[</span>
             <span class="s1">&#39;method&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
             <span class="s1">&#39;route&#39;</span> <span class="o">=&gt;</span> <span class="nx">action</span><span class="p">(</span><span class="s1">&#39;AuthController@postLogin&#39;</span><span class="p">)</span>
-        <span class="p">]);</span>
+        <span class="p">],</span> <span class="p">[</span><span class="s1">&#39;is_admin&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">]);</span>
     <span class="p">}</span>
 
     <span class="k">public</span> <span class="k">function</span> <span class="nf">postLogin</span><span class="p">()</span>
@@ -258,9 +266,6 @@ Check section <a href="/laravel-form-builder/form/methods-and-properties.html">M
 <h5 id="data">data</h5>
 
 <p><code>data</code> is just another way to pass some static data that can be used in the form.</p>
-
-<p>Another way to set data is with <code>addData</code> and <code>setData</code> methods on Form class.
-Check section <a href="/laravel-form-builder/form/methods-and-properties.html">Methods and properties</a> for more info.</p>
 
 <p><strong>Note</strong>: Do not confuse this with <code>model</code>. Data is just passed to the Form class instance to be used for anything inside the class.</p>
 
