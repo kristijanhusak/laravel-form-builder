@@ -7,6 +7,11 @@ use Kris\LaravelFormBuilder\FormBuilder;
 use Kris\LaravelFormBuilder\FormHelper;
 use Kris\LaravelFormBuilder\Form;
 use Orchestra\Testbench\TestCase;
+use Illuminate\Database\Eloquent\Model;
+
+class TestModel extends Model {
+    protected $fillable = ['m', 'f'];
+}
 
 abstract class FormBuilderTestCase extends TestCase {
 
@@ -63,7 +68,7 @@ abstract class FormBuilderTestCase extends TestCase {
         $this->request = $this->app['request'];
         $this->request->setSession($this->app['session.store']);
         $this->validatorFactory = $this->app['validator'];
-        $this->model = Mockery::mock('Illuminate\Database\Eloquent\Model');
+        $this->model = new TestModel();
         $this->config = include __DIR__.'/../src/config/config.php';
 
         $this->formHelper = new FormHelper($this->view, $this->request, $this->config);
@@ -74,7 +79,6 @@ abstract class FormBuilderTestCase extends TestCase {
 
     public function tearDown()
     {
-        Mockery::close();
         $this->view = null;
         $this->request = null;
         $this->container = null;

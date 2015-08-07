@@ -126,13 +126,16 @@ class FormHelperTest extends FormBuilderTestCase
     /** @test */
     public function it_converts_model_to_array()
     {
-        $model = ['m' => 'male', 'f' => 'female'];
-        $collection = new Collection($model);
+        $data = ['m' => 'male', 'f' => 'female'];
+        $collection = new Collection($data);
+        $model = new TestModel($data);
 
         $collection = $this->formHelper->convertModelToArray($collection);
-        $sameModel = $this->formHelper->convertModelToArray($model);
-        $this->assertEquals($model, $collection);
-        $this->assertEquals($model, $sameModel);
+        $sameData = $this->formHelper->convertModelToArray($data);
+        $eloquentModel = $this->formHelper->convertModelToArray($model);
+        $this->assertEquals($data, $collection);
+        $this->assertEquals($data, $sameData);
+        $this->assertEquals($data, $eloquentModel);
         $this->assertNull($this->formHelper->convertModelToArray([]));
     }
 }
