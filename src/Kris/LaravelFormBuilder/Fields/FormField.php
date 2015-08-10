@@ -234,8 +234,8 @@ abstract class FormField
                 ->getConfig('defaults.required_class', 'required');
             $options['attr']['required'] = 'required';
         }
-        
-        if ($rules = $this->getOption('rules')) {
+
+        if ($this->parent->clientValidationEnabled() && $rules = $this->getOption('rules')) {
             $rulesParser = new RulesParser($this);
             $options['attr'] += $rulesParser->parse($rules);
         }

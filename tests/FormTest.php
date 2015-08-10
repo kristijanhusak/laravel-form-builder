@@ -621,6 +621,31 @@ class FormTest extends FormBuilderTestCase
         $form->enableFields();
 
         $this->assertNull($form->name->getOption('attr.disabled'));
+    }
 
+    /** @test */
+    public function it_allows_disabling_showing_form_errors()
+    {
+        $this->plainForm->add('child_form', 'form', ['class'=> 'CustomDummyForm']);
+        $this->assertTrue($this->plainForm->haveErrorsEnabled());
+        $this->assertTrue($this->plainForm->getField('child_form')->haveErrorsEnabled());
+        $this->plainForm->setErrorsEnabled(false);
+        $this->plainForm->rebuildForm();
+        $this->assertFalse($this->plainForm->haveErrorsEnabled());
+        $this->assertFalse($this->plainForm->getField('child_form')->haveErrorsEnabled());
+    }
+
+    /** @test */
+    public function it_allows_disabling_client_validation()
+    {
+        $this->plainForm->add('child_form', 'form', ['class'=> 'CustomDummyForm']);
+        $this->assertTrue($this->plainForm->clientValidationEnabled());
+        $this->assertTrue($this->plainForm->getField('child_form')->clientValidationEnabled());
+
+        $this->plainForm->setClientValidationEnabled(false);
+        $this->plainForm->rebuildForm();
+
+        $this->assertFalse($this->plainForm->clientValidationEnabled());
+        $this->assertFalse($this->plainForm->getField('child_form')->clientValidationEnabled());
     }
 }

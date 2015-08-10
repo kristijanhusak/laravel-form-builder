@@ -105,7 +105,6 @@ namespace {
 
     class CustomDummyForm extends Form
     {
-
         public function buildForm()
         {
             $this->add('title', 'text')

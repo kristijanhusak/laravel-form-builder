@@ -79,18 +79,17 @@ class ChildFormType extends ParentType
         }
 
         if (is_string($class)) {
-            $formOptions = array_merge(
-                ['model' => $this->parent->getModel(), 'name' => $this->name],
-                $this->getOption('formOptions')
-            );
+            $options = [
+                'model' => $this->parent->getModel(),
+                'name' => $this->name,
+                'errors_enabled' => $this->parent->haveErrorsEnabled(),
+                'client_validation' => $this->parent->clientValidationEnabled()
+            ];
+            $formOptions = array_merge($options, $this->getOption('formOptions'));
 
             $data = array_merge($this->parent->getData(), $this->getOption('data'));
 
-            return $this->parent->getFormBuilder()->create(
-                $class,
-                $formOptions,
-                $data
-            );
+            return $this->parent->getFormBuilder()->create($class, $formOptions, $data);
         }
 
         if ($class instanceof Form) {
@@ -101,6 +100,9 @@ class ChildFormType extends ParentType
             if (!$class->getData()) {
                 $class->addData($this->parent->getData());
             }
+
+            $class->setErrorsEnabled($this->parent->haveErrorsEnabled());
+            $class->setClientValidationEnabled($this->parent->clientValidationEnabled());
 
             return $class->setName($this->name);
         }
