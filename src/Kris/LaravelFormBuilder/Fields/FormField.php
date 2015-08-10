@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Kris\LaravelFormBuilder\Form;
 use Kris\LaravelFormBuilder\FormHelper;
+use Kris\LaravelFormBuilder\RulesParser;
 
 /**
  * Class FormField
@@ -232,6 +233,11 @@ abstract class FormField
             $options['label_attr']['class'] .= ' ' . $this->formHelper
                 ->getConfig('defaults.required_class', 'required');
             $options['attr']['required'] = 'required';
+        }
+        
+        if ($rules = $this->getOption('rules')) {
+            $rulesParser = new RulesParser($this);
+            $options['attr'] += $rulesParser->parse($rules);
         }
 
         $options['wrapperAttrs'] = $helper->prepareAttributes($options['wrapper']);
