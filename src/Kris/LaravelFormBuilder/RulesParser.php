@@ -468,26 +468,6 @@ class RulesParser
     }
 
     /**
-     * Add a pattern attribute, based on the regex validation.
-     *
-     * This strips the delimiters:
-     *  regex:/^\d+$/  --> pattern="^\d+$"
-     *
-     * @param $param
-     * @return array
-     *
-     * @see http://laravel.com/docs/5.1/validation#rule-regex
-     * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-pattern
-     */
-    protected function regex($param)
-    {
-        // Remove delimiters
-        $pattern = substr($param[0], 1, -1);
-
-        return ['pattern' => $pattern];
-    }
-
-    /**
      * Get the title, used for validating a rule
      *
      * @param  string $rule
