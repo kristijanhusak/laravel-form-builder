@@ -50,7 +50,7 @@ class EntityType extends ChoiceType
                 $data = $data->lists($value, $key);
             }
         } else {
-            $data = [];
+            $data = $class->lists($value, $key);;
         }
 
         if ($data instanceof Collection) {
