@@ -49,8 +49,6 @@ class EntityType extends ChoiceType
             if (is_object($data) && method_exists($data, 'lists')) {
                 $data = $data->lists($value, $key);
             }
-        } elseif ($class instanceof Collection) {
-            $data = $class->lists($value, $key);
         } else {
             $data = [];
         }
@@ -58,7 +56,6 @@ class EntityType extends ChoiceType
         if ($data instanceof Collection) {
             $data = $data->all();
         }
-
 
         $this->options['choices'] = $data;
 
