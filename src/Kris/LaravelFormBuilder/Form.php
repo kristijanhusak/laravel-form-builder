@@ -832,11 +832,11 @@ class Form
      */
     protected function setupFieldOptions($name, &$options)
     {
+        $options['real_name'] = $name;
+
         if (!$this->getName()) {
             return;
         }
-
-        $options['real_name'] = $name;
 
         if (!isset($options['label'])) {
             $options['label'] = $this->formHelper->formatLabel($name);

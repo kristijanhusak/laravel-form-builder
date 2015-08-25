@@ -219,14 +219,14 @@ abstract class FormField
             $this->template = array_pull($this->options, 'template');
         }
 
+        if ($this->getOption('attr.multiple')) {
+            $this->name = $this->name.'[]';
+        }
+
         $options = $this->options = $helper->mergeOptions($this->options, $options);
 
         if ($this->parent->haveErrorsEnabled()) {
             $this->addErrorClass($options);
-        }
-
-        if ($this->getOption('attr.multiple')) {
-            $this->name = $this->name.'[]';
         }
 
         if ($this->getOption('required') === true) {
