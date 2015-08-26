@@ -68,6 +68,7 @@ class ButtonTypeTest extends FormBuilderTestCase
 
         $expectedOptions['wrapper'] = false;
         $expectedOptions['wrapperAttrs'] = null;
+        $expectedOptions['template'] = 'laravel-form-builder::text';
 
         $expectedViewData = [
             'name' => 'some_submit',
@@ -79,8 +80,13 @@ class ButtonTypeTest extends FormBuilderTestCase
             'showError' => true
         ];
 
-        $button = new ButtonType('some_submit', 'submit', $this->plainForm);
+        $button = new ButtonType('some_submit', 'submit', $this->plainForm, [
+            'template' => 'laravel-form-builder::text'
+        ]);
 
-        $button->render();
+        $renderedView = $button->render();
+
+        $this->assertEquals($expectedOptions, $button->getOptions());
+        $this->assertContains('<input', $renderedView);
     }
 }

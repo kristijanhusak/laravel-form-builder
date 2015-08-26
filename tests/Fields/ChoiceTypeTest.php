@@ -71,4 +71,19 @@ class ChoiceTypeTest extends FormBuilderTestCase
 
         $this->assertContainsOnlyInstancesOf('Kris\LaravelFormBuilder\Fields\CheckableType', $choice->getChildren());
     }
+
+    /** @test */
+    public function it_sets_proper_name_for_multiple()
+    {
+        $this->plainForm->add('users', 'select', [
+            'choices' => [1 => 'user1', 2 => 'user2'],
+            'attr' => [
+                'multiple' => 'multple'
+            ]
+        ]);
+
+        $this->plainForm->renderForm();
+
+        $this->assertEquals('users[]', $this->plainForm->users->getName());
+    }
 }
