@@ -220,7 +220,7 @@ abstract class FormField
         }
 
         if ($this->parent->haveErrorsEnabled()) {
-            $this->addErrorClass($options);
+            $this->addErrorClass();
         }
 
         if ($this->getOption('required') === true) {
@@ -460,22 +460,20 @@ abstract class FormField
 
     /**
      * Add error class to wrapper if validation errors exist
-     *
-     * @param $options
      */
-    protected function addErrorClass(&$options)
+    protected function addErrorClass()
     {
         $errors = $this->parent->getRequest()->session()->get('errors');
 
         if ($errors && $errors->has($this->getNameKey())) {
             $errorClass = $this->formHelper->getConfig('defaults.wrapper_error_class');
+            $wrapperClass = $this->getOption('wrapper.class');
 
-            if ($options['wrapper'] && !str_contains($options['wrapper']['class'], $errorClass)) {
-                $options['wrapper']['class'] .= ' '.$errorClass;
+            if ($this->getOption('wrapper') && !str_contains($wrapperClass, $errorClass)) {
+                $wrapperClass .= ' ' . $errorClass;
+                $this->setOption('wrapper.class', $wrapperClass);
             }
         }
-
-        return $options;
     }
 
 
