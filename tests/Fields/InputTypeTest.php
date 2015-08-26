@@ -69,6 +69,7 @@ class InputTypeTest extends FormBuilderTestCase
         ];
 
         $input = new InputType('test', 'text', $this->plainForm, $options);
+        $data = $input->render();
 
         $this->assertEquals(500, $input->getValue());
         $this->assertEquals(100, $input->getDefaultValue());
