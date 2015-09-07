@@ -444,11 +444,11 @@ class Form
     public function setFormOptions($formOptions)
     {
         $this->formOptions = $this->formHelper->mergeOptions($this->formOptions, $formOptions);
+        $this->checkIfNamedForm();
         $this->pullFromOptions('model', 'setModel');
         $this->pullFromOptions('data', 'addData');
         $this->pullFromOptions('errors_enabled', 'setErrorsEnabled');
         $this->pullFromOptions('client_validation', 'setClientValidationEnabled');
-        $this->checkIfNamedForm();
 
         return $this;
     }
