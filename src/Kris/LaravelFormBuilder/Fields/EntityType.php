@@ -29,12 +29,12 @@ class EntityType extends ChoiceType
             return parent::createChildren();
         }
 
-        $entity = $this->getOption('class');
+        $class = $this->getOption('class');
         $queryBuilder = $this->getOption('query_builder');
         $key = $this->getOption('property_key');
         $value = $this->getOption('property');
 
-        if (!$entity || !class_exists($entity)) {
+        if (!$class || !class_exists($class)) {
             throw new \InvalidArgumentException(sprintf(
                 'Please provide valid "class" option for entity field [%s] in form class [%s]',
                 $this->getRealName(),
@@ -42,21 +42,20 @@ class EntityType extends ChoiceType
             ));
         }
 
-        $entity = new $entity();
+        $class = app($class);
 
         if ($queryBuilder instanceof \Closure) {
-            $data = $queryBuilder($entity);
+            $data = $queryBuilder($class);
             if (is_object($data) && method_exists($data, 'lists')) {
                 $data = $data->lists($value, $key);
             }
         } else {
-            $data = $entity->lists($value, $key);
+            $data = $class->lists($value, $key);;
         }
 
         if ($data instanceof Collection) {
             $data = $data->all();
         }
-
 
         $this->options['choices'] = $data;
 
