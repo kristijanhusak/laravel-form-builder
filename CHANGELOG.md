@@ -1,3 +1,11 @@
+## 1.6.30
+- Add client side validation (Thanks to [@barryvdh](https://github.com/barryvdh))
+- Allow custom template for form with option `template`
+- Extract some part of html in views to own partial
+- Fix select with `multiple` option naming ([#150](https://github.com/kristijanhusak/laravel-form-builder/issues/150))
+- Fix model binding on existing instances of child form([#157](https://github.com/kristijanhusak/laravel-form-builder/issues/157))
+- Fix duplicate `help_block` on select/choice ([#153](https://github.com/kristijanhusak/laravel-form-builder/issues/153))
+
 ## 1.6.20
 - Add Validation to the Form class ([#135](https://github.com/kristijanhusak/laravel-form-builder/issues/135))
 - Add getters for value and default_value (getValue() and getDefaultValue())
