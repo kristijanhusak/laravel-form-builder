@@ -93,9 +93,8 @@ class ChildFormType extends ParentType
         }
 
         if ($class instanceof Form) {
-            if (!$class->getModel()) {
-                $class->setModel($this->parent->getModel());
-            }
+            $class->setName($this->name, false);
+            $class->setModel($class->getModel() ?: $this->parent->getModel());
 
             if (!$class->getData()) {
                 $class->addData($this->parent->getData());

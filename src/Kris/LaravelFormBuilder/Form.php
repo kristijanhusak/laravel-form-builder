@@ -522,14 +522,17 @@ class Form
 
     /**
      * @param string $name
+     * @param bool $rebuild
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName($name, $rebuild = true)
     {
         $this->name = $name;
 
-        $this->rebuildForm();
+        if ($rebuild) {
+            $this->rebuildForm();
+        }
 
         return $this;
     }
