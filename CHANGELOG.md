@@ -1,6 +1,5 @@
 ## 1.6.30
 - Add client side validation (Thanks to [@barryvdh](https://github.com/barryvdh))
-- Allow custom template for form with option `template`
 - Extract some part of html in views to own partial
 - Fix select with `multiple` option naming ([#150](https://github.com/kristijanhusak/laravel-form-builder/issues/150))
 - Fix model binding on existing instances of child form([#157](https://github.com/kristijanhusak/laravel-form-builder/issues/157))
