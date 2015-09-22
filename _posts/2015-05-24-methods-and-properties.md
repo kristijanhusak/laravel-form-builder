@@ -30,6 +30,7 @@ Here are some useful methods and properties on form class:
 * [protected $formOptions = ['method' => 'GET', url => null]`](#formoptions) - Form options passed to view.
 * [protected $showFieldErrors = true](#showfielderrors) - Should validation errors appear under the fields.
 * [protected $name = null]({{ site.baseurl }}{% post_url 2015-05-24-named-form %}) - Name for the [Named form]({{ site.baseurl }}{% post_url 2015-05-24-named-form %})
+* [protected $clientValidationEnabled = true](#clientvalidationenabled) - Enable/disable client side validation
 
 #### add
 
@@ -280,6 +281,7 @@ $form = FormBuilder::plain(['model' => $model])
 $usernameField = $form->get('username');
 ```
 
+
 **Note:** Another way to get single field from the Form class is getting it by property.
 Form class has magic methods that handle finding fields.
 
@@ -288,6 +290,25 @@ Using above form:
     $usernameField = $form->username;
 ```
 
+
+#### disableFields
+Disable all fields in a form, by adding `disabled` attribute to the fields. Useful when you only want to use form as read only.
+
+```php
+$form = FormBuilder::create('App\Forms\SearchForm');
+
+$form->disableFields();
+```
+
+#### enableFields
+
+Enable all fields in a form, by removing `disabled` attribute to the fields.
+
+```php
+$form = FormBuilder::create('App\Forms\SearchForm');
+
+$form->enableFields();
+```
 
 #### formOptions
 These options are passed to the view into the `Form::open` method.
@@ -330,21 +351,10 @@ Type: `Boolean`
 
 Default: `true`
 
-#### disableFields
-Disable all fields in a form, by adding `disabled` attribute to the fields. Useful when you only want to use form as read only.
+#### clientValidationEnabled
+Since version 1.6.30 form automatically generates html5 validation properties in html.
+Setting this to `false` will remove those properties.
 
-```php
-$form = FormBuilder::create('App\Forms\SearchForm');
+Type: `Boolean`
 
-$form->disableFields();
-```
-
-#### enableFields
-
-Enable all fields in a form, by removing `disabled` attribute to the fields.
-
-```php
-$form = FormBuilder::create('App\Forms\SearchForm');
-
-$form->enableFields();
-```
+Default: `true`

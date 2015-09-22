@@ -176,6 +176,7 @@
 <li><a href="#formoptions">protected $formOptions = [&#39;method&#39; =&gt; &#39;GET&#39;, url =&gt; null]`</a> - Form options passed to view.</li>
 <li><a href="#showfielderrors">protected $showFieldErrors = true</a> - Should validation errors appear under the fields.</li>
 <li><a href="/laravel-form-builder/form/named-form.html">protected $name = null</a> - Name for the <a href="/laravel-form-builder/form/named-form.html">Named form</a></li>
+<li><a href="#clientvalidationenabled">protected $clientValidationEnabled = true</a> - Enable/disable client side validation</li>
 </ul>
 
 <h4 id="add">add</h4>
@@ -554,6 +555,20 @@ Form class has magic methods that handle finding fields.</p>
     $usernameField = $form-&gt;username;
 </code></p>
 
+<h4 id="disablefields">disableFields</h4>
+
+<p>Disable all fields in a form, by adding <code>disabled</code> attribute to the fields. Useful when you only want to use form as read only.</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$form = FormBuilder::create(&#39;App\Forms\SearchForm&#39;);</span>
+
+<span class="x">$form-&gt;disableFields();</span>
+</code></pre></div>
+<h4 id="enablefields">enableFields</h4>
+
+<p>Enable all fields in a form, by removing <code>disabled</code> attribute to the fields.</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$form = FormBuilder::create(&#39;App\Forms\SearchForm&#39;);</span>
+
+<span class="x">$form-&gt;enableFields();</span>
+</code></pre></div>
 <h4 id="formoptions">formOptions</h4>
 
 <p>These options are passed to the view into the <code>Form::open</code> method.</p>
@@ -590,20 +605,15 @@ Default: <code>[&#39;method&#39; =&gt; &#39;GET&#39;, &#39;url&#39; =&gt; null]<
 
 <p>Default: <code>true</code></p>
 
-<h4 id="disablefields">disableFields</h4>
+<h4 id="clientvalidationenabled">clientValidationEnabled</h4>
 
-<p>Disable all fields in a form, by adding <code>disabled</code> attribute to the fields. Useful when you only want to use form as read only.</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$form = FormBuilder::create(&#39;App\Forms\SearchForm&#39;);</span>
+<p>Since version 1.6.30 form automatically generates html5 validation properties in html.
+Setting this to <code>false</code> will remove those properties.</p>
 
-<span class="x">$form-&gt;disableFields();</span>
-</code></pre></div>
-<h4 id="enablefields">enableFields</h4>
+<p>Type: <code>Boolean</code></p>
 
-<p>Enable all fields in a form, by removing <code>disabled</code> attribute to the fields.</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$form = FormBuilder::create(&#39;App\Forms\SearchForm&#39;);</span>
+<p>Default: <code>true</code></p>
 
-<span class="x">$form-&gt;enableFields();</span>
-</code></pre></div>
 
                     </div>
                 
