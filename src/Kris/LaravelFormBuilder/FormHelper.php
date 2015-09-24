@@ -264,4 +264,13 @@ class FormHelper
             'attributes' => $attributes
         ];
     }
+
+    /**
+     * @param string $string
+     * @return string
+     */
+    public function transformToDotSyntax($string)
+    {
+        return str_replace(['.', '[]', '[', ']'], ['_', '', '.', ''], $string);
+    }
 }

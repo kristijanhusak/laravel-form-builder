@@ -855,12 +855,13 @@ class Form
             return;
         }
 
+        $dotName = $this->formHelper->transformToDotSyntax($this->getName());
         $model = $this->formHelper->convertModelToArray($this->getModel());
 
-        if (!array_get($model, $this->getName())) {
-            $this->model = [
-                $this->getName() => $model
-            ];
+        if (!array_get($model, $dotName)) {
+            $newModel = [];
+            array_set($newModel, $dotName, $model);
+            $this->model = $newModel;
         }
     }
 

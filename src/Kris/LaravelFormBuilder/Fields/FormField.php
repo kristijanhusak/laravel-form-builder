@@ -200,7 +200,7 @@ abstract class FormField
      */
     protected function transformKey($key)
     {
-        return str_replace(['.', '[]', '[', ']'], ['_', '', '.', ''], $key);
+        return $this->formHelper->transformToDotSyntax($key);
     }
 
     /**
