@@ -292,7 +292,7 @@ class Form
             return $this;
         }
 
-        throw new \InvalidArgumentException('Field ['.$name.'] does not exist in '.get_class($this));
+        $this->fieldDoesNotExist($name);
     }
 
     /**
@@ -355,6 +355,10 @@ class Form
      */
     public function renderUntil($field_name, $showFormEnd = true, $showFields = true)
     {
+        if (!$this->has($field_name)) {
+            $this->fieldDoesNotExist($field_name);
+        }
+        
         $fields = $this->getUnrenderedFields();
 
         $i = 1;
@@ -381,10 +385,8 @@ class Form
         if ($this->has($name)) {
             return $this->fields[$name];
         }
-
-        throw new \InvalidArgumentException(
-            'Field with name ['. $name .'] does not exist in class '.get_class($this)
-        );
+        
+        $this->fieldDoesNotExist($name);
     }
 
     /**
@@ -1008,5 +1010,16 @@ class Form
         }
 
         return $this->validator->getMessageBag()->getMessages();
+    }
+    
+    /**
+     * Throw an exception indicating a field does not exist on the class
+     * 
+     * @param string $name
+     * @throws \InvalidArgumentException
+     */ 
+    protected function fieldDoesNotExist($name)
+    {
+        throw new \InvalidArgumentException('Field ['.$name.'] does not exist in '.get_class($this));
     }
 }
