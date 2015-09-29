@@ -292,6 +292,20 @@ class FormTest extends FormBuilderTestCase
 
         $this->plainForm->remove('nonexisting');
     }
+    
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
+     public function it_throws_exception_when_rendering_until_nonexisting_field()
+     {
+        $this->plainForm
+            ->add('gender', 'select')
+            ->add('name', 'text');
+
+        $this->plainForm->gender->render();
+        $this->plainForm->renderUntil('nonexisting');
+     }
 
     /**
      * @test
