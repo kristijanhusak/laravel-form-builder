@@ -1,7 +1,8 @@
 <?php
 
-use Kris\LaravelFormBuilder\Fields\InputType;
 use Kris\LaravelFormBuilder\Form;
+use Kris\LaravelFormBuilder\FormHelper;
+use Kris\LaravelFormBuilder\Fields\InputType;
 
 class FormTest extends FormBuilderTestCase
 {
@@ -661,5 +662,37 @@ class FormTest extends FormBuilderTestCase
 
         $this->assertFalse($this->plainForm->clientValidationEnabled());
         $this->assertFalse($this->plainForm->getField('child_form')->clientValidationEnabled());
+    }
+
+    /** @test */
+    public function it_has_a_template_prefix()
+    {
+        $form = $this->formBuilder->plain();
+        $form->setFormOption('template_prefix', 'test::');
+        $form->add('name', 'text');
+
+        $this->assertEquals('test::', $form->getTemplatePrefix());
+    }
+
+    /** @test */
+    public function it_uses_the_template_prefix()
+    {
+        $viewStub = $this->getMockBuilder('Illuminate\View\Factory')->setMethods(['make', 'with', 'render'])->disableOriginalConstructor()->getMock();
+        $viewStub->method('make')->willReturn($viewStub);
+        $viewStub->method('with')->willReturn($viewStub);
+
+        $helper = new FormHelper($viewStub, $this->request, $this->config);
+
+        $form = $this->formBuilder->plain();
+        $form->setFormOption('template_prefix', 'test::');
+        $form->setFormOption('template', 'a_template');
+
+        // Check that the form uses the correct template
+        $viewStub->expects($this->atLeastOnce())
+                 ->method('make')
+                 ->with($this->equalTo('test::a_template'));
+
+        $form->setFormHelper($helper);
+        $form->renderForm();
     }
 }
