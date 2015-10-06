@@ -737,6 +737,16 @@ class Form
     }
 
     /**
+     * Get template prefix that is prepended to all template paths
+     *
+     * @return string
+     */
+    public function getTemplatePrefix()
+    {
+        return $this->getFormOption('template_prefix', $this->formHelper->getConfig('template_prefix'));
+    }
+
+    /**
      * Render the form
      *
      * @param $options
@@ -770,7 +780,7 @@ class Form
      */
     protected function getTemplate()
     {
-        return $this->getFormOption('template', $this->formHelper->getConfig('form'));
+        return $this->getTemplatePrefix() . $this->getFormOption('template', $this->formHelper->getConfig('form'));
     }
 
     /**
