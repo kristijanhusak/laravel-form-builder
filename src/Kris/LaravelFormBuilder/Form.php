@@ -100,6 +100,11 @@ class Form
     protected $rebuilding = false;
 
     /**
+     * @var string
+     */
+    protected $templatePrefix;
+
+    /**
      * Build the form
      *
      * @return mixed
@@ -451,6 +456,7 @@ class Form
         $this->pullFromOptions('data', 'addData');
         $this->pullFromOptions('errors_enabled', 'setErrorsEnabled');
         $this->pullFromOptions('client_validation', 'setClientValidationEnabled');
+        $this->pullFromOptions('template_prefix', 'setTemplatePrefix');
 
         return $this;
     }
@@ -743,7 +749,24 @@ class Form
      */
     public function getTemplatePrefix()
     {
-        return $this->getFormOption('template_prefix', $this->formHelper->getConfig('template_prefix'));
+        if ($this->templatePrefix !== null) {
+            return $this->templatePrefix;
+        }
+
+        return $this->formHelper->getConfig('template_prefix');
+    }
+
+    /**
+     * Set a template prefix for the form and its fields
+     *
+     * @param string $prefix
+     * @return $this
+     */
+    public function setTemplatePrefix($prefix)
+    {
+        $this->templatePrefix = (string) $prefix;
+
+        return $this;
     }
 
     /**
