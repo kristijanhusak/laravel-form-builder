@@ -16,7 +16,7 @@ class FormFieldTest extends FormBuilderTestCase
         $helper = new FormHelper($viewStub, $this->request, $this->config);
 
         $form = $this->formBuilder->plain();
-        $form->setFormOption('template_prefix', 'test::');
+        $form->setTemplatePrefix('test::');
 
         // Check that the field uses the correct template
         $viewStub->expects($this->atLeastOnce())

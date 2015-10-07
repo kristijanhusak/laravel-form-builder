@@ -668,10 +668,20 @@ class FormTest extends FormBuilderTestCase
     public function it_has_a_template_prefix()
     {
         $form = $this->formBuilder->plain();
-        $form->setFormOption('template_prefix', 'test::');
+        $form->setFormOptions(['template_prefix' => 'test::']);
         $form->add('name', 'text');
 
         $this->assertEquals('test::', $form->getTemplatePrefix());
+        $this->assertNull($form->getFormOption('template_prefix'));
+    }
+
+    /** @test */
+    public function it_stores_a_template_prefix()
+    {
+        $form = $this->formBuilder->plain();
+        $form->setTemplatePrefix('test_prefix::');
+
+        $this->assertEquals('test_prefix::', $form->getTemplatePrefix());
     }
 
     /** @test */
@@ -684,8 +694,10 @@ class FormTest extends FormBuilderTestCase
         $helper = new FormHelper($viewStub, $this->request, $this->config);
 
         $form = $this->formBuilder->plain();
-        $form->setFormOption('template_prefix', 'test::');
-        $form->setFormOption('template', 'a_template');
+        $form->setFormOptions([
+            'template_prefix' => 'test::',
+            'template' => 'a_template'
+        ]);
 
         // Check that the form uses the correct template
         $viewStub->expects($this->atLeastOnce())
