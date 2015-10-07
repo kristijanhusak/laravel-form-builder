@@ -126,7 +126,7 @@ abstract class FormField
      */
     protected function getViewTemplate()
     {
-        return $this->getOption('template', $this->template);
+        return $this->parent->getTemplatePrefix() . $this->getOption('template', $this->template);
     }
 
     /**
