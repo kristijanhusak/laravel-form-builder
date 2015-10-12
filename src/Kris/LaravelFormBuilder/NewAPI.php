@@ -28,14 +28,6 @@
 		public $fieldName;
 		public function __call($fieldType,$args = [])
 		{
-			$permitted = [
-			    'text','textarea','radio','checkbox','select',
-			    'hidden','select','password','image','number',
-			    'file','submit','url','tel','search','email',
-			    'color','date','month','week','range','time'
-			];
-			if(!in_array($fieldType,$permitted))
-				return $this;
 			$this->fieldName =  $args[0];
 			$options = [];
 			if( isset($args[1]) ) $options = $args[1];
