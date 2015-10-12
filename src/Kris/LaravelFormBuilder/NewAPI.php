@@ -28,7 +28,7 @@
      * @method FieldOptionSetters time( string $field_name, array $options = [], boolean $modify = false )
      * @method SelectFieldOptionSetters select_( string $field_name, array $options = [], boolean $modify = false )
      */
-    class FormHelpers extends Form
+    class NewAPI extends Form
     {
         public $fieldName;
         
