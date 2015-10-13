@@ -7,33 +7,28 @@
     
     
     /**
-     * 
-     * 
-     * @method FieldOptionSetters text( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters textarea( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters radio( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters email( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters hidden( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters password( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters image( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters number( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters file( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters submit( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters url( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters tel( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters search( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters color( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters date( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters month( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters week( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters range( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters time( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters reset( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters submit( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters repeated( string $field_name, array $options = [], boolean $modify = false )
-     * @method FieldOptionSetters collection( string $field_name, array $options = [], boolean $modify = false )
-     * @method EntityFieldOptionSetters entity( string $field_name, array $options = [], boolean $modify = false )
-     * @method SelectFieldOptionSetters select( string $field_name, array $options = [], boolean $modify = false )
+     * @method FieldOptionSetters text(string $field_name, array $options = [], boolean $modify = false)
+     * @method FieldOptionSetters textarea(string $field_name, array $options = [], boolean $modify = false)
+     * @method FieldOptionSetters radio(string $field_name, array $options = [], boolean $modify = false)
+     * @method FieldOptionSetters email(string $field_name, array $options = [], boolean $modify = false)
+     * @method FieldOptionSetters hidden(string $field_name, array $options = [], boolean $modify = false)
+     * @method FieldOptionSetters password(string $field_name, array $options = [], boolean $modify = false)
+     * @method FieldOptionSetters image(string $field_name, array $options = [], boolean $modify = false)
+     * @method FieldOptionSetters number(string $field_name, array $options = [], boolean $modify = false)
+     * @method FieldOptionSetters file(string $field_name, array $options = [], boolean $modify = false)
+     * @method FieldOptionSetters submit(string $field_name, array $options = [], boolean $modify = false)
+     * @method FieldOptionSetters url(string $field_name, array $options = [], boolean $modify = false)
+     * @method FieldOptionSetters tel(string $field_name, array $options = [], boolean $modify = false)
+     * @method FieldOptionSetters search(string $field_name, array $options = [], boolean $modify = false)
+     * @method FieldOptionSetters color(string $field_name, array $options = [], boolean $modify = false)
+     * @method FieldOptionSetters date(string $field_name, array $options = [], boolean $modify = false)
+     * @method FieldOptionSetters month(string $field_name, array $options = [], boolean $modify = false)
+     * @method FieldOptionSetters week(string $field_name, array $options = [], boolean $modify = false)
+     * @method FieldOptionSetters range(string $field_name, array $options = [], boolean $modify = false)
+     * @method FieldOptionSetters time(string $field_name, array $options = [], boolean $modify = false)
+     * @method FieldOptionSetters reset(string $field_name, array $options = [], boolean $modify = false)
+     * @method FieldOptionSetters repeated(string $field_name, array $options = [], boolean $modify = false)
+     * @method FieldOptionSetters collection(string $field_name, array $options = [], boolean $modify = false)
      */
     class NewAPI extends Form
     {
@@ -74,19 +69,27 @@
             
             return new CheckboxFieldOptionSetters($this);
         }
+        public function entity($fieldName, $options = [])
+        {
+            $this->fieldName = $fieldName;
+            $this->add($fieldName, 'entity', $options);
+
+            return new EntityFieldOptionSetters($this);
+        }
+
     }
     
     /**
-     * @method $this rules( string $field_name, array $options = [], boolean $modify = false )
-     * @method $this cssClass( string $field_name, array $options = [], boolean $modify = false )
-     * @method $this labelText( string $field_name, array $options = [], boolean $modify = false )
-     * @method $this defaultValue( string $field_name, array $options = [], boolean $modify = false )
-     * @method $this value( string $field_name, array $options = [], boolean $modify = false )
-     * @method $this helpText( string $field_name, array $options = [], boolean $modify = false )
-     * @method $this helpTag( string $field_name, array $options = [], boolean $modify = false )
-     * @method $this wrapperClass( string $field_name, array $options = [], boolean $modify = false )
-     * @method $this errorsCssClass( string $field_name, array $options = [], boolean $modify = false )
-     * @method $this labelCssClass( string $field_name, array $options = [], boolean $modify = false )
+     * @method $this rules(string $field_name, array $options = [], boolean $modify = false)
+     * @method $this cssClass(string $field_name, array $options = [], boolean $modify = false)
+     * @method $this labelText(string $field_name, array $options = [], boolean $modify = false)
+     * @method $this defaultValue(string $field_name, array $options = [], boolean $modify = false)
+     * @method $this value(string $field_name, array $options = [], boolean $modify = false)
+     * @method $this helpText(string $field_name, array $options = [], boolean $modify = false)
+     * @method $this helpTag(string $field_name, array $options = [], boolean $modify = false)
+     * @method $this wrapperClass(string $field_name, array $options = [], boolean $modify = false)
+     * @method $this errorsCssClass(string $field_name, array $options = [], boolean $modify = false)
+     * @method $this labelCssClass(string $field_name, array $options = [], boolean $modify = false)
      */
     class FieldOptionSetters
     {
@@ -156,8 +159,8 @@
     /**
      * @method $this class(string $className=null) Full path to the Model class that will be used to fetch choices.
      * @method $this query_builder(closure $func) If provided, used to filter data before setting as choices. If null, gets all data.
-     * @method $this property(string $className) Property from model that will be used as label for options in choices.
-     * @method $this query_builder(string $className) Property from model that will be used as value for options in choices.
+     * @method $this property(string $property) Property from model that will be used as label for options in choices.
+     * @method $this property_key(string $property_key) Property from model that will be used as value for options in choices.
      */
     class EntityFieldOptionSetters extends FieldOptionSetters
     {
