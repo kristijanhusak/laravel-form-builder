@@ -7,6 +7,8 @@
     
     
     /**
+     * 
+     * 
      * @method FieldOptionSetters text( string $field_name, array $options = [], boolean $modify = false )
      * @method FieldOptionSetters textarea( string $field_name, array $options = [], boolean $modify = false )
      * @method FieldOptionSetters radio( string $field_name, array $options = [], boolean $modify = false )
@@ -26,7 +28,12 @@
      * @method FieldOptionSetters week( string $field_name, array $options = [], boolean $modify = false )
      * @method FieldOptionSetters range( string $field_name, array $options = [], boolean $modify = false )
      * @method FieldOptionSetters time( string $field_name, array $options = [], boolean $modify = false )
-     * @method SelectFieldOptionSetters select_( string $field_name, array $options = [], boolean $modify = false )
+     * @method FieldOptionSetters reset( string $field_name, array $options = [], boolean $modify = false )
+     * @method FieldOptionSetters submit( string $field_name, array $options = [], boolean $modify = false )
+     * @method FieldOptionSetters repeated( string $field_name, array $options = [], boolean $modify = false )
+     * @method FieldOptionSetters collection( string $field_name, array $options = [], boolean $modify = false )
+     * @method EntityFieldOptionSetters entity( string $field_name, array $options = [], boolean $modify = false )
+     * @method SelectFieldOptionSetters select( string $field_name, array $options = [], boolean $modify = false )
      */
     class NewAPI extends Form
     {
@@ -86,7 +93,7 @@
         private $formObj;
         private $currentFieldObj;
         private $mapping = [
-            //  'methodName'    => 'aKeyToSet',
+            //  'methodName' => 'aKeyToSet',
             'options'        => 'choices',
             'choices'        => 'choices',
             'selected'       => 'selected',
@@ -120,28 +127,38 @@
     }
     
     /**
-     * @method $this options( array   $choices, array $options = [], boolean $modify = false )
-     * @method $this selected( string $field_name, array $options = [], boolean $modify = false )
-     * @method $this empty_value( string $empty_value, array $options = [], boolean $modify = false )
+     * @method $this options(array $choices, array $options = [], boolean $modify = false)
+     * @method $this selected(string $field_name, array $options = [], boolean $modify = false)
+     * @method $this empty_value(string $empty_value, array $options = [], boolean $modify = false)
      */
     class SelectFieldOptionSetters extends FieldOptionSetters
     {
     }
     
     /**
-     * @method $this value( array   $value, array $options = [], boolean $modify = false )
-     * @method $this checked( string $field_name, array $options = [], boolean $modify = false )
+     * @method $this value(array $value, array $options = [], boolean $modify = false)
+     * @method $this checked(string $field_name, array $options = [], boolean $modify = false)
      */
     class CheckboxFieldOptionSetters extends FieldOptionSetters
     {
     }
     
     /**
-     * @method $this choices( array $choices, array $options = [], boolean $modify = false )
-     * @method $this selected( array $preSelected, array $options = [], boolean $modify = false )
-     * @method $this expanded( bool $boolean, array $options = [], boolean $modify = false )
-     * @method $this multiple( bool $boolean, array $options = [], boolean $modify = false )
+     * @method $this choices(array $choices, array $options = [], boolean $modify = false)
+     * @method $this selected(array $preSelected, array $options = [], boolean $modify = false)
+     * @method $this expanded(bool $boolean, array $options = [], boolean $modify = false)
+     * @method $this multiple(bool $boolean, array $options = [], boolean $modify = false)
      */
     class ChoiceFieldOptionSetters extends FieldOptionSetters
+    {
+    }
+    
+    /**
+     * @method $this class(string $className=null) Full path to the Model class that will be used to fetch choices.
+     * @method $this query_builder(closure $func) If provided, used to filter data before setting as choices. If null, gets all data.
+     * @method $this property(string $className) Property from model that will be used as label for options in choices.
+     * @method $this query_builder(string $className) Property from model that will be used as value for options in choices.
+     */
+    class EntityFieldOptionSetters extends FieldOptionSetters
     {
     }
