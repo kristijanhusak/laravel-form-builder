@@ -35,7 +35,8 @@ class CollectionType extends ParentType
             'prototype' => true,
             'data' => null,
             'property' => 'id',
-            'prototype_name' => '__NAME__'
+            'prototype_name' => '__NAME__',
+            'empty_row' => true
         ];
     }
 
@@ -93,7 +94,11 @@ class CollectionType extends ParentType
         }
 
         if (!$data || empty($data)) {
-            return $this->children[] = $this->setupChild(clone $field, '[0]');
+            if ($this->getOption('empty_row')) {
+                return $this->children[] = $this->setupChild(clone $field, '[0]');
+            }
+
+            return $this->children = [];
         }
 
         if (!is_array($data) && !$data instanceof \Traversable) {

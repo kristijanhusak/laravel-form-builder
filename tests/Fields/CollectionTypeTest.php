@@ -26,6 +26,31 @@ class CollectionTypeTest extends FormBuilderTestCase
     }
 
     /** @test */
+    public function it_creates_collection_with_empty_row()
+    {
+        $options = [
+            'type' => 'text'
+        ];
+
+        $emailsCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
+
+        $this->assertEquals(1, count($emailsCollection->getChildren()));
+    }
+
+    /** @test */
+    public function it_creates_collection_without_empty_row()
+    {
+        $options = [
+            'type' => 'text',
+            'empty_row' => false
+        ];
+
+        $emailsCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
+
+        $this->assertEquals(0, count($emailsCollection->getChildren()));
+    }
+
+    /** @test */
     public function it_uses_old_input_if_available()
     {
         $options = [
