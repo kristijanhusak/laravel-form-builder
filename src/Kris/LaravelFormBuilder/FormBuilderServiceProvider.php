@@ -27,15 +27,17 @@ class FormBuilderServiceProvider extends ServiceProvider
 
         $this->registerFormHelper();
 
-        $this->app->bindShared('laravel-form-builder', function ($app) {
+        $this->app->singleton('laravel-form-builder', function ($app) {
 
             return new FormBuilder($app, $app['laravel-form-helper']);
         });
+
+        $this->app->alias('laravel-form-builder', 'Kris\LaravelFormBuilder\FormBuilder');
     }
 
     protected function registerFormHelper()
     {
-        $this->app->bindShared('laravel-form-helper', function ($app) {
+        $this->app->singleton('laravel-form-helper', function ($app) {
 
             $configuration = $app['config']->get('laravel-form-builder');
 
@@ -70,7 +72,7 @@ class FormBuilderServiceProvider extends ServiceProvider
     {
         if (!$this->app->offsetExists('form')) {
 
-            $this->app->bindShared('form', function($app) {
+            $this->app->singleton('form', function($app) {
 
                 $form = new LaravelForm($app['html'], $app['url'], $app['session.store']->getToken());
 
@@ -94,7 +96,7 @@ class FormBuilderServiceProvider extends ServiceProvider
     {
         if (!$this->app->offsetExists('html')) {
 
-            $this->app->bindShared('html', function($app) {
+            $this->app->singleton('html', function($app) {
                 return new HtmlBuilder($app['url']);
             });
 

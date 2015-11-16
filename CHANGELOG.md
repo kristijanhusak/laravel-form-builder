@@ -1,3 +1,12 @@
+## 1.6.31
+- Add `template_prefix` option form form and fields (Thanks to [@koenvu](https://github.com/koenvu))
+- Add `empty_row` option for Collection type to remove initial empty row when there is no data for it
+- Add `removeChild` option for ParentType fields to allow removing child
+- Fix child form value binding when parent form has a name.
+- Fix `renderUntil` to throw exception when field does not exist (Thanks to [@pnoonan](https://github.com/pnoonan))
+- Fix form stub to satisfy PSR-2 standard (Thanks to [@koenvu](https://github.com/koenvu))
+
+
 ## 1.6.30
 - Add client side validation (Thanks to [@barryvdh](https://github.com/barryvdh))
 - Extract some part of html in views to own partial
