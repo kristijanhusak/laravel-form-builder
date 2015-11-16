@@ -81,6 +81,20 @@ abstract class ParentType extends FormField
     }
 
     /**
+     * Remove child
+     *
+     * @return $this
+     */
+    public function removeChild($key)
+    {
+        if ($this->getChild($key)) {
+            unset($this->children[$key]);
+        }
+
+        return $this;
+    }
+
+    /**
      * @inheritdoc
      */
     public function isRendered()

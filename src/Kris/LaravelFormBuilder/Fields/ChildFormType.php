@@ -112,6 +112,19 @@ class ChildFormType extends ParentType
     }
 
     /**
+     * @inheritdoc
+     */
+    public function removeChild($key)
+    {
+        if ($this->getChild($key)) {
+            $this->form->remove($key);
+            return parent::removeChild($key);
+        }
+
+        return $this;
+    }
+
+    /**
      * @param $method
      * @param $arguments
      *

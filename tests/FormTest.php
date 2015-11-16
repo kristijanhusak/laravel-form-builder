@@ -293,7 +293,7 @@ class FormTest extends FormBuilderTestCase
 
         $this->plainForm->remove('nonexisting');
     }
-    
+
     /**
      * @test
      * @expectedException \InvalidArgumentException
@@ -514,6 +514,39 @@ class FormTest extends FormBuilderTestCase
             return;
         }
         $this->fail('No exception on bad method call on child form.');
+    }
+
+    /** @test */
+    public function it_removes_children_from_parent_type_fields()
+    {
+        $form = $this->formBuilder->plain();
+        $customForm = $this->formBuilder->create('CustomDummyForm');
+        $model = ['song' => ['title' => 'test song title', 'body' => 'test body'], 'title' => 'main title'];
+        $form->setModel($model);
+
+        $form
+            ->add('title', 'text')
+            ->add('song', 'form', [
+                'class' => $customForm
+            ])
+            ->add('songs', 'collection', [
+                'type' => 'form',
+                'data' => [
+                    ['title' => 'lorem', 'body' => 'ipsum'],
+                    new \Illuminate\Support\Collection(['title' => 'dolor', 'body' => 'sit'])
+                ],
+                'options' => [
+                    'class' => $customForm
+                ]
+            ])
+        ;
+
+        $this->assertCount(2, $form->song->getChildren());
+        $this->assertCount(2, $form->song->getForm()->getFields());
+        $form->song->removeChild('title');
+        $this->assertCount(1, $form->song->getChildren());
+        $this->assertCount(1, $form->song->getForm()->getFields());
+        $this->assertEquals('test body', $form->song->body->getValue());
     }
 
     /** @test */
