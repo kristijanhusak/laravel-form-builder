@@ -192,6 +192,11 @@ class Form
             $this->preventDuplicate($field->getRealName());
         }
 
+
+        if ($field->getType() == 'file') {
+            $this->formOptions['files'] = true;
+        }
+
         $this->fields[$field->getRealName()] = $field;
 
         return $this;
@@ -363,7 +368,7 @@ class Form
         if (!$this->has($field_name)) {
             $this->fieldDoesNotExist($field_name);
         }
-        
+
         $fields = $this->getUnrenderedFields();
 
         $i = 1;
@@ -390,7 +395,7 @@ class Form
         if ($this->has($name)) {
             return $this->fields[$name];
         }
-        
+
         $this->fieldDoesNotExist($name);
     }
 
@@ -845,10 +850,6 @@ class Form
     {
         $fieldType = $this->formHelper->getFieldType($type);
 
-        if ($type == 'file') {
-            $this->formOptions['files'] = true;
-        }
-
         return $fieldType;
     }
 
@@ -1044,13 +1045,13 @@ class Form
 
         return $this->validator->getMessageBag()->getMessages();
     }
-    
+
     /**
      * Throw an exception indicating a field does not exist on the class
-     * 
+     *
      * @param string $name
      * @throws \InvalidArgumentException
-     */ 
+     */
     protected function fieldDoesNotExist($name)
     {
         throw new \InvalidArgumentException('Field ['.$name.'] does not exist in '.get_class($this));
