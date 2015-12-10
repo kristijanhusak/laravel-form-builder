@@ -158,35 +158,35 @@
 
     <span class="k">protected</span> <span class="k">function</span> <span class="nf">getTemplate</span><span class="p">()</span>
     <span class="p">{</span>
-        <span class="c1">// At first it tries to load config variable,</span>
-        <span class="c1">// and if fails falls back to loading view</span>
-        <span class="c1">// resources/views/fields/datetime.blade.php</span>
-        <span class="k">return</span> <span class="s1">&#39;fields.datetime&#39;</span><span class="p">;</span>
+        <span class="c1">// At first it tries to load config variable,
+</span>        <span class="c1">// and if fails falls back to loading view
+</span>        <span class="c1">// resources/views/fields/datetime.blade.php
+</span>        <span class="k">return</span> <span class="s1">'fields.datetime'</span><span class="p">;</span>
     <span class="p">}</span>
 
-    <span class="k">public</span> <span class="k">function</span> <span class="nf">render</span><span class="p">(</span><span class="k">array</span> <span class="nv">$options</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">$showLabel</span> <span class="o">=</span> <span class="k">true</span><span class="p">,</span> <span class="nv">$showField</span> <span class="o">=</span> <span class="k">true</span><span class="p">,</span> <span class="nv">$showError</span> <span class="o">=</span> <span class="k">true</span><span class="p">)</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">render</span><span class="p">(</span><span class="k">array</span> <span class="nv">$options</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">$showLabel</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">$showField</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">$showError</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span>
     <span class="p">{</span>
-        <span class="nv">$options</span><span class="p">[</span><span class="s1">&#39;somedata&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;This is some data for view&#39;</span><span class="p">;</span>
+        <span class="nv">$options</span><span class="p">[</span><span class="s1">'somedata'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'This is some data for view'</span><span class="p">;</span>
 
         <span class="k">return</span> <span class="k">parent</span><span class="o">::</span><span class="na">render</span><span class="p">(</span><span class="nv">$options</span><span class="p">,</span> <span class="nv">$showLabel</span><span class="p">,</span> <span class="nv">$showField</span><span class="p">,</span> <span class="nv">$showError</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>And then in view you can use what you need:</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">// ...</span>
+<div class="highlight"><pre><code class="language-php" data-lang="php">// ...
 
-<span class="cp">&lt;?</span><span class="o">=</span> <span class="nv">$options</span><span class="p">[</span><span class="s1">&#39;somedata&#39;</span><span class="p">]</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="cp">&lt;?=</span> <span class="nv">$options</span><span class="p">[</span><span class="s1">'somedata'</span><span class="p">]</span> <span class="cp">?&gt;</span>
 
-<span class="x">// ...</span>
+// ...
 </code></pre></div>
 <p><strong>Notice:</strong> Package templates uses plain PHP for printing because of plans for supporting version 4 (prevent conflict with tags), but you can use blade for custom fields, just make sure to use tags that are not escaping html (<code>{!! !!}</code>)</p>
 
 <p>And then add it to published config file(<code>config/packages/kris/laravel-form-builder/config.php</code>) in key <code>custom-fields</code> key this:</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">// ...</span>
-<span class="x">    &#39;custom_fields&#39; =&gt; [</span>
-<span class="x">        &#39;datetime&#39; =&gt; &#39;App\Forms\Fields\DatetimeType&#39;</span>
-<span class="x">    ]</span>
-<span class="x">// ...</span>
+<div class="highlight"><pre><code class="language-php" data-lang="php">// ...
+    'custom_fields' =&gt; [
+        'datetime' =&gt; 'App\Forms\Fields\DatetimeType'
+    ]
+// ...
 </code></pre></div>
 <p>Or if you want to load it only for a single form, you can do it directly in BuildForm method:</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Forms</span><span class="p">;</span>
@@ -197,14 +197,14 @@
 <span class="p">{</span>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">()</span>
     <span class="p">{</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">addCustomField</span><span class="p">(</span><span class="s1">&#39;datetime&#39;</span><span class="p">,</span> <span class="s1">&#39;App\Forms\Fields\DatetimeType&#39;</span><span class="p">);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">addCustomField</span><span class="p">(</span><span class="s1">'datetime'</span><span class="p">,</span> <span class="s1">'App\Forms\Fields\DatetimeType'</span><span class="p">);</span>
     <span class="p">}</span>
 
     <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="nv">$this</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;created_at&#39;</span><span class="p">,</span> <span class="s1">&#39;datetime&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'title'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'created_at'</span><span class="p">,</span> <span class="s1">'datetime'</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>

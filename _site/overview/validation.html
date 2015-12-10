@@ -161,7 +161,7 @@
 
 <p>Since version 1.6.20 validation is added to the Form class. It automatically gets the rules
 that are specified through field options, and validates the form. Here&#39;s a short example:</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">// app/Forms/PostForm.php</span>
+<div class="highlight"><pre><code class="language-php" data-lang="php">// app/Forms/PostForm.php
 
 <span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Forms</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Kris\LaravelFormBuilder\Form</span><span class="p">;</span>
@@ -171,17 +171,17 @@ that are specified through field options, and validates the form. Here&#39;s a s
     <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="nv">$this</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="p">[</span>
-                <span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Post title&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;rules&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;required|min:5&#39;</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'title'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">,</span> <span class="p">[</span>
+                <span class="s1">'label'</span> <span class="o">=&gt;</span> <span class="s1">'Post title'</span><span class="p">,</span>
+                <span class="s1">'rules'</span> <span class="o">=&gt;</span> <span class="s1">'required|min:5'</span>
             <span class="p">])</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="s1">&#39;textarea&#39;</span><span class="p">,</span> <span class="p">[</span>
-                <span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Post body&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;rules&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;max:5000&#39;</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'body'</span><span class="p">,</span> <span class="s1">'textarea'</span><span class="p">,</span> <span class="p">[</span>
+                <span class="s1">'label'</span> <span class="o">=&gt;</span> <span class="s1">'Post body'</span><span class="p">,</span>
+                <span class="s1">'rules'</span> <span class="o">=&gt;</span> <span class="s1">'max:5000'</span>
             <span class="p">]);</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">// app/Http/Controllers/PostController.php</span>
+</code></pre></div><div class="highlight"><pre><code class="language-php" data-lang="php">// app/Http/Controllers/PostController.php
 <span class="cp">&lt;?php</span>
 <span class="k">namespace</span> <span class="nx">App\Http\Controllers</span><span class="p">;</span>
 
@@ -195,29 +195,29 @@ that are specified through field options, and validates the form. Here&#39;s a s
     <span class="k">public</span> <span class="k">function</span> <span class="nf">create</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">(</span><span class="nx">PostForm</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="p">[</span>
-            <span class="s1">&#39;method&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;route&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;PostController@store&#39;</span>
+            <span class="s1">'method'</span> <span class="o">=&gt;</span> <span class="s1">'POST'</span><span class="p">,</span>
+            <span class="s1">'route'</span> <span class="o">=&gt;</span> <span class="s1">'PostController@store'</span>
         <span class="p">]);</span>
 
-        <span class="k">return</span> <span class="nx">view</span><span class="p">(</span><span class="s1">&#39;posts.create&#39;</span><span class="p">,</span> <span class="nb">compact</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">));</span>
+        <span class="k">return</span> <span class="nx">view</span><span class="p">(</span><span class="s1">'posts.create'</span><span class="p">,</span> <span class="nb">compact</span><span class="p">(</span><span class="s1">'form'</span><span class="p">));</span>
     <span class="p">}</span>
 
     <span class="k">public</span> <span class="k">function</span> <span class="nf">store</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">(</span><span class="nx">PostForm</span><span class="o">::</span><span class="na">class</span><span class="p">);</span>
 
-        <span class="c1">// It will automatically use current request, get the rules, and do the validation</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">isValid</span><span class="p">())</span> <span class="p">{</span>
+        <span class="c1">// It will automatically use current request, get the rules, and do the validation
+</span>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">isValid</span><span class="p">())</span> <span class="p">{</span>
             <span class="k">return</span> <span class="nx">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">back</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">withErrors</span><span class="p">(</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">getErrors</span><span class="p">())</span><span class="o">-&gt;</span><span class="na">withInput</span><span class="p">();</span>
         <span class="p">}</span>
 
         <span class="nx">Post</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="na">all</span><span class="p">());</span>
-        <span class="k">return</span> <span class="nx">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">route</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">route</span><span class="p">(</span><span class="s1">'posts'</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p><strong>NOTE: Form class will automatically use labels as attributes in error messages: For example when required validation fails:</strong></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">* The Post title is required.
+<div class="highlight"><pre><code class="language-" data-lang="">* The Post title is required.
 * The Post body is required.
 </code></pre></div>
 <h3 id="overriding-rules">Overriding rules</h3>
@@ -227,7 +227,7 @@ and use rules provided in form options. If you want to override some rules, you 
 It will override rules only for fields that you pass, and for other will use default ones provided in buildForm.</p>
 
 <p>Let&#39;s take example from <a href="#basics">basics</a> part:</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">// app/Http/Controllers/PostController.php</span>
+<div class="highlight"><pre><code class="language-php" data-lang="php">// app/Http/Controllers/PostController.php
 <span class="cp">&lt;?php</span>
 <span class="k">namespace</span> <span class="nx">App\Http\Controllers</span><span class="p">;</span>
 
@@ -242,14 +242,14 @@ It will override rules only for fields that you pass, and for other will use def
     <span class="p">{</span>
         <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">(</span><span class="nx">PostForm</span><span class="o">::</span><span class="na">class</span><span class="p">);</span>
 
-        <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">validate</span><span class="p">([</span><span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;required|alpha_num&#39;</span><span class="p">]);</span>
+        <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">validate</span><span class="p">([</span><span class="s1">'title'</span> <span class="o">=&gt;</span> <span class="s1">'required|alpha_num'</span><span class="p">]);</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">isValid</span><span class="p">())</span> <span class="p">{</span>
             <span class="k">return</span> <span class="nx">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">back</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">withErrors</span><span class="p">(</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">getErrors</span><span class="p">())</span><span class="o">-&gt;</span><span class="na">withInput</span><span class="p">();</span>
         <span class="p">}</span>
 
         <span class="nx">Post</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="na">all</span><span class="p">());</span>
-        <span class="k">return</span> <span class="nx">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">route</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">route</span><span class="p">(</span><span class="s1">'posts'</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -258,7 +258,7 @@ It will override rules only for fields that you pass, and for other will use def
 <p>In some situations there is a need for a custom message per field.
 Custom messages can be provided as <strong>2nd argument to <code>validate</code> method</strong>.
 Let&#39;s use the example from above:</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">// app/Http/Controllers/PostController.php</span>
+<div class="highlight"><pre><code class="language-php" data-lang="php">// app/Http/Controllers/PostController.php
 <span class="cp">&lt;?php</span>
 <span class="k">namespace</span> <span class="nx">App\Http\Controllers</span><span class="p">;</span>
 
@@ -272,8 +272,8 @@ Let&#39;s use the example from above:</p>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">store</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">(</span><span class="nx">PostForm</span><span class="o">::</span><span class="na">class</span><span class="p">);</span>
-        <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">validate</span><span class="p">([</span><span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;required|alpha_num&#39;</span><span class="p">],</span> <span class="p">[</span>
-            <span class="s1">&#39;title.required&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Please provide valid title for this post.&#39;</span>
+        <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">validate</span><span class="p">([</span><span class="s1">'title'</span> <span class="o">=&gt;</span> <span class="s1">'required|alpha_num'</span><span class="p">],</span> <span class="p">[</span>
+            <span class="s1">'title.required'</span> <span class="o">=&gt;</span> <span class="s1">'Please provide valid title for this post.'</span>
         <span class="p">]);</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">isValid</span><span class="p">())</span> <span class="p">{</span>
@@ -281,7 +281,7 @@ Let&#39;s use the example from above:</p>
         <span class="p">}</span>
 
         <span class="nx">Post</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="na">all</span><span class="p">());</span>
-        <span class="k">return</span> <span class="nx">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">route</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">route</span><span class="p">(</span><span class="s1">'posts'</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -295,7 +295,7 @@ Let&#39;s use the example from above:</p>
 Request and rules.</p>
 
 <p>If you want to use this method, you can just call <code>getRules</code> from Form class, and it will give you back properly formatted rules in array.</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">// app/Http/Controllers/PostController.php</span>
+<div class="highlight"><pre><code class="language-php" data-lang="php">// app/Http/Controllers/PostController.php
 <span class="cp">&lt;?php</span>
 <span class="k">namespace</span> <span class="nx">App\Http\Controllers</span><span class="p">;</span>
 
@@ -313,13 +313,13 @@ Request and rules.</p>
         <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">(</span><span class="nx">PostForm</span><span class="o">::</span><span class="na">class</span><span class="p">);</span>
 
         <span class="nv">$rulesToOverride</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s1">&#39;body&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;max:10000&#39;</span>
+            <span class="s1">'body'</span> <span class="o">=&gt;</span> <span class="s1">'max:10000'</span>
         <span class="p">];</span>
 
         <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">validate</span><span class="p">(</span><span class="nv">$request</span><span class="p">,</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">getRules</span><span class="p">(</span><span class="nv">$rulesToOverride</span><span class="p">));</span>
 
         <span class="nx">Post</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="na">all</span><span class="p">());</span>
-        <span class="k">return</span> <span class="nx">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">route</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">route</span><span class="p">(</span><span class="s1">'posts'</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -331,7 +331,7 @@ Request and rules.</p>
 so there is no need to override it with the same request in those situations.</p>
 
 <p>If for some reason request needs to be changed, it can be done with <code>setRequest</code></p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">// app/Http/Controllers/PostController.php</span>
+<div class="highlight"><pre><code class="language-php" data-lang="php">// app/Http/Controllers/PostController.php
 <span class="cp">&lt;?php</span>
 <span class="k">namespace</span> <span class="nx">App\Http\Controllers</span><span class="p">;</span>
 
@@ -347,8 +347,8 @@ so there is no need to override it with the same request in those situations.</p
         <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">(</span><span class="nx">PostForm</span><span class="o">::</span><span class="na">class</span><span class="p">);</span>
         <span class="nv">$somePreviousRequest</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getPreviousRequest</span><span class="p">();</span>
 
-        <span class="c1">// DO NOT DO THIS, SAME REQUEST IS ALREADY AVAILABLE IN FORM CLASS</span>
-        <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">setRequest</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+        <span class="c1">// DO NOT DO THIS, SAME REQUEST IS ALREADY AVAILABLE IN FORM CLASS
+</span>        <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">setRequest</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
 
         <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">setRequest</span><span class="p">(</span><span class="nv">$somePreviousRequest</span><span class="p">);</span>
 
@@ -357,7 +357,7 @@ so there is no need to override it with the same request in those situations.</p
         <span class="p">}</span>
 
         <span class="nx">Post</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="na">all</span><span class="p">());</span>
-        <span class="k">return</span> <span class="nx">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">route</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">route</span><span class="p">(</span><span class="s1">'posts'</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>

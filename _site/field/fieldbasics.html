@@ -152,37 +152,37 @@
 <p>They all share these default options (Most of these are configurable through config.php file. Check <a href="/laravel-form-builder/custom/configuration-basics.html">Customization</a></p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 <span class="nv">$options</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;wrapper&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;form-group&#39;</span><span class="p">],</span>
-    <span class="s1">&#39;attr&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;form-control&#39;</span><span class="p">],</span>
-    <span class="s1">&#39;help_block&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
-        <span class="s1">&#39;text&#39;</span> <span class="o">=&gt;</span> <span class="k">null</span><span class="p">,</span>
-        <span class="s1">&#39;tag&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;p&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;attr&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;help-block&#39;</span><span class="p">]</span>
+    <span class="s1">'wrapper'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'form-group'</span><span class="p">],</span>
+    <span class="s1">'attr'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'form-control'</span><span class="p">],</span>
+    <span class="s1">'help_block'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'text'</span> <span class="o">=&gt;</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="s1">'tag'</span> <span class="o">=&gt;</span> <span class="s1">'p'</span><span class="p">,</span>
+        <span class="s1">'attr'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'help-block'</span><span class="p">]</span>
     <span class="p">],</span>
-    <span class="s1">&#39;default_value&#39;</span> <span class="o">=&gt;</span> <span class="k">null</span><span class="p">,</span> <span class="c1">// Fallback value if none provided by value property or model</span>
-    <span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">,</span> <span class="c1">// Field name used</span>
-    <span class="s1">&#39;label_attr&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;control-label&#39;</span><span class="p">,</span> <span class="s1">&#39;for&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">],</span>
-    <span class="s1">&#39;errors&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;text-danger&#39;</span><span class="p">]</span>
+    <span class="s1">'default_value'</span> <span class="o">=&gt;</span> <span class="kc">null</span><span class="p">,</span> <span class="c1">// Fallback value if none provided by value property or model
+</span>    <span class="s1">'label'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">,</span> <span class="c1">// Field name used
+</span>    <span class="s1">'label_attr'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'control-label'</span><span class="p">,</span> <span class="s1">'for'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">],</span>
+    <span class="s1">'errors'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'text-danger'</span><span class="p">]</span>
 <span class="p">]</span>
 </code></pre></div>
 <p>This is html demonstration of the options:</p>
-<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;field_name&quot;</span> <span class="na">class=</span><span class="s">&quot;control-label&quot;</span><span class="nt">&gt;</span>Field Name<span class="nt">&lt;/label&gt;</span>
-    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;field_name&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span><span class="nt">&gt;</span>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"field_name"</span> <span class="na">class=</span><span class="s">"control-label"</span><span class="nt">&gt;</span>Field Name<span class="nt">&lt;/label&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"field_name"</span> <span class="na">class=</span><span class="s">"form-control"</span><span class="nt">&gt;</span>
     <span class="cp">&lt;?php if ($errors): ?&gt;</span>
-        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;text-danger&quot;</span><span class="nt">&gt;</span>Error message<span class="nt">&lt;/div&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"text-danger"</span><span class="nt">&gt;</span>Error message<span class="nt">&lt;/div&gt;</span>
     <span class="cp">&lt;?php endif; ?&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
 </code></pre></div>
 <p>Any of these can be overriden when adding a field:</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
-<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;field_name&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="p">[</span>
-    <span class="s1">&#39;attr&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;form-control field-input&#39;</span><span class="p">],</span>
-    <span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;This is label for field name&#39;</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'field_name'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'attr'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'form-control field-input'</span><span class="p">],</span>
+    <span class="s1">'label'</span> <span class="o">=&gt;</span> <span class="s1">'This is label for field name'</span>
 <span class="p">]);</span>
 </code></pre></div>
 <p>Or when rendered in the view with <code>form_*</code> helper functions:</p>
-<div class="highlight"><pre><code class="language-html" data-lang="html">form_row($form-&gt;field_name, [&#39;label&#39; =&gt; &#39;This label will be used&#39;]);
+<div class="highlight"><pre><code class="language-html" data-lang="html">form_row($form-&gt;field_name, ['label' =&gt; 'This label will be used']);
 </code></pre></div>
 
                     </div>

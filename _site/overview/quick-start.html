@@ -150,7 +150,7 @@
 </div>
 
 <p>Creating form classes is easy. With a simple artisan command:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">php artisan make:form Forms/SongForm --fields<span class="o">=</span><span class="s2">&quot;name:text, lyrics:textarea, publish:checkbox&quot;</span>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">php artisan make:form Forms/SongForm --fields<span class="o">=</span><span class="s2">"name:text, lyrics:textarea, publish:checkbox"</span>
 </code></pre></div>
 <p>Form is created in path <code>app/Forms/SongForm.php</code> with content:</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Forms</span><span class="p">;</span>
@@ -162,9 +162,9 @@
     <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="nv">$this</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;lyrics&#39;</span><span class="p">,</span> <span class="s1">&#39;textarea&#39;</span><span class="p">)</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;publish&#39;</span><span class="p">,</span> <span class="s1">&#39;checkbox&#39;</span><span class="p">);</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'lyrics'</span><span class="p">,</span> <span class="s1">'textarea'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'publish'</span><span class="p">,</span> <span class="s1">'checkbox'</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -180,8 +180,8 @@
 <span class="p">{</span>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
     <span class="p">{</span>
-        <span class="c1">// Add fields here...</span>
-    <span class="p">}</span>
+        <span class="c1">// Add fields here...
+</span>    <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>After that instantiate the class in the controller and pass it to view:</p>
@@ -194,38 +194,38 @@
 
     <span class="k">public</span> <span class="k">function</span> <span class="nf">create</span><span class="p">(</span><span class="nx">FormBuilder</span> <span class="nv">$formBuilder</span><span class="p">)</span>
     <span class="p">{</span>
-        <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$formBuilder</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;App\Forms\SongForm&#39;</span><span class="p">,</span> <span class="p">[</span>
-            <span class="s1">&#39;method&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;url&#39;</span> <span class="o">=&gt;</span> <span class="nx">route</span><span class="p">(</span><span class="s1">&#39;song.store&#39;</span><span class="p">)</span>
+        <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$formBuilder</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="s1">'App\Forms\SongForm'</span><span class="p">,</span> <span class="p">[</span>
+            <span class="s1">'method'</span> <span class="o">=&gt;</span> <span class="s1">'POST'</span><span class="p">,</span>
+            <span class="s1">'url'</span> <span class="o">=&gt;</span> <span class="nx">route</span><span class="p">(</span><span class="s1">'song.store'</span><span class="p">)</span>
         <span class="p">]);</span>
 
-        <span class="k">return</span> <span class="nx">view</span><span class="p">(</span><span class="s1">&#39;song.create&#39;</span><span class="p">,</span> <span class="nb">compact</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">));</span>
+        <span class="k">return</span> <span class="nx">view</span><span class="p">(</span><span class="s1">'song.create'</span><span class="p">,</span> <span class="nb">compact</span><span class="p">(</span><span class="s1">'form'</span><span class="p">));</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Print the form in view with <code>form()</code> helper function:</p>
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="c">&lt;!-- resources/views/song/create.blade.php --&gt;</span>
 
-@extend(&#39;layouts.master&#39;)
+@extend('layouts.master')
 
-@section(&#39;content&#39;)
+@section('content')
     {!! form($form) !!}
 @endsection
 </code></pre></div>
 <p>Above code will generate this html:</p>
-<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">&quot;POST&quot;</span> <span class="na">action=</span><span class="s">&quot;http://example.dev/songs&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;_token&quot;</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">value=</span><span class="s">&quot;FaHZmwcnaOeaJzVdyp4Ml8B6l1N1DLUDsZmsjRFL&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;name&quot;</span> <span class="na">class=</span><span class="s">&quot;control-label&quot;</span><span class="nt">&gt;</span>Name<span class="nt">&lt;/label&gt;</span>
-        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="na">id=</span><span class="s">&quot;name&quot;</span><span class="nt">&gt;</span>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"POST"</span> <span class="na">action=</span><span class="s">"http://example.dev/songs"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"_token"</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">value=</span><span class="s">"FaHZmwcnaOeaJzVdyp4Ml8B6l1N1DLUDsZmsjRFL"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"name"</span> <span class="na">class=</span><span class="s">"control-label"</span><span class="nt">&gt;</span>Name<span class="nt">&lt;/label&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">class=</span><span class="s">"form-control"</span> <span class="na">id=</span><span class="s">"name"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;/div&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;lyrics&quot;</span> <span class="na">class=</span><span class="s">&quot;control-label&quot;</span><span class="nt">&gt;</span>Lyrics<span class="nt">&lt;/label&gt;</span>
-        <span class="nt">&lt;textarea</span> <span class="na">name=</span><span class="s">&quot;lyrics&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span><span class="nt">&gt;&lt;/textarea&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"lyrics"</span> <span class="na">class=</span><span class="s">"control-label"</span><span class="nt">&gt;</span>Lyrics<span class="nt">&lt;/label&gt;</span>
+        <span class="nt">&lt;textarea</span> <span class="na">name=</span><span class="s">"lyrics"</span> <span class="na">class=</span><span class="s">"form-control"</span><span class="nt">&gt;&lt;/textarea&gt;</span>
     <span class="nt">&lt;/div&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;publish&quot;</span> <span class="na">class=</span><span class="s">&quot;control-label&quot;</span><span class="nt">&gt;</span>Publish<span class="nt">&lt;/label&gt;</span>
-        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">name=</span><span class="s">&quot;publish&quot;</span> <span class="na">id=</span><span class="s">&quot;publish&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"publish"</span> <span class="na">class=</span><span class="s">"control-label"</span><span class="nt">&gt;</span>Publish<span class="nt">&lt;/label&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">name=</span><span class="s">"publish"</span> <span class="na">id=</span><span class="s">"publish"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;/div&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
 </code></pre></div>

@@ -153,9 +153,9 @@
 
 <p>Checkbox by itself is not commonly used. Some use case can be <code>remember me</code> checkbox on login:</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
-<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;remember_me&#39;</span><span class="p">,</span> <span class="s1">&#39;checkbox&#39;</span><span class="p">,</span> <span class="p">[</span>
-    <span class="s1">&#39;value&#39;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s1">&#39;checked&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'remember_me'</span><span class="p">,</span> <span class="s1">'checkbox'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'value'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s1">'checked'</span> <span class="o">=&gt;</span> <span class="kc">true</span>
 <span class="p">]);</span>
 </code></pre></div>
 <p>Beside inherited, there are 2 more options:</p>
@@ -164,18 +164,18 @@
 <li><code>value</code> (String) (Default: <code>null</code>) - value that will be used for the value attribute</li>
 <li><code>checked</code> (Boolean) (Default: <code>false</code>) - If true, checkbox will be checked</li>
 </ol>
-<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">value=</span><span class="s">&quot;1&quot;</span> <span class="na">checked</span> <span class="na">id=</span><span class="s">&quot;remember_me&quot;</span> <span class="na">name=</span><span class="s">&quot;remember_me&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;remember_me&quot;</span><span class="nt">&gt;</span>Remember me<span class="nt">&lt;/label&gt;</span>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">value=</span><span class="s">"1"</span> <span class="na">checked</span> <span class="na">id=</span><span class="s">"remember_me"</span> <span class="na">name=</span><span class="s">"remember_me"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"remember_me"</span><span class="nt">&gt;</span>Remember me<span class="nt">&lt;/label&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
 </code></pre></div>
 <h5 id="radio">Radio</h5>
 
 <p>Radio is also not commonly used in this way, even less than checkbox, because it creates only single radio button.</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
-<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;remember_me&#39;</span><span class="p">,</span> <span class="s1">&#39;radio&#39;</span><span class="p">,</span> <span class="p">[</span>
-    <span class="s1">&#39;value&#39;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s1">&#39;checked&#39;</span> <span class="o">=&gt;</span> <span class="k">false</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'remember_me'</span><span class="p">,</span> <span class="s1">'radio'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'value'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s1">'checked'</span> <span class="o">=&gt;</span> <span class="kc">false</span>
 <span class="p">]);</span>
 </code></pre></div>
 <p>Beside inherited, there are 2 more options:</p>
@@ -184,9 +184,9 @@
 <li><code>value</code> - value that will be used for the value attribute</li>
 <li><code>checked</code> - If true, checkbox will be checked. Default: <code>false</code></li>
 </ol>
-<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;radio&quot;</span> <span class="na">value=</span><span class="s">&quot;1&quot;</span> <span class="na">checked</span> <span class="na">id=</span><span class="s">&quot;remember_me&quot;</span> <span class="na">name=</span><span class="s">&quot;remember_me&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;remember_me&quot;</span><span class="nt">&gt;</span>Remember me<span class="nt">&lt;/label&gt;</span>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"radio"</span> <span class="na">value=</span><span class="s">"1"</span> <span class="na">checked</span> <span class="na">id=</span><span class="s">"remember_me"</span> <span class="na">name=</span><span class="s">"remember_me"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"remember_me"</span><span class="nt">&gt;</span>Remember me<span class="nt">&lt;/label&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
 </code></pre></div>
 

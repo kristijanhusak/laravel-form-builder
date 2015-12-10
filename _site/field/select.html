@@ -151,10 +151,10 @@
 
 <p>This is classic select dropdown that is added like this:</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
-<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;languages&#39;</span><span class="p">,</span> <span class="s1">&#39;select&#39;</span><span class="p">,</span> <span class="p">[</span>
-    <span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">&#39;en&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;English&#39;</span><span class="p">,</span> <span class="s1">&#39;fr&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;French&#39;</span><span class="p">],</span>
-    <span class="s1">&#39;selected&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;en&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;empty_value&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;=== Select language ===&#39;</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'languages'</span><span class="p">,</span> <span class="s1">'select'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'choices'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'en'</span> <span class="o">=&gt;</span> <span class="s1">'English'</span><span class="p">,</span> <span class="s1">'fr'</span> <span class="o">=&gt;</span> <span class="s1">'French'</span><span class="p">],</span>
+    <span class="s1">'selected'</span> <span class="o">=&gt;</span> <span class="s1">'en'</span><span class="p">,</span>
+    <span class="s1">'empty_value'</span> <span class="o">=&gt;</span> <span class="s1">'=== Select language ==='</span>
 <span class="p">]);</span>
 </code></pre></div>
 <p>Beside inherited it have 3 additional options:</p>
@@ -170,13 +170,13 @@
 </ul></li>
 </ol>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
-<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;languages&#39;</span><span class="p">,</span> <span class="s1">&#39;select&#39;</span><span class="p">,</span> <span class="p">[</span>
-    <span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">&#39;en&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;English&#39;</span><span class="p">,</span> <span class="s1">&#39;fr&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;French&#39;</span><span class="p">],</span>
-    <span class="s1">&#39;selected&#39;</span> <span class="o">=&gt;</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$data</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// Returns the array of short names from model relationship data</span>
-        <span class="k">return</span> <span class="nx">array_pluck</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span> <span class="s1">&#39;short_lang_name&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'languages'</span><span class="p">,</span> <span class="s1">'select'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'choices'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'en'</span> <span class="o">=&gt;</span> <span class="s1">'English'</span><span class="p">,</span> <span class="s1">'fr'</span> <span class="o">=&gt;</span> <span class="s1">'French'</span><span class="p">],</span>
+    <span class="s1">'selected'</span> <span class="o">=&gt;</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Returns the array of short names from model relationship data
+</span>        <span class="k">return</span> <span class="nx">array_pluck</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span> <span class="s1">'short_lang_name'</span><span class="p">);</span>
     <span class="p">}</span>
-    <span class="s1">&#39;empty_value&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;=== Select language ===&#39;</span>
+    <span class="s1">'empty_value'</span> <span class="o">=&gt;</span> <span class="s1">'=== Select language ==='</span>
 <span class="p">])</span>
 </code></pre></div>
 

@@ -156,9 +156,9 @@
 <a href="https://github.com/kristijanhusak/laravel-form-builder/blob/master/src/config/config.php">config.php</a> file.</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 <span class="k">return</span> <span class="p">[</span>
-    <span class="c1">// ...</span>
-    <span class="s1">&#39;checkbox&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;posts.my-custom-checkbox&#39;</span>    <span class="c1">// resources/views/posts/my-custom-checkbox.blade.php</span>
-<span class="p">];</span>
+    <span class="c1">// ...
+</span>    <span class="s1">'checkbox'</span> <span class="o">=&gt;</span> <span class="s1">'posts.my-custom-checkbox'</span>    <span class="c1">// resources/views/posts/my-custom-checkbox.blade.php
+</span><span class="p">];</span>
 </code></pre></div>
 <p>One more way to change template is directly from Form class:</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Forms</span><span class="p">;</span>
@@ -170,10 +170,10 @@
     <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="nv">$this</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="s1">&#39;textearea&#39;</span><span class="p">,</span> <span class="p">[</span>
-                <span class="s1">&#39;template&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;posts.textarea&#39;</span>    <span class="c1">// resources/views/posts/textarea.blade.php</span>
-            <span class="p">]);</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'title'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'body'</span><span class="p">,</span> <span class="s1">'textearea'</span><span class="p">,</span> <span class="p">[</span>
+                <span class="s1">'template'</span> <span class="o">=&gt;</span> <span class="s1">'posts.textarea'</span>    <span class="c1">// resources/views/posts/textarea.blade.php
+</span>            <span class="p">]);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>

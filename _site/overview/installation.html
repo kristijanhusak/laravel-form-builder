@@ -150,33 +150,33 @@
 </div>
 
 <h3 id="installation">Installation</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
-    <span class="nt">&quot;require&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;kris/laravel-form-builder&quot;</span><span class="p">:</span> <span class="s2">&quot;1.6.*&quot;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nt">"require"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"kris/laravel-form-builder"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.6.*"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <p>run <code>composer update</code></p>
 
 <p>Then add Service provider to <code>config/app.php</code></p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 <span class="k">return</span> <span class="p">[</span>
-    <span class="c1">// ...</span>
-
-    <span class="s1">&#39;providers&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
-        <span class="c1">// ...</span>
-        <span class="s1">&#39;Kris\LaravelFormBuilder\FormBuilderServiceProvider&#39;</span>
+    <span class="c1">// ...
+</span>
+    <span class="s1">'providers'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="c1">// ...
+</span>        <span class="s1">'Kris\LaravelFormBuilder\FormBuilderServiceProvider'</span>
     <span class="p">]</span>
 <span class="p">];</span>
 </code></pre></div>
 <p>And Facade (also in <code>config/app.php</code>)</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 <span class="k">return</span> <span class="p">[</span>
-    <span class="c1">// ...</span>
-
-    <span class="s1">&#39;aliases&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
-        <span class="c1">// ...</span>
-        <span class="s1">&#39;FormBuilder&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Kris\LaravelFormBuilder\Facades\FormBuilder&#39;</span>
+    <span class="c1">// ...
+</span>
+    <span class="s1">'aliases'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="c1">// ...
+</span>        <span class="s1">'FormBuilder'</span> <span class="o">=&gt;</span> <span class="s1">'Kris\LaravelFormBuilder\Facades\FormBuilder'</span>
     <span class="p">]</span>
 <span class="p">];</span>
 </code></pre></div>

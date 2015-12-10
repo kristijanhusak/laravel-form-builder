@@ -163,15 +163,15 @@
     <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="nv">$this</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">)</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;remember_me&#39;</span><span class="p">,</span> <span class="s1">&#39;checkbox&#39;</span><span class="p">);</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">,</span> <span class="s1">'password'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'remember_me'</span><span class="p">,</span> <span class="s1">'checkbox'</span><span class="p">);</span>
 
-        <span class="c1">// This data is passed as 3rd parameter to `create` method</span>
-        <span class="c1">// in the controller</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getData</span><span class="p">(</span><span class="s1">&#39;is_admin&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;roles&#39;</span><span class="p">,</span> <span class="s1">&#39;choice&#39;</span><span class="p">,</span> <span class="p">[</span>
-                <span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">&#39;admin&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Admin&#39;</span><span class="p">,</span> <span class="s1">&#39;manager&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Manager&#39;</span><span class="p">]</span>
+        <span class="c1">// This data is passed as 3rd parameter to `create` method
+</span>        <span class="c1">// in the controller
+</span>        <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getData</span><span class="p">(</span><span class="s1">'is_admin'</span><span class="p">)</span> <span class="o">===</span> <span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'roles'</span><span class="p">,</span> <span class="s1">'choice'</span><span class="p">,</span> <span class="p">[</span>
+                <span class="s1">'choices'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'admin'</span> <span class="o">=&gt;</span> <span class="s1">'Admin'</span><span class="p">,</span> <span class="s1">'manager'</span> <span class="o">=&gt;</span> <span class="s1">'Manager'</span><span class="p">]</span>
             <span class="p">]);</span>
         <span class="p">}</span>
     <span class="p">}</span>
@@ -188,17 +188,17 @@
 
     <span class="k">public</span> <span class="k">function</span> <span class="nf">login</span><span class="p">()</span>
     <span class="p">{</span>
-        <span class="c1">// Note the trait used. FormBuilder class can be injected if wanted.</span>
-        <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">(</span><span class="s1">&#39;App\Forms\LoginForm&#39;</span><span class="p">,</span> <span class="p">[</span>
-            <span class="s1">&#39;method&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;route&#39;</span> <span class="o">=&gt;</span> <span class="nx">action</span><span class="p">(</span><span class="s1">&#39;AuthController@postLogin&#39;</span><span class="p">)</span>
-        <span class="p">],</span> <span class="p">[</span><span class="s1">&#39;is_admin&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">]);</span>
+        <span class="c1">// Note the trait used. FormBuilder class can be injected if wanted.
+</span>        <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">(</span><span class="s1">'App\Forms\LoginForm'</span><span class="p">,</span> <span class="p">[</span>
+            <span class="s1">'method'</span> <span class="o">=&gt;</span> <span class="s1">'POST'</span><span class="p">,</span>
+            <span class="s1">'route'</span> <span class="o">=&gt;</span> <span class="nx">action</span><span class="p">(</span><span class="s1">'AuthController@postLogin'</span><span class="p">)</span>
+        <span class="p">],</span> <span class="p">[</span><span class="s1">'is_admin'</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">]);</span>
     <span class="p">}</span>
 
     <span class="k">public</span> <span class="k">function</span> <span class="nf">postLogin</span><span class="p">()</span>
     <span class="p">{</span>
-        <span class="c1">// Code for logging in user...</span>
-    <span class="p">}</span>
+        <span class="c1">// Code for logging in user...
+</span>    <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p><strong><code>FormBuilder::create</code></strong> accepts 3 parameters:</p>
@@ -243,14 +243,14 @@
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 <span class="nv">$model</span> <span class="o">=</span> <span class="nx">User</span><span class="o">::</span><span class="na">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 <span class="nv">$formOptions</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;method&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;url&#39;</span> <span class="o">=&gt;</span> <span class="nx">action</span><span class="p">(</span><span class="s1">&#39;AuthController@postLogin&#39;</span><span class="p">),</span>
-    <span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;form-horizontal&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;template&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;user.form&#39;</span>                       <span class="c1">// Template used for the main form layout</span>
-    <span class="s1">&#39;model&#39;</span> <span class="o">=&gt;</span> <span class="nv">$model</span><span class="p">,</span>                              <span class="c1">// Not passed to view, just used in form class</span>
-    <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;users&#39;</span><span class="p">,</span>                              <span class="c1">// Not passed to view, just used in form class</span>
-    <span class="s1">&#39;data&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">&#39;some_dummy_data&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;some text&#39;</span><span class="p">],</span>   <span class="c1">// Not passed to view, just used in form class</span>
-<span class="p">];</span>
+    <span class="s1">'method'</span> <span class="o">=&gt;</span> <span class="s1">'POST'</span><span class="p">,</span>
+    <span class="s1">'url'</span> <span class="o">=&gt;</span> <span class="nx">action</span><span class="p">(</span><span class="s1">'AuthController@postLogin'</span><span class="p">),</span>
+    <span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'form-horizontal'</span><span class="p">,</span>
+    <span class="s1">'template'</span> <span class="o">=&gt;</span> <span class="s1">'user.form'</span>                       <span class="c1">// Template used for the main form layout
+</span>    <span class="s1">'model'</span> <span class="o">=&gt;</span> <span class="nv">$model</span><span class="p">,</span>                              <span class="c1">// Not passed to view, just used in form class
+</span>    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'users'</span><span class="p">,</span>                              <span class="c1">// Not passed to view, just used in form class
+</span>    <span class="s1">'data'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'some_dummy_data'</span> <span class="o">=&gt;</span> <span class="s1">'some text'</span><span class="p">],</span>   <span class="c1">// Not passed to view, just used in form class
+</span><span class="p">];</span>
 </code></pre></div>
 <p>First 3 items are passed to view to <code>Form::open()</code> method, which just set&#39;s the action, method, and some additional attributes like css class.</p>
 
@@ -259,9 +259,6 @@
 <p><code>model</code> is Eloquent model that will be used to bind values to form.</p>
 
 <p><strong>It will be done automatically!</strong></p>
-
-<p>Another way to set the model for form is with <code>setModel</code> method.
-Check section <a href="/laravel-form-builder/form/methods-and-properties.html">Methods and properties</a> for more info.</p>
 
 <h5 id="name">name</h5>
 

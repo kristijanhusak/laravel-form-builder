@@ -164,17 +164,17 @@
 <p>If you would like to avoid typing in full namespace of the form class when creating, you can add default namespace to the config that was just published, and it will prepend it every time you want to create form:</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 
-<span class="c1">// config/app/laravel-form-builder.php</span>
-
+<span class="c1">// config/app/laravel-form-builder.php
+</span>
 <span class="k">return</span> <span class="p">[</span>
-    <span class="s1">&#39;default_namespace&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;App\Forms&#39;</span>
+    <span class="s1">'default_namespace'</span> <span class="o">=&gt;</span> <span class="s1">'App\Forms'</span>
 <span class="p">]</span>
 
-<span class="c1">// app/Http/Controllers/HomeController</span>
-
+<span class="c1">// app/Http/Controllers/HomeController
+</span>
 <span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">()</span>
 <span class="p">{</span>
-    <span class="nx">\FormBuilder</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;SongForm&#39;</span><span class="p">);</span>
+    <span class="nx">\FormBuilder</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">'SongForm'</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div>
 

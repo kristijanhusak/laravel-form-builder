@@ -153,22 +153,22 @@
 
 <p>Used mostly for password confirmations:</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
-<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;repeated&#39;</span><span class="p">,</span> <span class="p">[</span>
-    <span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;password&#39;</span>
-    <span class="s1">&#39;second_name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;password_confirmation&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;first_options&#39;</span> <span class="o">=&gt;</span> <span class="p">[],</span>
-    <span class="s1">&#39;second_options&#39;</span> <span class="o">=&gt;</span> <span class="p">[],</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">,</span> <span class="s1">'repeated'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="s1">'password'</span>
+    <span class="s1">'second_name'</span> <span class="o">=&gt;</span> <span class="s1">'password_confirmation'</span><span class="p">,</span>
+    <span class="s1">'first_options'</span> <span class="o">=&gt;</span> <span class="p">[],</span>
+    <span class="s1">'second_options'</span> <span class="o">=&gt;</span> <span class="p">[],</span>
 <span class="p">])</span>
 </code></pre></div>
 <p>Generates html:</p>
-<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;password&quot;</span><span class="nt">&gt;</span>Password<span class="nt">&lt;/label&gt;</span>
-    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;password&quot;</span> <span class="na">name=</span><span class="s">&quot;password&quot;</span><span class="nt">&gt;</span>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"password"</span><span class="nt">&gt;</span>Password<span class="nt">&lt;/label&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"password"</span> <span class="na">name=</span><span class="s">"password"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
 
-<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;password&quot;</span><span class="nt">&gt;</span>Password Confirmation<span class="nt">&lt;/label&gt;</span>
-    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;password&quot;</span> <span class="na">name=</span><span class="s">&quot;password_confirmation&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"password"</span><span class="nt">&gt;</span>Password Confirmation<span class="nt">&lt;/label&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"password"</span> <span class="na">name=</span><span class="s">"password_confirmation"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
 </code></pre></div>
 <p>Beside inherited, there are some additional options available:</p>

@@ -151,21 +151,21 @@
 
 <p>Static field type is used just to print some non editable data into the form.</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
-<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="s1">&#39;static&#39;</span><span class="p">,</span> <span class="p">[</span>
-    <span class="s1">&#39;tag&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="c1">// Tag to be used for holding static data,</span>
-    <span class="s1">&#39;attr&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;form-control-static&#39;</span><span class="p">],</span> <span class="c1">// This is the default</span>
-    <span class="s1">&#39;value&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Static Text&#39;</span> <span class="c1">// If nothing is passed, data is pulled from model if any</span>
-<span class="p">])</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'address'</span><span class="p">,</span> <span class="s1">'static'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'tag'</span> <span class="o">=&gt;</span> <span class="s1">'div'</span><span class="p">,</span> <span class="c1">// Tag to be used for holding static data,
+</span>    <span class="s1">'attr'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'form-control-static'</span><span class="p">],</span> <span class="c1">// This is the default
+</span>    <span class="s1">'value'</span> <span class="o">=&gt;</span> <span class="s1">'Static Text'</span> <span class="c1">// If nothing is passed, data is pulled from model if any
+</span><span class="p">])</span>
 </code></pre></div>
 <p>Generates html:</p>
-<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;address&quot;</span><span class="nt">&gt;</span>Address<span class="nt">&lt;/label&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-control-static&quot;</span><span class="nt">&gt;</span>Static Text<span class="nt">&lt;/div&gt;</span>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"address"</span><span class="nt">&gt;</span>Address<span class="nt">&lt;/label&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-control-static"</span><span class="nt">&gt;</span>Static Text<span class="nt">&lt;/div&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
 
-<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;password&quot;</span><span class="nt">&gt;</span>Password Confirmation<span class="nt">&lt;/label&gt;</span>
-    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;password&quot;</span> <span class="na">name=</span><span class="s">&quot;password_confirmation&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"password"</span><span class="nt">&gt;</span>Password Confirmation<span class="nt">&lt;/label&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"password"</span> <span class="na">name=</span><span class="s">"password_confirmation"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
 </code></pre></div>
 <p>Beside inherited, there are some additional options available:</p>

@@ -160,7 +160,7 @@
 <li><a href="#compose">compose($form, $name, $type, $options)</a> - Add fields from passed <code>$form</code> to this form.</li>
 <li><a href="#remove">remove($name)</a> - Remove existing field from form.</li>
 <li><a href="#modify">modify($name, $type, $options, $overwriteOpts = false)</a> - modify existing field.</li>
-<li><a href="#setmodel">setModel()</a>- Set the model for the form class that will be used to bind values to the form.</li>
+<li><a href="#setmodel-deprecated">setModel()(<strong>DEPRECATED</strong>)</a>- Set the model for the form class that will be used to bind values to the form.</li>
 <li><a href="#getmodel">getModel()</a>- Get the model that was passed when creating form. Also available in child forms.</li>
 <li><a href="#getrequest">getRequest()</a> - Get the current request.</li>
 <li><a href="#getdata">getData($name = null, $default = null)</a> - Get element from $data passed to form class. If null, returns all data.</li>
@@ -215,8 +215,8 @@ but it can be also used after form instantiation.</p>
 </tbody></table>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 <span class="nv">$this</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;first_name&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="p">[</span>
-            <span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;First name&#39;</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'first_name'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">,</span> <span class="p">[</span>
+            <span class="s1">'label'</span> <span class="o">=&gt;</span> <span class="s1">'First name'</span>
     <span class="p">]);</span>
 </code></pre></div>
 <h4 id="addbefore">addBefore</h4>
@@ -261,11 +261,11 @@ It&#39;s mostly useful after the form instantiation, if You want to add new fiel
 </tbody></table>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 <span class="nv">$form</span> <span class="o">=</span> <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">plain</span><span class="p">()</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">,</span> <span class="s1">&#39;submit&#39;</span><span class="p">);</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">,</span> <span class="s1">'password'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'save'</span><span class="p">,</span> <span class="s1">'submit'</span><span class="p">);</span>
 
-<span class="nv">$form</span><span class="o">-&gt;</span><span class="na">addBefore</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;full_name&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">);</span>
+<span class="nv">$form</span><span class="o">-&gt;</span><span class="na">addBefore</span><span class="p">(</span><span class="s1">'password'</span><span class="p">,</span> <span class="s1">'full_name'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">);</span>
 </code></pre></div>
 <h4 id="addafter">addAfter</h4>
 
@@ -310,11 +310,11 @@ It&#39;s mostly useful after the form instantiation, if You want to add new fiel
 </tbody></table>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 <span class="nv">$form</span> <span class="o">=</span> <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">plain</span><span class="p">()</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">,</span> <span class="s1">&#39;submit&#39;</span><span class="p">);</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">,</span> <span class="s1">'password'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'save'</span><span class="p">,</span> <span class="s1">'submit'</span><span class="p">);</span>
 
-<span class="nv">$form</span><span class="o">-&gt;</span><span class="na">addAfter</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">);</span>
+<span class="nv">$form</span><span class="o">-&gt;</span><span class="na">addAfter</span><span class="p">(</span><span class="s1">'password'</span><span class="p">,</span> <span class="s1">'address'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">);</span>
 </code></pre></div>
 <h4 id="compose">compose</h4>
 
@@ -357,8 +357,8 @@ It&#39;s mostly useful after the form instantiation, if You want to add new fiel
 <span class="p">{</span>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
     <span class="p">{</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;street&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;city&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'street'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'city'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
@@ -366,9 +366,9 @@ It&#39;s mostly useful after the form instantiation, if You want to add new fiel
 <span class="p">{</span>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
     <span class="p">{</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">)</span>
-            <span class="o">-&gt;</span><span class="na">compose</span><span class="p">(</span><span class="s1">&#39;App\Forms\AddressForm&#39;</span><span class="p">);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'email'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">compose</span><span class="p">(</span><span class="s1">'App\Forms\AddressForm'</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
@@ -376,9 +376,9 @@ It&#39;s mostly useful after the form instantiation, if You want to add new fiel
 <span class="p">{</span>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
     <span class="p">{</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;phone&#39;</span><span class="p">,</span> <span class="s1">&#39;tel&#39;</span><span class="p">)</span>
-            <span class="o">-&gt;</span><span class="na">compose</span><span class="p">(</span><span class="s1">&#39;App\Forms\AddressForm&#39;</span><span class="p">);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'phone'</span><span class="p">,</span> <span class="s1">'tel'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">compose</span><span class="p">(</span><span class="s1">'App\Forms\AddressForm'</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -423,12 +423,12 @@ It&#39;s mostly useful after the form instantiation, if You want to add new fiel
 </tbody></table>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 <span class="nv">$form</span> <span class="o">=</span> <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">plain</span><span class="p">()</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">,</span> <span class="s1">&#39;submit&#39;</span><span class="p">);</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'save'</span><span class="p">,</span> <span class="s1">'submit'</span><span class="p">);</span>
 
-<span class="nv">$form</span><span class="o">-&gt;</span><span class="na">modify</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="p">[</span>
-    <span class="s1">&#39;attr&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">&#39;disabled&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">]</span>
+<span class="nv">$form</span><span class="o">-&gt;</span><span class="na">modify</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'attr'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'disabled'</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">]</span>
 <span class="p">]);</span>
 </code></pre></div>
 <h4 id="remove">remove</h4>
@@ -455,33 +455,36 @@ Using this method we can remove those fields.</p>
 </tbody></table>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 <span class="nv">$form</span> <span class="o">=</span> <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">plain</span><span class="p">()</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">,</span> <span class="s1">&#39;submit&#39;</span><span class="p">);</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'email'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'save'</span><span class="p">,</span> <span class="s1">'submit'</span><span class="p">);</span>
 
-<span class="nv">$form</span><span class="o">-&gt;</span><span class="na">remove</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">);</span>
+<span class="nv">$form</span><span class="o">-&gt;</span><span class="na">remove</span><span class="p">(</span><span class="s1">'email'</span><span class="p">);</span>
 </code></pre></div>
-<h4 id="setmodel">setModel</h4>
+<h4 id="setmodel-deprecated">setModel <strong>(DEPRECATED)</strong></h4>
+
+<p><strong>Note</strong>: This method is deprecated and will be removed in 1.7 version.
+Pass model through options when creating a form. More info in <a href="/laravel-form-builder/form/basics.html#form-options">Form options</a> section</p>
 
 <p>After form instantiation, we can set the model for the form, that will be used to bind values for the fields in the form.</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 <span class="nv">$model</span> <span class="o">=</span> <span class="nx">User</span><span class="o">::</span><span class="na">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 
 <span class="nv">$form</span> <span class="o">=</span> <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">plain</span><span class="p">()</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'email'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">setModel</span><span class="p">(</span><span class="nv">$model</span><span class="p">);</span>
 </code></pre></div>
 <p>Another way to pass the model is through formOptions parameter:</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 <span class="nv">$model</span> <span class="o">=</span> <span class="nx">User</span><span class="o">::</span><span class="na">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 
-<span class="nv">$form</span> <span class="o">=</span> <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">plain</span><span class="p">([</span><span class="s1">&#39;model&#39;</span> <span class="o">=&gt;</span> <span class="nv">$model</span><span class="p">])</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">);</span>
+<span class="nv">$form</span> <span class="o">=</span> <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">plain</span><span class="p">([</span><span class="s1">'model'</span> <span class="o">=&gt;</span> <span class="nv">$model</span><span class="p">])</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'email'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">);</span>
 </code></pre></div>
 <h4 id="getmodel">getModel</h4>
 
@@ -496,10 +499,10 @@ or after the instantiation.</p>
 <span class="p">{</span>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
     <span class="p">{</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="s1">&#39;textarea&#39;</span><span class="p">);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'body'</span><span class="p">,</span> <span class="s1">'textarea'</span><span class="p">);</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getModel</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">owner</span> <span class="o">===</span> <span class="nx">\Auth</span><span class="o">::</span><span class="na">id</span><span class="p">())</span> <span class="p">{</span>
-            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;publish&#39;</span><span class="p">,</span> <span class="s1">&#39;checkbox&#39;</span><span class="p">);</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'publish'</span><span class="p">,</span> <span class="s1">'checkbox'</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
@@ -540,12 +543,12 @@ or after the instantiation.</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 <span class="nv">$model</span> <span class="o">=</span> <span class="nx">User</span><span class="o">::</span><span class="na">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 
-<span class="nv">$form</span> <span class="o">=</span> <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">plain</span><span class="p">([</span><span class="s1">&#39;model&#39;</span> <span class="o">=&gt;</span> <span class="nv">$model</span><span class="p">])</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">);</span>
+<span class="nv">$form</span> <span class="o">=</span> <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">plain</span><span class="p">([</span><span class="s1">'model'</span> <span class="o">=&gt;</span> <span class="nv">$model</span><span class="p">])</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'email'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">);</span>
 
-<span class="nv">$usernameField</span> <span class="o">=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">);</span>
+<span class="nv">$usernameField</span> <span class="o">=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'username'</span><span class="p">);</span>
 </code></pre></div>
 <p><strong>Note:</strong> Another way to get single field from the Form class is getting it by property.
 Form class has magic methods that handle finding fields.</p>
@@ -558,16 +561,16 @@ Form class has magic methods that handle finding fields.</p>
 <h4 id="disablefields">disableFields</h4>
 
 <p>Disable all fields in a form, by adding <code>disabled</code> attribute to the fields. Useful when you only want to use form as read only.</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$form = FormBuilder::create(&#39;App\Forms\SearchForm&#39;);</span>
+<div class="highlight"><pre><code class="language-php" data-lang="php">$form = FormBuilder::create('App\Forms\SearchForm');
 
-<span class="x">$form-&gt;disableFields();</span>
+$form-&gt;disableFields();
 </code></pre></div>
 <h4 id="enablefields">enableFields</h4>
 
 <p>Enable all fields in a form, by removing <code>disabled</code> attribute to the fields.</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$form = FormBuilder::create(&#39;App\Forms\SearchForm&#39;);</span>
+<div class="highlight"><pre><code class="language-php" data-lang="php">$form = FormBuilder::create('App\Forms\SearchForm');
 
-<span class="x">$form-&gt;enableFields();</span>
+$form-&gt;enableFields();
 </code></pre></div>
 <h4 id="formoptions">formOptions</h4>
 
@@ -584,18 +587,18 @@ Default: <code>[&#39;method&#39; =&gt; &#39;GET&#39;, &#39;url&#39; =&gt; null]<
 <span class="k">class</span> <span class="nc">SearchForm</span> <span class="k">extends</span> <span class="nx">Form</span>
 <span class="p">{</span>
     <span class="k">protected</span> <span class="nv">$formOptions</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s1">&#39;method&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;url&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;/search&#39;</span>
+        <span class="s1">'method'</span> <span class="o">=&gt;</span> <span class="s1">'GET'</span><span class="p">,</span>
+        <span class="s1">'url'</span> <span class="o">=&gt;</span> <span class="s1">'/search'</span>
     <span class="p">];</span>
 
     <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
     <span class="p">{</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;term&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'term'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>And then it&#39;s enough to call this:</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$form = FormBuilder::create(&#39;App\Forms\SearchForm&#39;);</span>
+<div class="highlight"><pre><code class="language-php" data-lang="php">$form = FormBuilder::create('App\Forms\SearchForm');
 </code></pre></div>
 <h4 id="showfielderrors">showFieldErrors</h4>
 

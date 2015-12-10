@@ -173,8 +173,8 @@ and it will have this content:</p>
 <span class="p">{</span>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
     <span class="p">{</span>
-        <span class="c1">// Add fields here...</span>
-    <span class="p">}</span>
+        <span class="c1">// Add fields here...
+</span>    <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="fields">Fields</h3>
@@ -182,7 +182,7 @@ and it will have this content:</p>
 <p>When creating form class through CLI it is possible to pass array of fields that will be automatically added to the class.
 Let&#39;s take example from above. Most of the time, login form contains username and password fields. To generate form class with those
 fields this command needs to be run:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">php artisan form:make Http/Forms/LoginForm --fields<span class="o">=</span><span class="s2">&quot;username:text, password:password&quot;</span>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">php artisan form:make Http/Forms/LoginForm --fields<span class="o">=</span><span class="s2">"username:text, password:password"</span>
 </code></pre></div>
 <p>And it will generate this:</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Http\Forms</span><span class="p">;</span>
@@ -194,8 +194,8 @@ fields this command needs to be run:</p>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="nv">$this</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">);</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">,</span> <span class="s1">'password'</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -208,7 +208,7 @@ When you create form <code>Http/Forms/LoginForm</code>, it will automatically pr
 
 <p>In some situations, for example, if you are using this package as a depencency for another package, you could provide path manually.
 Here&#39;s how that would work:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">php artisan make:form MyLoginForm --path=&quot;src/Auth/LoginForm&quot;
+<div class="highlight"><pre><code class="language-" data-lang="">php artisan make:form MyLoginForm --path="src/Auth/LoginForm"
 </code></pre></div>
 <p>Will generate form class with in path <code>/var/www/laravel-project/src/Auth/LoginForm/MyLoginForm.php</code>:</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">src\Auth\LoginForm</span><span class="p">;</span>
@@ -219,8 +219,8 @@ Here&#39;s how that would work:</p>
 <span class="p">{</span>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
     <span class="p">{</span>
-        <span class="c1">// Add fields here...</span>
-    <span class="p">}</span>
+        <span class="c1">// Add fields here...
+</span>    <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p><strong>NOTE:</strong> Base path is determined from Laravel&#39;s <code>basePath()</code> method from Application class, which is in example above <code>/var/www/laravel-project/</code>.</p>
@@ -238,7 +238,7 @@ So when you create form <code>Http/Forms/MyForm</code>, it will prepend namespac
 <p>To override it, you can also provide <code>--namespace</code> option to the command. So to fix example above, we need to run this command:</p>
 
 <p><strong>NOTE</strong> Value for this option will be used as provided, so make sure to use backslashes to generate proper namespace.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">php artisan make:form MyLoginForm --path=&quot;src/Auth/LoginForm&quot; --namespace=&quot;App\Auth\LoginForm&quot;
+<div class="highlight"><pre><code class="language-" data-lang="">php artisan make:form MyLoginForm --path="src/Auth/LoginForm" --namespace="App\Auth\LoginForm"
 </code></pre></div>
 <p>And than we get class in path <code>/var/www/laravel-project/src/Auth/LoginForm/MyLoginForm.php</code> with this content:</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Auth\LoginForm</span><span class="p">;</span>
@@ -249,8 +249,8 @@ So when you create form <code>Http/Forms/MyForm</code>, it will prepend namespac
 <span class="p">{</span>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
     <span class="p">{</span>
-        <span class="c1">// Add fields here...</span>
-    <span class="p">}</span>
+        <span class="c1">// Add fields here...
+</span>    <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p><strong>NOTE:</strong> Make sure to wrap <code>--namespace</code> value in single(&#39;) or double(&quot;) quotes, so the backslash(\) is not lost. If you want to skip using any of those, make sure you escape it like this <code>App\\Auth\\LoginForm</code>.</p>

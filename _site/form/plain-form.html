@@ -154,12 +154,12 @@ It basicallly instantiates <code>Kris\LaravelFormBuilder\Form</code> class. It&#
 first parameter is skipped.</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 <span class="nv">$formOptions</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;url&#39;</span> <span class="o">=&gt;</span> <span class="nx">route</span><span class="p">(</span><span class="s1">&#39;password.reset&#39;</span><span class="p">),</span>
-    <span class="s1">&#39;method&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;POST&#39;</span>
+    <span class="s1">'url'</span> <span class="o">=&gt;</span> <span class="nx">route</span><span class="p">(</span><span class="s1">'password.reset'</span><span class="p">),</span>
+    <span class="s1">'method'</span> <span class="o">=&gt;</span> <span class="s1">'POST'</span>
 <span class="p">];</span>
 
-<span class="nv">$form</span> <span class="o">=</span> <span class="nx">\FormBuilder</span><span class="o">::</span><span class="na">plain</span><span class="p">(</span><span class="nv">$formOptions</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="p">[</span>
-    <span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Email address&#39;</span>
+<span class="nv">$form</span> <span class="o">=</span> <span class="nx">\FormBuilder</span><span class="o">::</span><span class="na">plain</span><span class="p">(</span><span class="nv">$formOptions</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'email'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'label'</span> <span class="o">=&gt;</span> <span class="s1">'Email address'</span>
 <span class="p">]);</span>
 </code></pre></div>
 <p>Or if you use the <code>FormBuilderTrait</code> in controller:</p>
@@ -173,13 +173,14 @@ first parameter is skipped.</p>
 
     <span class="k">public</span> <span class="k">function</span> <span class="nf">userPage</span><span class="p">()</span>
     <span class="p">{</span>
-        <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">plain</span><span class="p">(</span><span class="nv">$formOptions</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="p">[</span>
-            <span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Email address&#39;</span>
+        <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">plain</span><span class="p">(</span><span class="nv">$formOptions</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'email'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">,</span> <span class="p">[</span>
+            <span class="s1">'label'</span> <span class="o">=&gt;</span> <span class="s1">'Email address'</span>
         <span class="p">]);</span>
 
-        <span class="k">return</span> <span class="nx">view</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="nb">compact</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">));</span>
+        <span class="k">return</span> <span class="nx">view</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="nb">compact</span><span class="p">(</span><span class="s1">'form'</span><span class="p">));</span>
     <span class="p">}</span>
 <span class="p">}</span>
+
 </code></pre></div>
 
                     </div>

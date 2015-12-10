@@ -33,7 +33,7 @@ baseurl: '/laravel-form-builder'
 permalink: none
 
 # Syntax highlighting
-highlighter: pygments
+highlighter: rouge
 
 # Since these are pages, it doesn't really matter
 future: true

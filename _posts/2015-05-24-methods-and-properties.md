@@ -16,7 +16,7 @@ Here are some useful methods and properties on form class:
 * [compose($form, $name, $type, $options)](#compose) - Add fields from passed `$form` to this form.
 * [remove($name)](#remove) - Remove existing field from form.
 * [modify($name, $type, $options, $overwriteOpts = false)](#modify) - modify existing field.
-* [setModel()](#setmodel)- Set the model for the form class that will be used to bind values to the form.
+* [setModel()(**DEPRECATED**)](#setmodel-deprecated)- Set the model for the form class that will be used to bind values to the form.
 * [getModel()](#getmodel)- Get the model that was passed when creating form. Also available in child forms.
 * [getRequest()](#getrequest) - Get the current request.
 * [getData($name = null, $default = null)](#getdata) - Get element from $data passed to form class. If null, returns all data.
@@ -197,7 +197,10 @@ $form = FormBuilder::plain()
 $form->remove('email');
 ```
 
-#### setModel
+#### setModel **(DEPRECATED)**
+**Note**: This method is deprecated and will be removed in 1.7 version.
+Pass model through options when creating a form. More info in [Form options]({{ site.baseurl }}{% post_url 2015-05-24-basics %}#form-options) section
+
 After form instantiation, we can set the model for the form, that will be used to bind values for the fields in the form.
 
 ```php

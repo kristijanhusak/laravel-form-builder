@@ -160,12 +160,12 @@
 
 <p><strong>Note</strong>: If <code>choices</code> are provided in options, <code>class</code> option is ignored, and passed data for <code>choices</code> is used.</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
-    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;languages&#39;</span><span class="p">,</span> <span class="s1">&#39;entity&#39;</span><span class="p">,</span> <span class="p">[</span>
-        <span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;App\Language&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;property&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;short_name&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;query_builder&#39;</span> <span class="o">=&gt;</span> <span class="k">function</span> <span class="p">(</span><span class="nx">App\Language</span> <span class="nv">$lang</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// If query builder option is not provided, all data is fetched</span>
-            <span class="k">return</span> <span class="nv">$lang</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;active&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'languages'</span><span class="p">,</span> <span class="s1">'entity'</span><span class="p">,</span> <span class="p">[</span>
+        <span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'App\Language'</span><span class="p">,</span>
+        <span class="s1">'property'</span> <span class="o">=&gt;</span> <span class="s1">'short_name'</span><span class="p">,</span>
+        <span class="s1">'query_builder'</span> <span class="o">=&gt;</span> <span class="k">function</span> <span class="p">(</span><span class="nx">App\Language</span> <span class="nv">$lang</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// If query builder option is not provided, all data is fetched
+</span>            <span class="k">return</span> <span class="nv">$lang</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">'active'</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">]);</span>
 </code></pre></div>

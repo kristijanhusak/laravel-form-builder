@@ -156,8 +156,8 @@
     <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="nv">$this</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="s1">&#39;textarea&#39;</span><span class="p">);</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'title'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'body'</span><span class="p">,</span> <span class="s1">'textarea'</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
@@ -166,8 +166,8 @@
     <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="nv">$this</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;select&#39;</span><span class="p">,</span> <span class="p">[</span>
-                <span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getData</span><span class="p">(</span><span class="s1">&#39;genders&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'gender'</span><span class="p">,</span> <span class="s1">'select'</span><span class="p">,</span> <span class="p">[</span>
+                <span class="s1">'choices'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getData</span><span class="p">(</span><span class="s1">'genders'</span><span class="p">)</span>
             <span class="p">]);</span>
     <span class="p">}</span>
 <span class="p">}</span>
@@ -177,17 +177,17 @@
     <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="nv">$this</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;form&#39;</span><span class="p">,</span> <span class="p">[</span>
-                <span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;App\Forms\GenderForm&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;formOptions&#39;</span> <span class="o">=&gt;</span> <span class="p">[]</span>
-                <span class="c1">// Passed to gender form as data,</span>
-                <span class="s1">&#39;data&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">&#39;genders&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">&#39;m&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Male&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Female&#39;</span><span class="p">]]</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'gender'</span><span class="p">,</span> <span class="s1">'form'</span><span class="p">,</span> <span class="p">[</span>
+                <span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'App\Forms\GenderForm'</span><span class="p">,</span>
+                <span class="s1">'formOptions'</span> <span class="o">=&gt;</span> <span class="p">[]</span>
+                <span class="c1">// Passed to gender form as data,
+</span>                <span class="s1">'data'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'genders'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'m'</span> <span class="o">=&gt;</span> <span class="s1">'Male'</span><span class="p">,</span> <span class="s1">'f'</span> <span class="o">=&gt;</span> <span class="s1">'Female'</span><span class="p">]]</span>
             <span class="p">])</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="s1">&#39;form&#39;</span><span class="p">,</span> <span class="p">[</span>
-                <span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">formBuilder</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;App\Forms\PostForm&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'post'</span><span class="p">,</span> <span class="s1">'form'</span><span class="p">,</span> <span class="p">[</span>
+                <span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">formBuilder</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="s1">'App\Forms\PostForm'</span><span class="p">)</span>
             <span class="p">])</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;lyrics&#39;</span><span class="p">,</span> <span class="s1">&#39;textarea&#39;</span><span class="p">);</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'lyrics'</span><span class="p">,</span> <span class="s1">'textarea'</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
