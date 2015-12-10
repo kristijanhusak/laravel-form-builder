@@ -565,12 +565,15 @@ class Form
      *
      * @param mixed $model
      * @return $this
+     * @deprecated deprecated since 1.6.31, will be removed in 1.7 - pass model as option when creating a form
      */
     public function setModel($model)
     {
         $this->model = $model;
 
         $this->setupNamedModel();
+
+        $this->rebuildForm();
 
         return $this;
     }
@@ -681,7 +684,7 @@ class Form
     /**
      * Add any aditional data that field needs (ex. array of choices)
      *
-     * @deprecated deprecated since 1.6.20 - use 3rd param on create, or 2nd on plain method to pass data
+     * @deprecated deprecated since 1.6.20, will be removed in 1.7 - use 3rd param on create, or 2nd on plain method to pass data
      * will be switched to protected in 1.7
      * @param string $name
      * @param mixed $data
@@ -710,7 +713,7 @@ class Form
     /**
      * Add multiple peices of data at once
      *
-     * @deprecated deprecated since 1.6.12 - use 3rd param on create, or 2nd on plain method to pass data
+     * @deprecated deprecated since 1.6.12, will be removed in 1.7 - use 3rd param on create, or 2nd on plain method to pass data
      * will be switched to protected in 1.7
      * @param $data
      * @return $this

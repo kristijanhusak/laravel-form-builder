@@ -517,6 +517,18 @@ class FormTest extends FormBuilderTestCase
     }
 
     /** @test */
+    public function it_works_when_setModel_method_is_called()
+    {
+        $customForm = $this->formBuilder->create('CustomDummyForm')->setModel([
+            'title' => 'john doe'
+        ]);
+
+        $customForm->renderForm();
+
+        $this->assertEquals('john doe', $customForm->title->getValue());
+    }
+
+    /** @test */
     public function it_removes_children_from_parent_type_fields()
     {
         $form = $this->formBuilder->plain();
