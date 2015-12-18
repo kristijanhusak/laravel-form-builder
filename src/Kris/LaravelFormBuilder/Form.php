@@ -734,7 +734,7 @@ class Form
      */
     public function getRequest()
     {
-        return $this->request ?: $this->formHelper->getRequest();
+        return $this->request;
     }
 
     /**

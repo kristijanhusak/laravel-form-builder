@@ -13,7 +13,7 @@ class FormFieldTest extends FormBuilderTestCase
         $viewStub->method('make')->willReturn($viewStub);
         $viewStub->method('with')->willReturn($viewStub);
 
-        $helper = new FormHelper($viewStub, $this->request, $this->config);
+        $helper = new FormHelper($viewStub, $this->config);
 
         $form = $this->formBuilder->plain();
         $form->setTemplatePrefix('test::');
@@ -28,7 +28,7 @@ class FormFieldTest extends FormBuilderTestCase
                  ->with($this->equalTo('test::textinput'));
 
         $form->setFormHelper($helper);
-        
+
         // Create a new field to render directly and test
         // with the view stub generated above
         $field = new InputType('name', 'text', $form, ['template' => 'textinput']);

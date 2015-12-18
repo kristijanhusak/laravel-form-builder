@@ -71,7 +71,7 @@ abstract class FormBuilderTestCase extends TestCase {
         $this->model = new TestModel();
         $this->config = include __DIR__.'/../src/config/config.php';
 
-        $this->formHelper = new FormHelper($this->view, $this->request, $this->config);
+        $this->formHelper = new FormHelper($this->view, $this->config);
         $this->formBuilder = new FormBuilder($this->app, $this->formHelper);
 
         $this->plainForm = $this->formBuilder->plain();

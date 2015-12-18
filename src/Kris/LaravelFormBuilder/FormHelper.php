@@ -3,7 +3,6 @@
 use Illuminate\Contracts\View\Factory as View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Illuminate\Http\Request;
 use Kris\LaravelFormBuilder\Fields\FormField;
 
 class FormHelper
@@ -18,11 +17,6 @@ class FormHelper
      * @var array
      */
     protected $config;
-
-    /**
-     * @var Request
-     */
-    protected $request;
 
     /**
      * @var FormBuilder
@@ -76,14 +70,12 @@ class FormHelper
 
     /**
      * @param View    $view
-     * @param Request $request
      * @param array   $config
      */
-    public function __construct(View $view, Request $request, array $config = [])
+    public function __construct(View $view, array $config = [])
     {
         $this->view = $view;
         $this->config = $config;
-        $this->request = $request;
         $this->loadCustomTypes();
     }
 
@@ -103,14 +95,6 @@ class FormHelper
     public function getView()
     {
         return $this->view;
-    }
-
-    /**
-     * @return Request
-     */
-    public function getRequest()
-    {
-        return $this->request;
     }
 
     /**

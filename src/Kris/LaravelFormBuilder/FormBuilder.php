@@ -43,6 +43,7 @@ class FormBuilder
 
         $form = $this->container
             ->make($class)
+            ->setRequest($this->container->make('request'))
             ->setFormHelper($this->formHelper)
             ->setFormBuilder($this)
             ->setValidator($this->container->make('validator'))
@@ -81,6 +82,7 @@ class FormBuilder
     {
         return $this->container
             ->make('Kris\LaravelFormBuilder\Form')
+            ->setRequest($this->container->make('request'))
             ->setFormHelper($this->formHelper)
             ->setFormBuilder($this)
             ->setValidator($this->container->make('validator'))

@@ -10,7 +10,6 @@ class FormHelperTest extends FormBuilderTestCase
     public function it_sets_constructor_dependencies_to_properties()
     {
         $this->assertEquals($this->view, $this->formHelper->getView());
-        $this->assertEquals($this->request, $this->formHelper->getRequest());
     }
 
     /** @test */
@@ -99,7 +98,7 @@ class FormHelperTest extends FormBuilderTestCase
 
         $config['custom_fields']['datetime'] = 'App\Forms\DatetimeType';
 
-        $formHelper = new FormHelper($this->view, $this->request, $config);
+        $formHelper = new FormHelper($this->view, $config);
 
         $this->assertEquals(
             'App\Forms\DatetimeType',

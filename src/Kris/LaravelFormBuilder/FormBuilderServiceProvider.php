@@ -41,7 +41,7 @@ class FormBuilderServiceProvider extends ServiceProvider
 
             $configuration = $app['config']->get('laravel-form-builder');
 
-            return new FormHelper($app['view'], $app['request'], $configuration);
+            return new FormHelper($app['view'], $configuration);
         });
 
         $this->app->alias('laravel-form-helper', 'Kris\LaravelFormBuilder\FormHelper');
