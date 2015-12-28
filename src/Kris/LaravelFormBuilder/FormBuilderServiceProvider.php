@@ -74,7 +74,7 @@ class FormBuilderServiceProvider extends ServiceProvider
 
             $this->app->singleton('form', function($app) {
 
-                $form = new LaravelForm($app['html'], $app['url'], $app['session.store']->getToken());
+                $form = new LaravelForm($app['html'], $app['url'], $app['view'], $app['session.store']->getToken());
 
                 return $form->setSessionStore($app['session.store']);
             });
@@ -97,7 +97,7 @@ class FormBuilderServiceProvider extends ServiceProvider
         if (!$this->app->offsetExists('html')) {
 
             $this->app->singleton('html', function($app) {
-                return new HtmlBuilder($app['url']);
+                return new HtmlBuilder($app['url'], $app['view']);
             });
 
             if (! $this->aliasExists('Html')) {
