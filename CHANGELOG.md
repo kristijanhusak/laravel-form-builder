@@ -1,4 +1,11 @@
 ## 1.6.31
+- Setup compatibility with Laravel 5.2 and LaravelCollective
+- Bump php requirement to version 5.5
+- Fix bug where different request was used in tests
+- Fix `setModel` method
+- Add some deprecation warnings
+
+## 1.6.31
 - Add `template_prefix` option form form and fields (Thanks to [@koenvu](https://github.com/koenvu))
 - Add `empty_row` option for Collection type to remove initial empty row when there is no data for it
 - Add `removeChild` option for ParentType fields to allow removing child
