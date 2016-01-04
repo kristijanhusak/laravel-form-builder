@@ -42,7 +42,7 @@ Then add Service provider to `config/app.php`
 ``` php
     'providers' => [
         // ...
-        'Kris\LaravelFormBuilder\FormBuilderServiceProvider'
+        Kris\LaravelFormBuilder\FormBuilderServiceProvider::class
     ]
 ```
 
@@ -51,12 +51,12 @@ And Facade (also in `config/app.php`)
 ``` php
     'aliases' => [
         // ...
-        'FormBuilder' => 'Kris\LaravelFormBuilder\Facades\FormBuilder'
+        'FormBuilder' => Kris\LaravelFormBuilder\Facades\FormBuilder::class
     ]
 
 ```
 
-**Notice**: This package will add `laravelcollective/html` package and load Aliases (Form, Html) if they do not exist in the IoC container
+**Notice**: This package will add `laravelcollective/html` package and load aliases (Form, Html) if they do not exist in the IoC container
 
 
 ### Quick start
@@ -70,7 +70,9 @@ php artisan make:form Forms/SongForm --fields="name:text, lyrics:textarea, publi
 Form is created in path `app/Forms/SongForm.php` with content:
 
 ```php
-<?php namespace App\Forms;
+<?php 
+
+namespace App\Forms;
 
 use Kris\LaravelFormBuilder\Form;
 
@@ -99,7 +101,9 @@ php artisan make:form Forms/PostForm
 Gives:
 
 ```php
-<?php namespace App\Forms;
+<?php
+
+namespace App\Forms;
 
 use Kris\LaravelFormBuilder\Form;
 
@@ -115,7 +119,9 @@ class PostForm extends Form
 After that instantiate the class in the controller and pass it to view:
 
 ```php
-<?php namespace App\Http\Controllers;
+<?php
+
+namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
 use Kris\LaravelFormBuilder\FormBuilder;
@@ -124,7 +130,7 @@ class SongsController extends BaseController {
 
     public function create(FormBuilder $formBuilder)
     {
-        $form = $formBuilder->create('App\Forms\SongForm', [
+        $form = $formBuilder->create(App\Forms\SongForm::class, [
             'method' => 'POST',
             'url' => route('song.store')
         ]);
@@ -134,7 +140,7 @@ class SongsController extends BaseController {
 
     public function store(FormBuilder $formBuilder)
     {
-        $form = $formBuilder->create('App\Forms\SongForm');
+        $form = $formBuilder->create(App\Forms\SongForm::class);
 
         if (!$form->isValid()) {
             return redirect()->back()->withErrors($form->getErrors())->withInput();
