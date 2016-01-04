@@ -299,10 +299,9 @@ class Form
     {
         if ($this->has($name)) {
             unset($this->fields[$name]);
-            return $this;
         }
 
-        $this->fieldDoesNotExist($name);
+        return $this;
     }
 
     /**
