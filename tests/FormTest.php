@@ -287,17 +287,6 @@ class FormTest extends FormBuilderTestCase
      * @test
      * @expectedException \InvalidArgumentException
      */
-    public function it_throws_exception_when_removing_nonexisting_field()
-    {
-        $this->plainForm->add('name', 'text');
-
-        $this->plainForm->remove('nonexisting');
-    }
-
-    /**
-     * @test
-     * @expectedException \InvalidArgumentException
-     */
      public function it_throws_exception_when_rendering_until_nonexisting_field()
      {
         $this->plainForm
