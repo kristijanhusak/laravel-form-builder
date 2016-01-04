@@ -4,6 +4,7 @@ use Illuminate\Foundation\AliasLoader;
 use Collective\Html\FormBuilder as LaravelForm;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Application;
 
 class FormBuilderServiceProvider extends ServiceProvider
 {
@@ -74,7 +75,14 @@ class FormBuilderServiceProvider extends ServiceProvider
 
             $this->app->singleton('form', function($app) {
 
-                $form = new LaravelForm($app['html'], $app['url'], $app['view'], $app['session.store']->getToken());
+                // LaravelCollective\HtmlBuilder 5.2 is not backward compatible and will throw an exeption
+                // https://github.com/kristijanhusak/laravel-form-builder/commit/a36c4b9fbc2047e81a79ac8950d734e37cd7bfb0
+                if (substr(Application::VERSION, 0, 3) == '5.2') {
+                    $form = new LaravelForm($app['html'], $app['url'], $app['view'], $app['session.store']->getToken());
+                }
+                else {
+                    $form = new LaravelForm($app['html'], $app['url'], $app['session.store']->getToken());
+                }
 
                 return $form->setSessionStore($app['session.store']);
             });
