@@ -1,4 +1,4 @@
-## 1.6.31
+## 1.6.40
 - Setup compatibility with Laravel 5.2 and LaravelCollective
 - Bump php requirement to version 5.5
 - Fix bug where different request was used in tests
