@@ -1,3 +1,8 @@
+## 1.6.41
+- Fix LaravelCollective compatibility with older versions of Laravel (Thanks to [@marcoraddatz](https://github.com/marcoraddatz))
+- Do not throw exception when trying to remove non existing field - [#149](https://github.com/kristijanhusak/laravel-form-builder/issues/149) (Thanks to [@marcoraddatz](https://github.com/marcoraddatz))
+- Fix README to match php 5.5+ syntax (Thanks to [@marcoraddatz](https://github.com/marcoraddatz))
+
 ## 1.6.40
 - Setup compatibility with Laravel 5.2 and LaravelCollective
 - Bump php requirement to version 5.5
