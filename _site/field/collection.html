@@ -306,7 +306,7 @@
 
 @section('content')
     {!! form_start($form) !!}
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"collection-container"</span> <span class="na">data-prototype=</span><span class="s">""</span><span class="nt">&gt;</span> // Use  here to escape html
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"collection-container"</span> <span class="na">data-prototype=</span><span class="s">"{{ form_row($form-&gt;tags-&gt;prototype()) }}"</span><span class="nt">&gt;</span> // Use {{ }} here to escape html
         {!! form_row($form-&gt;tags) !!}
     <span class="nt">&lt;/div&gt;</span>
     {!! form_end($form) !!}
@@ -368,11 +368,12 @@ class PostForm extends Form
 
 <ol>
 <li><code>type</code> (String) (Default: null) - Type of the collection item</li>
-<li><code>options</code> (Array) (Default: <code>[]</code>) - Options that will be used for the collection item</li>
+<li><code>options</code> (Array) (Default: <code>[&#39;is_child&#39; =&gt; true]</code>) - Options that will be used for the collection item</li>
 <li><code>data</code> (Array) (Default: <code>[]</code>) - This is the <code>value</code> for the collection</li>
 <li><code>property</code> (String) (Default: <code>id</code>) - Property to be used when pulling data from model</li>
 <li><code>prototype</code> (Boolean) (Default: <code>true</code>) - Should <a href="#prototype">prototype</a> be generated</li>
 <li><code>prototype_name</code> (String) (Default: <code>__NAME__</code>) - Namespace in the prototype that is generated</li>
+<li><code>empty_row</code> (Boolean) (Default: <code>true</code>) - Add an empty row if no data provided</li>
 </ol>
 
 

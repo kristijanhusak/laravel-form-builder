@@ -178,7 +178,7 @@ If you need to dynamically generate HTML for additional elements in the collecti
 
 @section('content')
     {!! form_start($form) !!}
-    <div class="collection-container" data-prototype="{{ form_row($form->tags->prototype()) }}"> // Use {{ }} here to escape html
+    <div class="collection-container" data-prototype="{% raw %}{{ form_row($form->tags->prototype()){% endraw %} }}"> // Use {% raw %}{{ }}{% endraw %} here to escape html
         {!! form_row($form->tags) !!}
     </div>
     {!! form_end($form) !!}
