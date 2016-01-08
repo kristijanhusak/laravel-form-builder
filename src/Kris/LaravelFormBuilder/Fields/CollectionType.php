@@ -141,6 +141,7 @@ class CollectionType extends ParentType
 
         $field->setValue($value);
 
+
         return $field;
     }
 
@@ -151,8 +152,9 @@ class CollectionType extends ParentType
      */
     protected function generatePrototype(FormField $field)
     {
+        $value = $field instanceof ChildFormType ? false : null;
         $field->setOption('is_prototype', true);
-        $field = $this->setupChild($field, $this->getPrototypeName());
+        $field = $this->setupChild($field, $this->getPrototypeName(), $value);
 
         if ($field instanceof ChildFormType) {
             foreach ($field->getChildren() as $child) {

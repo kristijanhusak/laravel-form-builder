@@ -578,6 +578,6 @@ abstract class FormField
      */
     protected function isValidValue($value)
     {
-        return $value !== null && $value !== false;
+        return $value !== null;
     }
 }

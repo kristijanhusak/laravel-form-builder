@@ -147,4 +147,27 @@ class CollectionTypeTest extends FormBuilderTestCase
 
         $childFormCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
     }
+
+    /**
+     * @test
+     */
+    public function it_sets_up_prototype_with_empty_values()
+    {
+        $form = $this->formBuilder->plain([
+            'model' => [
+                'title' => 'main form title'
+            ]
+        ])->add('title', 'text');
+
+            $form->add('dummy_collection', 'collection', [
+            'type' => 'form',
+            'options' => [
+                'class' => CustomDummyForm::class
+            ]
+        ]);
+
+        $this->assertNull(
+            $form->dummy_collection->prototype()->title->getValue()
+        );
+    }
 }

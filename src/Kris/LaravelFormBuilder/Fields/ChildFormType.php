@@ -51,7 +51,7 @@ class ChildFormType extends ParentType
             $this->parent->setFormOption('files', true);
         }
         $model = $this->getOption($this->valueProperty);
-        if ($model !== null) {
+        if ($this->isValidValue($model)) {
             foreach ($this->form->getFields() as $name => $field) {
                 $field->setValue($this->getModelValueAttribute($model, $name));
             }
@@ -151,5 +151,15 @@ class ChildFormType extends ParentType
         throw new \BadMethodCallException(
             'Method ['.$method.'] does not exist on form ['.get_class($this->form).']'
         );
+    }
+
+    /**
+     * Check if provided value is valid for this type
+     *
+     * @return bool
+     */
+    protected function isValidValue($value)
+    {
+        return $value !== null;
     }
 }
