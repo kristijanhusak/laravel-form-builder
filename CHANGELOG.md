@@ -1,3 +1,9 @@
+## 1.6.42
+- Fix issue #191 - clientValidationEnabled for child forms not working
+- Fix issue #202 - 'Field already exists' exception when using `compose()` method
+- Fix issue #204 - 'default_value' not handled properly for CheckableType
+- Fix issue #205 - Data not being passed properly to child form
+
 ## 1.6.41
 - Fix LaravelCollective compatibility with older versions of Laravel (Thanks to [@marcoraddatz](https://github.com/marcoraddatz))
 - Do not throw exception when trying to remove non existing field - [#149](https://github.com/kristijanhusak/laravel-form-builder/issues/149) (Thanks to [@marcoraddatz](https://github.com/marcoraddatz))
