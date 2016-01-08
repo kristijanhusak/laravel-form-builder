@@ -147,7 +147,7 @@ abstract class FormField
         }
 
         // Override default value with value
-        if (!$value && $defaultValue) {
+        if (!$this->isValidValue($value) && $this->isValidValue($defaultValue)) {
             $this->setOption($this->valueProperty, $defaultValue);
         }
 
@@ -441,7 +441,7 @@ abstract class FormField
             $value = $closure($value ?: null);
         }
 
-        if ($value === null || $value === false) {
+        if (!$this->isValidValue($value)) {
             $value = $this->getOption($this->defaultValueProperty);
         }
 
@@ -569,5 +569,15 @@ abstract class FormField
     public function getDefaultValue($default = null)
     {
         return $this->getOption($this->defaultValueProperty, $default);
+    }
+
+    /**
+     * Check if provided value is valid for this type
+     *
+     * @return bool
+     */
+    protected function isValidValue($value)
+    {
+        return $value !== null && $value !== false;
     }
 }

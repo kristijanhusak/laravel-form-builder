@@ -27,4 +27,12 @@ class CheckableType extends FormField
             'checked' => null
         ];
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function isValidValue($value)
+    {
+        return $value !== null;
+    }
 }
