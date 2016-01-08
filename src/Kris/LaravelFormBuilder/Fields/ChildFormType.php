@@ -81,10 +81,17 @@ class ChildFormType extends ParentType
         if (is_string($class)) {
             $options = [
                 'model' => $this->parent->getModel(),
-                'name' => $this->name,
-                'errors_enabled' => $this->parent->haveErrorsEnabled(),
-                'client_validation' => $this->parent->clientValidationEnabled()
+                'name' => $this->name
             ];
+
+            if (!$this->parent->clientValidationEnabled()) {
+                $options['client_validation'] = false;
+            }
+
+            if (!$this->parent->haveErrorsEnabled()) {
+                $options['errors_enabled'] = false;
+            }
+
             $formOptions = array_merge($options, $this->getOption('formOptions'));
 
             $data = array_merge($this->parent->getData(), $this->getOption('data'));
@@ -100,8 +107,13 @@ class ChildFormType extends ParentType
                 $class->addData($this->parent->getData());
             }
 
-            $class->setErrorsEnabled($this->parent->haveErrorsEnabled());
-            $class->setClientValidationEnabled($this->parent->clientValidationEnabled());
+            if (!$this->parent->clientValidationEnabled()) {
+                $class->setClientValidationEnabled(false);
+            }
+
+            if (!$this->parent->haveErrorsEnabled()) {
+                $class->setErrorsEnabled(false);
+            }
 
             return $class->setName($this->name);
         }
