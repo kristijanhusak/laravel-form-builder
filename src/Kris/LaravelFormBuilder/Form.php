@@ -456,8 +456,8 @@ class Form
     {
         $this->formOptions = $this->formHelper->mergeOptions($this->formOptions, $formOptions);
         $this->checkIfNamedForm();
-        $this->pullFromOptions('model', 'setModel');
         $this->pullFromOptions('data', 'addData');
+        $this->pullFromOptions('model', 'setupModel');
         $this->pullFromOptions('errors_enabled', 'setErrorsEnabled');
         $this->pullFromOptions('client_validation', 'setClientValidationEnabled');
         $this->pullFromOptions('template_prefix', 'setTemplatePrefix');
@@ -573,6 +573,19 @@ class Form
         $this->setupNamedModel();
 
         $this->rebuildForm();
+
+        return $this;
+    }
+
+    /**
+     * Setup model for form, add namespace if needed for child forms
+     * @return $this
+     */
+    protected function setupModel($model)
+    {
+        $this->model = $model;
+
+        $this->setupNamedModel();
 
         return $this;
     }
@@ -886,11 +899,14 @@ class Form
 
     /**
      * Set namespace to model if form is named so the data is bound properly
+     * Returns true if model is changed, otherwise false
+     *
+     * @return bool
      */
     protected function setupNamedModel()
     {
         if (!$this->getModel() || !$this->getName()) {
-            return;
+            return false;
         }
 
         $dotName = $this->formHelper->transformToDotSyntax($this->getName());
@@ -900,7 +916,11 @@ class Form
             $newModel = [];
             array_set($newModel, $dotName, $model);
             $this->model = $newModel;
+
+            return true;
         }
+
+        return false;
     }
 
 

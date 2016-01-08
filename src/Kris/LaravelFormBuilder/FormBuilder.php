@@ -43,12 +43,12 @@ class FormBuilder
 
         $form = $this->container
             ->make($class)
+            ->addData($data)
             ->setRequest($this->container->make('request'))
             ->setFormHelper($this->formHelper)
             ->setFormBuilder($this)
             ->setValidator($this->container->make('validator'))
-            ->setFormOptions($options)
-            ->addData($data);
+            ->setFormOptions($options);
 
         $form->buildForm();
 
@@ -82,11 +82,11 @@ class FormBuilder
     {
         return $this->container
             ->make('Kris\LaravelFormBuilder\Form')
+            ->addData($data)
             ->setRequest($this->container->make('request'))
             ->setFormHelper($this->formHelper)
             ->setFormBuilder($this)
             ->setValidator($this->container->make('validator'))
-            ->setFormOptions($options)
-            ->addData($data);
+            ->setFormOptions($options);
     }
 }
