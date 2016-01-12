@@ -1,9 +1,10 @@
 <?php  namespace Kris\LaravelFormBuilder;
 
-use Illuminate\Contracts\View\Factory as View;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Translation\Translator;
+use Illuminate\Database\Eloquent\Model;
 use Kris\LaravelFormBuilder\Fields\FormField;
+use Illuminate\Contracts\View\Factory as View;
 
 class FormHelper
 {
@@ -12,6 +13,11 @@ class FormHelper
      * @var View
      */
     protected $view;
+
+    /**
+     * @var Translator
+     */
+    protected $translator;
 
     /**
      * @var array
@@ -72,9 +78,10 @@ class FormHelper
      * @param View    $view
      * @param array   $config
      */
-    public function __construct(View $view, array $config = [])
+    public function __construct(View $view, array $config = [], Translator $translator)
     {
         $this->view = $view;
+        $this->translator = $translator;
         $this->config = $config;
         $this->loadCustomTypes();
     }
@@ -222,6 +229,10 @@ class FormHelper
     {
         if (!$name) {
             return null;
+        }
+
+        if ($this->translator->has($name)) {
+            return $this->translator->get($name);
         }
 
         return ucfirst(str_replace('_', ' ', $name));

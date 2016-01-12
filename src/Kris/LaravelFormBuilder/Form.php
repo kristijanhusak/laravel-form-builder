@@ -105,6 +105,11 @@ class Form
     protected $templatePrefix;
 
     /**
+     * @var string
+     */
+    protected $languageName;
+
+    /**
      * Build the form
      *
      * @return mixed
@@ -461,6 +466,7 @@ class Form
         $this->pullFromOptions('errors_enabled', 'setErrorsEnabled');
         $this->pullFromOptions('client_validation', 'setClientValidationEnabled');
         $this->pullFromOptions('template_prefix', 'setTemplatePrefix');
+        $this->pullFromOptions('language_name', 'setLanguageName');
 
         return $this;
     }
@@ -790,6 +796,30 @@ class Form
     }
 
     /**
+     * Get the 'lookup' key for a localizable label name
+     *
+     * @param string $label
+     * @return $this
+     */
+    public function getLocalizableName($label)
+    {
+        return ($this->languageName ? $this->languageName . '.' : '') . $label;
+    }
+
+    /**
+     * Set a language name, used as prefix for translated strings
+     *
+     * @param string $prefix
+     * @return $this
+     */
+    public function setLanguageName($prefix)
+    {
+        $this->languageName = (string) $prefix;
+
+        return $this;
+    }
+
+    /**
      * Render the form
      *
      * @param $options
@@ -893,7 +923,7 @@ class Form
         }
 
         if (!isset($options['label'])) {
-            $options['label'] = $this->formHelper->formatLabel($name);
+            $options['label'] = $this->formHelper->formatLabel($this->getLocalizableName($name));
         }
     }
 
