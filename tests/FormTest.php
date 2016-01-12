@@ -361,6 +361,18 @@ class FormTest extends FormBuilderTestCase
     }
 
     /** @test */
+    public function it_can_generate_a_localizable_name()
+    {
+        $options = [
+            'language_name' => 'test_form'
+        ];
+
+        $this->plainForm->setFormOptions($options);
+
+        $this->assertEquals('test_form.some_field', $this->plainForm->getLocalizableName('some_field'));
+    }
+
+    /** @test */
     public function it_can_set_form_options_with_setters()
     {
         $this->plainForm->setMethod('DELETE');
@@ -725,7 +737,7 @@ class FormTest extends FormBuilderTestCase
         $viewStub->method('make')->willReturn($viewStub);
         $viewStub->method('with')->willReturn($viewStub);
 
-        $helper = new FormHelper($viewStub, $this->config);
+        $helper = new FormHelper($viewStub, $this->config, $this->translator);
 
         $form = $this->formBuilder->plain();
         $form->setFormOptions([
