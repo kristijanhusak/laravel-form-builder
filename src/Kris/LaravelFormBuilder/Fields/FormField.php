@@ -1,4 +1,6 @@
-<?php  namespace Kris\LaravelFormBuilder\Fields;
+<?php
+
+namespace Kris\LaravelFormBuilder\Fields;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -212,6 +214,8 @@ abstract class FormField
     protected function prepareOptions(array $options = [])
     {
         $helper = $this->formHelper;
+        $rulesParser = new RulesParser($this);
+        $rules = $this->getOption('rules');
         $this->options = $helper->mergeOptions($this->options, $options);
 
         if ($this->getOption('attr.multiple') && !$this->getOption('tmp.multipleBracesSet')) {
@@ -223,7 +227,7 @@ abstract class FormField
             $this->addErrorClass();
         }
 
-        if ($this->getOption('required') === true) {
+        if ($this->getOption('required') === true || $rulesParser->containsRequired($rules)) {
             $lblClass = $this->getOption('label_attr.class', '');
             $requiredClass = $helper->getConfig('defaults.required_class', 'required');
             if (!str_contains($lblClass, $requiredClass)) {
@@ -233,8 +237,7 @@ abstract class FormField
             }
         }
 
-        if ($this->parent->clientValidationEnabled() && $rules = $this->getOption('rules')) {
-            $rulesParser = new RulesParser($this);
+        if ($this->parent->clientValidationEnabled() && $rules) {
             $attrs = $this->getOption('attr') + $rulesParser->parse($rules);
             $this->setOption('attr', $attrs);
         }

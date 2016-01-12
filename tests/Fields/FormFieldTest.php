@@ -34,4 +34,30 @@ class FormFieldTest extends FormBuilderTestCase
         $field = new InputType('name', 'text', $form, ['template' => 'textinput']);
         $field->render();
     }
+
+    /** @test */
+    public function it_sets_the_required_attribute_explicitly()
+    {
+        $options = [
+            'required' => true
+        ];
+
+        $hidden = new InputType('hidden_id', 'hidden', $this->plainForm, $options);
+        $hidden->render();
+
+        $this->assertRegExp('/required/', $hidden->getOption('label_attr.class'));
+    }
+
+    /** @test */
+    public function it_sets_the_required_attribute_implicitly()
+    {
+        $options = [
+            'rules' => 'required|min:3'
+        ];
+
+        $hidden = new InputType('hidden_id', 'hidden', $this->plainForm, $options);
+        $hidden->render();
+
+        $this->assertRegExp('/required/', $hidden->getOption('label_attr.class'));
+    }
 }

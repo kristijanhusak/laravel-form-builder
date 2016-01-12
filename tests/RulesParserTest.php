@@ -40,6 +40,27 @@ class RulesParserTest extends FormBuilderTestCase
     }
 
     /** @test */
+    public function it_checks_if_rules_contain_required()
+    {
+        $this->assertTrue(
+            $this->parser->containsRequired('required|min:10')
+        );
+
+        $this->assertTrue(
+            $this->parser->containsRequired(['required', 'min:10'])
+        );
+
+        $this->assertFalse(
+            $this->parser->containsRequired('in:a|b|c')
+        );
+
+        // Only the 'basic' require should be found
+        $this->assertFalse(
+            $this->parser->containsRequired(['required_with:some_field'])
+        );
+    }
+
+    /** @test */
     public function it_parses_the_accepted_rule()
     {
         $this->assertEquals(

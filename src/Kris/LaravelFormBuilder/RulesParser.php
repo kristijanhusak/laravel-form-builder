@@ -55,6 +55,22 @@ class RulesParser
     }
 
     /**
+     * Checks if the ruleset contains the required rule.
+     *
+     * @param  string|array  $rules
+     * @return bool
+     */
+    public function containsRequired($rules)
+    {
+        $rules = (is_string($rules)) ? explode('|', $rules) : $rules;
+
+        // We are only looking for the basic 'required'
+        // rule, so there is no need to loop through
+        // the rules and parse their parameters.
+        return array_search('required', $rules) !== false;
+    }
+
+    /**
      * Check that a checkbox is accepted. Needs yes, on, 1, or true as value.
      *
      *   accepted  -> required="required"
@@ -577,5 +593,4 @@ class RulesParser
         }
         return str_getcsv($parameter);
     }
-
 }
