@@ -76,9 +76,10 @@ class FormHelper
 
     /**
      * @param View    $view
+     * @param Translator $translator
      * @param array   $config
      */
-    public function __construct(View $view, array $config = [], Translator $translator)
+    public function __construct(View $view, Translator $translator, array $config = [])
     {
         $this->view = $view;
         $this->translator = $translator;
