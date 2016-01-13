@@ -216,6 +216,8 @@ abstract class FormField
         $helper = $this->formHelper;
         $rulesParser = new RulesParser($this);
         $rules = $this->getOption('rules');
+        $parsedRules = $rules ? $rulesParser->parse($rules) : [];
+
         $this->options = $helper->mergeOptions($this->options, $options);
 
         if ($this->getOption('attr.multiple') && !$this->getOption('tmp.multipleBracesSet')) {
@@ -227,7 +229,7 @@ abstract class FormField
             $this->addErrorClass();
         }
 
-        if ($this->getOption('required') === true || $rulesParser->containsRequired($rules)) {
+        if ($this->getOption('required') === true || isset($parsedRules['required'])) {
             $lblClass = $this->getOption('label_attr.class', '');
             $requiredClass = $helper->getConfig('defaults.required_class', 'required');
             if (!str_contains($lblClass, $requiredClass)) {
@@ -238,7 +240,7 @@ abstract class FormField
         }
 
         if ($this->parent->clientValidationEnabled() && $rules) {
-            $attrs = $this->getOption('attr') + $rulesParser->parse($rules);
+            $attrs = $this->getOption('attr') + $parsedRules;
             $this->setOption('attr', $attrs);
         }
 
