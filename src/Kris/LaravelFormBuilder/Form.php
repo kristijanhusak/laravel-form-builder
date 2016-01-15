@@ -807,6 +807,16 @@ class Form
     }
 
     /**
+     * Get the language name
+     *
+     * @return string
+     */
+    public function getLanguageName()
+    {
+        return $this->languageName;
+    }
+
+    /**
      * Set a language name, used as prefix for translated strings
      *
      * @param string $prefix
