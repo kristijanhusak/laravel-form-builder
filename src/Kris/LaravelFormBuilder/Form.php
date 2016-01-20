@@ -125,7 +125,9 @@ class Form
         // existing fields and add them again
         if (get_class($this) === 'Kris\LaravelFormBuilder\Form') {
             foreach ($this->fields as $name => $field) {
-                $this->add($name, $field->getType(), $field->getOptions());
+                // Remove any temp variables added in previous instance
+                $options = array_except($field->getOptions(), 'tmp');
+                $this->add($name, $field->getType(), $options);
             }
         } else {
             $this->buildForm();
