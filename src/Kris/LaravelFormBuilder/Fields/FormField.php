@@ -545,7 +545,7 @@ abstract class FormField
         $name = $this->getNameKey();
 
         if (!$rules) {
-            return null;
+            return [];
         }
 
         return [
