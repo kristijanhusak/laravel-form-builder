@@ -367,9 +367,11 @@ class FormTest extends FormBuilderTestCase
             'language_name' => 'test_form'
         ];
 
-        $this->plainForm->setFormOptions($options);
+        $this->plainForm->setFormOptions($options)->add('title', 'text', [
+            'label' => 'nesto_tamo'
+        ]);
 
-        $this->assertEquals('test_form.some_field', $this->plainForm->getLocalizableName('some_field'));
+        $this->assertEquals('test_form.nesto_tamo', $this->plainForm->title->getLabelRaw());
     }
 
     /** @test */

@@ -476,9 +476,10 @@ class RulesParser
      */
     protected function getTitle($rule, $params = array())
     {
-        $params['attribute'] = $this->formHelper->formatLabel($this->field->getName());
+        $params['attribute'] = $this->field->getLabel();
 
-        return trans('validation.' . $rule, $params);
+        return $this->field->getParent()->getFormHelper()->getTranslator()
+            ->trans('validation.' . $rule, $params);
     }
 
     /**

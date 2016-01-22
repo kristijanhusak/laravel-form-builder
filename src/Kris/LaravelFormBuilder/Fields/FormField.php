@@ -412,7 +412,7 @@ abstract class FormField
             ]],
             'value' => null,
             'default_value' => null,
-            'label' => $this->formHelper->formatLabel($this->parent->getLocalizableName($this->getRealName())),
+            'label' => $this->getLabel(),
             'is_child' => false,
             'label_attr' => ['class' => $this->formHelper->getConfig('defaults.label_class')],
             'errors' => ['class' => $this->formHelper->getConfig('defaults.error_class')],
@@ -584,5 +584,28 @@ abstract class FormField
     protected function isValidValue($value)
     {
         return $value !== null;
+    }
+
+    /**
+     * Get label for the field
+     */
+    public function getLabel()
+    {
+        return $this->formHelper->formatLabel($this->getLabelRaw());
+    }
+
+    /**
+     * Get formatted label for the field
+     */
+    public function getLabelRaw()
+    {
+        $label = $this->getOption('label', $this->getRealName());
+
+        if ($langName = $this->parent->getLanguageName()) {
+            return sprintf('%s.%s', $langName, $label);
+        }
+
+        return $label;
+
     }
 }

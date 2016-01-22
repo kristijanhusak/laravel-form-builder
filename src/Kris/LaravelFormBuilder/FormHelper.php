@@ -269,4 +269,12 @@ class FormHelper
     {
         return str_replace(['.', '[]', '[', ']'], ['_', '', '.', ''], $string);
     }
+
+    /**
+     * @return Translator
+     */
+    public function getTranslator()
+    {
+        return $this->translator;
+    }
 }

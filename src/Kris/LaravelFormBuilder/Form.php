@@ -798,17 +798,6 @@ class Form
     }
 
     /**
-     * Get the 'lookup' key for a localizable label name
-     *
-     * @param string $label
-     * @return $this
-     */
-    public function getLocalizableName($label)
-    {
-        return ($this->languageName ? $this->languageName . '.' : '') . $label;
-    }
-
-    /**
      * Get the language name
      *
      * @return string
@@ -929,14 +918,6 @@ class Form
     protected function setupFieldOptions($name, &$options)
     {
         $options['real_name'] = $name;
-
-        if (!$this->getName()) {
-            return;
-        }
-
-        if (!isset($options['label'])) {
-            $options['label'] = $this->formHelper->formatLabel($this->getLocalizableName($name));
-        }
     }
 
     /**
