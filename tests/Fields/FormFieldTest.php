@@ -13,7 +13,7 @@ class FormFieldTest extends FormBuilderTestCase
         $viewStub->method('make')->willReturn($viewStub);
         $viewStub->method('with')->willReturn($viewStub);
 
-        $helper = new FormHelper($viewStub, $this->config);
+        $helper = new FormHelper($viewStub, $this->translator, $this->config);
 
         $form = $this->formBuilder->plain();
         $form->setTemplatePrefix('test::');

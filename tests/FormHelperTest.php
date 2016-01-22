@@ -98,7 +98,7 @@ class FormHelperTest extends FormBuilderTestCase
 
         $config['custom_fields']['datetime'] = 'App\Forms\DatetimeType';
 
-        $formHelper = new FormHelper($this->view, $config);
+        $formHelper = new FormHelper($this->view, $this->translator, $config);
 
         $this->assertEquals(
             'App\Forms\DatetimeType',

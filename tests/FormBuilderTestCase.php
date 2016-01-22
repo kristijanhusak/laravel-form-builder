@@ -21,6 +21,11 @@ abstract class FormBuilderTestCase extends TestCase {
     protected $view;
 
     /**
+     * @var \Illuminate\Translation\Translator
+     */
+    protected $translator;
+
+    /**
      * @var \Illuminate\Http\Request
      */
     protected $request;
@@ -65,13 +70,14 @@ abstract class FormBuilderTestCase extends TestCase {
         parent::setUp();
 
         $this->view = $this->app['view'];
+        $this->translator = $this->app['translator'];
         $this->request = $this->app['request'];
         $this->request->setSession($this->app['session.store']);
         $this->validatorFactory = $this->app['validator'];
         $this->model = new TestModel();
         $this->config = include __DIR__.'/../src/config/config.php';
 
-        $this->formHelper = new FormHelper($this->view, $this->config);
+        $this->formHelper = new FormHelper($this->view, $this->translator, $this->config);
         $this->formBuilder = new FormBuilder($this->app, $this->formHelper);
 
         $this->plainForm = $this->formBuilder->plain();
