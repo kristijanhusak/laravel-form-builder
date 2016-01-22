@@ -1,3 +1,10 @@
+## 1.6.50
+- Translate form field labels if translation exist, and add `language_name` option to Form class in order to allow translating fields from specifing file (Thanks to [@koenvu](https://github.com/koenvu))
+- Add required attribute if validation rules contains `required` option (Thanks to [@koenvu](https://github.com/koenvu))
+- Fix issue #211 - Multiple select name wrong in subform
+- Fix issue #212 - ChoiceType ignoring own validation rules
+- Fix issue #213 - required attribute applied even if client validation is disabled
+
 ## 1.6.42
 - Fix issue #191 - clientValidationEnabled for child forms not working
 - Fix issue #202 - 'Field already exists' exception when using `compose()` method
