@@ -229,19 +229,21 @@ abstract class FormField
             $this->addErrorClass();
         }
 
-        if ($this->getOption('required') === true || isset($parsedRules['required'])) {
-            $lblClass = $this->getOption('label_attr.class', '');
-            $requiredClass = $helper->getConfig('defaults.required_class', 'required');
-            if (!str_contains($lblClass, $requiredClass)) {
-                $lblClass .= ' ' . $requiredClass;
-                $this->setOption('label_attr.class', $lblClass);
-                $this->setOption('attr.required', 'required');
+        if ($this->parent->clientValidationEnabled()) {
+            if ($this->getOption('required') === true || isset($parsedRules['required'])) {
+                $lblClass = $this->getOption('label_attr.class', '');
+                $requiredClass = $helper->getConfig('defaults.required_class', 'required');
+                if (!str_contains($lblClass, $requiredClass)) {
+                    $lblClass .= ' ' . $requiredClass;
+                    $this->setOption('label_attr.class', $lblClass);
+                    $this->setOption('attr.required', 'required');
+                }
             }
-        }
 
-        if ($this->parent->clientValidationEnabled() && $rules) {
-            $attrs = $this->getOption('attr') + $parsedRules;
-            $this->setOption('attr', $attrs);
+            if ($parsedRules) {
+                $attrs = $this->getOption('attr') + $parsedRules;
+                $this->setOption('attr', $attrs);
+            }
         }
 
         $this->setOption('wrapperAttrs', $helper->prepareAttributes($this->getOption('wrapper')));
