@@ -361,20 +361,6 @@ class FormTest extends FormBuilderTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_localizable_name()
-    {
-        $options = [
-            'language_name' => 'test_form'
-        ];
-
-        $this->plainForm->setFormOptions($options)->add('title', 'text', [
-            'label' => 'nesto_tamo'
-        ]);
-
-        $this->assertEquals('test_form.nesto_tamo', $this->plainForm->title->getLabelRaw());
-    }
-
-    /** @test */
     public function it_can_set_form_options_with_setters()
     {
         $this->plainForm->setMethod('DELETE');

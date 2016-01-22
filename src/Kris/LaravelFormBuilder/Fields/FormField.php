@@ -412,7 +412,7 @@ abstract class FormField
             ]],
             'value' => null,
             'default_value' => null,
-            'label' => $this->getLabel(),
+            'label' => null,
             'is_child' => false,
             'label_attr' => ['class' => $this->formHelper->getConfig('defaults.label_class')],
             'errors' => ['class' => $this->formHelper->getConfig('defaults.error_class')],
@@ -491,6 +491,22 @@ abstract class FormField
     {
         $this->options = $this->formHelper->mergeOptions($this->allDefaults(), $this->getDefaults());
         $this->options = $this->prepareOptions($options);
+        $this->setupLabel();
+    }
+
+    protected function setupLabel()
+    {
+        if ($this->getOption('label') !== null) {
+            return;
+        }
+
+        if ($langName = $this->parent->getLanguageName()) {
+            $label = sprintf('%s.%s', $langName, $this->getRealName());
+        } else {
+            $label = $this->getRealName();
+        }
+
+        $this->setOption('label', $this->formHelper->formatLabel($label));
     }
 
     /**
@@ -584,28 +600,5 @@ abstract class FormField
     protected function isValidValue($value)
     {
         return $value !== null;
-    }
-
-    /**
-     * Get label for the field
-     */
-    public function getLabel()
-    {
-        return $this->formHelper->formatLabel($this->getLabelRaw());
-    }
-
-    /**
-     * Get formatted label for the field
-     */
-    public function getLabelRaw()
-    {
-        $label = $this->getOption('label', $this->getRealName());
-
-        if ($langName = $this->parent->getLanguageName()) {
-            return sprintf('%s.%s', $langName, $label);
-        }
-
-        return $label;
-
     }
 }

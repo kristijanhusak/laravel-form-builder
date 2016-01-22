@@ -60,4 +60,58 @@ class FormFieldTest extends FormBuilderTestCase
 
         $this->assertRegExp('/required/', $hidden->getOption('label_attr.class'));
     }
+
+
+    /** @test */
+    public function it_translates_the_label_if_translation_exists()
+    {
+        // We use build in validation translations prefix for easier testing
+        // just to make sure translation file is properly used
+        $this->plainForm->setLanguageName('validation')->add('accepted', 'text');
+
+        $this->assertEquals(
+            'The :attribute must be accepted.',
+            $this->plainForm->accepted->getOption('label')
+        );
+    }
+
+    /** @test */
+    public function provided_label_from_option_overrides_translated_one()
+    {
+        // We use build in validation translations prefix for easier testing
+        // just to make sure translation file is properly used
+        $this->plainForm->setLanguageName('validation')->add('accepted', 'text', [
+            'label' => 'Custom accepted label'
+        ]);
+
+        $this->assertEquals(
+            'Custom accepted label',
+            $this->plainForm->accepted->getOption('label')
+        );
+    }
+
+    /** @test */
+    public function it_fallbacks_to_simple_format_if_no_translation_and_custom_label_provided()
+    {
+        // We use build in validation translations prefix for easier testing
+        // just to make sure translation file is properly used
+        $options = [
+            'language_name' => 'validation'
+        ];
+        $customPlainForm = $this->formBuilder->plain();
+
+
+        $this->plainForm->setFormOptions($options)->add('nonexisting', 'text');
+        $customPlainForm->add('the_name_without_translation', 'text');
+
+        $this->assertEquals(
+            'Validation.nonexisting',
+            $this->plainForm->nonexisting->getOption('label')
+        );
+
+        $this->assertEquals(
+            'The name without translation',
+            $customPlainForm->the_name_without_translation->getOption('label')
+        );
+    }
 }
