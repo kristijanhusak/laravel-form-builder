@@ -233,7 +233,11 @@ class FormHelper
         }
 
         if ($this->translator->has($name)) {
-            return $this->translator->get($name);
+            $translatedName = $this->translator->get($name);
+
+            if (is_string($translatedName)) {
+                return $translatedName;
+            }
         }
 
         return ucfirst(str_replace('_', ' ', $name));
