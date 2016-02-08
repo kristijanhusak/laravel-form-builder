@@ -98,11 +98,15 @@ class FormFieldTest extends FormBuilderTestCase
         $options = [
             'language_name' => 'validation'
         ];
-        $customPlainForm = $this->formBuilder->plain();
 
+        $customPlainForm = $this->formBuilder->plain();
 
         $this->plainForm->setFormOptions($options)->add('nonexisting', 'text');
         $customPlainForm->add('the_name_without_translation', 'text');
+
+        // Case where translation is nested (an array) should be invalid and fallback
+        // in validation translation file the custom key does this
+        $customPlainForm->add('custom', 'text');
 
         $this->assertEquals(
             'Validation.nonexisting',
@@ -112,6 +116,11 @@ class FormFieldTest extends FormBuilderTestCase
         $this->assertEquals(
             'The name without translation',
             $customPlainForm->the_name_without_translation->getOption('label')
+        );
+
+        $this->assertEquals(
+            'Custom',
+            $customPlainForm->custom->getOption('label')
         );
     }
 }
