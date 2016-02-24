@@ -125,4 +125,27 @@ class ChoiceType extends ParentType
             $this->formHelper->mergeOptions($this->options, ['is_child' => true])
         );
     }
+
+    /**
+     * Creates default wrapper classes for the form element.
+     *
+     * @param array $options
+     * @return array
+     */
+    protected function setWrapperClass(array $options = [])
+    {
+        $defaults = parent::setWrapperClass($options);
+        $choice_type = $this->determineChoiceField();
+
+        $defaults['wrapper']['class'] .= ' ' . $this->formHelper->getConfig('defaults.' . $this->type . '.' . $choice_type . '_wrapper_class', 'form-' . $this->type . '-' . $choice_type);
+        $defaults += [
+            'choice_options' => [
+                'wrapper' => [
+                    'class' => $this->formHelper->getConfig('defaults.' . $this->type . '.choice_options', 'form-' . $choice_type),
+                ],
+            ],
+        ];
+
+        return $defaults;
+    }
 }

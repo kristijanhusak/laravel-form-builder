@@ -493,7 +493,24 @@ abstract class FormField
     {
         $this->options = $this->formHelper->mergeOptions($this->allDefaults(), $this->getDefaults());
         $this->options = $this->prepareOptions($options);
+
+        $defaults = $this->setWrapperClass($options);
+        $this->options = $this->formHelper->mergeOptions($this->options, $defaults);
+
         $this->setupLabel();
+    }
+
+    /**
+     * Creates default wrapper classes for the form element.
+     *
+     * @param array $options
+     * @return array
+     */
+    protected function setWrapperClass(array $options = [])
+    {
+        return [
+            'wrapper' => ['class' => $this->formHelper->getConfig('defaults.' . $this->type . '.wrapper_class', 'form-' . $this->type)],
+        ];
     }
 
     protected function setupLabel()

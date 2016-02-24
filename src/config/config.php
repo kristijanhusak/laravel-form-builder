@@ -9,6 +9,15 @@ return [
         'help_block_class'    => 'help-block',
         'error_class'         => 'text-danger',
         'required_class'      => 'required'
+
+        // Override a wrapper class from a field.
+        //'text'                => [
+        //    'wrapper_class'   => 'form-field-text',
+        //]
+        //'radio'               => [
+        //    'choice_options'  => [
+        //      'wrapper'       => ['class' => 'form-radio'],
+        //],
     ],
     // Templates
     'form'          => 'laravel-form-builder::form',

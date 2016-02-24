@@ -114,7 +114,14 @@ class FormHelper
      */
     public function mergeOptions(array $first, array $second)
     {
-        return array_replace_recursive($first, $second);
+        return array_merge_map_recursive(function($key, $a, $b)
+        {
+            if ($key == 'class')
+            {
+                return trim($a . ' ' . $b);
+            }
+            return $b;
+        }, $first, $second);
     }
 
     /**
