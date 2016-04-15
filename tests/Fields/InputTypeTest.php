@@ -27,6 +27,8 @@ class InputTypeTest extends FormBuilderTestCase
         $expectedOptions['help_block']['helpBlockAttrs'] = 'class="help-block" ';
         $expectedOptions['required'] = true;
         $expectedOptions['label_attr']['class'] .= ' required';
+        $expectedOptions['wrapper']['class'] .= ' form-hidden';
+        $expectedOptions['wrapperAttrs'] = 'class="form-group form-hidden" ';
 
         $hidden = new InputType('hidden_id', 'hidden', $this->plainForm, $options);
 

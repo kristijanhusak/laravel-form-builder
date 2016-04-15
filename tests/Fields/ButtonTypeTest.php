@@ -15,9 +15,10 @@ class ButtonTypeTest extends FormBuilderTestCase
         ];
 
         $expectedOptions = $this->getDefaults(
-            ['class' => 'btn-class', 'type' => 'button', 'disabled' => 'disabled'],
+            ['class' => 'form-control btn-class', 'type' => 'button', 'disabled' => 'disabled'],
             'Some button'
         );
+        $expectedOptions['wrapper']['class'] .= ' form-button';
 
         $button = new ButtonType('some_button', 'button', $this->plainForm, $options);
 
@@ -31,7 +32,7 @@ class ButtonTypeTest extends FormBuilderTestCase
     {
         $expectedOptions = $this->getDefaults(['type' => 'submit'], 'Save');
         $expectedOptions['wrapperAttrs'] = null;
-        $expectedOptions['wrapper'] = false;
+        $expectedOptions['wrapper']['class'] = 'form-submit';
 
         $button = new ButtonType('save', 'submit', $this->plainForm);
 
@@ -45,8 +46,8 @@ class ButtonTypeTest extends FormBuilderTestCase
         $button->setOptions(['attr' => ['id' => 'button-id'], 'label' => 'Cancel it']);
 
         $expectedOptions = $this->getDefaults(['type' => 'submit', 'id' => 'button-id'], 'Cancel it');
-        $expectedOptions['wrapperAttrs'] = null;
-        $expectedOptions['wrapper'] = false;
+        $expectedOptions['wrapperAttrs'] = 'class="form-submit" ';
+        $expectedOptions['wrapper']['class'] = 'form-submit';
 
         $this->assertEquals('cancel', $button->getName());
         $this->assertEquals('reset', $button->getType());
@@ -66,8 +67,8 @@ class ButtonTypeTest extends FormBuilderTestCase
             'Some submit'
         );
 
-        $expectedOptions['wrapper'] = false;
-        $expectedOptions['wrapperAttrs'] = null;
+        $expectedOptions['wrapper']['class'] = 'form-submit';
+        $expectedOptions['wrapperAttrs'] = 'class="form-submit" ';
         $expectedOptions['template'] = 'laravel-form-builder::text';
 
         $expectedViewData = [

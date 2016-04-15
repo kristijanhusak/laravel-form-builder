@@ -132,16 +132,22 @@ class ChoiceType extends ParentType
      * @param array $options
      * @return array
      */
-    protected function setWrapperClass(array $options = [])
+    protected function setDefaultClasses(array $options = [])
     {
-        $defaults = parent::setWrapperClass($options);
+        $defaults = parent::setDefaultClasses($options);
         $choice_type = $this->determineChoiceField();
 
         $defaults['wrapper']['class'] .= ' ' . $this->formHelper->getConfig('defaults.' . $this->type . '.' . $choice_type . '_wrapper_class', 'form-' . $this->type . '-' . $choice_type);
         $defaults += [
             'choice_options' => [
                 'wrapper' => [
-                    'class' => $this->formHelper->getConfig('defaults.' . $this->type . '.choice_options', 'form-' . $choice_type),
+                    'class' => $this->formHelper->getConfig('defaults.' . $this->type . '.choice_options.wrapper_class', 'form-' . $choice_type),
+                ],
+                'label_attr' => [
+                    'class' => $this->formHelper->getConfig('defaults.' . $this->type . '.choice_options.label_class', ''),
+                ],
+                'attr' => [
+                    'class' => $this->formHelper->getConfig('defaults.' . $this->type . '.choice_options.field_class', ''),
                 ],
             ],
         ];

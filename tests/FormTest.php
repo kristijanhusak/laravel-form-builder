@@ -258,7 +258,7 @@ class FormTest extends FormBuilderTestCase
 
         $this->assertEquals('text', $this->plainForm->description->getType());
         $this->assertEquals(
-            ['placeholder' => 'Enter text here...', 'class' => 'modified-input'],
+            ['placeholder' => 'Enter text here...', 'class' => 'form-control modified-input'],
             $this->plainForm->description->getOption('attr')
         );
 

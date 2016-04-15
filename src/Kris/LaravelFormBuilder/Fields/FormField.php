@@ -494,7 +494,7 @@ abstract class FormField
         $this->options = $this->formHelper->mergeOptions($this->allDefaults(), $this->getDefaults());
         $this->options = $this->prepareOptions($options);
 
-        $defaults = $this->setWrapperClass($options);
+        $defaults = $this->setDefaultClasses($options);
         $this->options = $this->formHelper->mergeOptions($this->options, $defaults);
 
         $this->setupLabel();
@@ -506,10 +506,12 @@ abstract class FormField
      * @param array $options
      * @return array
      */
-    protected function setWrapperClass(array $options = [])
+    protected function setDefaultClasses(array $options = [])
     {
         return [
             'wrapper' => ['class' => $this->formHelper->getConfig('defaults.' . $this->type . '.wrapper_class', 'form-' . $this->type)],
+            'label_attr' => ['class' => $this->formHelper->getConfig('defaults.' . $this->type . '.label_class', '')],
+            'attr' => ['class' => $this->formHelper->getConfig('defaults.' . $this->type . '.field_class', '')],
         ];
     }
 

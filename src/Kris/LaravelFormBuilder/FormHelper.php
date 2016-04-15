@@ -114,14 +114,32 @@ class FormHelper
      */
     public function mergeOptions(array $first, array $second)
     {
-        return array_merge_map_recursive(function($key, $a, $b)
-        {
-            if ($key == 'class')
-            {
-                return trim($a . ' ' . $b);
+        $merge_options = function($first, $second, $concat_classes = FALSE) use(&$merge_options) {
+            $arr = array();
+            foreach (array_unique(array_merge(array_keys($first), array_keys($second))) as $key) {
+                $new_value = NULL;
+
+                // Element exists in both arrays.
+                if (array_key_exists($key, $first) && array_key_exists($key, $second)) {
+                    // Recurse.
+                    if (is_array($first[$key]) && is_array($second[$key])) {
+                        $new_value = $merge_options($first[$key], $second[$key], in_array($key, array('wrapper', 'label_attr', 'attr')));
+                    }
+                    // Merge classes.
+                    elseif ($concat_classes && $key == 'class') {
+                        if (!str_contains($first[$key], $second[$key]) && !str_contains($second[$key], $first[$key])) {
+                            $new_value = trim($first[$key] . ' ' . $second[$key]);
+                        }
+                    }
+                }
+
+                // Take (in this order) new value, second value, first value.
+                $arr[$key] = $new_value ?: (array_key_exists($key, $second) ? $second[$key] : $first[$key]);
             }
-            return $b;
-        }, $first, $second);
+            return $arr;
+        };
+
+        return $merge_options($first, $second);
     }
 
     /**
@@ -174,6 +192,7 @@ class FormHelper
         foreach ($options as $name => $option) {
             if ($option !== null) {
                 $name = is_numeric($name) ? $option : $name;
+
                 $attributes[] = $name.'="'.$option.'" ';
             }
         }
