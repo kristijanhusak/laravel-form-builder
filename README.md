@@ -189,7 +189,7 @@ Go to `/songs/create`; above code will generate this html:
     </div>
     <div class="form-group">
         <label for="lyrics" class="control-label">Lyrics</label>
-        <textarea name="lyrics" class="form-control"></textarea>
+        <textarea name="lyrics" class="form-control" id="lyrics"></textarea>
     </div>
     <div class="form-group">
         <label for="publish" class="control-label">Publish</label>
