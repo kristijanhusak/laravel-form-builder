@@ -27,6 +27,12 @@ Changelog can be found [here](https://github.com/kristijanhusak/laravel-form-bui
 
 ###Installation
 
+```
+composer require kris/laravel-form-builder
+```
+
+Or manually by modifying `composer.json` file:
+
 ``` json
 {
     "require": {
@@ -35,7 +41,7 @@ Changelog can be found [here](https://github.com/kristijanhusak/laravel-form-bui
 }
 ```
 
-run `composer update`
+run `composer install`
 
 Then add Service provider to `config/app.php`
 
@@ -70,7 +76,7 @@ php artisan make:form Forms/SongForm --fields="name:text, lyrics:textarea, publi
 Form is created in path `app/Forms/SongForm.php` with content:
 
 ```php
-<?php 
+<?php
 
 namespace App\Forms;
 
