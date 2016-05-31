@@ -36,7 +36,7 @@ Or manually by modifying `composer.json` file:
 ``` json
 {
     "require": {
-        "kris/laravel-form-builder": "1.6.*"
+        "kris/laravel-form-builder": "1.*"
     }
 }
 ```

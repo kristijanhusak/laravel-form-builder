@@ -1,3 +1,8 @@
+## 1.7.0
+- Add check for nested translations (Thanks to [@paultela](https://github.com/paultela))
+- Add `label_show` property for field to allow hiding the label without setting it to false (Fixes issue with validation where error message requires label)
+- Add `error_messages` property for field to allow defining error messages in `buildForm`.
+
 ## 1.6.50
 - Translate form field labels if translation exist, and add `language_name` option to Form class in order to allow translating fields from specifing file (Thanks to [@koenvu](https://github.com/koenvu))
 - Add required attribute if validation rules contains `required` option (Thanks to [@koenvu](https://github.com/koenvu))
