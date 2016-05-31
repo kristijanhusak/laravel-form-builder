@@ -4,7 +4,7 @@
     <?php endif; ?>
 <?php endif; ?>
 
-<?php if ($showLabel && $options['label'] !== false): ?>
+<?php if ($showLabel && $options['label'] !== false && $options['label_show']): ?>
     <?= Form::label($name, $options['label'], $options['label_attr']) ?>
 <?php endif; ?>
 

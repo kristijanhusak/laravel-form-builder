@@ -415,6 +415,7 @@ abstract class FormField
             'value' => null,
             'default_value' => null,
             'label' => null,
+            'label_show' => true,
             'is_child' => false,
             'label_attr' => ['class' => $this->formHelper->getConfig('defaults.label_class')],
             'errors' => ['class' => $this->formHelper->getConfig('defaults.error_class')],

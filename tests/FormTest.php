@@ -458,7 +458,7 @@ class FormTest extends FormBuilderTestCase
     {
         $form = $this->formBuilder->plain();
         $customForm = $this->formBuilder->create('CustomDummyForm');
-        $customForm->add('img', 'file');
+        $customForm->add('img', 'file')->add('name', 'text', ['label_show' => false]);
         $model = ['song' => ['body' => 'test body'], 'title' => 'main title'];
         $form->setModel($model);
 
@@ -481,11 +481,12 @@ class FormTest extends FormBuilderTestCase
 
         $this->assertEquals($form, $form->title->getParent());
 
-        $form->renderForm();
+        $view = $form->renderForm();
 
         $this->assertEquals('songs[1]', $customForm->getName());
 
         $this->assertEquals('song[title]', $form->song->getChild('title')->getName());
+        $this->assertFalse($form->song->name->getOption('label_show'));
         $this->assertCount(2, $form->songs->getChildren());
         $this->assertEquals('lorem', $form->songs->getChild(0)->title->getOption('value'));
         $this->assertEquals('test body', $form->song->body->getOption('value'));
@@ -494,6 +495,8 @@ class FormTest extends FormBuilderTestCase
             'Kris\LaravelFormBuilder\Form',
             $form->song->getForm()
         );
+
+        $this->assertNotRegExp('/label.*for="name"/', $view);
 
         $this->assertTrue($form->song->getFormOption('files'));
 

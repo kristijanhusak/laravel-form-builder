@@ -106,6 +106,7 @@ abstract class FormBuilderTestCase extends TestCase {
             'value' => $defaultValue,
             'default_value' => null,
             'label' => $label,
+            'label_show' => true,
             'is_child' => false,
             'label_attr' => ['class' => 'control-label'],
             'errors' => ['class' => 'text-danger'],

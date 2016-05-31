@@ -4,7 +4,7 @@
     <?php endif; ?>
 <?php endif; ?>
 
-<?php if ($showLabel && $options['label'] !== false): ?>
+<?php if ($showLabel && $options['label'] !== false && $options['label_show']): ?>
     <label <?= $options['labelAttrs'] ?>><?= $options['label'] ?></label>
 <?php endif; ?>
 

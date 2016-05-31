@@ -36,6 +36,22 @@ class FormFieldTest extends FormBuilderTestCase
     }
 
     /** @test */
+    public function it_hides_the_label_with_label_show_property()
+    {
+        $options = [
+            'label' => 'Name',
+            'label_show' => false
+        ];
+        $field = new InputType('name', 'text', $this->plainForm, $options);
+
+        $view = $field->render();
+
+        $this->assertFalse($field->getOption('label_show'));
+        $this->assertNotContains('label', $view);
+    }
+
+
+    /** @test */
     public function it_sets_the_required_attribute_explicitly()
     {
         $options = [
