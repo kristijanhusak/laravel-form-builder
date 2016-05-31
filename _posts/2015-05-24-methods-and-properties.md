@@ -198,7 +198,7 @@ $form->remove('email');
 ```
 
 #### setModel **(DEPRECATED)**
-**Note**: This method is deprecated and will be removed in 1.7 version.
+**Note**: This method is deprecated and will be removed in version 2.
 Pass model through options when creating a form. More info in [Form options]({{ site.baseurl }}{% post_url 2015-05-24-basics %}#form-options) section
 
 After form instantiation, we can set the model for the form, that will be used to bind values for the fields in the form.

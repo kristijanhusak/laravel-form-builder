@@ -19,9 +19,12 @@ $options = [
         'attr' => ['class' => 'help-block']
     ],
     'default_value' => null, // Fallback value if none provided by value property or model
-    'label' => $this->name, // Field name used
+    'label' => $this->name,  // Field name used
+    'label_show' => true,
     'label_attr' => ['class' => 'control-label', 'for' => $this->name],
-    'errors' => ['class' => 'text-danger']
+    'errors' => ['class' => 'text-danger'],
+    'rules' => [],           // Validation rules
+    'error_messages' => []   // Validation error messages
 ]
 ```
 

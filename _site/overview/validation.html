@@ -173,7 +173,10 @@ that are specified through field options, and validates the form. Here&#39;s a s
         <span class="nv">$this</span>
             <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'title'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">,</span> <span class="p">[</span>
                 <span class="s1">'label'</span> <span class="o">=&gt;</span> <span class="s1">'Post title'</span><span class="p">,</span>
-                <span class="s1">'rules'</span> <span class="o">=&gt;</span> <span class="s1">'required|min:5'</span>
+                <span class="s1">'rules'</span> <span class="o">=&gt;</span> <span class="s1">'required|min:5'</span><span class="p">,</span>
+                <span class="s1">'error_messages'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                    <span class="s1">'title.required'</span> <span class="o">=&gt;</span> <span class="s1">'The title field is mandatory.'</span>
+                <span class="p">]</span>
             <span class="p">])</span>
             <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'body'</span><span class="p">,</span> <span class="s1">'textarea'</span><span class="p">,</span> <span class="p">[</span>
                 <span class="s1">'label'</span> <span class="o">=&gt;</span> <span class="s1">'Post body'</span><span class="p">,</span>
@@ -217,9 +220,11 @@ that are specified through field options, and validates the form. Here&#39;s a s
 <span class="p">}</span>
 </code></pre></div>
 <p><strong>NOTE: Form class will automatically use labels as attributes in error messages: For example when required validation fails:</strong></p>
-<div class="highlight"><pre><code class="language-" data-lang="">* The Post title is required.
+<div class="highlight"><pre><code class="language-" data-lang="">* The title field is mandatory.
 * The Post body is required.
 </code></pre></div>
+<p>First error message is from <code>error_messages</code> property, and 2nd is automatically generated.</p>
+
 <h3 id="overriding-rules">Overriding rules</h3>
 
 <p>By default when you call <code>isValid</code> method on the Form class, it will call <code>validate</code> method,
@@ -256,8 +261,14 @@ It will override rules only for fields that you pass, and for other will use def
 <h3 id="custom-messages">Custom messages</h3>
 
 <p>In some situations there is a need for a custom message per field.
-Custom messages can be provided as <strong>2nd argument to <code>validate</code> method</strong>.
-Let&#39;s use the example from above:</p>
+Custom messages can be provided in 2 ways:</p>
+
+<ul>
+<li><strong>through <code>error_messages</code> property on field (<a href="#basics">See PostForm above</a>)</strong></li>
+<li><strong>2nd argument to <code>validate</code> method</strong>.</li>
+</ul>
+
+<p>Let&#39;s use the example from above:</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php">// app/Http/Controllers/PostController.php
 <span class="cp">&lt;?php</span>
 <span class="k">namespace</span> <span class="nx">App\Http\Controllers</span><span class="p">;</span>

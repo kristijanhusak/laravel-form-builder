@@ -160,10 +160,13 @@
         <span class="s1">'attr'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'help-block'</span><span class="p">]</span>
     <span class="p">],</span>
     <span class="s1">'default_value'</span> <span class="o">=&gt;</span> <span class="kc">null</span><span class="p">,</span> <span class="c1">// Fallback value if none provided by value property or model
-</span>    <span class="s1">'label'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">,</span> <span class="c1">// Field name used
-</span>    <span class="s1">'label_attr'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'control-label'</span><span class="p">,</span> <span class="s1">'for'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">],</span>
-    <span class="s1">'errors'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'text-danger'</span><span class="p">]</span>
-<span class="p">]</span>
+</span>    <span class="s1">'label'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">,</span>  <span class="c1">// Field name used
+</span>    <span class="s1">'label_show'</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="s1">'label_attr'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'control-label'</span><span class="p">,</span> <span class="s1">'for'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">],</span>
+    <span class="s1">'errors'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'text-danger'</span><span class="p">],</span>
+    <span class="s1">'rules'</span> <span class="o">=&gt;</span> <span class="p">[],</span>           <span class="c1">// Validation rules
+</span>    <span class="s1">'error_messages'</span> <span class="o">=&gt;</span> <span class="p">[]</span>   <span class="c1">// Validation error messages
+</span><span class="p">]</span>
 </code></pre></div>
 <p>This is html demonstration of the options:</p>
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>

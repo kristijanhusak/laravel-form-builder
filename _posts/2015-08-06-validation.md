@@ -29,7 +29,10 @@ class PostForm extends Form
         $this
             ->add('title', 'text', [
                 'label' => 'Post title',
-                'rules' => 'required|min:5'
+                'rules' => 'required|min:5',
+                'error_messages' => [
+                    'title.required' => 'The title field is mandatory.'
+                ]
             ])
             ->add('body', 'textarea', [
                 'label' => 'Post body',
@@ -79,9 +82,11 @@ class PostController extends Controller
 **NOTE: Form class will automatically use labels as attributes in error messages: For example when required validation fails:**
 
 ```
-* The Post title is required.
+* The title field is mandatory.
 * The Post body is required.
 ```
+
+First error message is from `error_messages` property, and 2nd is automatically generated.
 
 ### Overriding rules
 
@@ -122,7 +127,11 @@ class PostController extends Controller
 ### Custom messages
 
 In some situations there is a need for a custom message per field.
-Custom messages can be provided as **2nd argument to `validate` method**.
+Custom messages can be provided in 2 ways:
+
+* **through `error_messages` property on field ([See PostForm above](#basics))**
+* **2nd argument to `validate` method**.
+
 Let's use the example from above:
 
 ```php

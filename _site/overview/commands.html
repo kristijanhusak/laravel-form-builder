@@ -182,7 +182,7 @@ and it will have this content:</p>
 <p>When creating form class through CLI it is possible to pass array of fields that will be automatically added to the class.
 Let&#39;s take example from above. Most of the time, login form contains username and password fields. To generate form class with those
 fields this command needs to be run:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">php artisan make:form Http/Forms/LoginForm --fields<span class="o">=</span><span class="s2">"username:text, password:password"</span>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">php artisan form:make Http/Forms/LoginForm --fields<span class="o">=</span><span class="s2">"username:text, password:password"</span>
 </code></pre></div>
 <p>And it will generate this:</p>
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Http\Forms</span><span class="p">;</span>
