@@ -100,14 +100,29 @@ class FormTest extends FormBuilderTestCase
             ->add('name', 'text', [
                 'rules' => 'required|min:5'
             ])
+            ->add('age', 'text', [
+                'rules' => 'required',
+                'error_messages' => [
+                    'age.required' => 'The age field is a must.'
+                ]
+            ])
+            ->add('email', 'email', [
+                'rules' => 'required|email',
+                'error_messages' => [
+                    'email.email' => 'The email is needed and this will not be shown.'
+                ]
+            ])
             ->add('description', 'textarea', [
                 'rules' => 'max:10'
             ]);
 
         $this->request['name'] = 'name';
         $this->request['description'] = 'some long description';
+        $this->request['email'] = 'invalidemail';
+
         $validate = $this->plainForm->validate(['name' => 'numeric'], [
-            'name.numeric' => 'Name field must be numeric.'
+            'name.numeric' => 'Name field must be numeric.',
+            'email.email' => 'The email is very required.'
         ]);
 
         $isValid = $this->plainForm->isValid();
@@ -116,7 +131,9 @@ class FormTest extends FormBuilderTestCase
 
         $errors = [
             'name' => ['Name field must be numeric.'],
-            'description' => ['The Description may not be greater than 10 characters.']
+            'description' => ['The Description may not be greater than 10 characters.'],
+            'age' => ['The age field is a must.'],
+            'email' => ['The email is very required.']
         ];
 
         $this->assertEquals($errors, $this->plainForm->getErrors());

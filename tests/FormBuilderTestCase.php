@@ -112,7 +112,8 @@ abstract class FormBuilderTestCase extends TestCase {
             'errors' => ['class' => 'text-danger'],
             'wrapperAttrs' => 'class="form-group" ',
             'errorAttrs' => 'class="text-danger" ',
-            'rules' => []
+            'rules' => [],
+            'error_messages' => []
         ];
     }
 

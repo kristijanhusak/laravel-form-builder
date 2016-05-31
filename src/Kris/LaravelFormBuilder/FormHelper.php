@@ -251,17 +251,20 @@ class FormHelper
     {
         $rules = [];
         $attributes = [];
+        $messages = [];
 
         foreach ($fields as $field) {
             if ($fieldRules = $field->getValidationRules()) {
                 $rules = array_merge($rules, $fieldRules['rules']);
                 $attributes = array_merge($attributes, $fieldRules['attributes']);
+                $messages = array_merge($messages, $fieldRules['error_messages']);
             }
         }
 
         return [
             'rules' => $rules,
-            'attributes' => $attributes
+            'attributes' => $attributes,
+            'error_messages' => $messages
         ];
     }
 

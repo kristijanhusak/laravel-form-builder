@@ -419,7 +419,8 @@ abstract class FormField
             'is_child' => false,
             'label_attr' => ['class' => $this->formHelper->getConfig('defaults.label_class')],
             'errors' => ['class' => $this->formHelper->getConfig('defaults.error_class')],
-            'rules' => []
+            'rules' => [],
+            'error_messages' => []
         ];
     }
 
@@ -569,7 +570,8 @@ abstract class FormField
 
         return [
             'rules' => [$name => $rules],
-            'attributes' => [$name => $this->getOption('label')]
+            'attributes' => [$name => $this->getOption('label')],
+            'error_messages' => $this->getOption('error_messages', [])
         ];
     }
 

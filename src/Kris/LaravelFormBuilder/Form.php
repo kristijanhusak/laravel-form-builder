@@ -1038,6 +1038,7 @@ class Form
     {
         $fieldRules = $this->formHelper->mergeFieldsRules($this->fields);
         $rules = array_merge($fieldRules['rules'], $validationRules);
+        $messages = array_merge($fieldRules['error_messages'], $messages);
 
         $this->validator = $this->validatorFactory->make($this->getRequest()->all(), $rules, $messages);
         $this->validator->setAttributeNames($fieldRules['attributes']);
