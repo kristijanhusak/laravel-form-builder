@@ -1,3 +1,8 @@
+## 1.7.10
+- Fix bug where `error_messages` were not namespaced properly in child forms ([#225](https://github.com/kristijanhusak/laravel-form-builder/issues/225))
+- Add check for field name and forbid reserved words ([#232](https://github.com/kristijanhusak/laravel-form-builder/issues/232))
+- Use Symfony's `TranslatorInterface` instead of Laravel's Translator implementation([#231](https://github.com/kristijanhusak/laravel-form-builder/issues/231))
+
 ## 1.7.0
 - Add check for nested translations (Thanks to [@paultela](https://github.com/paultela))
 - Add `label_show` property for field to allow hiding the label without setting it to false (Fixes issue with validation where error message requires label)

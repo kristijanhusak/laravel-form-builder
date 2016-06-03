@@ -1,7 +1,7 @@
 <?php  namespace Kris\LaravelFormBuilder;
 
 use Illuminate\Support\Collection;
-use Illuminate\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 use Illuminate\Database\Eloquent\Model;
 use Kris\LaravelFormBuilder\Fields\FormField;
 use Illuminate\Contracts\View\Factory as View;
@@ -15,7 +15,7 @@ class FormHelper
     protected $view;
 
     /**
-     * @var Translator
+     * @var TranslatorInterface
      */
     protected $translator;
 
@@ -83,10 +83,10 @@ class FormHelper
 
     /**
      * @param View    $view
-     * @param Translator $translator
+     * @param TranslatorInterface $translator
      * @param array   $config
      */
-    public function __construct(View $view, Translator $translator, array $config = [])
+    public function __construct(View $view, TranslatorInterface $translator, array $config = [])
     {
         $this->view = $view;
         $this->translator = $translator;
@@ -285,7 +285,7 @@ class FormHelper
     }
 
     /**
-     * @return Translator
+     * @return TranslatorInterface
      */
     public function getTranslator()
     {
