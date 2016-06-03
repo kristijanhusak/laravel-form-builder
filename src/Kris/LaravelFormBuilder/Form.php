@@ -172,11 +172,7 @@ class Form
      */
     public function add($name, $type = 'text', array $options = [], $modify = false)
     {
-        if (!$name || trim($name) == '') {
-            throw new \InvalidArgumentException(
-                'Please provide valid field name for class ['. get_class($this) .']'
-            );
-        }
+        $this->formHelper->checkFieldName($name, get_class($this));
 
         if ($this->rebuilding && !$this->has($name)) {
             return $this;

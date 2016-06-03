@@ -137,4 +137,22 @@ class FormHelperTest extends FormBuilderTestCase
         $this->assertEquals($data, $eloquentModel);
         $this->assertNull($this->formHelper->convertModelToArray([]));
     }
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
+    public function it_throws_InvalidArgumentException_for_empty_field_name()
+    {
+        $this->formHelper->checkFieldName('', get_class($this));
+    }
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
+    public function it_throws_InvalidArgumentException_for_reserved_field_names()
+    {
+        $this->formHelper->checkFieldName('save', get_class($this));
+    }
 }

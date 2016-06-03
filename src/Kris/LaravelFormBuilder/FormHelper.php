@@ -30,6 +30,13 @@ class FormHelper
     protected $formBuilder;
 
     /**
+     * @var array
+     */
+    protected static $reservedFieldNames = [
+        'save'
+    ];
+
+    /**
      * All available field types
      *
      * @var array
@@ -283,5 +290,30 @@ class FormHelper
     public function getTranslator()
     {
         return $this->translator;
+    }
+
+    /**
+     * Check if field name is valid and not reserved
+     *
+     * @throws \InvalidArgumentException
+     * @param string $name
+     * @param string $className
+     */
+    public function checkFieldName($name, $className)
+    {
+        if (!$name || trim($name) == '') {
+            throw new \InvalidArgumentException(
+                "Please provide valid field name for class [{$className}]"
+            );
+        }
+
+        if (in_array($name, static::$reservedFieldNames)) {
+            throw new \InvalidArgumentException(
+                "Field name [{$name}] in form [{$className}] is a reserved word. Please use a different field name." .
+                "\nList of all reserved words: " . join(', ', static::$reservedFieldNames)
+            );
+        }
+
+        return true;
     }
 }

@@ -357,6 +357,15 @@ class FormTest extends FormBuilderTestCase
         $this->plainForm->add('name', 'text')->add('name', 'textarea');
     }
 
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
+    public function it_throws_exception_if_field_name_is_reserved()
+    {
+        $this->plainForm->add('save', 'submit');
+    }
+
     /** @test */
     public function it_throws_InvalidArgumentException_on_non_existing_property()
     {
