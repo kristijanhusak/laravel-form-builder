@@ -139,6 +139,40 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals($errors, $this->plainForm->getErrors());
     }
 
+    /** @test */
+    public function it_uses_error_messages_from_fields()
+    {
+        $childForm = $this->formBuilder->plain();
+        $childForm->add('street', 'text', [
+            'rules' => 'required|min:5',
+            'error_messages' => [
+                'street.min' => 'Street needs to have 5 letters.'
+            ]
+        ]);
+
+        $this->plainForm
+            ->add('name', 'text', [
+                'rules' => 'required|min:5',
+                'error_messages' => [
+                    'name.required' => 'Please provide your name.'
+                ]
+            ])
+            ->add('address', 'form', [
+                'class' => $childForm
+            ]);
+
+        $this->request['address'] = ['street' => 'ab'];
+
+        $this->assertFalse($this->plainForm->isValid());
+
+        $errors = [
+            'name' => ['Please provide your name.'],
+            'address.street' => ['Street needs to have 5 letters.']
+        ];
+
+        $this->assertEquals($errors, $this->plainForm->getErrors());
+    }
+
     /**
      * @test
      * @expectedException \InvalidArgumentException

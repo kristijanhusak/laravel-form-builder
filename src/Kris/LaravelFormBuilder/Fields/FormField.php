@@ -563,6 +563,17 @@ abstract class FormField
     {
         $rules = $this->getOption('rules', []);
         $name = $this->getNameKey();
+        $messages = $this->getOption('error_messages', []);
+        $formName = $this->parent->getName();
+
+        if ($messages && $formName) {
+            $newMessages = [];
+            foreach ($messages as $messageKey => $message) {
+                $messageKey = sprintf('%s.%s', $formName, $messageKey);
+                $newMessages[$messageKey] = $message;
+            }
+            $messages = $newMessages;
+        }
 
         if (!$rules) {
             return [];
@@ -571,7 +582,7 @@ abstract class FormField
         return [
             'rules' => [$name => $rules],
             'attributes' => [$name => $this->getOption('label')],
-            'error_messages' => $this->getOption('error_messages', [])
+            'error_messages' => $messages
         ];
     }
 
