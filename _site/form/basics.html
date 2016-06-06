@@ -246,7 +246,8 @@
     <span class="s1">'method'</span> <span class="o">=&gt;</span> <span class="s1">'POST'</span><span class="p">,</span>
     <span class="s1">'url'</span> <span class="o">=&gt;</span> <span class="nx">action</span><span class="p">(</span><span class="s1">'AuthController@postLogin'</span><span class="p">),</span>
     <span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'form-horizontal'</span><span class="p">,</span>
-    <span class="s1">'template'</span> <span class="o">=&gt;</span> <span class="s1">'user.form'</span>                       <span class="c1">// Template used for the main form layout
+    <span class="s1">'language_name'</span> <span class="o">=&gt;</span> <span class="s1">''</span><span class="p">,</span>                          <span class="c1">// translation prefix used to translate fields with nested translations
+</span>    <span class="s1">'template'</span> <span class="o">=&gt;</span> <span class="s1">'user.form'</span>                       <span class="c1">// Template used for the main form layout
 </span>    <span class="s1">'model'</span> <span class="o">=&gt;</span> <span class="nv">$model</span><span class="p">,</span>                              <span class="c1">// Not passed to view, just used in form class
 </span>    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'users'</span><span class="p">,</span>                              <span class="c1">// Not passed to view, just used in form class
 </span>    <span class="s1">'data'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'some_dummy_data'</span> <span class="o">=&gt;</span> <span class="s1">'some text'</span><span class="p">],</span>   <span class="c1">// Not passed to view, just used in form class
@@ -254,21 +255,63 @@
 </code></pre></div>
 <p>First 3 items are passed to view to <code>Form::open()</code> method, which just set&#39;s the action, method, and some additional attributes like css class.</p>
 
-<h5 id="model">model</h5>
+<p><strong>language_name</strong></p>
+
+<p>This option is used to allow setting up translations per form. For example, if you have ContactForm, you can do this in your translation:</p>
+
+<p>Create file <code>resources/lang/en/contact_form.php</code></p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<span class="c1">// resources/lang/en/contact_form.php
+</span>
+<span class="k">return</span> <span class="p">[</span>
+    <span class="s1">'subject'</span> <span class="o">=&gt;</span> <span class="s1">'Enter subject'</span><span class="p">,</span>
+    <span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="s1">'What is your message?'</span>
+<span class="p">];</span>
+</code></pre></div>
+<p>And when you create form just pass it in:</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<span class="c1">// ...
+</span><span class="nx">FormBuilder</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="nx">ContactForm</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'language_name'</span> <span class="o">=&gt;</span> <span class="s1">'contact_form'</span>
+<span class="p">]);</span>
+<span class="c1">// ...
+</span></code></pre></div>
+<p>Or if you want to use same file for all forms, it can be something like this:</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<span class="c1">// resources/lang/en/translations.php
+</span>
+<span class="k">return</span> <span class="p">[</span>
+    <span class="s1">'contact_form'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'subject'</span> <span class="o">=&gt;</span> <span class="s1">'Enter subject'</span><span class="p">,</span>
+        <span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="s1">'What is your message?'</span>
+    <span class="p">]</span>
+<span class="p">];</span>
+</code></pre></div>
+<p>And then add <code>language_name</code> like this:</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<span class="c1">// ...
+</span><span class="nx">FormBuilder</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="nx">ContactForm</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'language_name'</span> <span class="o">=&gt;</span> <span class="s1">'translations.contact_form'</span>
+<span class="p">]);</span>
+<span class="c1">// ...
+</span></code></pre></div>
+<p>More information on <a href="https://github.com/kristijanhusak/laravel-form-builder/issues/206">Issue #206</a>.</p>
+
+<p><strong>model</strong></p>
 
 <p><code>model</code> is Eloquent model that will be used to bind values to form.</p>
 
 <p><strong>It will be done automatically!</strong></p>
 
-<h5 id="name">name</h5>
+<p><strong>name</strong></p>
 
 <p><code>name</code> is used for creating <a href="/laravel-form-builder/form/named-form.html">Named form</a>.</p>
 
-<h5 id="template">template</h5>
+<p><strong>template</strong></p>
 
 <p><code>template</code> is used for overriding default template that is used to print main form layout. Make sure it has the similar structure as default one.</p>
 
-<h5 id="data">data</h5>
+<p><strong>data</strong></p>
 
 <p><code>data</code> is just another way to pass some static data that can be used in the form.</p>
 
