@@ -174,7 +174,7 @@
     <span class="p">{</span>
         <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'title'</span><span class="p">)</span>
             <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'body'</span><span class="p">)</span>
-            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'save'</span><span class="p">,</span> <span class="s1">'submit'</span><span class="p">);</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'submit'</span><span class="p">,</span> <span class="s1">'submit'</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -192,7 +192,7 @@
         <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"body"</span><span class="nt">&gt;</span>Body<span class="nt">&lt;/label&gt;</span>
         <span class="nt">&lt;textarea</span> <span class="na">id=</span><span class="s">"body"</span> <span class="na">name=</span><span class="s">"body"</span> <span class="na">class=</span><span class="s">"form-control"</span><span class="nt">&gt;&lt;/textarea&gt;</span>
     <span class="nt">&lt;/div&gt;</span>
-    <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span>Save<span class="nt">&lt;/button&gt;</span>
+    <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span>Submit<span class="nt">&lt;/button&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
 </code></pre></div>
 <h3 id="form_start">form_start</h3>
@@ -220,7 +220,7 @@ form_rest($form)
         <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"title"</span> <span class="na">id=</span><span class="s">"title"</span> <span class="na">class=</span><span class="s">"form-control"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;/div&gt;</span>
     <span class="nt">&lt;h1&gt;</span>Other fields<span class="nt">&lt;/h1&gt;</span>
-    <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span>Save<span class="nt">&lt;/button&gt;</span>
+    <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span>Submit<span class="nt">&lt;/button&gt;</span>
 <span class="c">&lt;!-- Note the missing &lt;/form&gt;, form_end is required --&gt;</span>
 </code></pre></div>
 <h3 id="form_end">form_end</h3>
@@ -243,7 +243,7 @@ form_end($form, $renderRest = true);
         <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"body"</span><span class="nt">&gt;</span>Body<span class="nt">&lt;/label&gt;</span>
         <span class="nt">&lt;textarea</span> <span class="na">id=</span><span class="s">"body"</span> <span class="na">name=</span><span class="s">"body"</span> <span class="na">class=</span><span class="s">"form-control"</span><span class="nt">&gt;&lt;/textarea&gt;</span>
     <span class="nt">&lt;/div&gt;</span>
-    <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span>Save<span class="nt">&lt;/button&gt;</span>
+    <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span>Submit<span class="nt">&lt;/button&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
 </code></pre></div>
 <p>If you <strong>do not want rest of the fields</strong>, pass false as 2nd argument:</p>
@@ -297,7 +297,7 @@ form_end($form, false);
 
 <p>Renders the form until the provided field.</p>
 <div class="highlight"><pre><code class="language-" data-lang="">form_start($form);
-form_until($form, 'save');
+form_until($form, 'submit');
 form_end($form, false);
 </code></pre></div><div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/"</span> <span class="na">method=</span><span class="s">"GET"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"_token"</span> <span class="na">value=</span><span class="s">"randomstring"</span><span class="nt">&gt;</span>

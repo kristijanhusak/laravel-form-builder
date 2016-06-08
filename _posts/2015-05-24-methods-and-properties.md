@@ -72,7 +72,7 @@ It accepts 4 arguments:
 $form = FormBuilder::plain()
     ->add('username', 'text')
     ->add('password', 'password')
-    ->add('save', 'submit');
+    ->add('submit', 'submit');
 
 $form->addBefore('password', 'full_name', 'text');
 ```
@@ -97,7 +97,7 @@ It accepts 4 arguments:
 $form = FormBuilder::plain()
     ->add('username', 'text')
     ->add('password', 'password')
-    ->add('save', 'submit');
+    ->add('submit', 'submit');
 
 $form->addAfter('password', 'address', 'text');
 ```
@@ -167,7 +167,7 @@ It accepts 4 arguments:
 $form = FormBuilder::plain()
     ->add('username', 'text')
     ->add('password')
-    ->add('save', 'submit');
+    ->add('submit', 'submit');
 
 $form->modify('username', 'text', [
     'attr' => ['disabled' => true]
@@ -192,7 +192,7 @@ $form = FormBuilder::plain()
     ->add('username', 'text')
     ->add('email', 'email')
     ->add('password')
-    ->add('save', 'submit');
+    ->add('submit', 'submit');
 
 $form->remove('email');
 ```

@@ -263,7 +263,7 @@ It&#39;s mostly useful after the form instantiation, if You want to add new fiel
 <span class="nv">$form</span> <span class="o">=</span> <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">plain</span><span class="p">()</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">,</span> <span class="s1">'password'</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'save'</span><span class="p">,</span> <span class="s1">'submit'</span><span class="p">);</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'submit'</span><span class="p">,</span> <span class="s1">'submit'</span><span class="p">);</span>
 
 <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">addBefore</span><span class="p">(</span><span class="s1">'password'</span><span class="p">,</span> <span class="s1">'full_name'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">);</span>
 </code></pre></div>
@@ -312,7 +312,7 @@ It&#39;s mostly useful after the form instantiation, if You want to add new fiel
 <span class="nv">$form</span> <span class="o">=</span> <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">plain</span><span class="p">()</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">,</span> <span class="s1">'password'</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'save'</span><span class="p">,</span> <span class="s1">'submit'</span><span class="p">);</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'submit'</span><span class="p">,</span> <span class="s1">'submit'</span><span class="p">);</span>
 
 <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">addAfter</span><span class="p">(</span><span class="s1">'password'</span><span class="p">,</span> <span class="s1">'address'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">);</span>
 </code></pre></div>
@@ -425,7 +425,7 @@ It&#39;s mostly useful after the form instantiation, if You want to add new fiel
 <span class="nv">$form</span> <span class="o">=</span> <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">plain</span><span class="p">()</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'save'</span><span class="p">,</span> <span class="s1">'submit'</span><span class="p">);</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'submit'</span><span class="p">,</span> <span class="s1">'submit'</span><span class="p">);</span>
 
 <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">modify</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">,</span> <span class="p">[</span>
     <span class="s1">'attr'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'disabled'</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">]</span>
@@ -458,7 +458,7 @@ Using this method we can remove those fields.</p>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'email'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'save'</span><span class="p">,</span> <span class="s1">'submit'</span><span class="p">);</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'submit'</span><span class="p">,</span> <span class="s1">'submit'</span><span class="p">);</span>
 
 <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">remove</span><span class="p">(</span><span class="s1">'email'</span><span class="p">);</span>
 </code></pre></div>

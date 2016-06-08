@@ -31,7 +31,7 @@ class PostForm extends Form
     {
         $this->add('title')
             ->add('body')
-            ->add('save', 'submit');
+            ->add('submit', 'submit');
     }
 }
 ```
@@ -54,7 +54,7 @@ form($form, $formOptions = []);
         <label for="body">Body</label>
         <textarea id="body" name="body" class="form-control"></textarea>
     </div>
-    <button type="submit">Save</button>
+    <button type="submit">Submit</button>
 </form>
 ```
 
@@ -94,7 +94,7 @@ form_rest($form)
         <input type="text" name="title" id="title" class="form-control">
     </div>
     <h1>Other fields</h1>
-    <button type="submit">Save</button>
+    <button type="submit">Submit</button>
 <!-- Note the missing </form>, form_end is required -->
 ```
 
@@ -123,7 +123,7 @@ form_end($form, $renderRest = true);
         <label for="body">Body</label>
         <textarea id="body" name="body" class="form-control"></textarea>
     </div>
-    <button type="submit">Save</button>
+    <button type="submit">Submit</button>
 </form>
 ```
 
@@ -211,7 +211,7 @@ Renders the form until the provided field.
 
 ```
 form_start($form);
-form_until($form, 'save');
+form_until($form, 'submit');
 form_end($form, false);
 ```
 
