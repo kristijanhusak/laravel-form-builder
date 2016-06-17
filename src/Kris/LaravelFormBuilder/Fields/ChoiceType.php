@@ -137,20 +137,24 @@ class ChoiceType extends ParentType
         $defaults = parent::setDefaultClasses($options);
         $choice_type = $this->determineChoiceField();
 
-        $defaults['wrapper']['class'] .= ' ' . $this->formHelper->getConfig('defaults.' . $this->type . '.' . $choice_type . '_wrapper_class', 'form-' . $this->type . '-' . $choice_type);
-        $defaults += [
-            'choice_options' => [
-                'wrapper' => [
-                    'class' => $this->formHelper->getConfig('defaults.' . $this->type . '.choice_options.wrapper_class', 'form-' . $choice_type),
-                ],
-                'label_attr' => [
-                    'class' => $this->formHelper->getConfig('defaults.' . $this->type . '.choice_options.label_class', ''),
-                ],
-                'attr' => [
-                    'class' => $this->formHelper->getConfig('defaults.' . $this->type . '.choice_options.field_class', ''),
-                ],
-            ],
-        ];
+        $wrapper_class = $this->formHelper->getConfig('defaults.' . $this->type . '.' . $choice_type . '_wrapper_class', '');
+        if ($wrapper_class) {
+            $defaults['wrapper']['class'] = (isset($defaults['wrapper']['class']) ? $defaults['wrapper']['class'] . ' ' : '') . $wrapper_class;
+        }
+
+        $choice_wrapper_class = $this->formHelper->getConfig('defaults.' . $this->type . '.choice_options.wrapper_class', '');
+        $choice_label_class = $this->formHelper->getConfig('defaults.' . $this->type . '.choice_options.label_class', '');
+        $choice_field_class = $this->formHelper->getConfig('defaults.' . $this->type . '.choice_options.field_class', '');
+
+        if ($choice_wrapper_class) {
+            $defaults['choice_options']['wrapper']['class'] = $choice_wrapper_class;
+        }
+        if ($choice_label_class) {
+            $defaults['choice_options']['label_attr']['class'] = $choice_label_class;
+        }
+        if ($choice_field_class) {
+            $defaults['choice_options']['attr']['class'] = $choice_field_class;
+        }
 
         return $defaults;
     }

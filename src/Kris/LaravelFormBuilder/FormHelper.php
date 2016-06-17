@@ -192,7 +192,6 @@ class FormHelper
         foreach ($options as $name => $option) {
             if ($option !== null) {
                 $name = is_numeric($name) ? $option : $name;
-
                 $attributes[] = $name.'="'.$option.'" ';
             }
         }

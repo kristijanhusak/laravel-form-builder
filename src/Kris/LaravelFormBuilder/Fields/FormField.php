@@ -508,11 +508,21 @@ abstract class FormField
      */
     protected function setDefaultClasses(array $options = [])
     {
-        return [
-            'wrapper' => ['class' => $this->formHelper->getConfig('defaults.' . $this->type . '.wrapper_class', 'form-' . $this->type)],
-            'label_attr' => ['class' => $this->formHelper->getConfig('defaults.' . $this->type . '.label_class', '')],
-            'attr' => ['class' => $this->formHelper->getConfig('defaults.' . $this->type . '.field_class', '')],
-        ];
+        $wrapper_class = $this->formHelper->getConfig('defaults.' . $this->type . '.wrapper_class', '');
+        $label_class = $this->formHelper->getConfig('defaults.' . $this->type . '.label_class', '');
+        $field_class = $this->formHelper->getConfig('defaults.' . $this->type . '.field_class', '');
+
+        $defaults = [];
+        if ($wrapper_class) {
+            $defaults['wrapper']['class'] = $wrapper_class;
+        }
+        if ($label_class) {
+            $defaults['label_attr']['class'] = $label_class;
+        }
+        if ($field_class) {
+            $defaults['attr']['class'] = $field_class;
+        }
+        return $defaults;
     }
 
     protected function setupLabel()
