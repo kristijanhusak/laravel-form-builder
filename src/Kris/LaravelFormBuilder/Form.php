@@ -997,7 +997,11 @@ class Form
     protected function getFieldName($name)
     {
         if ($this->getName() !== null) {
-            return $this->getName().'['.$name.']';
+            return $this->formHelper->transformToBracketSyntax(
+                $this->formHelper->transformToDotSyntax(
+                    $this->getName() . '[' . $name . ']'
+                )
+            );
         }
 
         return $name;

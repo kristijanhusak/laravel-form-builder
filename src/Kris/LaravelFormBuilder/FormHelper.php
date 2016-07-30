@@ -285,6 +285,21 @@ class FormHelper
     }
 
     /**
+     * @param string $string
+     * @return string
+     */
+    public function transformToBracketSyntax($string)
+    {
+        $name = explode('.', $string);
+        if (count($name) == 1) {
+            return $name[0];
+        }
+
+        $first = array_shift($name);
+        return $first . '[' . implode('][', $name) . ']';
+    }
+
+    /**
      * @return TranslatorInterface
      */
     public function getTranslator()
