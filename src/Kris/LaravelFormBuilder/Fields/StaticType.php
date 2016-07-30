@@ -35,4 +35,13 @@ class StaticType extends FormField
             'attr' => ['class' => 'form-control-static', 'id' => $this->getName()]
         ];
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllAttributes()
+    {
+        // No input allowed for Static fields.
+        return [];
+    }
 }

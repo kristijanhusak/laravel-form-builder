@@ -587,6 +587,16 @@ abstract class FormField
     }
 
     /**
+     * Get this field's attributes, probably just one.
+     *
+     * @return array
+     */
+    public function getAllAttributes()
+    {
+        return [$this->getNameKey()];
+    }
+
+    /**
      * Get value property
      *
      * @param mixed|null $default

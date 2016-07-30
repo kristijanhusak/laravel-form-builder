@@ -3,6 +3,7 @@
 use Illuminate\Contracts\Validation\Factory as ValidatorFactory;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Kris\LaravelFormBuilder\Fields\FormField;
 
 class Form
@@ -1056,6 +1057,16 @@ class Form
     }
 
     /**
+     * Get all form field attributes, including child forms, in a flat array.
+     *
+     * @return array
+     */
+    public function getAllAttributes()
+    {
+        return $this->formHelper->mergeAttributes($this->fields);
+    }
+
+    /**
      * Check if the form is valid
      *
      * @return bool
@@ -1086,6 +1097,26 @@ class Form
         }
 
         return $this->validator->getMessageBag()->getMessages();
+    }
+
+    /**
+     * Get all Request values from all fields, and nothing else.
+     *
+     * @return array
+     */
+    public function getValidatedValues($with_nulls = true)
+    {
+        $request_values = $this->getRequest()->all();
+
+        $values = [];
+        foreach ($this->getAllAttributes() as $attribute) {
+            $value = Arr::get($request_values, $attribute);
+            if ($with_nulls || $value !== null) {
+                Arr::set($values, $attribute, $value);
+            }
+        }
+
+        return $values;
     }
 
     /**

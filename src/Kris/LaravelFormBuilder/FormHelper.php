@@ -276,6 +276,19 @@ class FormHelper
     }
 
     /**
+     * @return array
+     */
+    public function mergeAttributes($fields)
+    {
+        $attributes = [];
+        foreach ($fields as $field) {
+            $attributes = array_merge($attributes, $field->getAllAttributes());
+        }
+
+        return $attributes;
+    }
+
+    /**
      * @param string $string
      * @return string
      */
