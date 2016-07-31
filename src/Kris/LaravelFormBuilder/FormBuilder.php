@@ -1,6 +1,7 @@
 <?php  namespace Kris\LaravelFormBuilder;
 
 use Illuminate\Contracts\Container\Container;
+use Kris\LaravelFormBuilder\Events\AfterFormCreation;
 
 class FormBuilder
 {
@@ -51,6 +52,8 @@ class FormBuilder
             ->setFormOptions($options);
 
         $form->buildForm();
+
+        \Event::fire(new AfterFormCreation($form));
 
         return $form;
     }
