@@ -220,6 +220,12 @@ abstract class FormField
 
         $this->options = $helper->mergeOptions($this->options, $options);
 
+        // Append class attribute
+        if ($this->getOption('attr.class_append')) {
+            $appendedClass = $this->getOption('attr.class', '') . ' ' . $this->getOption('attr.class_append');
+            $this->setOption('attr.class', $appendedClass);
+        }
+        
         if ($this->getOption('attr.multiple') && !$this->getOption('tmp.multipleBracesSet')) {
             $this->name = $this->name.'[]';
             $this->setOption('tmp.multipleBracesSet', true);
