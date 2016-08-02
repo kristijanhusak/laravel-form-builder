@@ -3,9 +3,10 @@
 use Illuminate\Contracts\Validation\Factory as ValidatorFactory;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
+use Kris\LaravelFormBuilder\FieldsContainerContract;
 use Kris\LaravelFormBuilder\Fields\FormField;
 
-class Form
+class Form implements FieldsContainerContract
 {
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use Kris\LaravelFormBuilder\FieldsContainerContract;
 use Kris\LaravelFormBuilder\Fields\FormField;
 use Kris\LaravelFormBuilder\Form;
 
@@ -53,6 +54,17 @@ if (!function_exists('form_row')) {
     function form_row(FormField $formField, array $options = [])
     {
         return $formField->render($options);
+    }
+
+}
+
+if (!function_exists('form_rows')) {
+
+    function form_rows(FieldsContainerContract $form, array $fields, array $options = [])
+    {
+        return implode(array_map(function($field) use ($form, $options) {
+            return $form->has($field) ? $form->getField($field)->render($options) : '';
+        }, $fields));
     }
 
 }
