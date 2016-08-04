@@ -78,7 +78,7 @@ abstract class FormBuilderTestCase extends TestCase {
         $this->config = include __DIR__.'/../src/config/config.php';
 
         $this->formHelper = new FormHelper($this->view, $this->translator, $this->config);
-        $this->formBuilder = new FormBuilder($this->app, $this->formHelper);
+        $this->formBuilder = new FormBuilder($this->app, $this->formHelper, $this->app['Illuminate\Contracts\Events\Dispatcher']);
 
         $this->plainForm = $this->formBuilder->plain();
     }

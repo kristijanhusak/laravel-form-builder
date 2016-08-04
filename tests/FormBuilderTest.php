@@ -96,7 +96,7 @@ namespace {
             $config = $this->config;
             $config['default_namespace'] = 'LaravelFormBuilderTest\Forms';
             $formHelper = new FormHelper($this->view, $this->translator, $config);
-            $formBuilder = new FormBuilder($this->app, $formHelper);
+            $formBuilder = new FormBuilder($this->app, $formHelper, $this->app['Illuminate\Contracts\Events\Dispatcher']);
 
             $formBuilder->create('NamespacedDummyForm');
         }

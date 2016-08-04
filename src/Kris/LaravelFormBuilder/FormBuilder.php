@@ -96,6 +96,7 @@ class FormBuilder
             ->addData($data)
             ->setRequest($this->container->make('request'))
             ->setFormHelper($this->formHelper)
+            ->setEventDispatcher($this->eventDispatcher)
             ->setFormBuilder($this)
             ->setValidator($this->container->make('validator'))
             ->setFormOptions($options);
