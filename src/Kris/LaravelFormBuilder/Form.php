@@ -1,10 +1,11 @@
 <?php namespace Kris\LaravelFormBuilder;
 
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Validation\Factory as ValidatorFactory;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
-use Kris\LaravelFormBuilder\Events\BeforeFormValidation;
 use Kris\LaravelFormBuilder\Events\AfterFieldCreation;
+use Kris\LaravelFormBuilder\Events\BeforeFormValidation;
 use Kris\LaravelFormBuilder\Fields\FormField;
 
 class Form
@@ -23,6 +24,11 @@ class Form
      * @var mixed
      */
     protected $model = [];
+
+    /**
+     * @var Dispatcher
+     */
+    protected $eventDispatcher;
 
     /**
      * @var FormHelper
@@ -162,7 +168,7 @@ class Form
 
         $field = new $fieldType($fieldName, $type, $this, $options);
 
-        \Event::fire(new AfterFieldCreation($this, $field));
+        $this->eventDispatcher->fire(new AfterFieldCreation($this, $field));
 
         return $field;
     }
@@ -624,6 +630,19 @@ class Form
     }
 
     /**
+     * Set the Event Dispatcher to fire Laravel events
+     *
+     * @param Dispatcher $eventDispatcher
+     * @return $this
+     */
+    public function setEventDispatcher(Dispatcher $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+
+        return $this;
+    }
+
+    /**
      * Set the form helper only on first instantiation
      *
      * @param FormHelper $formHelper
@@ -1045,7 +1064,7 @@ class Form
         $this->validator = $this->validatorFactory->make($this->getRequest()->all(), $rules, $messages);
         $this->validator->setAttributeNames($fieldRules['attributes']);
 
-        \Event::fire(new BeforeFormValidation($this, $this->validator));
+        $this->eventDispatcher->fire(new BeforeFormValidation($this, $this->validator));
 
         return $this->validator;
     }
