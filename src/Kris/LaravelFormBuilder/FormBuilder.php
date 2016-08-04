@@ -91,7 +91,7 @@ class FormBuilder
      */
     public function plain(array $options = [], array $data = [])
     {
-        return $this->container
+        $form = $this->container
             ->make('Kris\LaravelFormBuilder\Form')
             ->addData($data)
             ->setRequest($this->container->make('request'))
@@ -100,5 +100,9 @@ class FormBuilder
             ->setFormBuilder($this)
             ->setValidator($this->container->make('validator'))
             ->setFormOptions($options);
+
+        $this->eventDispatcher->fire(new AfterFormCreation($form));
+
+        return $form;
     }
 }
