@@ -1,7 +1,7 @@
 <?php  namespace Kris\LaravelFormBuilder;
 
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
 use Kris\LaravelFormBuilder\Events\AfterFormCreation;
 
 class FormBuilder
@@ -18,7 +18,7 @@ class FormBuilder
     protected $formHelper;
 
     /**
-     * @var Dispatcher
+     * @var EventDispatcher
      */
     protected $eventDispatcher;
 
@@ -26,7 +26,7 @@ class FormBuilder
      * @param Container  $container
      * @param FormHelper $formHelper
      */
-    public function __construct(Container $container, FormHelper $formHelper, Dispatcher $eventDispatcher)
+    public function __construct(Container $container, FormHelper $formHelper, EventDispatcher $eventDispatcher)
     {
         $this->container = $container;
         $this->formHelper = $formHelper;

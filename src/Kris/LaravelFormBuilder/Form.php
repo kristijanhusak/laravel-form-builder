@@ -1,6 +1,6 @@
 <?php namespace Kris\LaravelFormBuilder;
 
-use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
 use Illuminate\Contracts\Validation\Factory as ValidatorFactory;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
@@ -26,7 +26,7 @@ class Form
     protected $model = [];
 
     /**
-     * @var Dispatcher
+     * @var EventDispatcher
      */
     protected $eventDispatcher;
 
@@ -632,10 +632,10 @@ class Form
     /**
      * Set the Event Dispatcher to fire Laravel events
      *
-     * @param Dispatcher $eventDispatcher
+     * @param EventDispatcher $eventDispatcher
      * @return $this
      */
-    public function setEventDispatcher(Dispatcher $eventDispatcher)
+    public function setEventDispatcher(EventDispatcher $eventDispatcher)
     {
         $this->eventDispatcher = $eventDispatcher;
 
