@@ -3,6 +3,7 @@
 use Kris\LaravelFormBuilder\Form;
 use Kris\LaravelFormBuilder\FormHelper;
 use Kris\LaravelFormBuilder\Fields\InputType;
+use Illuminate\Http\Exception\HttpResponseException;
 
 class FormTest extends FormBuilderTestCase
 {
@@ -91,6 +92,41 @@ class FormTest extends FormBuilderTestCase
         ];
 
         $this->assertEquals($errors, $this->plainForm->getErrors());
+    }
+
+    /** @test */
+    public function it_can_automatically_redirect_when_failing_verification()
+    {
+        $this->plainForm
+            ->add('name', 'text', [
+                'rules' => 'required|min:5'
+            ])
+            ->add('description', 'textarea', [
+                'rules' => 'max:10'
+            ]);
+
+        $this->request['description'] = 'some long description';
+        
+        try {
+            $this->plainForm->redirectIfNotValid();
+            $this->fail('Expected an HttpResponseException, but was allowed to continue');
+        } catch (HttpResponseException $e) {
+            $response = $e->getResponse();
+            $this->assertNotNull($response);
+
+            // It should be a redirect
+            $this->assertEquals(302, $response->status());
+
+            // It should contain the old input
+            $this->assertEquals('some long description', $response->getSession()->getOldInput('description'));
+
+            // It should contain an error
+            $this->assertNotEmpty($response->getSession()->get('errors'));
+            $errorBag = $response->getSession()->get('errors');
+            $this->assertTrue($errorBag->has('description'));
+            $this->assertTrue($errorBag->has('name'));
+            $this->assertEquals('The Description may not be greater than 10 characters.', $errorBag->first('description'));
+        }
     }
 
     /** @test */
