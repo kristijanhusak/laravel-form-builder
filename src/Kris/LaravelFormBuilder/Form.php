@@ -1056,10 +1056,18 @@ class Form
         return array_merge($fieldRules['rules'], $overrideRules);
     }
 
-    public function redirectIfNotValid()
+    public function redirectIfNotValid($destination = null)
     {
         if (! $this->isValid()) {
-            throw new HttpResponseException(redirect()->back()->withErrors($this->getErrors())->withInput());
+            $response = redirect($destination);
+
+            if (is_null($destination)) {
+                $response = $response->back();
+            }
+
+            $response = $response->withErrors($this->getErrors())->withInput();
+
+            throw new HttpResponseException($response);
         }
     }
 

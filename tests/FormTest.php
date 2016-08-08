@@ -95,7 +95,45 @@ class FormTest extends FormBuilderTestCase
     }
 
     /** @test */
-    public function it_can_automatically_redirect_when_failing_verification()
+    public function it_can_automatically_redirect_back_when_failing_verification()
+    {
+        $this->plainForm
+            ->add('name', 'text', [
+                'rules' => 'required|min:5'
+            ])
+            ->add('description', 'textarea', [
+                'rules' => 'max:10'
+            ]);
+
+        $this->request['description'] = 'some long description';
+
+        try {
+            $this->plainForm->redirectIfNotValid();
+            $this->fail('Expected an HttpResponseException, but was allowed to continue');
+        } catch (HttpResponseException $e) {
+            $response = $e->getResponse();
+            $this->assertNotNull($response);
+
+            // It should be a redirect
+            $this->assertEquals(302, $response->status());
+
+            // It should go "back" to the root, which is the fallback when no referer is given
+            $this->assertEquals('http://localhost', $response->getTargetUrl());
+
+            // It should contain the old input
+            $this->assertEquals('some long description', $response->getSession()->getOldInput('description'));
+
+            // It should contain an error
+            $this->assertNotEmpty($response->getSession()->get('errors'));
+            $errorBag = $response->getSession()->get('errors');
+            $this->assertTrue($errorBag->has('description'));
+            $this->assertTrue($errorBag->has('name'));
+            $this->assertEquals('The Description may not be greater than 10 characters.', $errorBag->first('description'));
+        }
+    }
+
+    /** @test */
+    public function it_can_automatically_redirect_to_a_specified_destination_when_failing_verification()
     {
         $this->plainForm
             ->add('name', 'text', [
@@ -108,7 +146,7 @@ class FormTest extends FormBuilderTestCase
         $this->request['description'] = 'some long description';
         
         try {
-            $this->plainForm->redirectIfNotValid();
+            $this->plainForm->redirectIfNotValid('my-custom-destination');
             $this->fail('Expected an HttpResponseException, but was allowed to continue');
         } catch (HttpResponseException $e) {
             $response = $e->getResponse();
@@ -116,6 +154,9 @@ class FormTest extends FormBuilderTestCase
 
             // It should be a redirect
             $this->assertEquals(302, $response->status());
+
+            // It should go to 'my-custom-destination'
+            $this->assertEquals('http://localhost/my-custom-destination', $response->getTargetUrl());
 
             // It should contain the old input
             $this->assertEquals('some long description', $response->getSession()->getOldInput('description'));
