@@ -79,7 +79,7 @@ abstract class FormBuilderTestCase extends TestCase {
         $this->request = $this->app['request'];
         $this->request->setSession($this->app['session.store']);
         $this->validatorFactory = $this->app['validator'];
-        $this->eventDispatcher = $this->app['Illuminate\Contracts\Events\Dispatcher'];
+        $this->eventDispatcher = $this->app['events'];
         $this->model = new TestModel();
         $this->config = include __DIR__.'/../src/config/config.php';
 
