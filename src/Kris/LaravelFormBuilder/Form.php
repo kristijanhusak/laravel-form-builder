@@ -3,6 +3,7 @@
 use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
 use Illuminate\Contracts\Validation\Factory as ValidatorFactory;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Http\Request;
 use Kris\LaravelFormBuilder\Events\AfterFieldCreation;
 use Kris\LaravelFormBuilder\Events\BeforeFormValidation;
@@ -1080,6 +1081,21 @@ class Form
         $fieldRules = $this->formHelper->mergeFieldsRules($this->fields);
 
         return array_merge($fieldRules['rules'], $overrideRules);
+    }
+
+    public function redirectIfNotValid($destination = null)
+    {
+        if (! $this->isValid()) {
+            $response = redirect($destination);
+
+            if (is_null($destination)) {
+                $response = $response->back();
+            }
+
+            $response = $response->withErrors($this->getErrors())->withInput();
+
+            throw new HttpResponseException($response);
+        }
     }
 
     /**
