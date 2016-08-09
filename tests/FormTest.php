@@ -232,14 +232,14 @@ class FormTest extends FormBuilderTestCase
         // Ignore unknown data, skip missing input
         $this->assertEquals(
             $check_values,
-            $this->plainForm->getValidatedValues(false)
+            $this->plainForm->getFormValues(false)
         );
 
         // Ignore unknown data, add NIL for missing input
         $check_values['user']['address']['number'] = null;
         $this->assertEquals(
             $check_values,
-            $this->plainForm->getValidatedValues()
+            $this->plainForm->getFormValues()
         );
     }
 

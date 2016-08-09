@@ -1104,7 +1104,7 @@ class Form
      *
      * @return array
      */
-    public function getValidatedValues($with_nulls = true)
+    public function getFormValues($with_nulls = true)
     {
         $request_values = $this->getRequest()->all();
 
