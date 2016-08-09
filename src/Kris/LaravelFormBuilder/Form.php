@@ -6,6 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Http\Request;
 use Kris\LaravelFormBuilder\Events\AfterFieldCreation;
+use Kris\LaravelFormBuilder\Events\AfterFormValidation;
 use Kris\LaravelFormBuilder\Events\BeforeFormValidation;
 use Kris\LaravelFormBuilder\Fields\FormField;
 
@@ -1109,7 +1110,11 @@ class Form
             $this->validate();
         }
 
-        return !$this->validator->fails();
+        $isValid = !$this->validator->fails();
+
+        $this->eventDispatcher->fire(new AfterFormValidation($this, $this->validator, $isValid));
+
+        return $isValid;
     }
 
     /**

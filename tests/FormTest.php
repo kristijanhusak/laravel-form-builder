@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Exception\HttpResponseException;
+use Kris\LaravelFormBuilder\Events\AfterFormValidation;
 use Kris\LaravelFormBuilder\Events\BeforeFormValidation;
 use Kris\LaravelFormBuilder\Fields\InputType;
 use Kris\LaravelFormBuilder\Form;
@@ -848,6 +849,10 @@ class FormTest extends FormBuilderTestCase
             $events[] = get_class($event);
         });
 
+        $this->eventDispatcher->listen(AfterFormValidation::class, function($event) use (&$events) {
+            $events[] = get_class($event);
+        });
+
         $this->plainForm->add('name', 'text', ['rules' => ['required', 'min:3']]);
 
         $this->request['name'] = 'Foo Bar';
@@ -855,7 +860,10 @@ class FormTest extends FormBuilderTestCase
         $this->plainForm->isValid();
 
         $this->assertEquals(
-            ['Kris\LaravelFormBuilder\Events\BeforeFormValidation'],
+            [
+                'Kris\LaravelFormBuilder\Events\BeforeFormValidation',
+                'Kris\LaravelFormBuilder\Events\AfterFormValidation',
+            ],
             $events
         );
     }
