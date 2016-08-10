@@ -1120,7 +1120,7 @@ class Form
      *
      * @return array
      */
-    public function getFormValues($with_nulls = true)
+    public function getFieldValues($with_nulls = true)
     {
         $request_values = $this->getRequest()->all();
 

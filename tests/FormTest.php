@@ -144,7 +144,7 @@ class FormTest extends FormBuilderTestCase
             ]);
 
         $this->request['description'] = 'some long description';
-        
+
         try {
             $this->plainForm->redirectIfNotValid('my-custom-destination');
             $this->fail('Expected an HttpResponseException, but was allowed to continue');
@@ -309,14 +309,14 @@ class FormTest extends FormBuilderTestCase
         // Ignore unknown data, skip missing input
         $this->assertEquals(
             $check_values,
-            $this->plainForm->getFormValues(false)
+            $this->plainForm->getFieldValues(false)
         );
 
         // Ignore unknown data, add NIL for missing input
         $check_values['user']['address']['number'] = null;
         $this->assertEquals(
             $check_values,
-            $this->plainForm->getFormValues()
+            $this->plainForm->getFieldValues()
         );
     }
 
