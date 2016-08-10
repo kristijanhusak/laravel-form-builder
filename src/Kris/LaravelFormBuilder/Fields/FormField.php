@@ -220,6 +220,19 @@ abstract class FormField
 
         $this->options = $helper->mergeOptions($this->options, $options);
 
+        foreach (['attr', 'label_attr', 'wrapper'] as $appendable) {
+            // Append values to the 'class' attribute
+            if ($this->getOption("{$appendable}.class_append")) {
+                // Combine the current class attribute with the appends
+                $append = $this->getOption("{$appendable}.class_append");
+                $classAttribute = $this->getOption("{$appendable}.class", '').' '.$append;
+                $this->setOption("{$appendable}.class", $classAttribute);
+
+                // Then remove the class_append option to prevent it from showing up as an attribute in the HTML
+                $this->setOption("{$appendable}.class_append", null);
+            }
+        }
+
         if ($this->getOption('attr.multiple') && !$this->getOption('tmp.multipleBracesSet')) {
             $this->name = $this->name.'[]';
             $this->setOption('tmp.multipleBracesSet', true);

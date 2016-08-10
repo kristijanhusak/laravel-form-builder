@@ -1,10 +1,11 @@
 <?php namespace Kris\LaravelFormBuilder;
 
-use Illuminate\Contracts\Validation\Factory as ValidatorFactory;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Kris\LaravelFormBuilder\Fields\FormField;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exception\HttpResponseException;
+use Illuminate\Contracts\Validation\Factory as ValidatorFactory;
 
 class Form
 {
@@ -1054,6 +1055,21 @@ class Form
         $fieldRules = $this->formHelper->mergeFieldsRules($this->fields);
 
         return array_merge($fieldRules['rules'], $overrideRules);
+    }
+
+    public function redirectIfNotValid($destination = null)
+    {
+        if (! $this->isValid()) {
+            $response = redirect($destination);
+
+            if (is_null($destination)) {
+                $response = $response->back();
+            }
+
+            $response = $response->withErrors($this->getErrors())->withInput();
+
+            throw new HttpResponseException($response);
+        }
     }
 
     /**
