@@ -77,6 +77,68 @@ class FormFieldTest extends FormBuilderTestCase
         $this->assertRegExp('/required/', $hidden->getOption('label_attr.class'));
     }
 
+    /** @test */
+    public function it_appends_to_the_class_attribute_of_the_field()
+    {
+        $options = [
+            'attr' => [
+                'class_append' => 'appended',
+            ],
+        ];
+
+        $text = new InputType('field_name', 'text', $this->plainForm, $options);
+        $renderResult = $text->render();
+
+        $this->assertRegExp('/appended/', $text->getOption('attr.class'));
+
+        $defaultClasses = $this->config['defaults']['field_class'];
+        $this->assertEquals('form-control appended', $text->getOption('attr.class'));
+        
+        $this->assertContains($defaultClasses, $text->getOption('attr.class'));
+        $this->assertNotContains('class_append', $renderResult);
+    }
+
+    /** @test */
+    public function it_appends_to_the_class_attribute_of_the_label()
+    {
+        $options = [
+            'label_attr' => [
+                'class_append' => 'appended',
+            ],
+        ];
+
+        $text = new InputType('field_name', 'text', $this->plainForm, $options);
+        $renderResult = $text->render();
+
+        $this->assertRegExp('/appended/', $text->getOption('label_attr.class'));
+
+        $defaultClasses = $this->config['defaults']['label_class'];
+        $this->assertEquals('control-label appended', $text->getOption('label_attr.class'));
+        
+        $this->assertContains($defaultClasses, $text->getOption('label_attr.class'));
+        $this->assertNotContains('class_append', $renderResult);
+    }
+
+    /** @test */
+    public function it_appends_to_the_class_attribute_of_the_wrapper()
+    {
+        $options = [
+            'wrapper' => [
+                'class_append' => 'appended',
+            ],
+        ];
+
+        $text = new InputType('field_name', 'text', $this->plainForm, $options);
+        $renderResult = $text->render();
+
+        $this->assertRegExp('/appended/', $text->getOption('wrapper.class'));
+
+        $defaultClasses = $this->config['defaults']['wrapper_class'];
+        $this->assertEquals('form-group appended', $text->getOption('wrapper.class'));
+        
+        $this->assertContains($defaultClasses, $text->getOption('wrapper.class'));
+        $this->assertNotContains('class_append', $renderResult);
+    }
 
     /** @test */
     public function it_translates_the_label_if_translation_exists()

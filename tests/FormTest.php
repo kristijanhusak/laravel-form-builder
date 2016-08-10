@@ -1,8 +1,11 @@
 <?php
 
+use Illuminate\Http\Exception\HttpResponseException;
+use Kris\LaravelFormBuilder\Events\AfterFormValidation;
+use Kris\LaravelFormBuilder\Events\BeforeFormValidation;
+use Kris\LaravelFormBuilder\Fields\InputType;
 use Kris\LaravelFormBuilder\Form;
 use Kris\LaravelFormBuilder\FormHelper;
-use Kris\LaravelFormBuilder\Fields\InputType;
 
 class FormTest extends FormBuilderTestCase
 {
@@ -91,6 +94,82 @@ class FormTest extends FormBuilderTestCase
         ];
 
         $this->assertEquals($errors, $this->plainForm->getErrors());
+    }
+
+    /** @test */
+    public function it_can_automatically_redirect_back_when_failing_verification()
+    {
+        $this->plainForm
+            ->add('name', 'text', [
+                'rules' => 'required|min:5'
+            ])
+            ->add('description', 'textarea', [
+                'rules' => 'max:10'
+            ]);
+
+        $this->request['description'] = 'some long description';
+
+        try {
+            $this->plainForm->redirectIfNotValid();
+            $this->fail('Expected an HttpResponseException, but was allowed to continue');
+        } catch (HttpResponseException $e) {
+            $response = $e->getResponse();
+            $this->assertNotNull($response);
+
+            // It should be a redirect
+            $this->assertEquals(302, $response->status());
+
+            // It should go "back" to the root, which is the fallback when no referer is given
+            $this->assertEquals('http://localhost', $response->getTargetUrl());
+
+            // It should contain the old input
+            $this->assertEquals('some long description', $response->getSession()->getOldInput('description'));
+
+            // It should contain an error
+            $this->assertNotEmpty($response->getSession()->get('errors'));
+            $errorBag = $response->getSession()->get('errors');
+            $this->assertTrue($errorBag->has('description'));
+            $this->assertTrue($errorBag->has('name'));
+            $this->assertEquals('The Description may not be greater than 10 characters.', $errorBag->first('description'));
+        }
+    }
+
+    /** @test */
+    public function it_can_automatically_redirect_to_a_specified_destination_when_failing_verification()
+    {
+        $this->plainForm
+            ->add('name', 'text', [
+                'rules' => 'required|min:5'
+            ])
+            ->add('description', 'textarea', [
+                'rules' => 'max:10'
+            ]);
+
+        $this->request['description'] = 'some long description';
+
+        try {
+            $this->plainForm->redirectIfNotValid('my-custom-destination');
+            $this->fail('Expected an HttpResponseException, but was allowed to continue');
+        } catch (HttpResponseException $e) {
+            $response = $e->getResponse();
+            $this->assertNotNull($response);
+
+            // It should be a redirect
+            $this->assertEquals(302, $response->status());
+
+            // It should go to 'my-custom-destination'
+            $this->assertEquals('http://localhost/my-custom-destination', $response->getTargetUrl());
+
+            // It should contain the old input
+            $this->assertEquals('some long description', $response->getSession()->getOldInput('description'));
+
+            // It should contain an error
+            $this->assertNotEmpty($response->getSession()->get('errors'));
+            $errorBag = $response->getSession()->get('errors');
+            $this->assertTrue($errorBag->has('description'));
+            $this->assertTrue($errorBag->has('name'));
+            $this->assertEquals('The Description may not be greater than 10 characters.', $errorBag->first('description'));
+        }
     }
 
     /** @test */
@@ -759,6 +838,34 @@ class FormTest extends FormBuilderTestCase
 
         $this->assertFalse($this->plainForm->clientValidationEnabled());
         $this->assertFalse($this->plainForm->getField('child_form')->clientValidationEnabled());
+    }
+
+    /** @test */
+    public function it_receives_validation_events()
+    {
+        $events = [];
+
+        $this->eventDispatcher->listen(BeforeFormValidation::class, function($event) use (&$events) {
+            $events[] = get_class($event);
+        });
+
+        $this->eventDispatcher->listen(AfterFormValidation::class, function($event) use (&$events) {
+            $events[] = get_class($event);
+        });
+
+        $this->plainForm->add('name', 'text', ['rules' => ['required', 'min:3']]);
+
+        $this->request['name'] = 'Foo Bar';
+
+        $this->plainForm->isValid();
+
+        $this->assertEquals(
+            [
+                'Kris\LaravelFormBuilder\Events\BeforeFormValidation',
+                'Kris\LaravelFormBuilder\Events\AfterFormValidation',
+            ],
+            $events
+        );
     }
 
     /** @test */

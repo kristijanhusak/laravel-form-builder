@@ -61,6 +61,11 @@ abstract class FormBuilderTestCase extends TestCase {
     protected $validatorFactory;
 
     /**
+     * @var EventDispatcher
+     */
+    protected $eventDispatcher;
+
+    /**
      * @var Form
      */
     protected $plainForm;
@@ -74,11 +79,12 @@ abstract class FormBuilderTestCase extends TestCase {
         $this->request = $this->app['request'];
         $this->request->setSession($this->app['session.store']);
         $this->validatorFactory = $this->app['validator'];
+        $this->eventDispatcher = $this->app['events'];
         $this->model = new TestModel();
         $this->config = include __DIR__.'/../src/config/config.php';
 
         $this->formHelper = new FormHelper($this->view, $this->translator, $this->config);
-        $this->formBuilder = new FormBuilder($this->app, $this->formHelper);
+        $this->formBuilder = new FormBuilder($this->app, $this->formHelper, $this->eventDispatcher);
 
         $this->plainForm = $this->formBuilder->plain();
     }

@@ -1,10 +1,15 @@
 <?php namespace Kris\LaravelFormBuilder;
 
+use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
 use Illuminate\Contracts\Validation\Factory as ValidatorFactory;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Http\Request;
-use Kris\LaravelFormBuilder\FieldsContainerContract;
+use Kris\LaravelFormBuilder\Events\AfterFieldCreation;
+use Kris\LaravelFormBuilder\Events\AfterFormValidation;
+use Kris\LaravelFormBuilder\Events\BeforeFormValidation;
 use Kris\LaravelFormBuilder\Fields\FormField;
+use Kris\LaravelFormBuilder\FieldsContainerContract;
 
 class Form implements FieldsContainerContract
 {
@@ -22,6 +27,11 @@ class Form implements FieldsContainerContract
      * @var mixed
      */
     protected $model = [];
+
+    /**
+     * @var EventDispatcher
+     */
+    protected $eventDispatcher;
 
     /**
      * @var FormHelper
@@ -159,7 +169,11 @@ class Form implements FieldsContainerContract
 
         $fieldType = $this->getFieldType($type);
 
-        return new $fieldType($fieldName, $type, $this, $options);
+        $field = new $fieldType($fieldName, $type, $this, $options);
+
+        $this->eventDispatcher->fire(new AfterFieldCreation($this, $field));
+
+        return $field;
     }
 
     /**
@@ -619,6 +633,19 @@ class Form implements FieldsContainerContract
     }
 
     /**
+     * Set the Event Dispatcher to fire Laravel events
+     *
+     * @param EventDispatcher $eventDispatcher
+     * @return $this
+     */
+    public function setEventDispatcher(EventDispatcher $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+
+        return $this;
+    }
+
+    /**
      * Set the form helper only on first instantiation
      *
      * @param FormHelper $formHelper
@@ -1040,6 +1067,8 @@ class Form implements FieldsContainerContract
         $this->validator = $this->validatorFactory->make($this->getRequest()->all(), $rules, $messages);
         $this->validator->setAttributeNames($fieldRules['attributes']);
 
+        $this->eventDispatcher->fire(new BeforeFormValidation($this, $this->validator));
+
         return $this->validator;
     }
 
@@ -1056,6 +1085,21 @@ class Form implements FieldsContainerContract
         return array_merge($fieldRules['rules'], $overrideRules);
     }
 
+    public function redirectIfNotValid($destination = null)
+    {
+        if (! $this->isValid()) {
+            $response = redirect($destination);
+
+            if (is_null($destination)) {
+                $response = $response->back();
+            }
+
+            $response = $response->withErrors($this->getErrors())->withInput();
+
+            throw new HttpResponseException($response);
+        }
+    }
+
     /**
      * Check if the form is valid
      *
@@ -1067,7 +1111,11 @@ class Form implements FieldsContainerContract
             $this->validate();
         }
 
-        return !$this->validator->fails();
+        $isValid = !$this->validator->fails();
+
+        $this->eventDispatcher->fire(new AfterFormValidation($this, $this->validator, $isValid));
+
+        return $isValid;
     }
 
     /**
