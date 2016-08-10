@@ -1,9 +1,11 @@
 <?php
 
+use Illuminate\Http\Exception\HttpResponseException;
+use Kris\LaravelFormBuilder\Events\AfterFormValidation;
+use Kris\LaravelFormBuilder\Events\BeforeFormValidation;
+use Kris\LaravelFormBuilder\Fields\InputType;
 use Kris\LaravelFormBuilder\Form;
 use Kris\LaravelFormBuilder\FormHelper;
-use Kris\LaravelFormBuilder\Fields\InputType;
-use Illuminate\Http\Exception\HttpResponseException;
 
 class FormTest extends FormBuilderTestCase
 {
@@ -144,7 +146,7 @@ class FormTest extends FormBuilderTestCase
             ]);
 
         $this->request['description'] = 'some long description';
-        
+
         try {
             $this->plainForm->redirectIfNotValid('my-custom-destination');
             $this->fail('Expected an HttpResponseException, but was allowed to continue');
@@ -836,6 +838,34 @@ class FormTest extends FormBuilderTestCase
 
         $this->assertFalse($this->plainForm->clientValidationEnabled());
         $this->assertFalse($this->plainForm->getField('child_form')->clientValidationEnabled());
+    }
+
+    /** @test */
+    public function it_receives_validation_events()
+    {
+        $events = [];
+
+        $this->eventDispatcher->listen(BeforeFormValidation::class, function($event) use (&$events) {
+            $events[] = get_class($event);
+        });
+
+        $this->eventDispatcher->listen(AfterFormValidation::class, function($event) use (&$events) {
+            $events[] = get_class($event);
+        });
+
+        $this->plainForm->add('name', 'text', ['rules' => ['required', 'min:3']]);
+
+        $this->request['name'] = 'Foo Bar';
+
+        $this->plainForm->isValid();
+
+        $this->assertEquals(
+            [
+                'Kris\LaravelFormBuilder\Events\BeforeFormValidation',
+                'Kris\LaravelFormBuilder\Events\AfterFormValidation',
+            ],
+            $events
+        );
     }
 
     /** @test */
