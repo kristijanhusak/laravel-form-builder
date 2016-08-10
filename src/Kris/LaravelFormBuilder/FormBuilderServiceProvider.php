@@ -30,7 +30,7 @@ class FormBuilderServiceProvider extends ServiceProvider
 
         $this->app->singleton('laravel-form-builder', function ($app) {
 
-            return new FormBuilder($app, $app['laravel-form-helper']);
+            return new FormBuilder($app, $app['laravel-form-helper'], $app['events']);
         });
 
         $this->app->alias('laravel-form-builder', 'Kris\LaravelFormBuilder\FormBuilder');

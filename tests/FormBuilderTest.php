@@ -1,6 +1,9 @@
 <?php
+
 namespace {
 
+    use Kris\LaravelFormBuilder\Events\AfterFieldCreation;
+    use Kris\LaravelFormBuilder\Events\AfterFormCreation;
     use Kris\LaravelFormBuilder\Form;
     use Kris\LaravelFormBuilder\FormBuilder;
     use Kris\LaravelFormBuilder\FormHelper;
@@ -43,6 +46,41 @@ namespace {
             $this->assertInstanceOf('Kris\\LaravelFormBuilder\\Form', $customForm);
             $this->assertArrayHasKey('title', $customForm->getFields());
             $this->assertArrayHasKey('body', $customForm->getFields());
+        }
+
+        /** @test */
+        public function it_receives_creation_events()
+        {
+            $events = [];
+
+            $this->eventDispatcher->listen(AfterFormCreation::class, function($event) use (&$events) {
+                $events[] = get_class($event);
+            });
+
+            $this->eventDispatcher->listen(AfterFieldCreation::class, function($event) use (&$events) {
+                $events[] = get_class($event);
+            });
+
+            $form = $this->formBuilder->plain()
+                ->add('name', 'text', ['rules' => ['required', 'min:3']])
+                ->add('alias', 'text');
+
+            $form = $this->formBuilder->create('CustomDummyForm');
+
+            $this->assertEquals(
+                [
+                    // Plain: form first
+                    'Kris\LaravelFormBuilder\Events\AfterFormCreation',
+                    'Kris\LaravelFormBuilder\Events\AfterFieldCreation',
+                    'Kris\LaravelFormBuilder\Events\AfterFieldCreation',
+
+                    // Class: fields first
+                    'Kris\LaravelFormBuilder\Events\AfterFieldCreation',
+                    'Kris\LaravelFormBuilder\Events\AfterFieldCreation',
+                    'Kris\LaravelFormBuilder\Events\AfterFormCreation',
+                ],
+                $events
+            );
         }
 
         /**
@@ -96,7 +134,7 @@ namespace {
             $config = $this->config;
             $config['default_namespace'] = 'LaravelFormBuilderTest\Forms';
             $formHelper = new FormHelper($this->view, $this->translator, $config);
-            $formBuilder = new FormBuilder($this->app, $formHelper);
+            $formBuilder = new FormBuilder($this->app, $formHelper, $this->app['events']);
 
             $formBuilder->create('NamespacedDummyForm');
         }
