@@ -1,11 +1,15 @@
 <?php namespace Kris\LaravelFormBuilder;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use Kris\LaravelFormBuilder\Fields\FormField;
+use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
+use Illuminate\Contracts\Validation\Factory as ValidatorFactory;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exception\HttpResponseException;
-use Illuminate\Contracts\Validation\Factory as ValidatorFactory;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Kris\LaravelFormBuilder\Events\AfterFieldCreation;
+use Kris\LaravelFormBuilder\Events\AfterFormValidation;
+use Kris\LaravelFormBuilder\Events\BeforeFormValidation;
+use Kris\LaravelFormBuilder\Fields\FormField;
 
 class Form
 {
@@ -23,6 +27,11 @@ class Form
      * @var mixed
      */
     protected $model = [];
+
+    /**
+     * @var EventDispatcher
+     */
+    protected $eventDispatcher;
 
     /**
      * @var FormHelper
@@ -160,7 +169,11 @@ class Form
 
         $fieldType = $this->getFieldType($type);
 
-        return new $fieldType($fieldName, $type, $this, $options);
+        $field = new $fieldType($fieldName, $type, $this, $options);
+
+        $this->eventDispatcher->fire(new AfterFieldCreation($this, $field));
+
+        return $field;
     }
 
     /**
@@ -620,6 +633,19 @@ class Form
     }
 
     /**
+     * Set the Event Dispatcher to fire Laravel events
+     *
+     * @param EventDispatcher $eventDispatcher
+     * @return $this
+     */
+    public function setEventDispatcher(EventDispatcher $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+
+        return $this;
+    }
+
+    /**
      * Set the form helper only on first instantiation
      *
      * @param FormHelper $formHelper
@@ -1041,6 +1067,8 @@ class Form
         $this->validator = $this->validatorFactory->make($this->getRequest()->all(), $rules, $messages);
         $this->validator->setAttributeNames($fieldRules['attributes']);
 
+        $this->eventDispatcher->fire(new BeforeFormValidation($this, $this->validator));
+
         return $this->validator;
     }
 
@@ -1093,7 +1121,11 @@ class Form
             $this->validate();
         }
 
-        return !$this->validator->fails();
+        $isValid = !$this->validator->fails();
+
+        $this->eventDispatcher->fire(new AfterFormValidation($this, $this->validator, $isValid));
+
+        return $isValid;
     }
 
     /**

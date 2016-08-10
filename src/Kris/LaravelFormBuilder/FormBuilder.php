@@ -1,6 +1,8 @@
 <?php  namespace Kris\LaravelFormBuilder;
 
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
+use Kris\LaravelFormBuilder\Events\AfterFormCreation;
 
 class FormBuilder
 {
@@ -16,13 +18,19 @@ class FormBuilder
     protected $formHelper;
 
     /**
+     * @var EventDispatcher
+     */
+    protected $eventDispatcher;
+
+    /**
      * @param Container  $container
      * @param FormHelper $formHelper
      */
-    public function __construct(Container $container, FormHelper $formHelper)
+    public function __construct(Container $container, FormHelper $formHelper, EventDispatcher $eventDispatcher)
     {
         $this->container = $container;
         $this->formHelper = $formHelper;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -46,11 +54,14 @@ class FormBuilder
             ->addData($data)
             ->setRequest($this->container->make('request'))
             ->setFormHelper($this->formHelper)
+            ->setEventDispatcher($this->eventDispatcher)
             ->setFormBuilder($this)
             ->setValidator($this->container->make('validator'))
             ->setFormOptions($options);
 
         $form->buildForm();
+
+        $this->eventDispatcher->fire(new AfterFormCreation($form));
 
         return $form;
     }
@@ -80,13 +91,18 @@ class FormBuilder
      */
     public function plain(array $options = [], array $data = [])
     {
-        return $this->container
+        $form = $this->container
             ->make('Kris\LaravelFormBuilder\Form')
             ->addData($data)
             ->setRequest($this->container->make('request'))
             ->setFormHelper($this->formHelper)
+            ->setEventDispatcher($this->eventDispatcher)
             ->setFormBuilder($this)
             ->setValidator($this->container->make('validator'))
             ->setFormOptions($options);
+
+        $this->eventDispatcher->fire(new AfterFormCreation($form));
+
+        return $form;
     }
 }
