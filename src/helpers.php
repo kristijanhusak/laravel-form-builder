@@ -57,6 +57,16 @@ if (!function_exists('form_row')) {
 
 }
 
+if (!function_exists('form_rows')) {
+    function form_rows($form, array $fields, array $options = [])
+    {
+        // $form can be a Kris\LaravelFormBuilder\Form or a Kris\LaravelFormBuilder\Fields\ChildFormType
+        return implode(array_map(function($field) use ($form, $options) {
+            return $form->has($field) ? $form->getField($field)->render($options) : '';
+        }, $fields));
+    }
+}
+
 if (!function_exists('form_label')) {
 
     function form_label(FormField $formField, array $options = [])

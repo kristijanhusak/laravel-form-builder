@@ -164,6 +164,8 @@ abstract class FormField
         return $this->formHelper->getView()->make(
             $this->getViewTemplate(),
             [
+                'form' => $this->parent,
+                'field' => $this,
                 'name' => $this->name,
                 'nameKey' => $this->getNameKey(),
                 'type' => $this->type,
