@@ -125,4 +125,37 @@ class ChoiceType extends ParentType
             $this->formHelper->mergeOptions($this->options, ['is_child' => true])
         );
     }
+
+    /**
+     * Creates default wrapper classes for the form element.
+     *
+     * @param array $options
+     * @return array
+     */
+    protected function setDefaultClasses(array $options = [])
+    {
+        $defaults = parent::setDefaultClasses($options);
+        $choice_type = $this->determineChoiceField();
+
+        $wrapper_class = $this->formHelper->getConfig('defaults.' . $this->type . '.' . $choice_type . '_wrapper_class', '');
+        if ($wrapper_class) {
+            $defaults['wrapper']['class'] = (isset($defaults['wrapper']['class']) ? $defaults['wrapper']['class'] . ' ' : '') . $wrapper_class;
+        }
+
+        $choice_wrapper_class = $this->formHelper->getConfig('defaults.' . $this->type . '.choice_options.wrapper_class', '');
+        $choice_label_class = $this->formHelper->getConfig('defaults.' . $this->type . '.choice_options.label_class', '');
+        $choice_field_class = $this->formHelper->getConfig('defaults.' . $this->type . '.choice_options.field_class', '');
+
+        if ($choice_wrapper_class) {
+            $defaults['choice_options']['wrapper']['class'] = $choice_wrapper_class;
+        }
+        if ($choice_label_class) {
+            $defaults['choice_options']['label_attr']['class'] = $choice_label_class;
+        }
+        if ($choice_field_class) {
+            $defaults['choice_options']['attr']['class'] = $choice_field_class;
+        }
+
+        return $defaults;
+    }
 }

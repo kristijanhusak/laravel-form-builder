@@ -2,11 +2,11 @@
 
 namespace Kris\LaravelFormBuilder\Fields;
 
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Kris\LaravelFormBuilder\Form;
+use Illuminate\Database\Eloquent\Model;
 use Kris\LaravelFormBuilder\FormHelper;
 use Kris\LaravelFormBuilder\RulesParser;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class FormField
@@ -242,20 +242,22 @@ abstract class FormField
             $this->addErrorClass();
         }
 
-        if ($this->parent->clientValidationEnabled()) {
-            if ($this->getOption('required') === true || isset($parsedRules['required'])) {
-                $lblClass = $this->getOption('label_attr.class', '');
-                $requiredClass = $helper->getConfig('defaults.required_class', 'required');
-                if (!str_contains($lblClass, $requiredClass)) {
-                    $lblClass .= ' ' . $requiredClass;
-                    $this->setOption('label_attr.class', $lblClass);
-                    $this->setOption('attr.required', 'required');
-                }
+        if ($this->getOption('required') === true || isset($parsedRules['required'])) {
+            $lblClass = $this->getOption('label_attr.class', '');
+            $requiredClass = $helper->getConfig('defaults.required_class', 'required');
+
+            if (! str_contains($lblClass, $requiredClass)) {
+                $lblClass .= ' '.$requiredClass;
+                $this->setOption('label_attr.class', $lblClass);
             }
 
-            if ($parsedRules) {
-                $attrs = $this->getOption('attr') + $parsedRules;
-                $this->setOption('attr', $attrs);
+            if ($this->parent->clientValidationEnabled()) {
+                $this->setOption('attr.required', 'required');
+
+                if ($parsedRules) {
+                    $attrs = $this->getOption('attr') + $parsedRules;
+                    $this->setOption('attr', $attrs);
+                }
             }
         }
 
@@ -508,7 +510,36 @@ abstract class FormField
     {
         $this->options = $this->formHelper->mergeOptions($this->allDefaults(), $this->getDefaults());
         $this->options = $this->prepareOptions($options);
+
+        $defaults = $this->setDefaultClasses($options);
+        $this->options = $this->formHelper->mergeOptions($this->options, $defaults);
+
         $this->setupLabel();
+    }
+
+    /**
+     * Creates default wrapper classes for the form element.
+     *
+     * @param array $options
+     * @return array
+     */
+    protected function setDefaultClasses(array $options = [])
+    {
+        $wrapper_class = $this->formHelper->getConfig('defaults.' . $this->type . '.wrapper_class', '');
+        $label_class = $this->formHelper->getConfig('defaults.' . $this->type . '.label_class', '');
+        $field_class = $this->formHelper->getConfig('defaults.' . $this->type . '.field_class', '');
+
+        $defaults = [];
+        if ($wrapper_class) {
+            $defaults['wrapper']['class'] = $wrapper_class;
+        }
+        if ($label_class) {
+            $defaults['label_attr']['class'] = $label_class;
+        }
+        if ($field_class) {
+            $defaults['attr']['class'] = $field_class;
+        }
+        return $defaults;
     }
 
     protected function setupLabel()
@@ -597,6 +628,16 @@ abstract class FormField
             'attributes' => [$name => $this->getOption('label')],
             'error_messages' => $messages
         ];
+    }
+
+    /**
+     * Get this field's attributes, probably just one.
+     *
+     * @return array
+     */
+    public function getAllAttributes()
+    {
+        return [$this->getNameKey()];
     }
 
     /**

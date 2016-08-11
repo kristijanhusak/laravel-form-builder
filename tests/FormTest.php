@@ -271,6 +271,58 @@ class FormTest extends FormBuilderTestCase
     }
 
     /** @test */
+    public function it_returns_validated_values()
+    {
+        $this->plainForm
+            ->add('name', 'text', [
+                'rules' => ['required', 'min:20', 'max:255'],
+            ])
+            ->add('description[text]', 'textarea')
+            ->add('address', 'form', [
+                'class' => $this->formBuilder->plain()
+                    ->add('street[name]', 'text', ['rules' => 'required']),
+            ])
+            ->add('user[address]', 'form', [
+                'class' => $this->formBuilder->plain()
+                    ->add('street', 'text', ['rules' => 'required'])
+                    ->add('number', 'number'),
+            ]);
+
+        // Should return all fields, including nested, no matter validation rules
+        $this->assertEquals(
+            ['name', 'description.text', 'address.street.name', 'user.address.street', 'user.address.number'],
+            $this->plainForm->getAllAttributes()
+        );
+
+        $this->request['status'] = 1;
+        $this->request['role'] = 'admin';
+        $this->request['name'] = 'Foo';
+        $this->request['description'] = ['text' => 'Foo Bar'];
+        $this->request['address'] = ['street' => ['id' => 1000, 'name' => 'Street 1']];
+        $this->request['user'] = ['id' => 1000, 'address' => ['street' => 'Street 2']]; // Missing optional 'number'
+
+        $check_values = [
+            'name' => 'Foo',
+            'description' => ['text' => 'Foo Bar'],
+            'address' => ['street' => ['name' => 'Street 1']],
+            'user' => ['address' => ['street' => 'Street 2']],
+        ];
+
+        // Ignore unknown data, skip missing input
+        $this->assertEquals(
+            $check_values,
+            $this->plainForm->getFieldValues(false)
+        );
+
+        // Ignore unknown data, add NIL for missing input
+        $check_values['user']['address']['number'] = null;
+        $this->assertEquals(
+            $check_values,
+            $this->plainForm->getFieldValues()
+        );
+    }
+
+    /** @test */
     public function it_adds_after_some_field()
     {
         $this->plainForm
@@ -388,7 +440,7 @@ class FormTest extends FormBuilderTestCase
 
         $this->assertEquals('text', $this->plainForm->description->getType());
         $this->assertEquals(
-            ['placeholder' => 'Enter text here...', 'class' => 'modified-input'],
+            ['placeholder' => 'Enter text here...', 'class' => 'form-control modified-input'],
             $this->plainForm->description->getOption('attr')
         );
 
@@ -714,6 +766,19 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals('test_name[name]', $this->plainForm->getField('name')->getName());
         $this->assertEquals('test_name[address]', $this->plainForm->getField('address')->getName());
         $this->assertEquals($expectModel, $this->plainForm->getModel());
+    }
+
+    /** @test */
+    public function it_has_html_valid_element_names()
+    {
+        $this->plainForm
+            ->add('name[text]', 'text')
+            ->add('child[form]', 'form', [
+                'class' => $this->formBuilder->plain()->add('name[text]', 'text'),
+            ]);
+
+        $this->assertEquals('name[text]', $this->plainForm->getField('name[text]')->getName());
+        $this->assertEquals('child[form][name][text]', $this->plainForm->getField('child[form]')->getField('name[text]')->getName());
     }
 
     /** @test */

@@ -9,6 +9,19 @@ return [
         'help_block_class'    => 'help-block',
         'error_class'         => 'text-danger',
         'required_class'      => 'required'
+
+        // Override a class from a field.
+        //'text'                => [
+        //    'wrapper_class'   => 'form-field-text',
+        //    'label_class'     => 'form-field-text-label',
+        //    'field_class'     => 'form-field-text-field',
+        //]
+        //'radio'               => [
+        //    'choice_options'  => [
+        //        'wrapper'     => ['class' => 'form-radio'],
+        //        'label'       => ['class' => 'form-radio-label'],
+        //        'field'       => ['class' => 'form-radio-field'],
+        //],
     ],
     // Templates
     'form'          => 'laravel-form-builder::form',

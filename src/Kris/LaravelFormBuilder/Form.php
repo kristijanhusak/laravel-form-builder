@@ -5,6 +5,7 @@ use Illuminate\Contracts\Validation\Factory as ValidatorFactory;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Kris\LaravelFormBuilder\Events\AfterFieldCreation;
 use Kris\LaravelFormBuilder\Events\AfterFormValidation;
 use Kris\LaravelFormBuilder\Events\BeforeFormValidation;
@@ -1024,8 +1025,17 @@ class Form implements FieldsContainerContract
      */
     protected function getFieldName($name)
     {
-        if ($this->getName() !== null) {
-            return $this->getName().'['.$name.']';
+        $formName = $this->getName();
+        if ($formName !== null) {
+            if (strpos($formName, '[') !== false || strpos($formName, ']') !== false) {
+                return $this->formHelper->transformToBracketSyntax(
+                    $this->formHelper->transformToDotSyntax(
+                        $formName . '[' . $name . ']'
+                    )
+                );
+            }
+
+            return $formName . '[' . $name . ']';
         }
 
         return $name;
@@ -1101,6 +1111,16 @@ class Form implements FieldsContainerContract
     }
 
     /**
+     * Get all form field attributes, including child forms, in a flat array.
+     *
+     * @return array
+     */
+    public function getAllAttributes()
+    {
+        return $this->formHelper->mergeAttributes($this->fields);
+    }
+
+    /**
      * Check if the form is valid
      *
      * @return bool
@@ -1135,6 +1155,26 @@ class Form implements FieldsContainerContract
         }
 
         return $this->validator->getMessageBag()->getMessages();
+    }
+
+    /**
+     * Get all Request values from all fields, and nothing else.
+     *
+     * @return array
+     */
+    public function getFieldValues($with_nulls = true)
+    {
+        $request_values = $this->getRequest()->all();
+
+        $values = [];
+        foreach ($this->getAllAttributes() as $attribute) {
+            $value = Arr::get($request_values, $attribute);
+            if ($with_nulls || $value !== null) {
+                Arr::set($values, $attribute, $value);
+            }
+        }
+
+        return $values;
     }
 
     /**
