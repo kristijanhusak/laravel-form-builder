@@ -769,6 +769,19 @@ class FormTest extends FormBuilderTestCase
     }
 
     /** @test */
+    public function it_has_html_valid_element_names()
+    {
+        $this->plainForm
+            ->add('name[text]', 'text')
+            ->add('child[form]', 'form', [
+                'class' => $this->formBuilder->plain()->add('name[text]', 'text'),
+            ]);
+
+        $this->assertEquals('name[text]', $this->plainForm->getField('name[text]')->getName());
+        $this->assertEquals('child[form][name][text]', $this->plainForm->getField('child[form]')->getField('name[text]')->getName());
+    }
+
+    /** @test */
     public function it_adds_custom_type()
     {
         $this->plainForm->addCustomField('datetime', 'Some\\Namespace\\DatetimeType');
