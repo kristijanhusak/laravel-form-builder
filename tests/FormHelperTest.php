@@ -28,7 +28,7 @@ class FormHelperTest extends FormBuilderTestCase
 
         $expected = [
             'attr' => ['class' => 'form-control', 'id' => 'form-id'],
-            'label_attr' => ['class' => 'new-class'],
+            'label_attr' => ['class' => 'test new-class'],
             'selected' => null
         ];
 
