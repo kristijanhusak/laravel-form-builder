@@ -41,6 +41,15 @@ class ChildFormType extends ParentType
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getAllAttributes()
+    {
+        // Collect all children's attributes.
+        return $this->parent->getFormHelper()->mergeAttributes($this->children);
+    }
+
+    /**
      * @return mixed|void
      */
     protected function createChildren()
