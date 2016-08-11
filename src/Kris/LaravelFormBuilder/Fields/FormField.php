@@ -2,11 +2,11 @@
 
 namespace Kris\LaravelFormBuilder\Fields;
 
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Kris\LaravelFormBuilder\Form;
+use Illuminate\Database\Eloquent\Model;
 use Kris\LaravelFormBuilder\FormHelper;
 use Kris\LaravelFormBuilder\RulesParser;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class FormField
@@ -242,20 +242,22 @@ abstract class FormField
             $this->addErrorClass();
         }
 
-        if ($this->parent->clientValidationEnabled()) {
-            if ($this->getOption('required') === true || isset($parsedRules['required'])) {
-                $lblClass = $this->getOption('label_attr.class', '');
-                $requiredClass = $helper->getConfig('defaults.required_class', 'required');
-                if (!str_contains($lblClass, $requiredClass)) {
-                    $lblClass .= ' ' . $requiredClass;
-                    $this->setOption('label_attr.class', $lblClass);
-                    $this->setOption('attr.required', 'required');
-                }
+        if ($this->getOption('required') === true || isset($parsedRules['required'])) {
+            $lblClass = $this->getOption('label_attr.class', '');
+            $requiredClass = $helper->getConfig('defaults.required_class', 'required');
+
+            if (! str_contains($lblClass, $requiredClass)) {
+                $lblClass .= ' '.$requiredClass;
+                $this->setOption('label_attr.class', $lblClass);
             }
 
-            if ($parsedRules) {
-                $attrs = $this->getOption('attr') + $parsedRules;
-                $this->setOption('attr', $attrs);
+            if ($this->parent->clientValidationEnabled()) {
+                $this->setOption('attr.required', 'required');
+
+                if ($parsedRules) {
+                    $attrs = $this->getOption('attr') + $parsedRules;
+                    $this->setOption('attr', $attrs);
+                }
             }
         }
 
