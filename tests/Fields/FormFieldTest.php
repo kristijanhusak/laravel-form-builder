@@ -52,7 +52,7 @@ class FormFieldTest extends FormBuilderTestCase
 
 
     /** @test */
-    public function it_sets_the_required_class_on_the_label_explicitly()
+    public function it_sets_required_as_class_on_the_label_and_attribute_on_the_field_when_setting_required_explicitly()
     {
         $options = [
             'required' => true
@@ -66,7 +66,7 @@ class FormFieldTest extends FormBuilderTestCase
     }
 
     /** @test */
-    public function it_sets_the_required_class_and_label_on_the_label_implicitly()
+    public function it_sets_required_as_class_on_the_label_and_attribute_on_the_field_when_setting_required_via_a_rule()
     {
         $options = [
             'rules' => 'required|min:3'
@@ -80,7 +80,7 @@ class FormFieldTest extends FormBuilderTestCase
     }
 
     /** @test */
-    public function it_adds_the_required_class_when_client_side_validation_is_disabled()
+    public function it_adds_the_required_class_to_the_label_when_client_side_validation_is_disabled()
     {
         $options = [
             'rules' => 'required|min:3'
