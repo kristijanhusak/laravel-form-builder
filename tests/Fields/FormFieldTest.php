@@ -52,7 +52,7 @@ class FormFieldTest extends FormBuilderTestCase
 
 
     /** @test */
-    public function it_sets_the_required_attribute_explicitly()
+    public function it_sets_the_required_class_on_the_label_explicitly()
     {
         $options = [
             'required' => true
@@ -62,10 +62,11 @@ class FormFieldTest extends FormBuilderTestCase
         $hidden->render();
 
         $this->assertRegExp('/required/', $hidden->getOption('label_attr.class'));
+        $this->assertArrayHasKey('required', $hidden->getOption('attr'));
     }
 
     /** @test */
-    public function it_sets_the_required_attribute_implicitly()
+    public function it_sets_the_required_class_and_label_on_the_label_implicitly()
     {
         $options = [
             'rules' => 'required|min:3'
@@ -75,6 +76,23 @@ class FormFieldTest extends FormBuilderTestCase
         $hidden->render();
 
         $this->assertRegExp('/required/', $hidden->getOption('label_attr.class'));
+        $this->assertArrayHasKey('required', $hidden->getOption('attr'));
+    }
+
+    /** @test */
+    public function it_adds_the_required_class_when_client_side_validation_is_disabled()
+    {
+        $options = [
+            'rules' => 'required|min:3'
+        ];
+
+        $this->plainForm->setClientValidationEnabled(false);
+
+        $hidden = new InputType('hidden_id', 'hidden', $this->plainForm, $options);
+        $hidden->render();
+
+        $this->assertRegExp('/required/', $hidden->getOption('label_attr.class'));
+        $this->assertArrayNotHasKey('required', $hidden->getOption('attr'));
     }
 
     /** @test */
