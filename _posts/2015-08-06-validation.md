@@ -73,7 +73,10 @@ class PostController extends Controller
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
 
-        Post::create($request->all());
+        // Or automatically redirect on error. This will throw an HttpResponseException with redirect
+        $form->redirectIfNotValid();
+
+        Post::create($form->getFieldValues());
         return redirect()->route('posts');
     }
 }
@@ -118,7 +121,7 @@ class PostController extends Controller
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
 
-        Post::create($request->all());
+        Post::create($form->getFieldValues());
         return redirect()->route('posts');
     }
 }
@@ -157,7 +160,7 @@ class PostController extends Controller
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
 
-        Post::create($request->all());
+        Post::create($form->getFieldValues());
         return redirect()->route('posts');
     }
 }
@@ -199,7 +202,7 @@ class PostController extends Controller
 
         $this->validate($request, $form->getRules($rulesToOverride));
 
-        Post::create($request->all());
+        Post::create($form->getFieldValues());
         return redirect()->route('posts');
     }
 }
@@ -241,7 +244,7 @@ class PostController extends Controller
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
 
-        Post::create($request->all());
+        Post::create($form->getFieldValues());
         return redirect()->route('posts');
     }
 }
