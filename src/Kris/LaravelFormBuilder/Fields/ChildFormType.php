@@ -1,8 +1,9 @@
 <?php  namespace Kris\LaravelFormBuilder\Fields;
 
+use Kris\LaravelFormBuilder\FieldsContainerContract;
 use Kris\LaravelFormBuilder\Form;
 
-class ChildFormType extends ParentType
+class ChildFormType extends ParentType implements FieldsContainerContract
 {
 
     /**
@@ -148,6 +149,40 @@ class ChildFormType extends ParentType
         }
 
         return $this;
+    }
+
+    /**
+     * @param array $options
+     * @param bool  $showLabel
+     * @param bool  $showField
+     * @param bool  $showError
+     * @return string
+     */
+    public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
+    {
+        $options['form'] = $this;
+        return parent::render($options, $showLabel, $showField, $showError);
+    }
+
+    /**
+     * Wrapper for Form::getField().
+     */
+    public function getField($name) {
+        return $this->form->getField($name);
+    }
+
+    /**
+     * Wrapper for Form::getFields().
+     */
+    public function getFields() {
+        return $this->form->getFields();
+    }
+
+    /**
+     * Wrapper for Form::has().
+     */
+    public function has($name) {
+        return $this->form->has($name);
     }
 
     /**

@@ -10,8 +10,9 @@ use Kris\LaravelFormBuilder\Events\AfterFieldCreation;
 use Kris\LaravelFormBuilder\Events\AfterFormValidation;
 use Kris\LaravelFormBuilder\Events\BeforeFormValidation;
 use Kris\LaravelFormBuilder\Fields\FormField;
+use Kris\LaravelFormBuilder\FieldsContainerContract;
 
-class Form
+class Form implements FieldsContainerContract
 {
 
     /**
