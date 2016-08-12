@@ -1,3 +1,14 @@
+## 1.8.0
+- Add default classes per field - #220 (Thanks to @jvdlaar)
+- Set up ServiceProvider to be compatible with Laravel 5.3 - #236 (Thanks to @marcoraddatz)
+- Added `getFieldValues` method to form which returns all field values from request - #248 (Thanks to @rudiedirkx)
+- Added events after form and field creation/validation - #254 (Thanks to @rudiedirkx)
+- Allow nested field names without usage of any child fields - #251 (Thanks to @rudiedirkx)
+- Add `redirectIfNotValid` method to Form - #258 (Thanks to @koenvu)
+- Add `class_append` option for `label_attr`, `attr` and `wrapper` options which appends classes to the default ones - #257 (Thanks to @koenvu)
+- Add `form_rows` helper method, and pass `child_form` to view in ChildFormType, which contains internal Form instance - #262 (Thanks to @rudiedirkx)
+- Fix adding `required` class to label even without client validation enabled - #261 (Thanks to @koenvu)
+
 ## 1.7.10
 - Fix bug where `error_messages` were not namespaced properly in child forms ([#225](https://github.com/kristijanhusak/laravel-form-builder/issues/225))
 - Add check for field name and forbid reserved words ([#232](https://github.com/kristijanhusak/laravel-form-builder/issues/232))
