@@ -161,11 +161,11 @@ abstract class FormField
             $showError = $this->parent->haveErrorsEnabled();
         }
 
+        $data = $this->getRenderData();
+
         return $this->formHelper->getView()->make(
             $this->getViewTemplate(),
-            [
-                'form' => $this->parent,
-                'field' => $this,
+            $data + [
                 'name' => $this->name,
                 'nameKey' => $this->getNameKey(),
                 'type' => $this->type,
@@ -175,6 +175,15 @@ abstract class FormField
                 'showError' => $showError
             ]
         )->render();
+    }
+
+    /**
+     * Return the extra render data for this form field, passed into the field's template directly.
+     *
+     * @return array
+     */
+    protected function getRenderData() {
+        return [];
     }
 
     /**
