@@ -152,17 +152,21 @@
 <p>Bootstrap 3 classes are used by default for styling the forms. That can be modified by changing the configuration.</p>
 
 <p>First, publish the package assets/configuration.</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">php artisan vendor:publish
-</code></pre></div>
-<p>This will create config file <code>config/laravel-form-builder.php</code> and folder with views in <code>resources/views/vendor/laravel-form-builder</code>.</p>
+
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code>php artisan vendor:publish
+</code></pre>
+</div>
+
+<p>This will create config file <code class="highlighter-rouge">config/laravel-form-builder.php</code> and folder with views in <code class="highlighter-rouge">resources/views/vendor/laravel-form-builder</code>.</p>
 
 <p>Structure of the config needs to be like this:
 <a href="https://github.com/kristijanhusak/laravel-form-builder/blob/master/src/config/config.php">config.php</a> file.</p>
 
-<p>change values in <code>defaults</code> key as you wish.</p>
+<p>change values in <code class="highlighter-rouge">defaults</code> key as you wish.</p>
 
 <p>If you would like to avoid typing in full namespace of the form class when creating, you can add default namespace to the config that was just published, and it will prepend it every time you want to create form:</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// config/app/laravel-form-builder.php
 </span>
@@ -176,7 +180,9 @@
 <span class="p">{</span>
     <span class="nx">\FormBuilder</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">'SongForm'</span><span class="p">);</span>
 <span class="p">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 
                     </div>
                 

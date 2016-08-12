@@ -149,59 +149,73 @@
     </h2>
 </div>
 
-<p>Choice field is hybrid type, because it can be:
-* Regular select
-* Select with multiple choices
-* List of radio buttons
-* List of checkboxes</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<p>Choice field is hybrid type, because it can be:</p>
+
+<ul>
+  <li>Regular select</li>
+  <li>Select with multiple choices</li>
+  <li>List of radio buttons</li>
+  <li>List of checkboxes</li>
+</ul>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 <span class="c1">// This creates list of checkboxes
 </span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'languages'</span><span class="p">,</span> <span class="s1">'choice'</span><span class="p">,</span> <span class="p">[</span>
     <span class="s1">'choices'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'en'</span> <span class="o">=&gt;</span> <span class="s1">'English'</span><span class="p">,</span> <span class="s1">'fr'</span> <span class="o">=&gt;</span> <span class="s1">'French'</span><span class="p">],</span>
+    <span class="s1">'choice_options'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'wrapper'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'choice-wrapper'</span><span class="p">],</span>
+        <span class="s1">'label_attr'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'label-class'</span><span class="p">],</span>
+    <span class="p">],</span>
     <span class="s1">'selected'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'en'</span><span class="p">,</span> <span class="s1">'fr'</span><span class="p">],</span>
     <span class="s1">'expanded'</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">,</span>
     <span class="s1">'multiple'</span> <span class="o">=&gt;</span> <span class="kc">true</span>
 <span class="p">]);</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Beside inherited, there are some additional options available:</p>
 
 <ol>
-<li><code>choices</code> (Array) (Default: <code>[]</code>) - key value pairs that will be used in the list</li>
-<li><code>selected</code> (String|Array|Closure) (Default: <code>null</code>) - Item that needs to be selected/checked, if not provided fetched from Model</li>
-<li><code>expanded</code> (Boolean) (Default: <code>false</code>) - If true, list will be of type radios or checkboxes(depending on multiple option)</li>
-<li><code>multiple</code> (Boolean) (Default: <code>false</code>) - If true, allows multiple select or list of checkboxes (depending on expanded option)</li>
+  <li><code class="highlighter-rouge">choices</code> (<code class="highlighter-rouge">Array</code>) (Default: <code class="highlighter-rouge">[]</code>) - key value pairs that will be used in the list</li>
+  <li><code class="highlighter-rouge">choice_options</code> (<code class="highlighter-rouge">Array</code>) (Default: <code class="highlighter-rouge">['wrapper' =&gt; false]</code>) - Options that will be provided to each choice entry</li>
+  <li><code class="highlighter-rouge">selected</code> (<code class="highlighter-rouge">String|Array|Closure</code>) (Default: <code class="highlighter-rouge">null</code>) - Item that needs to be selected/checked, if not provided fetched from Model</li>
+  <li><code class="highlighter-rouge">expanded</code> (<code class="highlighter-rouge">Boolean</code>) (Default: <code class="highlighter-rouge">false</code>) - If true, list will be of type radios or checkboxes(depending on multiple option)</li>
+  <li><code class="highlighter-rouge">multiple</code> (<code class="highlighter-rouge">Boolean</code>) (Default: <code class="highlighter-rouge">false</code>) - If true, allows multiple select or list of checkboxes (depending on expanded option)</li>
 </ol>
 
-<table><thead>
-<tr>
-<th>expanded</th>
-<th>multiple</th>
-<th>Field type</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>false</td>
-<td>false</td>
-<td>Select</td>
-</tr>
-<tr>
-<td>false</td>
-<td>true</td>
-<td>Select with multiple attribute</td>
-</tr>
-<tr>
-<td>true</td>
-<td>false</td>
-<td>List of radio buttons</td>
-</tr>
-<tr>
-<td>true</td>
-<td>true</td>
-<td>List of checkboxes</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>expanded</th>
+      <th>multiple</th>
+      <th>Field type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>false</td>
+      <td>false</td>
+      <td>Select</td>
+    </tr>
+    <tr>
+      <td>false</td>
+      <td>true</td>
+      <td>Select with multiple attribute</td>
+    </tr>
+    <tr>
+      <td>true</td>
+      <td>false</td>
+      <td>List of radio buttons</td>
+    </tr>
+    <tr>
+      <td>true</td>
+      <td>true</td>
+      <td>List of checkboxes</td>
+    </tr>
+  </tbody>
+</table>
 
-<p><code>selected</code> can be modified with Closure the same way like in <a href="/laravel-form-builder/field/select.html">Select field type</a></p>
+<p><code class="highlighter-rouge">selected</code> can be modified with Closure the same way like in <a href="/laravel-form-builder/field/select.html">Select field type</a></p>
 
 
                     </div>

@@ -152,16 +152,20 @@
 <p>Repeated type field is basically same field doubled, with a name change.</p>
 
 <p>Used mostly for password confirmations:</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">,</span> <span class="s1">'repeated'</span><span class="p">,</span> <span class="p">[</span>
     <span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="s1">'password'</span>
     <span class="s1">'second_name'</span> <span class="o">=&gt;</span> <span class="s1">'password_confirmation'</span><span class="p">,</span>
     <span class="s1">'first_options'</span> <span class="o">=&gt;</span> <span class="p">[],</span>
     <span class="s1">'second_options'</span> <span class="o">=&gt;</span> <span class="p">[],</span>
 <span class="p">])</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Generates html:</p>
-<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"password"</span><span class="nt">&gt;</span>Password<span class="nt">&lt;/label&gt;</span>
     <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"password"</span> <span class="na">name=</span><span class="s">"password"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
@@ -170,14 +174,16 @@
     <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"password"</span><span class="nt">&gt;</span>Password Confirmation<span class="nt">&lt;/label&gt;</span>
     <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"password"</span> <span class="na">name=</span><span class="s">"password_confirmation"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Beside inherited, there are some additional options available:</p>
 
 <ol>
-<li><code>type</code> (String) (Default: <code>password</code>) - Field type to be used</li>
-<li><code>second_name</code> (String) (Default: <code>{FIELD_NAME}_confirmation</code>) - Name of the second field, if empty, uses the default name with <code>_confirmation</code> appended.</li>
-<li><code>first_options</code> (Array) (Default: <code>[]</code>) - Options for the first field</li>
-<li><code>second_options</code> (Array) (Default: <code>[]</code>) - Options for the second field</li>
+  <li><code class="highlighter-rouge">type</code> (String) (Default: <code class="highlighter-rouge">password</code>) - Field type to be used</li>
+  <li><code class="highlighter-rouge">second_name</code> (String) (Default: <code class="highlighter-rouge"><span class="p">{</span><span class="err">FIELD_NAME</span><span class="p">}</span><span class="err">_confirmation</span></code>) - Name of the second field, if empty, uses the default name with <code class="highlighter-rouge">_confirmation</code> appended.</li>
+  <li><code class="highlighter-rouge">first_options</code> (Array) (Default: <code class="highlighter-rouge">[]</code>) - Options for the first field</li>
+  <li><code class="highlighter-rouge">second_options</code> (Array) (Default: <code class="highlighter-rouge">[]</code>) - Options for the second field</li>
 </ol>
 
 

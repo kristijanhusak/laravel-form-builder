@@ -154,202 +154,232 @@
 <h3 id="methods">Methods</h3>
 
 <ul>
-<li><a href="#add">add($name, $type, $options)</a> - adds a field to form class.</li>
-<li><a href="#addbefore">addBefore($beforeFieldName, $name, $type, $options)</a> - add a field before another field.</li>
-<li><a href="#addafter">addAfter($afterFieldName, $name, $type, $options)</a> - add a field after another field.</li>
-<li><a href="#compose">compose($form, $name, $type, $options)</a> - Add fields from passed <code>$form</code> to this form.</li>
-<li><a href="#remove">remove($name)</a> - Remove existing field from form.</li>
-<li><a href="#modify">modify($name, $type, $options, $overwriteOpts = false)</a> - modify existing field.</li>
-<li><a href="#setmodel-deprecated">setModel()(<strong>DEPRECATED</strong>)</a>- Set the model for the form class that will be used to bind values to the form.</li>
-<li><a href="#getmodel">getModel()</a>- Get the model that was passed when creating form. Also available in child forms.</li>
-<li><a href="#getrequest">getRequest()</a> - Get the current request.</li>
-<li><a href="#getdata">getData($name = null, $default = null)</a> - Get element from $data passed to form class. If null, returns all data.</li>
-<li><a href="#getfields">getFields()</a>- Get all fields for this form class</li>
-<li><a href="#getfield">getField($name)</a> - Get a single field instance from form class</li>
-<li><a href="#disablefields">disableFields</a>- Disable all fields in a form</li>
-<li><a href="#enablefields">enableFields</a> - Enable all fields in the form</li>
+  <li><a href="#add">add($name, $type, $options)</a> - adds a field to form class.</li>
+  <li><a href="#addbefore">addBefore($beforeFieldName, $name, $type, $options)</a> - add a field before another field.</li>
+  <li><a href="#addafter">addAfter($afterFieldName, $name, $type, $options)</a> - add a field after another field.</li>
+  <li><a href="#compose">compose($form, $name, $type, $options)</a> - Add fields from passed <code class="highlighter-rouge">$form</code> to this form.</li>
+  <li><a href="#remove">remove($name)</a> - Remove existing field from form.</li>
+  <li><a href="#modify">modify($name, $type, $options, $overwriteOpts = false)</a> - modify existing field.</li>
+  <li><a href="#setmodel-deprecated">setModel()(<strong>DEPRECATED</strong>)</a>- Set the model for the form class that will be used to bind values to the form.</li>
+  <li><a href="#getmodel">getModel()</a>- Get the model that was passed when creating form. Also available in child forms.</li>
+  <li><a href="#getrequest">getRequest()</a> - Get the current request.</li>
+  <li><a href="#getdata">getData($name = null, $default = null)</a> - Get element from $data passed to form class. If null, returns all data.</li>
+  <li><a href="#getfields">getFields()</a>- Get all fields for this form class</li>
+  <li><a href="#getfield">getField($name)</a> - Get a single field instance from form class</li>
+  <li><a href="#disablefields">disableFields</a>- Disable all fields in a form</li>
+  <li><a href="#enablefields">enableFields</a> - Enable all fields in the form</li>
 </ul>
 
 <h3 id="properties">Properties</h3>
 
 <ul>
-<li><a href="#formoptions">protected $formOptions = [&#39;method&#39; =&gt; &#39;GET&#39;, url =&gt; null]`</a> - Form options passed to view.</li>
-<li><a href="#showfielderrors">protected $showFieldErrors = true</a> - Should validation errors appear under the fields.</li>
-<li><a href="/laravel-form-builder/form/named-form.html">protected $name = null</a> - Name for the <a href="/laravel-form-builder/form/named-form.html">Named form</a></li>
-<li><a href="#clientvalidationenabled">protected $clientValidationEnabled = true</a> - Enable/disable client side validation</li>
+  <li><a href="#formoptions">protected $formOptions = [‘method’ =&gt; ‘GET’, url =&gt; null]`</a> - Form options passed to view.</li>
+  <li><a href="#showfielderrors">protected $showFieldErrors = true</a> - Should validation errors appear under the fields.</li>
+  <li><a href="/laravel-form-builder/form/named-form.html">protected $name = null</a> - Name for the <a href="/laravel-form-builder/form/named-form.html">Named form</a></li>
+  <li><a href="#clientvalidationenabled">protected $clientValidationEnabled = true</a> - Enable/disable client side validation</li>
 </ul>
 
 <h4 id="add">add</h4>
 
-<p>This method is used to add a field to the form. It is used in Form class <code>buildForm</code> method,
+<p>This method is used to add a field to the form. It is used in Form class <code class="highlighter-rouge">buildForm</code> method,
 but it can be also used after form instantiation.</p>
 
 <p>It accepts 3 arguments:</p>
 
-<table><thead>
-<tr>
-<th>Description</th>
-<th>Type</th>
-<th>Required</th>
-<th>Default</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>Field name</td>
-<td>String</td>
-<td>true</td>
-<td>-</td>
-</tr>
-<tr>
-<td>Field type</td>
-<td>String</td>
-<td>false</td>
-<td>text</td>
-</tr>
-<tr>
-<td>Field options</td>
-<td>Array</td>
-<td>false</td>
-<td>[]</td>
-</tr>
-</tbody></table>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Field name</td>
+      <td>String</td>
+      <td>true</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Field type</td>
+      <td>String</td>
+      <td>false</td>
+      <td>text</td>
+    </tr>
+    <tr>
+      <td>Field options</td>
+      <td>Array</td>
+      <td>false</td>
+      <td>[]</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 <span class="nv">$this</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'first_name'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">,</span> <span class="p">[</span>
             <span class="s1">'label'</span> <span class="o">=&gt;</span> <span class="s1">'First name'</span>
     <span class="p">]);</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <h4 id="addbefore">addBefore</h4>
 
 <p>This method is used to add a field before some other field.
-It&#39;s mostly useful after the form instantiation, if You want to add new field at specific location.</p>
+It’s mostly useful after the form instantiation, if You want to add new field at specific location.</p>
 
 <p>It accepts 4 arguments:</p>
 
-<table><thead>
-<tr>
-<th>Description</th>
-<th>Type</th>
-<th>Required</th>
-<th>Default</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>Before field name</td>
-<td>String</td>
-<td>true</td>
-<td>-</td>
-</tr>
-<tr>
-<td>Field name</td>
-<td>String</td>
-<td>true</td>
-<td>-</td>
-</tr>
-<tr>
-<td>Field type</td>
-<td>String</td>
-<td>false</td>
-<td>text</td>
-</tr>
-<tr>
-<td>Field options</td>
-<td>Array</td>
-<td>false</td>
-<td>[]</td>
-</tr>
-</tbody></table>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Before field name</td>
+      <td>String</td>
+      <td>true</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Field name</td>
+      <td>String</td>
+      <td>true</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Field type</td>
+      <td>String</td>
+      <td>false</td>
+      <td>text</td>
+    </tr>
+    <tr>
+      <td>Field options</td>
+      <td>Array</td>
+      <td>false</td>
+      <td>[]</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 <span class="nv">$form</span> <span class="o">=</span> <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">plain</span><span class="p">()</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">,</span> <span class="s1">'password'</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'submit'</span><span class="p">,</span> <span class="s1">'submit'</span><span class="p">);</span>
 
 <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">addBefore</span><span class="p">(</span><span class="s1">'password'</span><span class="p">,</span> <span class="s1">'full_name'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">);</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <h4 id="addafter">addAfter</h4>
 
-<p>Similar to <code>addBefore</code>, this method is used to add a field before some other field.</p>
+<p>Similar to <code class="highlighter-rouge">addBefore</code>, this method is used to add a field before some other field.</p>
 
-<p>It&#39;s mostly useful after the form instantiation, if You want to add new field at specific location.</p>
+<p>It’s mostly useful after the form instantiation, if You want to add new field at specific location.</p>
 
 <p>It accepts 4 arguments:</p>
 
-<table><thead>
-<tr>
-<th>Description</th>
-<th>Type</th>
-<th>Required</th>
-<th>Default</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>Before field name</td>
-<td>String</td>
-<td>true</td>
-<td>-</td>
-</tr>
-<tr>
-<td>Field name</td>
-<td>String</td>
-<td>true</td>
-<td>-</td>
-</tr>
-<tr>
-<td>Field type</td>
-<td>String</td>
-<td>false</td>
-<td>text</td>
-</tr>
-<tr>
-<td>Field options</td>
-<td>Array</td>
-<td>false</td>
-<td>[]</td>
-</tr>
-</tbody></table>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Before field name</td>
+      <td>String</td>
+      <td>true</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Field name</td>
+      <td>String</td>
+      <td>true</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Field type</td>
+      <td>String</td>
+      <td>false</td>
+      <td>text</td>
+    </tr>
+    <tr>
+      <td>Field options</td>
+      <td>Array</td>
+      <td>false</td>
+      <td>[]</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 <span class="nv">$form</span> <span class="o">=</span> <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">plain</span><span class="p">()</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">,</span> <span class="s1">'password'</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'submit'</span><span class="p">,</span> <span class="s1">'submit'</span><span class="p">);</span>
 
 <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">addAfter</span><span class="p">(</span><span class="s1">'password'</span><span class="p">,</span> <span class="s1">'address'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">);</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <h4 id="compose">compose</h4>
 
 <p>This method is used when you want to add fields from one form to another form.</p>
 
 <p>It accepts 3 arguments:</p>
 
-<table><thead>
-<tr>
-<th>Description</th>
-<th>Type</th>
-<th>Required</th>
-<th>Default</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>Form which fields will be added</td>
-<td>Form</td>
-<td>ChildFormType</td>
-<td>String</td>
-</tr>
-<tr>
-<td>$options</td>
-<td>String</td>
-<td>false</td>
-<td>[]</td>
-</tr>
-<tr>
-<td>$modify</td>
-<td>String</td>
-<td>false</td>
-<td>false</td>
-</tr>
-</tbody></table>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Forms</span><span class="p">;</span>
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Default</th>
+      <th> </th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Form which fields will be added</td>
+      <td>Form</td>
+      <td>ChildFormType</td>
+      <td>String</td>
+      <td>true</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>$options</td>
+      <td>String</td>
+      <td>false</td>
+      <td>[]</td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>$modify</td>
+      <td>String</td>
+      <td>false</td>
+      <td>false</td>
+      <td> </td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Forms</span><span class="p">;</span>
 
 <span class="k">use</span> <span class="nx">Kris\LaravelFormBuilder\Form</span><span class="p">;</span>
 
@@ -381,47 +411,53 @@ It&#39;s mostly useful after the form instantiation, if You want to add new fiel
             <span class="o">-&gt;</span><span class="na">compose</span><span class="p">(</span><span class="s1">'App\Forms\AddressForm'</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <h4 id="modify">modify</h4>
 
 <p>In situations when there is need for modifying existing field on the form class, we can use this method.</p>
 
 <p>It accepts 4 arguments:</p>
 
-<table><thead>
-<tr>
-<th>Description</th>
-<th>Type</th>
-<th>Required</th>
-<th>Default</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>Field name to modify</td>
-<td>String</td>
-<td>true</td>
-<td>-</td>
-</tr>
-<tr>
-<td>New field type for the field</td>
-<td>String</td>
-<td>false</td>
-<td>text</td>
-</tr>
-<tr>
-<td>Field options to add/overwrite</td>
-<td>Array</td>
-<td>false</td>
-<td>[]</td>
-</tr>
-<tr>
-<td>Should options be totally overwritten</td>
-<td>Boolean</td>
-<td>false</td>
-<td>false</td>
-</tr>
-</tbody></table>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Field name to modify</td>
+      <td>String</td>
+      <td>true</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>New field type for the field</td>
+      <td>String</td>
+      <td>false</td>
+      <td>text</td>
+    </tr>
+    <tr>
+      <td>Field options to add/overwrite</td>
+      <td>Array</td>
+      <td>false</td>
+      <td>[]</td>
+    </tr>
+    <tr>
+      <td>Should options be totally overwritten</td>
+      <td>Boolean</td>
+      <td>false</td>
+      <td>false</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 <span class="nv">$form</span> <span class="o">=</span> <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">plain</span><span class="p">()</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">)</span>
@@ -430,7 +466,9 @@ It&#39;s mostly useful after the form instantiation, if You want to add new fiel
 <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">modify</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">,</span> <span class="p">[</span>
     <span class="s1">'attr'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'disabled'</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">]</span>
 <span class="p">]);</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <h4 id="remove">remove</h4>
 
 <p>Since forms can be reused, sometimes certain fields are not needed in different places.
@@ -438,22 +476,26 @@ Using this method we can remove those fields.</p>
 
 <p>It accepts 1 argument:</p>
 
-<table><thead>
-<tr>
-<th>Description</th>
-<th>Type</th>
-<th>Required</th>
-<th>Default</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>Field name to remove</td>
-<td>String</td>
-<td>true</td>
-<td>-</td>
-</tr>
-</tbody></table>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Field name to remove</td>
+      <td>String</td>
+      <td>true</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 <span class="nv">$form</span> <span class="o">=</span> <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">plain</span><span class="p">()</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'email'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">)</span>
@@ -461,14 +503,16 @@ Using this method we can remove those fields.</p>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'submit'</span><span class="p">,</span> <span class="s1">'submit'</span><span class="p">);</span>
 
 <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">remove</span><span class="p">(</span><span class="s1">'email'</span><span class="p">);</span>
-</code></pre></div>
-<h4 id="setmodel-deprecated">setModel <strong>(DEPRECATED)</strong></h4>
+</code></pre>
+</div>
 
+<h4 id="setmodel-deprecated">setModel <strong>(DEPRECATED)</strong></h4>
 <p><strong>Note</strong>: This method is deprecated and will be removed in version 2.
 Pass model through options when creating a form. More info in <a href="/laravel-form-builder/form/basics.html#form-options">Form options</a> section</p>
 
 <p>After form instantiation, we can set the model for the form, that will be used to bind values for the fields in the form.</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 <span class="nv">$model</span> <span class="o">=</span> <span class="nx">User</span><span class="o">::</span><span class="na">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 
 <span class="nv">$form</span> <span class="o">=</span> <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">plain</span><span class="p">()</span>
@@ -476,22 +520,28 @@ Pass model through options when creating a form. More info in <a href="/laravel-
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'email'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">setModel</span><span class="p">(</span><span class="nv">$model</span><span class="p">);</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Another way to pass the model is through formOptions parameter:</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 <span class="nv">$model</span> <span class="o">=</span> <span class="nx">User</span><span class="o">::</span><span class="na">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 
 <span class="nv">$form</span> <span class="o">=</span> <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">plain</span><span class="p">([</span><span class="s1">'model'</span> <span class="o">=&gt;</span> <span class="nv">$model</span><span class="p">])</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'email'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">);</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <h4 id="getmodel">getModel</h4>
 
 <p>Get the model that was passed to the form class.
-Can be used in <code>buildForm</code> for referencing some relationship or data from the model,
+Can be used in <code class="highlighter-rouge">buildForm</code> for referencing some relationship or data from the model,
 or after the instantiation.</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Forms</span><span class="p">;</span>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Forms</span><span class="p">;</span>
 
 <span class="k">use</span> <span class="nx">Kris\LaravelFormBuilder\Form</span><span class="p">;</span>
 
@@ -506,18 +556,20 @@ or after the instantiation.</p>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <h4 id="getrequest">getRequest</h4>
 
 <p>Get the current request.</p>
 
-<p>returns <code>Illuminiate\Http\Request</code> instance.</p>
+<p>returns <code class="highlighter-rouge">Illuminiate\Http\Request</code> instance.</p>
 
 <h4 id="getfields">getFields</h4>
 
 <p>Get all fields of the single Form class.</p>
 
-<p>returns <code>Array</code> of fields.</p>
+<p>returns <code class="highlighter-rouge">Array</code> of fields.</p>
 
 <h4 id="getfield">getField</h4>
 
@@ -525,22 +577,26 @@ or after the instantiation.</p>
 
 <p>It accepts 1 argument:</p>
 
-<table><thead>
-<tr>
-<th>Description</th>
-<th>Type</th>
-<th>Required</th>
-<th>Default</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>Name of the field</td>
-<td>String</td>
-<td>true</td>
-<td>-</td>
-</tr>
-</tbody></table>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Name of the field</td>
+      <td>String</td>
+      <td>true</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 <span class="nv">$model</span> <span class="o">=</span> <span class="nx">User</span><span class="o">::</span><span class="na">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 
 <span class="nv">$form</span> <span class="o">=</span> <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">plain</span><span class="p">([</span><span class="s1">'model'</span> <span class="o">=&gt;</span> <span class="nv">$model</span><span class="p">])</span>
@@ -549,38 +605,45 @@ or after the instantiation.</p>
     <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">);</span>
 
 <span class="nv">$usernameField</span> <span class="o">=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'username'</span><span class="p">);</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><strong>Note:</strong> Another way to get single field from the Form class is getting it by property.
 Form class has magic methods that handle finding fields.</p>
 
 <p>Using above form:
-<code>
+<code class="highlighter-rouge">
     $usernameField = $form-&gt;username;
 </code></p>
 
 <h4 id="disablefields">disableFields</h4>
+<p>Disable all fields in a form, by adding <code class="highlighter-rouge">disabled</code> attribute to the fields. Useful when you only want to use form as read only.</p>
 
-<p>Disable all fields in a form, by adding <code>disabled</code> attribute to the fields. Useful when you only want to use form as read only.</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php">$form = FormBuilder::create('App\Forms\SearchForm');
+<div class="language-php highlighter-rouge"><pre class="highlight"><code>$form = FormBuilder::create('App\Forms\SearchForm');
 
 $form-&gt;disableFields();
-</code></pre></div>
+</code></pre>
+</div>
+
 <h4 id="enablefields">enableFields</h4>
 
-<p>Enable all fields in a form, by removing <code>disabled</code> attribute to the fields.</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php">$form = FormBuilder::create('App\Forms\SearchForm');
+<p>Enable all fields in a form, by removing <code class="highlighter-rouge">disabled</code> attribute to the fields.</p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code>$form = FormBuilder::create('App\Forms\SearchForm');
 
 $form-&gt;enableFields();
-</code></pre></div>
+</code></pre>
+</div>
+
 <h4 id="formoptions">formOptions</h4>
+<p>These options are passed to the view into the <code class="highlighter-rouge">Form::open</code> method.</p>
 
-<p>These options are passed to the view into the <code>Form::open</code> method.</p>
+<p>If Form class will always have same method or url during it’s usage, it’s good pratice to set this property on the form class to avooid repeating.</p>
 
-<p>If Form class will always have same method or url during it&#39;s usage, it&#39;s good pratice to set this property on the form class to avooid repeating.</p>
+<p>Type: <code class="highlighter-rouge">Array</code>
+Default: <code class="highlighter-rouge">['method' =&gt; 'GET', 'url' =&gt; null]</code></p>
 
-<p>Type: <code>Array</code>
-Default: <code>[&#39;method&#39; =&gt; &#39;GET&#39;, &#39;url&#39; =&gt; null]</code></p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Forms</span><span class="p">;</span>
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Forms</span><span class="p">;</span>
 
 <span class="k">use</span> <span class="nx">Kris\LaravelFormBuilder\Form</span><span class="p">;</span>
 
@@ -596,26 +659,29 @@ Default: <code>[&#39;method&#39; =&gt; &#39;GET&#39;, &#39;url&#39; =&gt; null]<
         <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'term'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
-<p>And then it&#39;s enough to call this:</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php">$form = FormBuilder::create('App\Forms\SearchForm');
-</code></pre></div>
-<h4 id="showfielderrors">showFieldErrors</h4>
+</code></pre>
+</div>
 
+<p>And then it’s enough to call this:</p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code>$form = FormBuilder::create('App\Forms\SearchForm');
+</code></pre>
+</div>
+
+<h4 id="showfielderrors">showFieldErrors</h4>
 <p>This property is used to determine if we want to show validation errors in the form under each field.</p>
 
-<p>Type: <code>Boolean</code></p>
+<p>Type: <code class="highlighter-rouge">Boolean</code></p>
 
-<p>Default: <code>true</code></p>
+<p>Default: <code class="highlighter-rouge">true</code></p>
 
 <h4 id="clientvalidationenabled">clientValidationEnabled</h4>
-
 <p>Since version 1.6.30 form automatically generates html5 validation properties in html.
-Setting this to <code>false</code> will remove those properties.</p>
+Setting this to <code class="highlighter-rouge">false</code> will remove those properties.</p>
 
-<p>Type: <code>Boolean</code></p>
+<p>Type: <code class="highlighter-rouge">Boolean</code></p>
 
-<p>Default: <code>true</code></p>
+<p>Default: <code class="highlighter-rouge">true</code></p>
 
 
                     </div>

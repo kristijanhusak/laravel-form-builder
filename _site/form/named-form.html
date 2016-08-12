@@ -153,31 +153,40 @@
 There are <strong>3</strong> ways to set up a named form:</p>
 
 <ol>
-<li>Passing it as form option. This is <strong>recommended</strong> method</li>
+  <li>Passing it as form option. This is <strong>recommended</strong> method</li>
 </ol>
-<div class="highlight"><pre><code class="language-php" data-lang="php">    <span class="cp">&lt;?php</span>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code>    <span class="cp">&lt;?php</span>
 
     <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">'App\Forms\LoginForm'</span><span class="p">,</span> <span class="p">[</span>
         <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'users'</span><span class="p">;</span>
     <span class="p">])</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <ol>
-<li>Setting as property on the Form class. Useful when namespacing is always needed</li>
+  <li>Setting as property on the Form class. Useful when namespacing is always needed</li>
 </ol>
-<div class="highlight"><pre><code class="language-php" data-lang="php">    <span class="cp">&lt;?php</span>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code>    <span class="cp">&lt;?php</span>
     <span class="nx">Class</span> <span class="nx">LoginForm</span> <span class="k">extends</span> <span class="nx">Form</span>
     <span class="p">{</span>
         <span class="k">protected</span> <span class="nv">$name</span> <span class="o">=</span> <span class="s1">'users'</span><span class="p">;</span>
     <span class="p">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <ol>
-<li>Using <code>setName</code> method on form class after instantiation. <strong>NOT RECOMMENDED</strong></li>
+  <li>Using <code class="highlighter-rouge">setName</code> method on form class after instantiation. <strong>NOT RECOMMENDED</strong></li>
 </ol>
 
 <p><strong>Avoid</strong> using this method because it requires rebuilding fields to set proper names.</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php">    <span class="cp">&lt;?php</span>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code>    <span class="cp">&lt;?php</span>
     <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">'App\Forms\LoginForm'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">setName</span><span class="p">(</span><span class="s1">'users'</span><span class="p">);</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 
                     </div>
                 

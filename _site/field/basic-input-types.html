@@ -151,49 +151,58 @@
 
 <p>These are types that are used most of the time in forms.
 All fields that match this pattern are in this category:</p>
-<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"TYPE_HERE"</span><span class="nt">&gt;</span>
-</code></pre></div>
-<p>Here&#39;s the full list:</p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"TYPE_HERE"</span><span class="nt">&gt;</span>
+</code></pre>
+</div>
+
+<p>Here’s the full list:</p>
 
 <ul>
-<li>text</li>
-<li>email</li>
-<li>password</li>
-<li>hidden</li>
-<li>textarea</li>
-<li>number</li>
-<li>file</li>
-<li>image</li>
-<li>url</li>
-<li>tel</li>
-<li>search</li>
-<li>color</li>
-<li>date</li>
-<li>datetime-local</li>
-<li>month</li>
-<li>range</li>
-<li>time</li>
-<li>week</li>
+  <li>text</li>
+  <li>email</li>
+  <li>password</li>
+  <li>hidden</li>
+  <li>textarea</li>
+  <li>number</li>
+  <li>file</li>
+  <li>image</li>
+  <li>url</li>
+  <li>tel</li>
+  <li>search</li>
+  <li>color</li>
+  <li>date</li>
+  <li>datetime-local</li>
+  <li>month</li>
+  <li>range</li>
+  <li>time</li>
+  <li>week</li>
 </ul>
 
 <p>Beside inherited options, it contains option that is used to set value for the field:</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">,</span> <span class="p">[</span>
     <span class="s1">'value'</span> <span class="o">=&gt;</span> <span class="s1">'John'</span>
 <span class="p">]);</span>
-</code></pre></div>
-<p><code>value</code> (String) (Default: null) - Used for setting default value.</p>
+</code></pre>
+</div>
 
-<p>If not provided, Form class will search for <code>name</code> property on the passed <code>model</code>.</p>
+<p><code class="highlighter-rouge">value</code> (String) (Default: null) - Used for setting default value.</p>
 
-<p>In case you want to modify the value pulled from model before it&#39;s passed to view, you can use Closure to manipulate data:</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<p>If not provided, Form class will search for <code class="highlighter-rouge">name</code> property on the passed <code class="highlighter-rouge">model</code>.</p>
+
+<p>In case you want to modify the value pulled from model before it’s passed to view, you can use Closure to manipulate data:</p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">,</span> <span class="p">[</span>
     <span class="s1">'value'</span> <span class="o">=&gt;</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$name</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="s1">'This is name: '</span> <span class="o">+</span> <span class="nv">$name</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">]);</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 
                     </div>
                 

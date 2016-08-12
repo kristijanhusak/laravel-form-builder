@@ -149,22 +149,23 @@
     </h2>
 </div>
 
-<p>Rendering forms in the views are done by form function helpers. Here&#39;s the complete list:</p>
+<p>Rendering forms in the views are done by form function helpers. Here’s the complete list:</p>
 
 <ul>
-<li><a href="#form">form</a></li>
-<li><a href="#form_start">form_start</a></li>
-<li><a href="#form_rest">form_rest</a></li>
-<li><a href="#form_end">form_end</a></li>
-<li><a href="#form_row">form_row</a></li>
-<li><a href="#form_label">form_label</a></li>
-<li><a href="#form_widget">form_widget</a></li>
-<li><a href="#form_error">form_error</a></li>
-<li><a href="#form_until">form_until</a></li>
+  <li><a href="#form">form</a></li>
+  <li><a href="#form_start">form_start</a></li>
+  <li><a href="#form_rest">form_rest</a></li>
+  <li><a href="#form_end">form_end</a></li>
+  <li><a href="#form_row">form_row</a></li>
+  <li><a href="#form_label">form_label</a></li>
+  <li><a href="#form_widget">form_widget</a></li>
+  <li><a href="#form_error">form_error</a></li>
+  <li><a href="#form_until">form_until</a></li>
 </ul>
 
 <p>Example form class:</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Forms</span><span class="p">;</span>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Forms</span><span class="p">;</span>
 
 <span class="k">use</span> <span class="nx">Kris\LaravelFormBuilder\Form</span>
 
@@ -177,12 +178,17 @@
             <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'submit'</span><span class="p">,</span> <span class="s1">'submit'</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
-<h3 id="form">form</h3>
+</code></pre>
+</div>
 
+<h3 id="form">form</h3>
 <p>This renders the complete form.</p>
-<div class="highlight"><pre><code class="language-" data-lang="">form($form, $formOptions = []);
-</code></pre></div><div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/"</span> <span class="na">method=</span><span class="s">"GET"</span><span class="nt">&gt;</span>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>form($form, $formOptions = []);
+</code></pre>
+</div>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/"</span> <span class="na">method=</span><span class="s">"GET"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"_token"</span> <span class="na">value=</span><span class="s">"randomstring"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
         <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"title"</span><span class="nt">&gt;</span>Title<span class="nt">&lt;/label&gt;</span>
@@ -194,22 +200,34 @@
     <span class="nt">&lt;/div&gt;</span>
     <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span>Submit<span class="nt">&lt;/button&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
-</code></pre></div>
-<h3 id="form_start">form_start</h3>
+</code></pre>
+</div>
 
-<p>This renders the start tag of the form (In Laravel&#39;s Form builder <code>Form::open()</code>):</p>
-<div class="highlight"><pre><code class="language-" data-lang="">form_start($form, $formOptions = []);
-</code></pre></div><div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/"</span> <span class="na">method=</span><span class="s">"GET"</span><span class="nt">&gt;</span>
+<h3 id="formstart">form_start</h3>
+
+<p>This renders the start tag of the form (In Laravel’s Form builder <code class="highlighter-rouge">Form::open()</code>):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>form_start($form, $formOptions = []);
+</code></pre>
+</div>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/"</span> <span class="na">method=</span><span class="s">"GET"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"_token"</span> <span class="na">value=</span><span class="s">"randomstring"</span><span class="nt">&gt;</span>
-</code></pre></div>
-<h3 id="form_rest">form_rest</h3>
+</code></pre>
+</div>
+
+<h3 id="formrest">form_rest</h3>
 
 <p>This renders the rest of the fields that are not already rendered:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">form_start($form)
+
+<div class="highlighter-rouge"><pre class="highlight"><code>form_start($form)
 form_row($form-&gt;body)
 &lt;h1&gt;Other fields&lt;/h1&gt;
 form_rest($form)
-</code></pre></div><div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/"</span> <span class="na">method=</span><span class="s">"GET"</span><span class="nt">&gt;</span>
+</code></pre>
+</div>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/"</span> <span class="na">method=</span><span class="s">"GET"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"_token"</span> <span class="na">value=</span><span class="s">"randomstring"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
         <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"body"</span><span class="nt">&gt;</span>Body<span class="nt">&lt;/label&gt;</span>
@@ -222,17 +240,23 @@ form_rest($form)
     <span class="nt">&lt;h1&gt;</span>Other fields<span class="nt">&lt;/h1&gt;</span>
     <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span>Submit<span class="nt">&lt;/button&gt;</span>
 <span class="c">&lt;!-- Note the missing &lt;/form&gt;, form_end is required --&gt;</span>
-</code></pre></div>
-<h3 id="form_end">form_end</h3>
+</code></pre>
+</div>
+
+<h3 id="formend">form_end</h3>
 
 <p>This renders the rest of the fields(can be changed) and closing form tag</p>
 
 <p><strong>Default</strong>:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">form_start($form)
+
+<div class="highlighter-rouge"><pre class="highlight"><code>form_start($form)
 form_row($form-&gt;title)
 &lt;h1&gt;Other fields&lt;/h1&gt;
 form_end($form, $renderRest = true);
-</code></pre></div><div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/"</span> <span class="na">method=</span><span class="s">"GET"</span><span class="nt">&gt;</span>
+</code></pre>
+</div>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/"</span> <span class="na">method=</span><span class="s">"GET"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"_token"</span> <span class="na">value=</span><span class="s">"randomstring"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
         <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"title"</span><span class="nt">&gt;</span>Title<span class="nt">&lt;/label&gt;</span>
@@ -245,13 +269,19 @@ form_end($form, $renderRest = true);
     <span class="nt">&lt;/div&gt;</span>
     <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span>Submit<span class="nt">&lt;/button&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>If you <strong>do not want rest of the fields</strong>, pass false as 2nd argument:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">form_start($form)
+
+<div class="highlighter-rouge"><pre class="highlight"><code>form_start($form)
 form_row($form-&gt;title)
 &lt;h1&gt;Other fields&lt;/h1&gt;
 form_end($form, false);
-</code></pre></div><div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/"</span> <span class="na">method=</span><span class="s">"GET"</span><span class="nt">&gt;</span>
+</code></pre>
+</div>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/"</span> <span class="na">method=</span><span class="s">"GET"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"_token"</span> <span class="na">value=</span><span class="s">"randomstring"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
         <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"title"</span><span class="nt">&gt;</span>Title<span class="nt">&lt;/label&gt;</span>
@@ -259,12 +289,18 @@ form_end($form, false);
     <span class="nt">&lt;/div&gt;</span>
     <span class="nt">&lt;h1&gt;</span>Other fields<span class="nt">&lt;/h1&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
-</code></pre></div>
-<h3 id="form_row">form_row</h3>
+</code></pre>
+</div>
+
+<h3 id="formrow">form_row</h3>
 
 <p>Renders single field:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">form_row($form-&gt;title, $options = ['attr' =&gt; ['class' =&gt; 'some-input']]);
-</code></pre></div><div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>form_row($form-&gt;title, $options = ['attr' =&gt; ['class' =&gt; 'some-input']]);
+</code></pre>
+</div>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"title"</span><span class="nt">&gt;</span>Title<span class="nt">&lt;/label&gt;</span>
     <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"title"</span> <span class="na">id=</span><span class="s">"title"</span> <span class="na">class=</span><span class="s">"some-input"</span><span class="nt">&gt;</span>
     <span class="c">&lt;!-- If help_block option is set --&gt;</span>
@@ -273,45 +309,70 @@ form_end($form, false);
     <span class="c">&lt;!-- only if validation errors exists --&gt;</span>
     <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"text-danger"</span><span class="nt">&gt;</span>This field is required.<span class="nt">&lt;/div&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
-</code></pre></div>
-<h3 id="form_label">form_label</h3>
+</code></pre>
+</div>
+
+<h3 id="formlabel">form_label</h3>
 
 <p>Renders only the label of the field</p>
-<div class="highlight"><pre><code class="language-" data-lang="">form_label($form-&gt;title);
-</code></pre></div><div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"title"</span><span class="nt">&gt;</span>Title<span class="nt">&lt;/label&gt;</span>
-</code></pre></div>
-<h3 id="form_widget">form_widget</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>form_label($form-&gt;title);
+</code></pre>
+</div>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"title"</span><span class="nt">&gt;</span>Title<span class="nt">&lt;/label&gt;</span>
+</code></pre>
+</div>
+
+<h3 id="formwidget">form_widget</h3>
 
 <p>Renders only the field element</p>
-<div class="highlight"><pre><code class="language-" data-lang="">form_widget($form-&gt;title);
-</code></pre></div><div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"title"</span> <span class="na">id=</span><span class="s">"title"</span> <span class="na">class=</span><span class="s">"some-input"</span><span class="nt">&gt;</span>
-</code></pre></div>
-<h3 id="form_error">form_error</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>form_widget($form-&gt;title);
+</code></pre>
+</div>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"title"</span> <span class="na">id=</span><span class="s">"title"</span> <span class="na">class=</span><span class="s">"some-input"</span><span class="nt">&gt;</span>
+</code></pre>
+</div>
+
+<h3 id="formerror">form_error</h3>
 
 <p>Renders only the field errors (If there are any)</p>
-<div class="highlight"><pre><code class="language-" data-lang="">form_error($form-&gt;title);
-</code></pre></div><div class="highlight"><pre><code class="language-html" data-lang="html"><span class="c">&lt;!-- only if validation errors exists --&gt;</span>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>form_error($form-&gt;title);
+</code></pre>
+</div>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="c">&lt;!-- only if validation errors exists --&gt;</span>
 <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"text-danger"</span><span class="nt">&gt;</span>This field is required.<span class="nt">&lt;/div&gt;</span>
-</code></pre></div>
-<h3 id="form_until">form_until</h3>
+</code></pre>
+</div>
+
+<h3 id="formuntil">form_until</h3>
 
 <p>Renders the form until the provided field.</p>
-<div class="highlight"><pre><code class="language-" data-lang="">form_start($form);
+
+<div class="highlighter-rouge"><pre class="highlight"><code>form_start($form);
 form_until($form, 'submit');
 form_end($form, false);
-</code></pre></div><div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/"</span> <span class="na">method=</span><span class="s">"GET"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"_token"</span> <span class="na">value=</span><span class="s">"randomstring"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"title"</span><span class="nt">&gt;</span>Title<span class="nt">&lt;/label&gt;</span>
-        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"title"</span> <span class="na">id=</span><span class="s">"title"</span> <span class="na">class=</span><span class="s">"form-control"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;/div&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"body"</span><span class="nt">&gt;</span>Body<span class="nt">&lt;/label&gt;</span>
-        <span class="nt">&lt;textarea</span> <span class="na">id=</span><span class="s">"body"</span> <span class="na">name=</span><span class="s">"body"</span> <span class="na">class=</span><span class="s">"form-control"</span><span class="nt">&gt;&lt;/textarea&gt;</span>
-    <span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;/form&gt;</span>
-```html
-</code></pre></div>
+</code></pre>
+</div>
+
+<p>```html</p>
+<form action="/" method="GET">
+    <input type="hidden" name="_token" value="randomstring" />
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="body">Body</label>
+        <textarea id="body" name="body" class="form-control"></textarea>
+    </div>
+</form>
+<p>```html</p>
+
 
                     </div>
                 

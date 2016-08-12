@@ -150,26 +150,39 @@
 </div>
 
 <p>This is classic select dropdown that is added like this:</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'languages'</span><span class="p">,</span> <span class="s1">'select'</span><span class="p">,</span> <span class="p">[</span>
     <span class="s1">'choices'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'en'</span> <span class="o">=&gt;</span> <span class="s1">'English'</span><span class="p">,</span> <span class="s1">'fr'</span> <span class="o">=&gt;</span> <span class="s1">'French'</span><span class="p">],</span>
     <span class="s1">'selected'</span> <span class="o">=&gt;</span> <span class="s1">'en'</span><span class="p">,</span>
     <span class="s1">'empty_value'</span> <span class="o">=&gt;</span> <span class="s1">'=== Select language ==='</span>
 <span class="p">]);</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Beside inherited it have 3 additional options:</p>
 
 <ol>
-<li><code>choices</code> (Array) (Default: <code>[]</code>) - key value pairs used for options in the select</li>
-<li><code>empty_value</code> (String) (Default: <code>null</code>) - If provided, added to the start of select as empty value</li>
-<li><code>selected</code> (String|Array|Closure) (Default: <code>null</code>) - Option that needs to be selected. If not provided, Form class will try to fetch it from passed model.
-
-<ul>
-<li>array is used when &#39;multiple&#39; attribute is set</li>
-<li>Closure is used for modifying model data before passed to view. Useful when fetching relationship data to pluck only data that is needed.</li>
-</ul></li>
+  <li><code class="highlighter-rouge">choices</code> (Array) (Default: <code class="highlighter-rouge">[]</code>) - key value pairs used for options in the select</li>
+  <li><code class="highlighter-rouge">empty_value</code> (String) (Default: <code class="highlighter-rouge">null</code>) - If provided, added to the start of select as empty value</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td><code class="highlighter-rouge">selected</code> (String</td>
+          <td>Array</td>
+          <td>Closure) (Default: <code class="highlighter-rouge">null</code>) - Option that needs to be selected. If not provided, Form class will try to fetch it from passed model.</td>
+        </tr>
+      </tbody>
+    </table>
+    <ul>
+      <li>array is used when ‘multiple’ attribute is set</li>
+      <li>Closure is used for modifying model data before passed to view. Useful when fetching relationship data to pluck only data that is needed.</li>
+    </ul>
+  </li>
 </ol>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'languages'</span><span class="p">,</span> <span class="s1">'select'</span><span class="p">,</span> <span class="p">[</span>
     <span class="s1">'choices'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'en'</span> <span class="o">=&gt;</span> <span class="s1">'English'</span><span class="p">,</span> <span class="s1">'fr'</span> <span class="o">=&gt;</span> <span class="s1">'French'</span><span class="p">],</span>
     <span class="s1">'selected'</span> <span class="o">=&gt;</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$data</span><span class="p">)</span> <span class="p">{</span>
@@ -178,7 +191,9 @@
     <span class="p">}</span>
     <span class="s1">'empty_value'</span> <span class="o">=&gt;</span> <span class="s1">'=== Select language ==='</span>
 <span class="p">])</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 
                     </div>
                 

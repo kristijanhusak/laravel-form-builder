@@ -150,7 +150,8 @@
 </div>
 
 <p>You can add one form as a child in another form. This will render all fields from that child form and wrap them in name provided:</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 <span class="k">class</span> <span class="nc">PostForm</span>
 <span class="p">{</span>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">()</span>
@@ -190,42 +191,56 @@
             <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'lyrics'</span><span class="p">,</span> <span class="s1">'textarea'</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>This renders:
-<code>html
-    &lt;div class=&quot;form-group&quot;&gt;
-        &lt;label for=&quot;name&quot; class=&quot;control-label&quot;&gt;name&lt;/label&gt;
-        &lt;input type=&quot;text&quot; name=&quot;name&quot; id=&quot;name&quot;&gt;
+<code class="highlighter-rouge">html
+    &lt;div class="form-group"&gt;
+        &lt;label for="name" class="control-label"&gt;name&lt;/label&gt;
+        &lt;input type="text" name="name" id="name"&gt;
     &lt;/div&gt;
-    &lt;div class=&quot;form-group&quot;&gt;
-        &lt;label for=&quot;gender[gender]&quot; class=&quot;control-label&quot;&gt;Gender&lt;/label&gt;
-        &lt;select id=&quot;gender[gender]&quot; name=&quot;gender[gender]&quot;&gt;
-            &lt;option value=&quot;m&quot;&gt;Male&lt;/option&gt;
-            &lt;option value=&quot;f&quot;&gt;Female&lt;/option&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label for="gender[gender]" class="control-label"&gt;Gender&lt;/label&gt;
+        &lt;select id="gender[gender]" name="gender[gender]"&gt;
+            &lt;option value="m"&gt;Male&lt;/option&gt;
+            &lt;option value="f"&gt;Female&lt;/option&gt;
         &lt;/select&gt;
     &lt;/div&gt;
-    &lt;div class=&quot;form-group&quot;&gt;
-        &lt;label for=&quot;post[title]&quot; class=&quot;control-label&quot;&gt;Title&lt;/label&gt;
-        &lt;input type=&quot;text&quot; name=&quot;post[title]&quot; id=&quot;post[title]&quot;&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label for="post[title]" class="control-label"&gt;Title&lt;/label&gt;
+        &lt;input type="text" name="post[title]" id="post[title]"&gt;
     &lt;/div&gt;
-    &lt;div class=&quot;form-group&quot;&gt;
-        &lt;label for=&quot;post[body]&quot; class=&quot;control-label&quot;&gt;Body&lt;/label&gt;
-        &lt;textarea id=&quot;post[body]&quot; name=&quot;post[body]&quot;&gt;&lt;/textarea&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label for="post[body]" class="control-label"&gt;Body&lt;/label&gt;
+        &lt;textarea id="post[body]" name="post[body]"&gt;&lt;/textarea&gt;
     &lt;/div&gt;
 </code></p>
 
 <p>Beside inherited, there are some additional options available:</p>
 
 <ol>
-<li><code>class</code> (String|Form) (Default: null) - Full path to the Form class or Form instance.</li>
-<li><code>formOptions</code> (Array) (Default: <code>[]</code>) - Options that will be passed to the Form if class passed as string</li>
-<li><code>data</code> (Array) (Default: <code>[]</code>) - Data to be added to the form</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td><code class="highlighter-rouge">class</code> (String</td>
+          <td>Form) (Default: null) - Full path to the Form class or Form instance.</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li><code class="highlighter-rouge">formOptions</code> (Array) (Default: <code class="highlighter-rouge">[]</code>) - Options that will be passed to the Form if class passed as string</li>
+  <li><code class="highlighter-rouge">data</code> (Array) (Default: <code class="highlighter-rouge">[]</code>) - Data to be added to the form</li>
 </ol>
 
-<p>Each of these represent the parameters for the <code>FormBuilder::create()</code> method:</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<p>Each of these represent the parameters for the <code class="highlighter-rouge">FormBuilder::create()</code> method:</p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 <span class="nx">FormBuilder</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="nv">$class</span><span class="p">,</span> <span class="nv">$formOptions</span><span class="p">,</span> <span class="nv">$data</span><span class="p">);</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 
                     </div>
                 

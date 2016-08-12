@@ -150,22 +150,25 @@
 </div>
 
 <ul>
-<li><a href="#basics">Basics</a></li>
-<li><a href="#fields">Fields</a></li>
-<li><a href="#path">Path</a></li>
-<li><a href="#namespace">Namespace</a></li>
+  <li><a href="#basics">Basics</a></li>
+  <li><a href="#fields">Fields</a></li>
+  <li><a href="#path">Path</a></li>
+  <li><a href="#namespace">Namespace</a></li>
 </ul>
 
 <h3 id="basics">Basics</h3>
-
 <p>Forms can be easily generated through provided command line generator.</p>
 
-<p>For example, to generate form class with name <code>LoginForm</code> in the <code>app/Http/Forms</code> path, you just need to run this:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">php artisan make:form Http/Forms/LoginForm
-</code></pre></div>
-<p>And it will generate file with name <code>LoginForm.php</code> in path &#39;app/Http/Forms&#39; - Full path <code>app/Http/Forms/LoginForm.php</code>,
+<p>For example, to generate form class with name <code class="highlighter-rouge">LoginForm</code> in the <code class="highlighter-rouge">app/Http/Forms</code> path, you just need to run this:</p>
+
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code>php artisan make:form Http/Forms/LoginForm
+</code></pre>
+</div>
+
+<p>And it will generate file with name <code class="highlighter-rouge">LoginForm.php</code> in path ‘app/Http/Forms’ - Full path <code class="highlighter-rouge">app/Http/Forms/LoginForm.php</code>,
 and it will have this content:</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Http\Forms</span><span class="p">;</span>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Http\Forms</span><span class="p">;</span>
 
 <span class="k">use</span> <span class="nx">Kris\LaravelFormBuilder\Form</span><span class="p">;</span>
 
@@ -176,16 +179,22 @@ and it will have this content:</p>
         <span class="c1">// Add fields here...
 </span>    <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <h3 id="fields">Fields</h3>
 
 <p>When creating form class through CLI it is possible to pass array of fields that will be automatically added to the class.
-Let&#39;s take example from above. Most of the time, login form contains username and password fields. To generate form class with those
+Let’s take example from above. Most of the time, login form contains username and password fields. To generate form class with those
 fields this command needs to be run:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">php artisan form:make Http/Forms/LoginForm --fields<span class="o">=</span><span class="s2">"username:text, password:password"</span>
-</code></pre></div>
+
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code>php artisan form:make Http/Forms/LoginForm --fields<span class="o">=</span><span class="s2">"username:text, password:password"</span>
+</code></pre>
+</div>
+
 <p>And it will generate this:</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Http\Forms</span><span class="p">;</span>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Http\Forms</span><span class="p">;</span>
 
 <span class="k">use</span> <span class="nx">Kris\LaravelFormBuilder\Form</span><span class="p">;</span>
 
@@ -198,20 +207,26 @@ fields this command needs to be run:</p>
             <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'password'</span><span class="p">,</span> <span class="s1">'password'</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
-<p><code>--fields</code> option needs to contain comma separated list of <strong>name:fieldtype</strong> type of text.</p>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">--fields</code> option needs to contain comma separated list of <strong>name:fieldtype</strong> type of text.</p>
 
 <h3 id="path">Path</h3>
 
-<p>When <code>--path</code> option is not provided in the command, path where form class needs to be put is determined automatically from the namespace.
-When you create form <code>Http/Forms/LoginForm</code>, it will automatically prepend <code>app/</code> to it, and add <code>.php</code> extension.</p>
+<p>When <code class="highlighter-rouge">--path</code> option is not provided in the command, path where form class needs to be put is determined automatically from the namespace.
+When you create form <code class="highlighter-rouge">Http/Forms/LoginForm</code>, it will automatically prepend <code class="highlighter-rouge">app/</code> to it, and add <code class="highlighter-rouge">.php</code> extension.</p>
 
 <p>In some situations, for example, if you are using this package as a depencency for another package, you could provide path manually.
-Here&#39;s how that would work:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">php artisan make:form MyLoginForm --path="src/Auth/LoginForm"
-</code></pre></div>
-<p>Will generate form class with in path <code>/var/www/laravel-project/src/Auth/LoginForm/MyLoginForm.php</code>:</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">src\Auth\LoginForm</span><span class="p">;</span>
+Here’s how that would work:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>php artisan make:form MyLoginForm --path="src/Auth/LoginForm"
+</code></pre>
+</div>
+
+<p>Will generate form class with in path <code class="highlighter-rouge">/var/www/laravel-project/src/Auth/LoginForm/MyLoginForm.php</code>:</p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">src\Auth\LoginForm</span><span class="p">;</span>
 
 <span class="k">use</span> <span class="nx">Kris\LaravelFormBuilder\Form</span><span class="p">;</span>
 
@@ -222,26 +237,32 @@ Here&#39;s how that would work:</p>
         <span class="c1">// Add fields here...
 </span>    <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
-<p><strong>NOTE:</strong> Base path is determined from Laravel&#39;s <code>basePath()</code> method from Application class, which is in example above <code>/var/www/laravel-project/</code>.</p>
+</code></pre>
+</div>
 
-<p><strong>NOTE:</strong> Namespace is guessed from the path. In these situations, it&#39;s best to use <code>path</code> option together with <a href="#namespace">Namespace</a> option.</p>
+<p><strong>NOTE:</strong> Base path is determined from Laravel’s <code class="highlighter-rouge">basePath()</code> method from Application class, which is in example above <code class="highlighter-rouge">/var/www/laravel-project/</code>.</p>
+
+<p><strong>NOTE:</strong> Namespace is guessed from the path. In these situations, it’s best to use <code class="highlighter-rouge">path</code> option together with <a href="#namespace">Namespace</a> option.</p>
 
 <h3 id="namespace">Namespace</h3>
 
 <p>Namespace for the form class is most of the time guessed from Form class name provided to the CLI command.
-So when you create form <code>Http/Forms/MyForm</code>, it will prepend namespace which was set with <code>app:name</code> command, which is by default <code>App</code> and this results in
-<code>App\Http\Forms</code>.</p>
+So when you create form <code class="highlighter-rouge">Http/Forms/MyForm</code>, it will prepend namespace which was set with <code class="highlighter-rouge">app:name</code> command, which is by default <code class="highlighter-rouge">App</code> and this results in
+<code class="highlighter-rouge">App\Http\Forms</code>.</p>
 
 <p>In situations when the <a href="#path">Path</a> option <strong>IS</strong> provided, namespace is guessed from the path (Check example in <a href="#path">Path</a> section).</p>
 
-<p>To override it, you can also provide <code>--namespace</code> option to the command. So to fix example above, we need to run this command:</p>
+<p>To override it, you can also provide <code class="highlighter-rouge">--namespace</code> option to the command. So to fix example above, we need to run this command:</p>
 
 <p><strong>NOTE</strong> Value for this option will be used as provided, so make sure to use backslashes to generate proper namespace.</p>
-<div class="highlight"><pre><code class="language-" data-lang="">php artisan make:form MyLoginForm --path="src/Auth/LoginForm" --namespace="App\Auth\LoginForm"
-</code></pre></div>
-<p>And than we get class in path <code>/var/www/laravel-project/src/Auth/LoginForm/MyLoginForm.php</code> with this content:</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Auth\LoginForm</span><span class="p">;</span>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>php artisan make:form MyLoginForm --path="src/Auth/LoginForm" --namespace="App\Auth\LoginForm"
+</code></pre>
+</div>
+
+<p>And than we get class in path <code class="highlighter-rouge">/var/www/laravel-project/src/Auth/LoginForm/MyLoginForm.php</code> with this content:</p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Auth\LoginForm</span><span class="p">;</span>
 
 <span class="k">use</span> <span class="nx">Kris\LaravelFormBuilder\Form</span><span class="p">;</span>
 
@@ -252,8 +273,10 @@ So when you create form <code>Http/Forms/MyForm</code>, it will prepend namespac
         <span class="c1">// Add fields here...
 </span>    <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
-<p><strong>NOTE:</strong> Make sure to wrap <code>--namespace</code> value in single(&#39;) or double(&quot;) quotes, so the backslash(\) is not lost. If you want to skip using any of those, make sure you escape it like this <code>App\\Auth\\LoginForm</code>.</p>
+</code></pre>
+</div>
+
+<p><strong>NOTE:</strong> Make sure to wrap <code class="highlighter-rouge">--namespace</code> value in single(‘) or double(“) quotes, so the backslash(\) is not lost. If you want to skip using any of those, make sure you escape it like this <code class="highlighter-rouge">App\\Auth\\LoginForm</code>.</p>
 
 
                     </div>

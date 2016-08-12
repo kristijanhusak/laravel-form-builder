@@ -149,17 +149,21 @@
     </h2>
 </div>
 
-<h3 id="installation">Installation</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+<p>###Installation</p>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
     </span><span class="nt">"require"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nt">"kris/laravel-form-builder"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.6.*"</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>run <code>composer update</code></p>
+</span></code></pre>
+</div>
 
-<p>Then add Service provider to <code>config/app.php</code></p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<p>run <code class="highlighter-rouge">composer update</code></p>
+
+<p>Then add Service provider to <code class="highlighter-rouge">config/app.php</code></p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 <span class="k">return</span> <span class="p">[</span>
     <span class="c1">// ...
 </span>
@@ -168,9 +172,12 @@
 </span>        <span class="s1">'Kris\LaravelFormBuilder\FormBuilderServiceProvider'</span>
     <span class="p">]</span>
 <span class="p">];</span>
-</code></pre></div>
-<p>And Facade (also in <code>config/app.php</code>)</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+</code></pre>
+</div>
+
+<p>And Facade (also in <code class="highlighter-rouge">config/app.php</code>)</p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 <span class="k">return</span> <span class="p">[</span>
     <span class="c1">// ...
 </span>
@@ -179,8 +186,10 @@
 </span>        <span class="s1">'FormBuilder'</span> <span class="o">=&gt;</span> <span class="s1">'Kris\LaravelFormBuilder\Facades\FormBuilder'</span>
     <span class="p">]</span>
 <span class="p">];</span>
-</code></pre></div>
-<p><strong>Notice</strong>: This package will add <code>illuminate/html</code> package and load Aliases (Form, Html) if they do not exist in the IoC container</p>
+</code></pre>
+</div>
+
+<p><strong>Notice</strong>: This package will add <code class="highlighter-rouge">illuminate/html</code> package and load Aliases (Form, Html) if they do not exist in the IoC container</p>
 
 
                     </div>

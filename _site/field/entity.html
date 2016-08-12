@@ -152,14 +152,15 @@
 <p>Entity inherits all functionality from <a href="/laravel-form-builder/field/choice.html">Choice type</a>, with additional options:</p>
 
 <ol>
-<li><code>class</code> (String) (Default: <code>null</code>) - Full path to the Model class that will be used to fetch choices.</li>
-<li><code>query_builder</code> (Closure) (Default: <code>null</code>) - If provided, used to filter data before setting as choices. If null, gets all data.</li>
-<li><code>property</code> (String) (Default: <code>name</code>) - Property from model that will be used as label for options in choices</li>
-<li><code>property_key</code> (String) (Default: <code>id</code>) - Property from model that will be used as value for options in choices</li>
+  <li><code class="highlighter-rouge">class</code> (String) (Default: <code class="highlighter-rouge">null</code>) - Full path to the Model class that will be used to fetch choices.</li>
+  <li><code class="highlighter-rouge">query_builder</code> (Closure) (Default: <code class="highlighter-rouge">null</code>) - If provided, used to filter data before setting as choices. If null, gets all data.</li>
+  <li><code class="highlighter-rouge">property</code> (String) (Default: <code class="highlighter-rouge">name</code>) - Property from model that will be used as label for options in choices</li>
+  <li><code class="highlighter-rouge">property_key</code> (String) (Default: <code class="highlighter-rouge">id</code>) - Property from model that will be used as value for options in choices</li>
 </ol>
 
-<p><strong>Note</strong>: If <code>choices</code> are provided in options, <code>class</code> option is ignored, and passed data for <code>choices</code> is used.</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<p><strong>Note</strong>: If <code class="highlighter-rouge">choices</code> are provided in options, <code class="highlighter-rouge">class</code> option is ignored, and passed data for <code class="highlighter-rouge">choices</code> is used.</p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
     <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'languages'</span><span class="p">,</span> <span class="s1">'entity'</span><span class="p">,</span> <span class="p">[</span>
         <span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'App\Language'</span><span class="p">,</span>
         <span class="s1">'property'</span> <span class="o">=&gt;</span> <span class="s1">'short_name'</span><span class="p">,</span>
@@ -168,7 +169,9 @@
 </span>            <span class="k">return</span> <span class="nv">$lang</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">'active'</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">]);</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 
                     </div>
                 

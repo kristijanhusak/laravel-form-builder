@@ -154,14 +154,18 @@
 
 <p>Globally changing paths to templates is available in the configuration
 <a href="https://github.com/kristijanhusak/laravel-form-builder/blob/master/src/config/config.php">config.php</a> file.</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 <span class="k">return</span> <span class="p">[</span>
     <span class="c1">// ...
 </span>    <span class="s1">'checkbox'</span> <span class="o">=&gt;</span> <span class="s1">'posts.my-custom-checkbox'</span>    <span class="c1">// resources/views/posts/my-custom-checkbox.blade.php
 </span><span class="p">];</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>One more way to change template is directly from Form class:</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Forms</span><span class="p">;</span>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span> <span class="k">namespace</span> <span class="nx">App\Forms</span><span class="p">;</span>
 
 <span class="k">use</span> <span class="nx">Kris\LaravelFormBuilder\Form</span><span class="p">;</span>
 
@@ -176,7 +180,9 @@
 </span>            <span class="p">]);</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><strong>When you are adding custom templates make sure they inherit functionality from defaults to prevent breaking.</strong></p>
 
 
