@@ -359,6 +359,25 @@ class Form
     }
 
     /**
+     * Render the entire fields part of the form
+     *
+     * @return string
+     */
+    public function renderFields()
+    {
+        $fields = $this->fields;
+        if (!empty($this->exclude)) {
+            $fields = array_diff_key($fields, array_flip($this->exclude));
+        }
+
+        return $this->formHelper->getView()
+            ->make($this->getFieldsTemplate())
+            ->with('form', $this)
+            ->with('fields', $fields)
+            ->render();
+    }
+
+    /**
      * Render rest of the form
      *
      * @param bool $showFormEnd
@@ -879,6 +898,16 @@ class Form
     protected function getTemplate()
     {
         return $this->getTemplatePrefix() . $this->getFormOption('template', $this->formHelper->getConfig('form'));
+    }
+
+    /**
+     * Get fields template from options if provided, otherwise fallback to config
+     *
+     * @return mixed
+     */
+    protected function getFieldsTemplate()
+    {
+        return $this->getTemplatePrefix() . $this->getFormOption('fields_template', $this->formHelper->getConfig('fields'));
     }
 
     /**

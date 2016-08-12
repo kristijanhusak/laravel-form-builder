@@ -9,11 +9,7 @@
 <?php endif; ?>
 
 <?php if ($showField): ?>
-    <?php foreach ((array)$options['children'] as $child): ?>
-        <?php if( ! in_array( $child->getRealName(), (array)$options['exclude']) ) { ?>
-            <?= $child->render() ?>
-        <?php } ?>
-    <?php endforeach; ?>
+    <?= $child_form->renderFields() ?>
 
     <?php include 'help_block.php' ?>
 
