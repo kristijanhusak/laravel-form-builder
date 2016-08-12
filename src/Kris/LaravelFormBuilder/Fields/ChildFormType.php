@@ -151,6 +151,15 @@ class ChildFormType extends ParentType
     }
 
     /**
+     * @inheritdoc
+     */
+    protected function getRenderData() {
+        $data = parent::getRenderData();
+        $data['child_form'] = $this->form;
+        return $data;
+    }
+
+    /**
      * @param $method
      * @param $arguments
      *
