@@ -20,4 +20,13 @@ class ButtonType extends FormField
             'attr' => ['type' => $this->type]
         ];
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllAttributes()
+    {
+        // Don't collect input for buttons.
+        return [];
+    }
 }
