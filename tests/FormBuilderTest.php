@@ -149,6 +149,35 @@ namespace {
                 ->add('body', 'textarea');
         }
     }
+
+    class CustomNesterDummyForm extends Form
+    {
+        public function buildForm()
+        {
+            $this->add('name', 'text');
+
+            $this->add('options', 'choice', [
+                'choices' => ['a' => 'Aaa', 'b' => 'Bbb'],
+                'expanded' => TRUE,
+                'multiple' => TRUE,
+            ]);
+
+            $this->add('subcustom', 'form', [
+                'class' => CustomDummyForm::class,
+            ]);
+        }
+
+        public function alterFieldValues(array &$values)
+        {
+            if (isset($values['name'])) {
+                $values['name'] = strtoupper($values['name']);
+            }
+
+            if (empty($values['options'])) {
+                $values['options'] = ['x'];
+            }
+        }
+    }
 }
 
 namespace LaravelFormBuilderTest\Forms {
