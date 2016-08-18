@@ -619,7 +619,7 @@ abstract class FormField
         $rules = $this->getOption('rules', []);
         $name = $this->getNameKey();
         $messages = $this->getOption('error_messages', []);
-        $formName = $this->parent->getName();
+        $formName = $this->formHelper->transformToDotSyntax($this->parent->getName());
 
         if ($messages && $formName) {
             $newMessages = [];

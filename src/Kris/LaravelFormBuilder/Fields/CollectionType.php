@@ -66,6 +66,7 @@ class CollectionType extends ParentType
         $this->children = [];
         $type = $this->getOption('type');
         $oldInput = $this->parent->getRequest()->old($this->getNameKey());
+        $currentInput = $this->parent->getRequest()->get($this->getNameKey());
 
         try {
             $fieldType = $this->formHelper->getFieldType($type);
@@ -78,7 +79,13 @@ class CollectionType extends ParentType
 
         $data = $this->getOption($this->valueProperty, []);
 
-        // Needs to have more than 1 item because 1 is rendered by default
+        // If no value is provided, get values from current request
+        if (count($data) === 0) {
+            $data = $currentInput;
+        }
+
+        // Needs to have more than 1 item because 1 is rendered by default.
+        // This overrides current request in situations when validation fails.
         if (count($oldInput) > 1) {
             $data = $oldInput;
         }
