@@ -1193,6 +1193,12 @@ class Form
             }
         }
 
+        // If this form is a child form, cherry pick a part
+        if ($prefix = $this->getName()) {
+            $prefix = $this->formHelper->transformToDotSyntax($prefix);
+            $values = Arr::get($values, $prefix);
+        }
+
         // Allow form-specific value alters
         $this->formHelper->alterFieldValues($this, $values);
 
