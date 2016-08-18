@@ -121,32 +121,7 @@ class FormHelper
      */
     public function mergeOptions(array $first, array $second)
     {
-        $merge_options = function($first, $second, $concat_classes = FALSE) use(&$merge_options) {
-            $arr = array();
-            foreach (array_unique(array_merge(array_keys($first), array_keys($second))) as $key) {
-                $new_value = NULL;
-
-                // Element exists in both arrays.
-                if (array_key_exists($key, $first) && array_key_exists($key, $second)) {
-                    // Recurse.
-                    if (is_array($first[$key]) && is_array($second[$key])) {
-                        $new_value = $merge_options($first[$key], $second[$key], in_array($key, array('wrapper', 'label_attr', 'attr')));
-                    }
-                    // Merge classes.
-                    elseif ($concat_classes && $key == 'class') {
-                        if (!str_contains($first[$key], $second[$key]) && !str_contains($second[$key], $first[$key])) {
-                            $new_value = trim($first[$key] . ' ' . $second[$key]);
-                        }
-                    }
-                }
-
-                // Take (in this order) new value, second value, first value.
-                $arr[$key] = $new_value ?: (array_key_exists($key, $second) ? $second[$key] : $first[$key]);
-            }
-            return $arr;
-        };
-
-        return $merge_options($first, $second);
+        return array_replace_recursive($first, $second);
     }
 
     /**

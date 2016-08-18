@@ -541,13 +541,13 @@ abstract class FormField
         $field_class = $this->formHelper->getConfig('defaults.' . $this->type . '.field_class', '');
 
         $defaults = [];
-        if ($wrapper_class) {
+        if ($wrapper_class && !array_get($options, 'wrapper.class')) {
             $defaults['wrapper']['class'] = $wrapper_class;
         }
-        if ($label_class) {
+        if ($label_class && !array_get($options, 'label_attr.class')) {
             $defaults['label_attr']['class'] = $label_class;
         }
-        if ($field_class) {
+        if ($field_class && !array_get($options, 'attr.class')) {
             $defaults['attr']['class'] = $field_class;
         }
         return $defaults;

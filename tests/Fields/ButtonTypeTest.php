@@ -15,7 +15,7 @@ class ButtonTypeTest extends FormBuilderTestCase
         ];
 
         $expectedOptions = $this->getDefaults(
-            ['class' => 'form-control btn-class', 'type' => 'button', 'disabled' => 'disabled'],
+            ['class' => 'btn-class', 'type' => 'button', 'disabled' => 'disabled'],
             'Some button'
         );
 

@@ -6,6 +6,7 @@ use Kris\LaravelFormBuilder\Events\BeforeFormValidation;
 use Kris\LaravelFormBuilder\Fields\InputType;
 use Kris\LaravelFormBuilder\Form;
 use Kris\LaravelFormBuilder\FormHelper;
+use Kris\LaravelFormBuilder\FormBuilder;
 
 class FormTest extends FormBuilderTestCase
 {
@@ -440,7 +441,7 @@ class FormTest extends FormBuilderTestCase
 
         $this->assertEquals('text', $this->plainForm->description->getType());
         $this->assertEquals(
-            ['placeholder' => 'Enter text here...', 'class' => 'form-control modified-input'],
+            ['placeholder' => 'Enter text here...', 'class' => 'modified-input'],
             $this->plainForm->description->getOption('attr')
         );
 
@@ -697,6 +698,32 @@ class FormTest extends FormBuilderTestCase
             return;
         }
         $this->fail('No exception on bad method call on child form.');
+    }
+
+    /** @test */
+    public function it_reads_configuration_properly()
+    {
+        $config = $this->config;
+        $config['defaults']['textarea'] = ['field_class' => 'my-textarea-class'];
+        $formHelper = new FormHelper($this->view, $this->translator, $config);
+        $formBuilder = new FormBuilder($this->app, $formHelper, $this->eventDispatcher);
+
+        $form = $formBuilder->plain()
+            ->add('name', 'text')
+            ->add('desc', 'textarea');
+
+        $overridenClassForm = $formBuilder->plain()
+            ->add('name', 'text', ['attr' => ['class' => 'my-text-class']])
+            ->add('desc', 'textarea', ['attr' => ['class' => 'overwrite-textarea-class']]);
+
+        $formView = $form->renderForm();
+        $overridenView = $overridenClassForm->renderForm();
+
+        $this->assertRegExp('/textarea.*class="my-textarea-class"/', $formView);
+        $this->assertRegExp('/input.*class="form-control"/', $formView);
+
+        $this->assertRegExp('/textarea.*class="overwrite-textarea-class"/', $overridenView);
+        $this->assertRegExp('/input.*class="my-text-class"/', $overridenView);
     }
 
     /** @test */
