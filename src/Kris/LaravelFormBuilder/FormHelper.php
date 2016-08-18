@@ -1,5 +1,6 @@
 <?php  namespace Kris\LaravelFormBuilder;
 
+use Illuminate\Contracts\Support\MessageBag;
 use Illuminate\Contracts\View\Factory as View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
@@ -308,6 +309,46 @@ class FormHelper
                 $subValues = Arr::get($values, $fullName);
                 $field->alterFieldValues($subValues);
                 Arr::set($values, $fullName, $subValues);
+            }
+        }
+    }
+
+    /**
+     * Alter a form's validity recursively, and add messages with nested form prefix
+     *
+     * @return void
+     */
+    public function alterValid(Form $form, Form $mainForm, &$isValid)
+    {
+        // Alter the form itself
+        $messages = $form->alterValid($mainForm, $isValid);
+
+        // Add messages to the existing Bag
+        if ($messages) {
+            $messageBag = $mainForm->getValidator()->getMessageBag();
+            $this->appendMessagesWithPrefix($messageBag, $form->getName(), $messages);
+        }
+
+        // Alter the form's child forms recursively
+        foreach ($form->getFields() as $name => $field) {
+            if (method_exists($field, 'alterValid')) {
+                $field->alterValid($mainForm, $isValid);
+            }
+        }
+    }
+
+    /**
+     * Add unprefixed messages with prefix to a MessageBag
+     */
+    public function appendMessagesWithPrefix(MessageBag $messageBag, $prefix, array $keyedMessages)
+    {
+        foreach ($keyedMessages as $key => $messages) {
+            if ($prefix) {
+                $key = $this->transformToDotSyntax($prefix . '[' . $key . ']');
+            }
+
+            foreach ((array) $messages as $message) {
+                $messageBag->add($key, $message);
             }
         }
     }
