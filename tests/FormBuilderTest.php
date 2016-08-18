@@ -148,6 +148,15 @@ namespace {
             $this->add('title', 'text')
                 ->add('body', 'textarea');
         }
+
+        public function alterValid(Form $mainForm, &$isValid)
+        {
+            $values = $this->getFieldValues();
+            if ($values['title'] === 'fail on this') {
+                $isValid = false;
+                return ['title' => ['Error on title!']];
+            }
+        }
     }
 
     class CustomNesterDummyForm extends Form

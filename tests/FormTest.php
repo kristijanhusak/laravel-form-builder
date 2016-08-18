@@ -98,6 +98,28 @@ class FormTest extends FormBuilderTestCase
     }
 
     /** @test */
+    public function it_alters_validity_and_adds_messages()
+    {
+        $customForm = $this->formBuilder->create('CustomNesterDummyForm');
+
+        $this->request['subcustom'] = ['title' => "don't fail on this"];
+
+        $isValid = $customForm->isValid();
+        $this->assertTrue($isValid);
+
+        $this->request['subcustom'] = ['title' => 'fail on this'];
+
+        $isValid = $customForm->isValid();
+        $this->assertFalse($isValid);
+
+        $errors = $customForm->getErrors();
+        $this->assertEquals(
+            ['subcustom.title' => ['Error on title!']],
+            $errors
+        );
+    }
+
+    /** @test */
     public function it_can_automatically_redirect_back_when_failing_verification()
     {
         $this->plainForm
