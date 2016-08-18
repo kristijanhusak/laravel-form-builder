@@ -1173,7 +1173,17 @@ class Form
             }
         }
 
+        // Allow form-specific value alters
+        $this->formHelper->alterFieldValues($this, $values);
+
         return $values;
+    }
+
+    /**
+     * Optionally mess with this form's $values before it's returned from getFieldValues()
+     */
+    public function alterFieldValues(array &$values)
+    {
     }
 
     /**
