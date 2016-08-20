@@ -278,7 +278,7 @@ class FormHelper
     /**
      * @return array
      */
-    public function mergeAttributes($fields)
+    public function mergeAttributes(array $fields)
     {
         $attributes = [];
         foreach ($fields as $field) {

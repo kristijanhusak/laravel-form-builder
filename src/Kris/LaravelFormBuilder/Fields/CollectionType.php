@@ -61,6 +61,15 @@ class CollectionType extends ParentType
     /**
      * @inheritdoc
      */
+    public function getAllAttributes()
+    {
+        // Collect all children's attributes.
+        return $this->parent->getFormHelper()->mergeAttributes($this->children);
+    }
+
+    /**
+     * @inheritdoc
+     */
     protected function createChildren()
     {
         $this->children = [];
