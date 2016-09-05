@@ -1,5 +1,6 @@
 <?php namespace  Kris\LaravelFormBuilder\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 class EntityType extends ChoiceType
@@ -47,7 +48,7 @@ class EntityType extends ChoiceType
         if ($queryBuilder instanceof \Closure) {
             $data = $queryBuilder($entity);
         } else {
-            $data = $entity->query();
+            $data = $entity;
         }
 
         $data = $this->pluck($value, $key, $data);
@@ -60,7 +61,7 @@ class EntityType extends ChoiceType
 
         return parent::createChildren();
     }
-    
+
     /**
      * Pluck data.
      *
@@ -79,7 +80,7 @@ class EntityType extends ChoiceType
         if (method_exists($data, 'lists')) {
             //laravel 5.2.*
             return $data->lists($value, $key);
-        } elseif (method_exists($data, 'pluck')) {
+        } elseif (method_exists($data, 'pluck') || $data instanceof Model) {
             //laravel 5.3.*
             return $data->pluck($value, $key);
         }
