@@ -77,12 +77,12 @@ class EntityType extends ChoiceType
             return $data;
         }
 
-        if (method_exists($data, 'lists')) {
-            //laravel 5.2.*
-            return $data->lists($value, $key);
-        } elseif (method_exists($data, 'pluck') || $data instanceof Model) {
+        if (method_exists($data, 'pluck') || $data instanceof Model) {
             //laravel 5.3.*
             return $data->pluck($value, $key);
+        } elseif (method_exists($data, 'lists')) {
+            //laravel 5.2.*
+            return $data->lists($value, $key);
         }
     }
 }
