@@ -46,20 +46,42 @@ class EntityType extends ChoiceType
 
         if ($queryBuilder instanceof \Closure) {
             $data = $queryBuilder($entity);
-            if (is_object($data) && method_exists($data, 'lists')) {
-                $data = $data->lists($value, $key);
-            }
         } else {
-            $data = $entity->lists($value, $key);
+            $data = $entity->query();
         }
+
+        $data = $this->pluck($value, $key, $data);
 
         if ($data instanceof Collection) {
             $data = $data->all();
         }
 
-
         $this->options['choices'] = $data;
 
         return parent::createChildren();
+    }
+    
+    /**
+     * Pluck data.
+     *
+     * @param string $value
+     * @param string $key
+     * @param mixed $data
+     *
+     * @return mixed
+     * */
+    protected function pluck($value, $key, $data)
+    {
+        if (!is_object($data)) {
+            return $data;
+        }
+
+        if (method_exists($data, 'lists')) {
+            //laravel 5.2.*
+            return $data->lists($value, $key);
+        } elseif (method_exists($data, 'pluck')) {
+            //laravel 5.3.*
+            return $data->pluck($value, $key);
+        }
     }
 }
