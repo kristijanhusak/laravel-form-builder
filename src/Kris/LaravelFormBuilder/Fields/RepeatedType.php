@@ -23,6 +23,15 @@ class RepeatedType extends ParentType
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function getAllAttributes()
+    {
+        // Collect all children's attributes.
+        return $this->parent->getFormHelper()->mergeAttributes($this->children);
+    }
+
     protected function createChildren()
     {
         $firstName = $this->getRealName();
