@@ -50,6 +50,22 @@ class ChildFormType extends ParentType
     }
 
     /**
+     * Allow form-specific value alters
+     */
+    public function alterFieldValues(array &$values)
+    {
+        $this->parent->getFormHelper()->alterFieldValues($this->form, $values);
+    }
+
+    /**
+     * Allow form-specific valid alters
+     */
+    public function alterValid(Form $mainForm, &$isValid)
+    {
+        $this->parent->getFormHelper()->alterValid($this->form, $mainForm, $isValid);
+    }
+
+    /**
      * @return mixed|void
      */
     protected function createChildren()

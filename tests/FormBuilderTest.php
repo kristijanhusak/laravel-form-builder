@@ -148,6 +148,44 @@ namespace {
             $this->add('title', 'text')
                 ->add('body', 'textarea');
         }
+
+        public function alterValid(Form $mainForm, &$isValid)
+        {
+            $values = $this->getFieldValues();
+            if ($values['title'] === 'fail on this') {
+                $isValid = false;
+                return ['title' => ['Error on title!']];
+            }
+        }
+    }
+
+    class CustomNesterDummyForm extends Form
+    {
+        public function buildForm()
+        {
+            $this->add('name', 'text');
+
+            $this->add('options', 'choice', [
+                'choices' => ['a' => 'Aaa', 'b' => 'Bbb'],
+                'expanded' => TRUE,
+                'multiple' => TRUE,
+            ]);
+
+            $this->add('subcustom', 'form', [
+                'class' => CustomDummyForm::class,
+            ]);
+        }
+
+        public function alterFieldValues(array &$values)
+        {
+            if (isset($values['name'])) {
+                $values['name'] = strtoupper($values['name']);
+            }
+
+            if (empty($values['options'])) {
+                $values['options'] = ['x'];
+            }
+        }
     }
 }
 

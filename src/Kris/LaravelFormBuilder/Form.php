@@ -1004,6 +1004,14 @@ class Form
     }
 
     /**
+     * @return Validator
+     */
+    public function getValidator()
+    {
+        return $this->validator;
+    }
+
+    /**
      * Exclude some fields from rendering
      *
      * @return $this
@@ -1132,9 +1140,21 @@ class Form
 
         $isValid = !$this->validator->fails();
 
+        $this->formHelper->alterValid($this, $this, $isValid);
+
         $this->eventDispatcher->fire(new AfterFormValidation($this, $this->validator, $isValid));
 
         return $isValid;
+    }
+
+    /**
+     * Optionally change the validation result, and/or add error messages
+     *
+     * @return void|array
+     */
+    public function alterValid(Form $mainForm, &$isValid)
+    {
+        // return ['name' => ['Some other error about the Name field.']];
     }
 
     /**
@@ -1173,7 +1193,23 @@ class Form
             }
         }
 
+        // If this form is a child form, cherry pick a part
+        if ($prefix = $this->getName()) {
+            $prefix = $this->formHelper->transformToDotSyntax($prefix);
+            $values = Arr::get($values, $prefix);
+        }
+
+        // Allow form-specific value alters
+        $this->formHelper->alterFieldValues($this, $values);
+
         return $values;
+    }
+
+    /**
+     * Optionally mess with this form's $values before it's returned from getFieldValues()
+     */
+    public function alterFieldValues(array &$values)
+    {
     }
 
     /**

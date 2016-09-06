@@ -98,6 +98,28 @@ class FormTest extends FormBuilderTestCase
     }
 
     /** @test */
+    public function it_alters_validity_and_adds_messages()
+    {
+        $customForm = $this->formBuilder->create('CustomNesterDummyForm');
+
+        $this->request['subcustom'] = ['title' => "don't fail on this"];
+
+        $isValid = $customForm->isValid();
+        $this->assertTrue($isValid);
+
+        $this->request['subcustom'] = ['title' => 'fail on this'];
+
+        $isValid = $customForm->isValid();
+        $this->assertFalse($isValid);
+
+        $errors = $customForm->getErrors();
+        $this->assertEquals(
+            ['subcustom.title' => ['Error on title!']],
+            $errors
+        );
+    }
+
+    /** @test */
     public function it_can_automatically_redirect_back_when_failing_verification()
     {
         $this->plainForm
@@ -272,7 +294,7 @@ class FormTest extends FormBuilderTestCase
     }
 
     /** @test */
-    public function it_returns_validated_values()
+    public function it_returns_field_values()
     {
         $this->plainForm
             ->add('name', 'text', [
@@ -320,6 +342,24 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals(
             $check_values,
             $this->plainForm->getFieldValues()
+        );
+    }
+
+    /** @test */
+    public function it_returns_altered_field_values()
+    {
+        $customForm = $this->formBuilder->create('CustomNesterDummyForm');
+
+        $this->request['name'] = 'lower case';
+        $this->request['subcustom'] = ['title' => 'Bar foo', 'body' => 'Foo bar'];
+
+        $this->assertEquals(
+            [
+                'name' => 'LOWER CASE',
+                'options' => ['x'],
+                'subcustom' => ['title' => 'Bar foo', 'body' => 'Foo bar'],
+            ],
+            $customForm->getFieldValues()
         );
     }
 

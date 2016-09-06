@@ -1,10 +1,13 @@
 <?php  namespace Kris\LaravelFormBuilder;
 
-use Illuminate\Support\Collection;
-use Symfony\Component\Translation\TranslatorInterface;
-use Illuminate\Database\Eloquent\Model;
-use Kris\LaravelFormBuilder\Fields\FormField;
+use Illuminate\Contracts\Support\MessageBag;
 use Illuminate\Contracts\View\Factory as View;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
+use Kris\LaravelFormBuilder\Fields\FormField;
+use Kris\LaravelFormBuilder\Form;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class FormHelper
 {
@@ -286,6 +289,68 @@ class FormHelper
         }
 
         return $attributes;
+    }
+
+    /**
+     * Alter a form's values recursively according to its fields
+     *
+     * @return void
+     */
+    public function alterFieldValues(Form $form, array &$values)
+    {
+        // Alter the form itself
+        $form->alterFieldValues($values);
+
+        // Alter the form's child forms recursively
+        foreach ($form->getFields() as $name => $field) {
+            if (method_exists($field, 'alterFieldValues')) {
+                $fullName = $this->transformToDotSyntax($name);
+
+                $subValues = Arr::get($values, $fullName);
+                $field->alterFieldValues($subValues);
+                Arr::set($values, $fullName, $subValues);
+            }
+        }
+    }
+
+    /**
+     * Alter a form's validity recursively, and add messages with nested form prefix
+     *
+     * @return void
+     */
+    public function alterValid(Form $form, Form $mainForm, &$isValid)
+    {
+        // Alter the form itself
+        $messages = $form->alterValid($mainForm, $isValid);
+
+        // Add messages to the existing Bag
+        if ($messages) {
+            $messageBag = $mainForm->getValidator()->getMessageBag();
+            $this->appendMessagesWithPrefix($messageBag, $form->getName(), $messages);
+        }
+
+        // Alter the form's child forms recursively
+        foreach ($form->getFields() as $name => $field) {
+            if (method_exists($field, 'alterValid')) {
+                $field->alterValid($mainForm, $isValid);
+            }
+        }
+    }
+
+    /**
+     * Add unprefixed messages with prefix to a MessageBag
+     */
+    public function appendMessagesWithPrefix(MessageBag $messageBag, $prefix, array $keyedMessages)
+    {
+        foreach ($keyedMessages as $key => $messages) {
+            if ($prefix) {
+                $key = $this->transformToDotSyntax($prefix . '[' . $key . ']');
+            }
+
+            foreach ((array) $messages as $message) {
+                $messageBag->add($key, $message);
+            }
+        }
     }
 
     /**
