@@ -1,3 +1,11 @@
+## 1.9.0
+- Bump minimum php version to 5.6 - #276 (Thanks to [@max-kovpak](https://github.com/max-kovpak))
+- Add support for Laravel 5.3 and fix EntityType lists method - #276 (Thanks to [@max-kovpak](https://github.com/max-kovpak))
+- Add `alterFieldValues` and `alterValid` methods to Form class - #272 (Thanks to [@rudiedirkx](https://github.com/rudiedirkx))
+- Fix collection type to use current request data if old input is not available - issue #268
+- Fix automatic class append functionality that was added in PR #220 - use `class_append` option instead.
+
+
 ## 1.8.0
 - Add default classes per field - #220 (Thanks to @jvdlaar)
 - Set up ServiceProvider to be compatible with Laravel 5.3 - #236 (Thanks to @marcoraddatz)
