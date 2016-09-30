@@ -695,7 +695,14 @@ class FormTest extends FormBuilderTestCase
         $form->setModel($model);
 
         $form
-            ->add('title', 'text')
+            ->add('title', 'text', [
+                'label_attr' => [
+                    'for' => 'custom_title'
+                ],
+                'attr' => [
+                    'id' => 'custom_title'
+                ]
+            ])
             ->add('song', 'form', [
                 'class' => $customForm
             ])
@@ -718,6 +725,8 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals('songs[1]', $customForm->getName());
 
         $this->assertEquals('song[title]', $form->song->getChild('title')->getName());
+        $this->assertEquals('custom_title', $form->title->getOption('attr.id'));
+        $this->assertEquals('custom_title', $form->title->getOption('label_attr.for'));
         $this->assertFalse($form->song->name->getOption('label_show'));
         $this->assertCount(2, $form->songs->getChildren());
         $this->assertEquals('lorem', $form->songs->getChild(0)->title->getOption('value'));
@@ -729,6 +738,8 @@ class FormTest extends FormBuilderTestCase
         );
 
         $this->assertNotRegExp('/label.*for="name"/', $view);
+        $this->assertRegExp('/label.*for="custom_title"/', $view);
+        $this->assertRegExp('/input.*id="custom_title"/', $view);
 
         $this->assertTrue($form->song->getFormOption('files'));
 

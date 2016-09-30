@@ -14,7 +14,6 @@ class StaticType extends FormField
     private function setupStaticOptions(&$options)
     {
         $options['elemAttrs'] = $this->formHelper->prepareAttributes($this->getOption('attr'));
-        $options['labelAttrs'] = $this->formHelper->prepareAttributes($this->getOption('label_attr'));
     }
 
     /**

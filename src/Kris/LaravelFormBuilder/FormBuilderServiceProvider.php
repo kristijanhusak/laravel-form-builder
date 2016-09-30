@@ -56,6 +56,17 @@ class FormBuilderServiceProvider extends ServiceProvider
             __DIR__ . '/../../views' => base_path('resources/views/vendor/laravel-form-builder'),
             __DIR__ . '/../../config/config.php' => config_path('laravel-form-builder.php')
         ]);
+
+        $form = $this->app['form'];
+
+        $form->macro('customLabel', function($name, $value, $options = []) use ($form) {
+            if (isset($options['for']) && $for = $options['for']) {
+                unset($options['for']);
+                return $form->label($for, $value, $options);
+            }
+
+            return $form->label($name, $value, $options);
+        });
     }
 
     /**
