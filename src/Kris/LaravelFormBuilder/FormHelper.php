@@ -65,6 +65,7 @@ class FormHelper
         'select'         => 'SelectType',
         'textarea'       => 'TextareaType',
         'button'         => 'ButtonType',
+        'buttongroup'    => 'ButtonGroupType',
         'submit'         => 'ButtonType',
         'reset'          => 'ButtonType',
         'radio'          => 'CheckableType',
