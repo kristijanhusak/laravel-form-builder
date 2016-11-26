@@ -2,7 +2,7 @@
     <div <?= $options['wrapperAttrs'] ?> >
 <?php endif; ?>
 
-    <?php if ( $options['splitted'] ): ?>
+    <?php if ( !$options['splitted'] ): ?>
         <div class="btn-group btn-group-<?= $options['size'] ?>">
     <?php endif; ?>
 
@@ -10,7 +10,7 @@
             <?= Form::button($button['label'], $button['attr']) ?>
         <?php endforeach; ?>
 
-    <?php if ( $options['splitted'] ): ?>
+    <?php if ( !$options['splitted'] ): ?>
         </div>
     <?php endif; ?>
 
