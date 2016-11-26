@@ -1,7 +1,5 @@
 <?php namespace  Kris\LaravelFormBuilder\Fields;
 
-use Kris\LaravelFormBuilder\Fields\FormField;
-
 class ButtonGroupType extends FormField {
     
     protected function getTemplate()
