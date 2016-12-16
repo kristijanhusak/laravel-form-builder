@@ -28,6 +28,7 @@ return [
     'text'          => 'laravel-form-builder::text',
     'textarea'      => 'laravel-form-builder::textarea',
     'button'        => 'laravel-form-builder::button',
+    'buttongroup'   => 'laravel-form-builder::buttongroup',
     'radio'         => 'laravel-form-builder::radio',
     'checkbox'      => 'laravel-form-builder::checkbox',
     'select'        => 'laravel-form-builder::select',
