@@ -633,6 +633,16 @@ class Form
     }
 
     /**
+     * Check if field exists when fetched using magic methods
+     * @param $name
+     * @return bool
+     */
+    public function __isset($name)
+    {
+        return $this->has($name);
+    }
+
+    /**
      * Set the Event Dispatcher to fire Laravel events
      *
      * @param EventDispatcher $eventDispatcher

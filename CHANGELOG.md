@@ -1,3 +1,9 @@
+## 1.10.0
+- Add `buttongroup` field type - #298 (Thanks to [@noxify](https://github.com/noxify))
+- Allow custom `id` and `for` attributes for a field - #285
+- Fix accessing fields from twig by adding `__isset` magic method - #301
+- Use custom Form macro for labels in views
+
 ## 1.9.0
 - Bump minimum php version to 5.6 - #276 (Thanks to [@max-kovpak](https://github.com/max-kovpak))
 - Add support for Laravel 5.3 and fix EntityType lists method - #276 (Thanks to [@max-kovpak](https://github.com/max-kovpak))
