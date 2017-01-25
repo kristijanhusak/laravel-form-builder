@@ -7,7 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Kris\LaravelFormBuilder\Fields\FormField;
 use Kris\LaravelFormBuilder\Form;
-use Symfony\Component\Translation\TranslatorInterface;
+use Illuminate\Contracts\Translation\Translator;
 
 class FormHelper
 {
@@ -18,7 +18,7 @@ class FormHelper
     protected $view;
 
     /**
-     * @var TranslatorInterface
+     * @var Translator
      */
     protected $translator;
 
@@ -87,10 +87,10 @@ class FormHelper
 
     /**
      * @param View    $view
-     * @param TranslatorInterface $translator
+     * @param Translator $translator
      * @param array   $config
      */
-    public function __construct(View $view, TranslatorInterface $translator, array $config = [])
+    public function __construct(View $view, Translator $translator, array $config = [])
     {
         $this->view = $view;
         $this->translator = $translator;
@@ -379,7 +379,7 @@ class FormHelper
     }
 
     /**
-     * @return TranslatorInterface
+     * @return Translator
      */
     public function getTranslator()
     {

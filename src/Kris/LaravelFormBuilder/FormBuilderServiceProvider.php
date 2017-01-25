@@ -90,10 +90,10 @@ class FormBuilderServiceProvider extends ServiceProvider
                 $version = substr(Application::VERSION, 0, 3);
 
                 if (str_is('5.0', $version) || str_is('5.1', $version)) {
-                    $form = new LaravelForm($app[ 'html' ], $app[ 'url' ], $app[ 'session.store' ]->getToken());
+                    $form = new LaravelForm($app[ 'html' ], $app[ 'url' ], $app[ 'session.store' ]->token());
                 }
                 else {
-                    $form = new LaravelForm($app['html'], $app['url'], $app['view'], $app['session.store']->getToken());
+                    $form = new LaravelForm($app['html'], $app['url'], $app['view'], $app['session.store']->token());
                 }
 
                 return $form->setSessionStore($app['session.store']);
