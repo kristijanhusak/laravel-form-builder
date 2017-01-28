@@ -89,7 +89,10 @@ class FormBuilderServiceProvider extends ServiceProvider
                 // LaravelCollective\HtmlBuilder 5.2 is not backward compatible and will throw an exception
                 $version = substr(Application::VERSION, 0, 3);
 
-                if (str_is('5.0', $version) || str_is('5.1', $version)) {
+                if(str_is('5.4', $version)) {
+                    $form = new LaravelForm($app[ 'html' ], $app[ 'url' ], $app[ 'view' ], $app[ 'session.store' ]->token());
+                }
+                else if (str_is('5.0', $version) || str_is('5.1', $version)) {
                     $form = new LaravelForm($app[ 'html' ], $app[ 'url' ], $app[ 'session.store' ]->getToken());
                 }
                 else {
