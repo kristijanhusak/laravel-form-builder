@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Kris\LaravelFormBuilder\FormHelper;
 use Kris\LaravelFormBuilder\Form;
-use Orchestra\Testbench\BrowserKit\TestCase;
+use Orchestra\Testbench\TestCase;
 use Illuminate\Database\Eloquent\Model;
 
 class TestModel extends Model {
