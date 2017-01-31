@@ -77,7 +77,7 @@ abstract class FormBuilderTestCase extends TestCase {
         $this->view = $this->app['view'];
         $this->translator = $this->app['translator'];
         $this->request = $this->app['request'];
-        $this->request->setSession($this->app['session.store']);
+        $this->request->setLaravelSession($this->app['session.store']);
         $this->validatorFactory = $this->app['validator'];
         $this->eventDispatcher = $this->app['events'];
         $this->model = new TestModel();

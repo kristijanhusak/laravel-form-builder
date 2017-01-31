@@ -4,9 +4,12 @@ use Kris\LaravelFormBuilder\Fields\ChoiceType;
 use Kris\LaravelFormBuilder\Fields\CollectionType;
 use Kris\LaravelFormBuilder\Fields\SelectType;
 use Kris\LaravelFormBuilder\Form;
+use Illuminate\Foundation\Testing\Concerns\InteractsWithSession;
 
 class CollectionTypeTest extends FormBuilderTestCase
 {
+    use InteractsWithSession;
+
     /** @test */
     public function it_creates_collection()
     {
