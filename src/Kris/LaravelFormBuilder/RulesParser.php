@@ -183,7 +183,7 @@ class RulesParser
     /**
      * Check that a value is either 0 or 1, so it can be parsed as bool.
      *
-     *   boolean  --> pattern="0|1"
+     *   bool  --> pattern="0|1"
      *
      * @return array
      *
@@ -497,7 +497,7 @@ class RulesParser
     /**
      * Check if the field is numeric.
      *
-     * @return boolean
+     * @return bool
      */
     protected function isNumeric()
     {

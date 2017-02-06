@@ -229,7 +229,7 @@ class Form
      * @param string  $fieldName    Field name which will be added.
      * @param string  $type
      * @param array   $options
-     * @param boolean $modify
+     * @param bool $modify
      * @return $this
      */
     public function addBefore($name, $fieldName, $type = 'text', $options = [], $modify = false)
@@ -255,7 +255,7 @@ class Form
      * @param string  $fieldName    Field name which will be added.
      * @param string  $type
      * @param array   $options
-     * @param boolean $modify
+     * @param bool $modify
      * @return $this
      */
     public function addAfter($name, $fieldName, $type = 'text', $options = [], $modify = false)
@@ -711,12 +711,12 @@ class Form
     /**
      * Enable or disable showing errors under fields
      *
-     * @param boolean $enabled
+     * @param bool $enabled
      * @return $this
      */
     public function setErrorsEnabled($enabled)
     {
-        $this->showFieldErrors = (boolean) $enabled;
+        $this->showFieldErrors = (bool) $enabled;
 
         return $this;
     }
@@ -724,7 +724,7 @@ class Form
     /**
      * Is client validation enabled?
      *
-     * @return boolean
+     * @return bool
      */
     public function clientValidationEnabled()
     {
@@ -734,12 +734,12 @@ class Form
     /**
      * Enable/disable client validation.
      *
-     * @param boolean $enable
+     * @param bool $enable
      * @return $this
      */
     public function setClientValidationEnabled($enable)
     {
-        $this->clientValidationEnabled = (boolean) $enable;
+        $this->clientValidationEnabled = (bool) $enable;
 
         return $this;
     }
