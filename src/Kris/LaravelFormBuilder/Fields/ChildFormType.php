@@ -1,4 +1,6 @@
-<?php  namespace Kris\LaravelFormBuilder\Fields;
+<?php
+
+namespace Kris\LaravelFormBuilder\Fields;
 
 use Kris\LaravelFormBuilder\Form;
 
@@ -50,7 +52,10 @@ class ChildFormType extends ParentType
     }
 
     /**
-     * Allow form-specific value alters
+     * Allow form-specific value alters.
+     *
+     * @param  array $values
+     * @return void
      */
     public function alterFieldValues(array &$values)
     {
@@ -58,7 +63,11 @@ class ChildFormType extends ParentType
     }
 
     /**
-     * Allow form-specific valid alters
+     * Allow form-specific valid alters.
+     *
+     * @param  Form  $mainForm
+     * @param  bool  $isValid
+     * @return void
      */
     public function alterValid(Form $mainForm, &$isValid)
     {
@@ -193,7 +202,7 @@ class ChildFormType extends ParentType
     }
 
     /**
-     * Check if provided value is valid for this type
+     * Check if provided value is valid for this type.
      *
      * @return bool
      */

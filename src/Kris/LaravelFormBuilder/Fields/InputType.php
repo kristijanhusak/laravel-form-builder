@@ -1,4 +1,6 @@
-<?php namespace  Kris\LaravelFormBuilder\Fields;
+<?php
+
+namespace  Kris\LaravelFormBuilder\Fields;
 
 class InputType extends FormField
 {

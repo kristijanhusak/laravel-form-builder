@@ -1,10 +1,12 @@
-<?php  namespace Kris\LaravelFormBuilder\Fields;
+<?php
+
+namespace Kris\LaravelFormBuilder\Fields;
 
 class RepeatedType extends ParentType
 {
 
     /**
-     * Get the template, can be config variable or view path
+     * Get the template, can be config variable or view path.
      *
      * @return string
      */
@@ -13,6 +15,9 @@ class RepeatedType extends ParentType
         return 'repeated';
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function getDefaults()
     {
         return [
@@ -32,6 +37,9 @@ class RepeatedType extends ParentType
         return $this->parent->getFormHelper()->mergeAttributes($this->children);
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function createChildren()
     {
         $firstName = $this->getRealName();

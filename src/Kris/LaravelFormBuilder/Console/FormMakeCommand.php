@@ -1,4 +1,6 @@
-<?php namespace Kris\LaravelFormBuilder\Console;
+<?php
+
+namespace Kris\LaravelFormBuilder\Console;
 
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Filesystem\Filesystem;
@@ -23,7 +25,9 @@ class FormMakeCommand extends GeneratorCommand
     protected $description = 'Create a form builder class';
 
     /**
-     * Type of the file generated
+     * Type of the file generated.
+     *
+     * @var string
      */
     protected $type = 'Form';
 

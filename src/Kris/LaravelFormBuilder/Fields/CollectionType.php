@@ -1,11 +1,13 @@
-<?php  namespace Kris\LaravelFormBuilder\Fields;
+<?php
+
+namespace Kris\LaravelFormBuilder\Fields;
 
 use Illuminate\Support\Collection;
 
 class CollectionType extends ParentType
 {
     /**
-     * Contains template for a collection element
+     * Contains template for a collection element.
      *
      * @var FormField
      */
@@ -41,7 +43,7 @@ class CollectionType extends ParentType
     }
 
     /**
-     * Get the prototype object
+     * Get the prototype object.
      *
      * @return FormField
      * @throws \Exception
@@ -88,7 +90,7 @@ class CollectionType extends ParentType
 
         $data = $this->getOption($this->valueProperty, []);
 
-        // If no value is provided, get values from current request
+        // If no value is provided, get values from current request.
         if (count($data) === 0) {
             $data = $currentInput;
         }
@@ -129,7 +131,7 @@ class CollectionType extends ParentType
     }
 
     /**
-     * Set up a single child element for a collection
+     * Set up a single child element for a collection.
      *
      * @param FormField $field
      * @param           $name
@@ -162,9 +164,10 @@ class CollectionType extends ParentType
     }
 
     /**
-     * Generate prototype for regular form field
+     * Generate prototype for regular form field.
      *
      * @param FormField $field
+     * @return void
      */
     protected function generatePrototype(FormField $field)
     {
@@ -184,7 +187,7 @@ class CollectionType extends ParentType
     }
 
     /**
-     * Generate array like prototype name
+     * Generate array like prototype name.
      *
      * @return string
      */
@@ -194,8 +197,10 @@ class CollectionType extends ParentType
     }
 
     /**
-     * Prepare collection for prototype by adding prototype as child
+     * Prepare collection for prototype by adding prototype as child.
+     *
      * @param FormField $field
+     * @return void
      */
     public function preparePrototype(FormField $field)
     {

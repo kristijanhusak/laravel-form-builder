@@ -1,4 +1,6 @@
-<?php namespace Kris\LaravelFormBuilder;
+<?php
+
+namespace Kris\LaravelFormBuilder;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -329,13 +331,13 @@ class RulesParser
     }
 
     /**
-     * For numbers: Check an exact value
-     * For strings: Check the length of the string
+     * For numbers: Check an exact value.
+     * For strings: Check the length of the string.
      *
      *   size:5 --> min="5" max="5" (number)
      *   size:5 --> pattern=".{5}"  (text)
      *
-     * @param $param
+     * @param mixed $param
      * @return array
      *
      * @see http://laravel.com/docs/5.1/validation#rule-size
@@ -364,7 +366,7 @@ class RulesParser
      *
      *   in:foo,bar  --> pattern="foo|bar"
      *
-     * @param $params
+     * @param array $params
      * @return array
      *
      * @see http://laravel.com/docs/5.1/validation#rule-in
@@ -383,7 +385,7 @@ class RulesParser
      *
      *   not_in:foo,bar  --> pattern="(?:(?!^foo$|^bar$).)*"
      *
-     * @param $params
+     * @param array $params
      * @return array
      *
      * @see http://laravel.com/docs/5.1/validation#rule-not-in
@@ -391,7 +393,7 @@ class RulesParser
     protected function notIn($params)
     {
         return [
-            'pattern' => '(?:(?!^' . join('$|^', $params) . '$).)*',
+            'pattern' => '(?:(?!^' . implode('$|^', $params) . '$).)*',
             'title' => $this->getTitle('not_in'),
         ];
     }
@@ -454,21 +456,21 @@ class RulesParser
      *
      *  mimes:xls,xlsx  --> accept=".xls, .xlsx"
      *
-     * @param  array
+     * @param  array $params
      * @return array
      *
      * @see http://laravel.com/docs/5.1/validation#rule-mimes
      * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept
      */
-    protected function mimes($param)
+    protected function mimes($params)
     {
-        $mimes = '.' . implode(', .', $param);
+        $mimes = '.' . implode(', .', $params);
 
         return ['accept'  => $mimes];
     }
 
     /**
-     * Get the title, used for validating a rule
+     * Get the title, used for validating a rule.
      *
      * @param  string $rule
      * @param  array  $params
@@ -492,6 +494,11 @@ class RulesParser
         return in_array($this->field->getType(), (array) $types);
     }
 
+    /**
+     * Check if the field is numeric.
+     *
+     * @return boolean
+     */
     protected function isNumeric()
     {
         return $this->isType(['number', 'range']);

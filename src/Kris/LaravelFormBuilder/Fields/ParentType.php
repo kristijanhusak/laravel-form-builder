@@ -1,4 +1,6 @@
-<?php  namespace Kris\LaravelFormBuilder\Fields;
+<?php
+
+namespace Kris\LaravelFormBuilder\Fields;
 
 use Kris\LaravelFormBuilder\Form;
 
@@ -11,7 +13,7 @@ abstract class ParentType extends FormField
     protected $children;
 
     /**
-     * Populate children array
+     * Populate children array.
      *
      * @return mixed
      */
@@ -22,12 +24,13 @@ abstract class ParentType extends FormField
      * @param       $type
      * @param Form  $parent
      * @param array $options
+     * @return void
      */
     public function __construct($name, $type, Form $parent, array $options = [])
     {
         parent::__construct($name, $type, $parent, $options);
         // If there is default value provided and  setValue was not triggered
-        // in the parent call, make sure we generate child elements
+        // in the parent call, make sure we generate child elements.
         if ($this->hasDefault) {
             $this->createChildren();
         }
@@ -48,11 +51,7 @@ abstract class ParentType extends FormField
     }
 
     /**
-     * @param array $options
-     * @param bool  $showLabel
-     * @param bool  $showField
-     * @param bool  $showError
-     * @return string
+     * {inheritdoc}
      */
     public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
     {
@@ -61,7 +60,7 @@ abstract class ParentType extends FormField
     }
 
     /**
-     * Get all children of the choice field
+     * Get all children of the choice field.
      *
      * @return mixed
      */
@@ -71,7 +70,7 @@ abstract class ParentType extends FormField
     }
 
     /**
-     * Get a child of the choice field
+     * Get a child of the choice field.
      *
      * @return mixed
      */
@@ -81,7 +80,7 @@ abstract class ParentType extends FormField
     }
 
     /**
-     * Remove child
+     * Remove child.
      *
      * @return $this
      */
@@ -109,9 +108,9 @@ abstract class ParentType extends FormField
     }
 
     /**
-     * Get child dynamically
+     * Get child dynamically.
      *
-     * @param $name
+     * @param string $name
      * @return FormField
      */
     public function __get($name)
@@ -120,7 +119,9 @@ abstract class ParentType extends FormField
     }
 
     /**
-     * Check if field has type property and if it's file add enctype/multipart to form
+     * Check if field has type property and if it's file add enctype/multipart to form.
+     *
+     * @return void
      */
     protected function checkIfFileType()
     {
