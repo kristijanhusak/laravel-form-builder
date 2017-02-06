@@ -1,4 +1,6 @@
-<?php namespace Kris\LaravelFormBuilder;
+<?php
+
+namespace Kris\LaravelFormBuilder;
 
 use Illuminate\Foundation\AliasLoader;
 use Collective\Html\FormBuilder as LaravelForm;
@@ -36,6 +38,11 @@ class FormBuilderServiceProvider extends ServiceProvider
         $this->app->alias('laravel-form-builder', 'Kris\LaravelFormBuilder\FormBuilder');
     }
 
+    /**
+     * Register the form helper.
+     *
+     * @return void
+     */
     protected function registerFormHelper()
     {
         $this->app->singleton('laravel-form-helper', function ($app) {
@@ -48,6 +55,11 @@ class FormBuilderServiceProvider extends ServiceProvider
         $this->app->alias('laravel-form-helper', 'Kris\LaravelFormBuilder\FormHelper');
     }
 
+    /**
+     * Bootstrap the service.
+     *
+     * @return void
+     */
     public function boot()
     {
         $this->loadViewsFrom(__DIR__ . '/../../views', 'laravel-form-builder');
@@ -70,6 +82,8 @@ class FormBuilderServiceProvider extends ServiceProvider
     }
 
     /**
+     * Get the services provided by this provider.
+     *
      * @return string[]
      */
     public function provides()
@@ -78,7 +92,9 @@ class FormBuilderServiceProvider extends ServiceProvider
     }
 
     /**
-     * Add Laravel Form to container if not already set
+     * Add Laravel Form to container if not already set.
+     *
+     * @return void
      */
     private function registerFormIfHeeded()
     {
@@ -113,7 +129,7 @@ class FormBuilderServiceProvider extends ServiceProvider
     }
 
     /**
-     * Add Laravel Html to container if not already set
+     * Add Laravel Html to container if not already set.
      */
     private function registerHtmlIfNeeded()
     {
@@ -134,8 +150,9 @@ class FormBuilderServiceProvider extends ServiceProvider
     }
 
     /**
-     * Check if an alias already exists in the IOC
-     * @param $alias
+     * Check if an alias already exists in the IOC.
+     *
+     * @param string $alias
      * @return bool
      */
     private function aliasExists($alias)

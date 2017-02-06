@@ -1,40 +1,56 @@
-<?php namespace Kris\LaravelFormBuilder\Events;
+<?php
+
+namespace Kris\LaravelFormBuilder\Events;
 
 use Illuminate\Contracts\Validation\Validator;
 use Kris\LaravelFormBuilder\Form;
 
-class BeforeFormValidation {
-
+class BeforeFormValidation
+{
     /**
-     * @var $form Form
+     * The form instance.
+     *
+     * @var Form
      */
     protected $form;
 
     /**
-     * @var $validator Validator
+     * The validator instance.
+     *
+     * @var Validator
      */
     protected $validator;
 
     /**
      * Create a new event instance.
+     *
+     * @param  Form  $form
+     * @param  Validator  $validator
+     * @return void
      */
-    public function __construct(Form $form, Validator $validator) {
+    public function __construct(Form $form, Validator $validator)
+    {
         $this->form = $form;
         $this->validator = $validator;
     }
 
     /**
-     * Return the event's form.
+     * Get the Form instance of this event.
+     *
+     * @return Form
      */
-    public function getForm() {
+    public function getForm()
+    {
         return $this->form;
     }
 
     /**
-     * Return the event's validator.
+     * Get the Validator instance of this event.
+     *
+     * @return Validator
      */
-    public function getValidator() {
+    public function getValidator()
+    {
         return $this->validator;
     }
-
 }

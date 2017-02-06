@@ -1,7 +1,12 @@
-<?php namespace  Kris\LaravelFormBuilder\Fields;
+<?php
+
+namespace  Kris\LaravelFormBuilder\Fields;
 
 class StaticType extends FormField
 {
+    /**
+     * @inheritdoc
+     */
     public function render(array $options = [], $showLabel = true, $showField = true, $showError = false)
     {
         $this->setupStaticOptions($options);
@@ -9,7 +14,10 @@ class StaticType extends FormField
     }
 
     /**
-     * Setup static field options
+     * Setup static field options.
+     *
+     * @param array $options
+     * @return void
      */
     private function setupStaticOptions(&$options)
     {

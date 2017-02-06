@@ -1,4 +1,6 @@
-<?php namespace  Kris\LaravelFormBuilder\Fields;
+<?php
+
+namespace  Kris\LaravelFormBuilder\Fields;
 
 class ChoiceType extends ParentType
 {
@@ -21,7 +23,7 @@ class ChoiceType extends ParentType
     }
 
     /**
-     * Determine which choice type to use
+     * Determine which choice type to use.
      *
      * @return string
      */
@@ -61,7 +63,9 @@ class ChoiceType extends ParentType
     }
 
     /**
-     * Create children depending on choice type
+     * Create children depending on choice type.
+     *
+     * @return void
      */
     protected function createChildren()
     {
@@ -82,9 +86,11 @@ class ChoiceType extends ParentType
     }
 
     /**
-     * Build checkable children fields from choice type
+     * Build checkable children fields from choice type.
      *
      * @param string $fieldType
+     *
+     * @return void
      */
     protected function buildCheckableChildren($fieldType)
     {
@@ -112,7 +118,7 @@ class ChoiceType extends ParentType
     }
 
     /**
-     * Build select field from choice
+     * Build select field from choice.
      *
      * @param string $fieldType
      */

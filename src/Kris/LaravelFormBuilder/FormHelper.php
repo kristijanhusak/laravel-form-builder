@@ -1,4 +1,6 @@
-<?php  namespace Kris\LaravelFormBuilder;
+<?php
+
+namespace Kris\LaravelFormBuilder;
 
 use Illuminate\Contracts\Support\MessageBag;
 use Illuminate\Contracts\View\Factory as View;
@@ -117,7 +119,7 @@ class FormHelper
     }
 
     /**
-     * Merge options array
+     * Merge options array.
      *
      * @param array $first
      * @param array $second
@@ -129,7 +131,7 @@ class FormHelper
     }
 
     /**
-     * Get proper class for field type
+     * Get proper class for field type.
      *
      * @param $type
      * @return string
@@ -162,7 +164,7 @@ class FormHelper
     }
 
     /**
-     * Convert array of attributes to html attributes
+     * Convert array of attributes to html attributes.
      *
      * @param $options
      * @return string
@@ -186,7 +188,7 @@ class FormHelper
     }
 
     /**
-     * Add custom field
+     * Add custom field.
      *
      * @param $name
      * @param $class
@@ -201,7 +203,7 @@ class FormHelper
     }
 
     /**
-     * Load custom field types from config file
+     * Load custom field types from config file.
      */
     private function loadCustomTypes()
     {
@@ -214,6 +216,10 @@ class FormHelper
         }
     }
 
+    /**
+     * @param object $model
+     * @return object|null
+     */
     public function convertModelToArray($model)
     {
         if (!$model) {
@@ -232,7 +238,7 @@ class FormHelper
     }
 
     /**
-     * Format the label to the proper format
+     * Format the label to the proper format.
      *
      * @param $name
      * @return string
@@ -280,6 +286,7 @@ class FormHelper
     }
 
     /**
+     * @param array $fields
      * @return array
      */
     public function mergeAttributes(array $fields)
@@ -293,8 +300,10 @@ class FormHelper
     }
 
     /**
-     * Alter a form's values recursively according to its fields
+     * Alter a form's values recursively according to its fields.
      *
+     * @param  Form  $form
+     * @param  array $values
      * @return void
      */
     public function alterFieldValues(Form $form, array &$values)
@@ -315,7 +324,7 @@ class FormHelper
     }
 
     /**
-     * Alter a form's validity recursively, and add messages with nested form prefix
+     * Alter a form's validity recursively, and add messages with nested form prefix.
      *
      * @return void
      */
@@ -339,7 +348,9 @@ class FormHelper
     }
 
     /**
-     * Add unprefixed messages with prefix to a MessageBag
+     * Add unprefixed messages with prefix to a MessageBag.
+     *
+     * @return void
      */
     public function appendMessagesWithPrefix(MessageBag $messageBag, $prefix, array $keyedMessages)
     {
@@ -387,7 +398,7 @@ class FormHelper
     }
 
     /**
-     * Check if field name is valid and not reserved
+     * Check if field name is valid and not reserved.
      *
      * @throws \InvalidArgumentException
      * @param string $name

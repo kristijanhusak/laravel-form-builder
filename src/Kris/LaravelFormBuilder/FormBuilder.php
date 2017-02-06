@@ -1,4 +1,6 @@
-<?php  namespace Kris\LaravelFormBuilder;
+<?php
+
+namespace Kris\LaravelFormBuilder;
 
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
@@ -25,6 +27,7 @@ class FormBuilder
     /**
      * @param Container  $container
      * @param FormHelper $formHelper
+     * @param EventDispatcher $eventDispatcher
      */
     public function __construct(Container $container, FormHelper $formHelper, EventDispatcher $eventDispatcher)
     {
@@ -34,9 +37,11 @@ class FormBuilder
     }
 
     /**
-     * @param       $formClass
-     * @param       $options
-     * @param       $data
+     * Create a Form instance.
+     *
+     * @param string $formClass The name of the class that inherits \Kris\LaravelFormBuilder\Form.
+     * @param array $options|null
+     * @param array $data|null
      * @return Form
      */
     public function create($formClass, array $options = [], array $data = [])
@@ -67,7 +72,7 @@ class FormBuilder
     }
 
     /**
-     * Get the namespace from the config
+     * Get the namespace from the config.
      *
      * @return string
      */
@@ -83,11 +88,11 @@ class FormBuilder
     }
 
     /**
-     * Get instance of the empty form which can be modified
+     * Get instance of the empty form which can be modified.
      *
      * @param array $options
      * @param array $data
-     * @return Form
+     * @return \Kris\LaravelFormBuilder\Form
      */
     public function plain(array $options = [], array $data = [])
     {

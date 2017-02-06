@@ -1,29 +1,43 @@
-<?php namespace Kris\LaravelFormBuilder\Events;
+<?php
+
+namespace Kris\LaravelFormBuilder\Events;
 
 use Illuminate\Contracts\Validation\Validator;
 use Kris\LaravelFormBuilder\Form;
 
-class AfterFormValidation {
-
+class AfterFormValidation
+{
     /**
-     * @var $form Form
+     * The form instance.
+     *
+     * @var Form
      */
     protected $form;
 
     /**
-     * @var $validator Validator
+     * The validator instance.
+     *
+     * @var Validator
      */
     protected $validator;
 
     /**
-     * @var $valid bool
+     * Indicates if the form is valid.
+     *
+     * @var bool
      */
     protected $valid;
 
     /**
-     * Create a new event instance.
+     * Create a new after form validation instance.
+     *
+     * @param  Form       $form
+     * @param  Validator  $validator
+     * @param  bool       $valid
+     * @return void
      */
-    public function __construct(Form $form, Validator $validator, $valid) {
+    public function __construct(Form $form, Validator $validator, $valid)
+    {
         $this->form = $form;
         $this->validator = $validator;
         $this->valid = $valid;
@@ -31,22 +45,31 @@ class AfterFormValidation {
 
     /**
      * Return the event's form.
+     *
+     * @return Form
      */
-    public function getForm() {
+    public function getForm()
+    {
         return $this->form;
     }
 
     /**
      * Return the event's validator.
+     *
+     * @return Validator
      */
-    public function getValidator() {
+    public function getValidator()
+    {
         return $this->validator;
     }
 
     /**
-     * Return wether the validation passed.
+     * Return wether the form is valid.
+     *
+     * @return bool
      */
-    public function isValid() {
+    public function isValid()
+    {
         return $this->valid;
     }
 
