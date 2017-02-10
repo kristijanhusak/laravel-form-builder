@@ -2,10 +2,10 @@
 
 namespace Kris\LaravelFormBuilder;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
 use Illuminate\Contracts\Validation\Factory as ValidatorFactory;
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Kris\LaravelFormBuilder\Events\AfterFieldCreation;
@@ -1137,7 +1137,7 @@ class Form
      * Redirects to a destination when form is invalid.
      *
      * @param  string|null $destination The target url.
-     * @return HttpResponseException
+     * @return \Illuminate\Http\Exception\HttpResponseException|\Illuminate\Http\Exceptions\HttpResponseException
      */
     public function redirectIfNotValid($destination = null)
     {
@@ -1150,7 +1150,12 @@ class Form
 
             $response = $response->withErrors($this->getErrors())->withInput();
 
-            throw new HttpResponseException($response);
+            $version = substr(Application::VERSION, 0, 3);
+            if (version_compare($version, '5.3', '<')) {
+                throw new \Illuminate\Http\Exception\HttpResponseException($response);
+            }
+
+            $response->throwResponse();
         }
     }
 
