@@ -114,7 +114,7 @@ class ChildFormType extends ParentType
 
         if (is_string($class)) {
             $options = [
-                'model' => $this->parent->getModel(),
+                'model' => $this->getOption($this->valueProperty) ?: $this->parent->getModel(),
                 'name' => $this->name,
                 'language_name' => $this->parent->getLanguageName()
             ];
