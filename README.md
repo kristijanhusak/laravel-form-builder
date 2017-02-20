@@ -15,7 +15,7 @@ By default it supports Bootstrap 3.
 For laravel 4 version check [laravel4-form-builder](https://github.com/kristijanhusak/laravel4-form-builder)
 
 ## Upgrade to 1.6
-If you upgraded to `1.6.*` from `1.5.*` or eariler, and having problems with form value binding, rename `default_value` to `value`.
+If you upgraded to `>1.6.*` from `1.5.*` or earlier, and having problems with form value binding, rename `default_value` to `value`.
 
 More info in [changelog](https://github.com/kristijanhusak/laravel-form-builder/blob/master/CHANGELOG.md)
 
@@ -136,7 +136,7 @@ class SongsController extends BaseController {
 
     public function create(FormBuilder $formBuilder)
     {
-        $form = $formBuilder->create(App\Forms\SongForm::class, [
+        $form = $formBuilder->create(\App\Forms\SongForm::class, [
             'method' => 'POST',
             'url' => route('song.store')
         ]);
@@ -146,7 +146,7 @@ class SongsController extends BaseController {
 
     public function store(FormBuilder $formBuilder)
     {
-        $form = $formBuilder->create(App\Forms\SongForm::class);
+        $form = $formBuilder->create(\App\Forms\SongForm::class);
 
         if (!$form->isValid()) {
             return redirect()->back()->withErrors($form->getErrors())->withInput();
@@ -156,6 +156,47 @@ class SongsController extends BaseController {
     }
 }
 ```
+
+Alternative example:
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Routing\Controller as BaseController;
+use Kris\LaravelFormBuilder\FormBuilder;
+use App\Forms\SongForm;
+
+class SongsController extends BaseController {
+
+    public function create(FormBuilder $formBuilder)
+    {
+        $form = $formBuilder->create(SongForm::class, [
+            'method' => 'POST',
+            'url' => route('song.store')
+        ]);
+
+        return view('song.create', compact('form'));
+    }
+
+    public function store(FormBuilder $formBuilder)
+    {
+        $form = $formBuilder->create(SongForm::class);
+
+        if (!$form->isValid()) {
+            return redirect()->back()->withErrors($form->getErrors())->withInput();
+        }
+
+        // Do saving and other things...
+    }
+}
+```
+
+
+
+
+
 
 Create the routes
 

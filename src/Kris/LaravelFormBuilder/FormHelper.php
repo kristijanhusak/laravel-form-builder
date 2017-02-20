@@ -1,10 +1,15 @@
-<?php  namespace Kris\LaravelFormBuilder;
+<?php
 
-use Illuminate\Support\Collection;
-use Symfony\Component\Translation\TranslatorInterface;
-use Illuminate\Database\Eloquent\Model;
-use Kris\LaravelFormBuilder\Fields\FormField;
+namespace Kris\LaravelFormBuilder;
+
+use Illuminate\Contracts\Support\MessageBag;
 use Illuminate\Contracts\View\Factory as View;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
+use Kris\LaravelFormBuilder\Fields\FormField;
+use Kris\LaravelFormBuilder\Form;
+use Illuminate\Translation\Translator;
 
 class FormHelper
 {
@@ -62,6 +67,7 @@ class FormHelper
         'select'         => 'SelectType',
         'textarea'       => 'TextareaType',
         'button'         => 'ButtonType',
+        'buttongroup'    => 'ButtonGroupType',
         'submit'         => 'ButtonType',
         'reset'          => 'ButtonType',
         'radio'          => 'CheckableType',
@@ -83,10 +89,10 @@ class FormHelper
 
     /**
      * @param View    $view
-     * @param TranslatorInterface $translator
+     * @param Translator $translator
      * @param array   $config
      */
-    public function __construct(View $view, TranslatorInterface $translator, array $config = [])
+    public function __construct(View $view, Translator $translator, array $config = [])
     {
         $this->view = $view;
         $this->translator = $translator;
@@ -113,7 +119,7 @@ class FormHelper
     }
 
     /**
-     * Merge options array
+     * Merge options array.
      *
      * @param array $first
      * @param array $second
@@ -121,36 +127,11 @@ class FormHelper
      */
     public function mergeOptions(array $first, array $second)
     {
-        $merge_options = function($first, $second, $concat_classes = FALSE) use(&$merge_options) {
-            $arr = array();
-            foreach (array_unique(array_merge(array_keys($first), array_keys($second))) as $key) {
-                $new_value = NULL;
-
-                // Element exists in both arrays.
-                if (array_key_exists($key, $first) && array_key_exists($key, $second)) {
-                    // Recurse.
-                    if (is_array($first[$key]) && is_array($second[$key])) {
-                        $new_value = $merge_options($first[$key], $second[$key], in_array($key, array('wrapper', 'label_attr', 'attr')));
-                    }
-                    // Merge classes.
-                    elseif ($concat_classes && $key == 'class') {
-                        if (!str_contains($first[$key], $second[$key]) && !str_contains($second[$key], $first[$key])) {
-                            $new_value = trim($first[$key] . ' ' . $second[$key]);
-                        }
-                    }
-                }
-
-                // Take (in this order) new value, second value, first value.
-                $arr[$key] = $new_value ?: (array_key_exists($key, $second) ? $second[$key] : $first[$key]);
-            }
-            return $arr;
-        };
-
-        return $merge_options($first, $second);
+        return array_replace_recursive($first, $second);
     }
 
     /**
-     * Get proper class for field type
+     * Get proper class for field type.
      *
      * @param $type
      * @return string
@@ -183,7 +164,7 @@ class FormHelper
     }
 
     /**
-     * Convert array of attributes to html attributes
+     * Convert array of attributes to html attributes.
      *
      * @param $options
      * @return string
@@ -207,7 +188,7 @@ class FormHelper
     }
 
     /**
-     * Add custom field
+     * Add custom field.
      *
      * @param $name
      * @param $class
@@ -222,7 +203,7 @@ class FormHelper
     }
 
     /**
-     * Load custom field types from config file
+     * Load custom field types from config file.
      */
     private function loadCustomTypes()
     {
@@ -235,6 +216,10 @@ class FormHelper
         }
     }
 
+    /**
+     * @param object $model
+     * @return object|null
+     */
     public function convertModelToArray($model)
     {
         if (!$model) {
@@ -253,7 +238,7 @@ class FormHelper
     }
 
     /**
-     * Format the label to the proper format
+     * Format the label to the proper format.
      *
      * @param $name
      * @return string
@@ -301,9 +286,10 @@ class FormHelper
     }
 
     /**
+     * @param array $fields
      * @return array
      */
-    public function mergeAttributes($fields)
+    public function mergeAttributes(array $fields)
     {
         $attributes = [];
         foreach ($fields as $field) {
@@ -311,6 +297,72 @@ class FormHelper
         }
 
         return $attributes;
+    }
+
+    /**
+     * Alter a form's values recursively according to its fields.
+     *
+     * @param  Form  $form
+     * @param  array $values
+     * @return void
+     */
+    public function alterFieldValues(Form $form, array &$values)
+    {
+        // Alter the form itself
+        $form->alterFieldValues($values);
+
+        // Alter the form's child forms recursively
+        foreach ($form->getFields() as $name => $field) {
+            if (method_exists($field, 'alterFieldValues')) {
+                $fullName = $this->transformToDotSyntax($name);
+
+                $subValues = Arr::get($values, $fullName);
+                $field->alterFieldValues($subValues);
+                Arr::set($values, $fullName, $subValues);
+            }
+        }
+    }
+
+    /**
+     * Alter a form's validity recursively, and add messages with nested form prefix.
+     *
+     * @return void
+     */
+    public function alterValid(Form $form, Form $mainForm, &$isValid)
+    {
+        // Alter the form itself
+        $messages = $form->alterValid($mainForm, $isValid);
+
+        // Add messages to the existing Bag
+        if ($messages) {
+            $messageBag = $mainForm->getValidator()->getMessageBag();
+            $this->appendMessagesWithPrefix($messageBag, $form->getName(), $messages);
+        }
+
+        // Alter the form's child forms recursively
+        foreach ($form->getFields() as $name => $field) {
+            if (method_exists($field, 'alterValid')) {
+                $field->alterValid($mainForm, $isValid);
+            }
+        }
+    }
+
+    /**
+     * Add unprefixed messages with prefix to a MessageBag.
+     *
+     * @return void
+     */
+    public function appendMessagesWithPrefix(MessageBag $messageBag, $prefix, array $keyedMessages)
+    {
+        foreach ($keyedMessages as $key => $messages) {
+            if ($prefix) {
+                $key = $this->transformToDotSyntax($prefix . '[' . $key . ']');
+            }
+
+            foreach ((array) $messages as $message) {
+                $messageBag->add($key, $message);
+            }
+        }
     }
 
     /**
@@ -346,7 +398,7 @@ class FormHelper
     }
 
     /**
-     * Check if field name is valid and not reserved
+     * Check if field name is valid and not reserved.
      *
      * @throws \InvalidArgumentException
      * @param string $name

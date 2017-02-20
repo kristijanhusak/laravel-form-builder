@@ -1,11 +1,12 @@
 <?php
 
-use Illuminate\Http\Exception\HttpResponseException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Kris\LaravelFormBuilder\Events\AfterFormValidation;
 use Kris\LaravelFormBuilder\Events\BeforeFormValidation;
 use Kris\LaravelFormBuilder\Fields\InputType;
 use Kris\LaravelFormBuilder\Form;
 use Kris\LaravelFormBuilder\FormHelper;
+use Kris\LaravelFormBuilder\FormBuilder;
 
 class FormTest extends FormBuilderTestCase
 {
@@ -94,6 +95,28 @@ class FormTest extends FormBuilderTestCase
         ];
 
         $this->assertEquals($errors, $this->plainForm->getErrors());
+    }
+
+    /** @test */
+    public function it_alters_validity_and_adds_messages()
+    {
+        $customForm = $this->formBuilder->create('CustomNesterDummyForm');
+
+        $this->request['subcustom'] = ['title' => "don't fail on this"];
+
+        $isValid = $customForm->isValid();
+        $this->assertTrue($isValid);
+
+        $this->request['subcustom'] = ['title' => 'fail on this'];
+
+        $isValid = $customForm->isValid();
+        $this->assertFalse($isValid);
+
+        $errors = $customForm->getErrors();
+        $this->assertEquals(
+            ['subcustom.title' => ['Error on title!']],
+            $errors
+        );
     }
 
     /** @test */
@@ -271,7 +294,7 @@ class FormTest extends FormBuilderTestCase
     }
 
     /** @test */
-    public function it_returns_validated_values()
+    public function it_returns_field_values()
     {
         $this->plainForm
             ->add('name', 'text', [
@@ -319,6 +342,24 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals(
             $check_values,
             $this->plainForm->getFieldValues()
+        );
+    }
+
+    /** @test */
+    public function it_returns_altered_field_values()
+    {
+        $customForm = $this->formBuilder->create('CustomNesterDummyForm');
+
+        $this->request['name'] = 'lower case';
+        $this->request['subcustom'] = ['title' => 'Bar foo', 'body' => 'Foo bar'];
+
+        $this->assertEquals(
+            [
+                'name' => 'LOWER CASE',
+                'options' => ['x'],
+                'subcustom' => ['title' => 'Bar foo', 'body' => 'Foo bar'],
+            ],
+            $customForm->getFieldValues()
         );
     }
 
@@ -440,7 +481,7 @@ class FormTest extends FormBuilderTestCase
 
         $this->assertEquals('text', $this->plainForm->description->getType());
         $this->assertEquals(
-            ['placeholder' => 'Enter text here...', 'class' => 'form-control modified-input'],
+            ['placeholder' => 'Enter text here...', 'class' => 'modified-input'],
             $this->plainForm->description->getOption('attr')
         );
 
@@ -654,7 +695,14 @@ class FormTest extends FormBuilderTestCase
         $form->setModel($model);
 
         $form
-            ->add('title', 'text')
+            ->add('title', 'text', [
+                'label_attr' => [
+                    'for' => 'custom_title'
+                ],
+                'attr' => [
+                    'id' => 'custom_title'
+                ]
+            ])
             ->add('song', 'form', [
                 'class' => $customForm
             ])
@@ -677,6 +725,8 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals('songs[1]', $customForm->getName());
 
         $this->assertEquals('song[title]', $form->song->getChild('title')->getName());
+        $this->assertEquals('custom_title', $form->title->getOption('attr.id'));
+        $this->assertEquals('custom_title', $form->title->getOption('label_attr.for'));
         $this->assertFalse($form->song->name->getOption('label_show'));
         $this->assertCount(2, $form->songs->getChildren());
         $this->assertEquals('lorem', $form->songs->getChild(0)->title->getOption('value'));
@@ -688,6 +738,8 @@ class FormTest extends FormBuilderTestCase
         );
 
         $this->assertNotRegExp('/label.*for="name"/', $view);
+        $this->assertRegExp('/label.*for="custom_title"/', $view);
+        $this->assertRegExp('/input.*id="custom_title"/', $view);
 
         $this->assertTrue($form->song->getFormOption('files'));
 
@@ -697,6 +749,32 @@ class FormTest extends FormBuilderTestCase
             return;
         }
         $this->fail('No exception on bad method call on child form.');
+    }
+
+    /** @test */
+    public function it_reads_configuration_properly()
+    {
+        $config = $this->config;
+        $config['defaults']['textarea'] = ['field_class' => 'my-textarea-class'];
+        $formHelper = new FormHelper($this->view, $this->translator, $config);
+        $formBuilder = new FormBuilder($this->app, $formHelper, $this->eventDispatcher);
+
+        $form = $formBuilder->plain()
+            ->add('name', 'text')
+            ->add('desc', 'textarea');
+
+        $overridenClassForm = $formBuilder->plain()
+            ->add('name', 'text', ['attr' => ['class' => 'my-text-class']])
+            ->add('desc', 'textarea', ['attr' => ['class' => 'overwrite-textarea-class']]);
+
+        $formView = $form->renderForm();
+        $overridenView = $overridenClassForm->renderForm();
+
+        $this->assertRegExp('/textarea.*class="my-textarea-class"/', $formView);
+        $this->assertRegExp('/input.*class="form-control"/', $formView);
+
+        $this->assertRegExp('/textarea.*class="overwrite-textarea-class"/', $overridenView);
+        $this->assertRegExp('/input.*class="my-text-class"/', $overridenView);
     }
 
     /** @test */

@@ -1,4 +1,6 @@
-<?php namespace  Kris\LaravelFormBuilder\Fields;
+<?php
+
+namespace  Kris\LaravelFormBuilder\Fields;
 
 class ButtonType extends FormField
 {
@@ -19,5 +21,14 @@ class ButtonType extends FormField
             'wrapper' => false,
             'attr' => ['type' => $this->type]
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllAttributes()
+    {
+        // Don't collect input for buttons.
+        return [];
     }
 }
