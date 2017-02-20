@@ -29,6 +29,25 @@ namespace {
         }
 
         /** @test */
+        public function it_creates_form_with_array_and_compares_it_with_created_form_by_class()
+        {
+            $form = $this->formBuilder->create(CustomDummyForm::class);
+            $arrayForm = $this->formBuilder->createByArray([
+                [
+                    'type' => 'text',
+                    'name' => 'title',
+                ],
+                [
+                    'type' => 'textarea',
+                    'name' => 'body',
+                ]
+            ]);
+
+            $this->assertEquals($form->getField('title')->getType(), $arrayForm->getField('title')->getType());
+            $this->assertEquals($form->getField('body')->getType(), $arrayForm->getField('body')->getType());
+        }
+
+        /** @test */
         public function it_creates_custom_form_and_sets_options_on_it()
         {
             $options = [
