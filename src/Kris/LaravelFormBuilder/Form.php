@@ -596,8 +596,6 @@ class Form
     {
         $this->model = $model;
 
-        $this->setupNamedModel();
-
         $this->rebuildForm();
 
         return $this;
@@ -611,8 +609,6 @@ class Form
     protected function setupModel($model)
     {
         $this->model = $model;
-
-        $this->setupNamedModel();
 
         return $this;
     }

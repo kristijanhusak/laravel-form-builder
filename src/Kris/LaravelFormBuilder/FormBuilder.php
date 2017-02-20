@@ -24,6 +24,12 @@ class FormBuilder
 
     /**
      * @param Container $container
+     * @var string
+     */
+    protected $plainFormClass = Form::class;
+
+    /**
+     * @param Container  $container
      * @param FormHelper $formHelper
      */
     public function __construct(Container $container, FormHelper $formHelper, EventDispatcher $eventDispatcher)
@@ -131,6 +137,30 @@ class FormBuilder
 
     /**
      * Get instance of the empty form which can be modified
+     * Get the plain form class.
+     *
+     * @return string
+     */
+    public function getFormClass() {
+        return $this->plainFormClass;
+    }
+
+    /**
+     * Set the plain form class.
+     *
+     * @param string $class
+     */
+    public function setFormClass($class) {
+        $parent = Form::class;
+        if (!is_a($class, $parent, true)) {
+            throw new \InvalidArgumentException("Class must be or extend $parent; $class is not.");
+        }
+
+        $this->plainFormClass = $class;
+    }
+
+    /**
+     * Get instance of the empty form which can be modified.
      *
      * @param array $options
      * @param array $data
@@ -139,7 +169,7 @@ class FormBuilder
     public function plain(array $options = [], array $data = [])
     {
         $form = $this->container
-            ->make('Kris\LaravelFormBuilder\Form')
+            ->make($this->plainFormClass)
             ->addData($data)
             ->setRequest($this->container->make('request'))
             ->setFormHelper($this->formHelper)
