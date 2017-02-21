@@ -81,7 +81,7 @@ class FormBuilder
     public function createByArray($items, array $options = [], array $data = [])
     {
         $form = $this->container
-            ->make(Form::class)
+            ->make($this->plainFormClass)
             ->addData($data)
             ->setRequest($this->container->make('request'))
             ->setFormHelper($this->formHelper)
