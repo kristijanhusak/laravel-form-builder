@@ -102,6 +102,11 @@ class DummyModel {
         }
     }
 
+    public function getKeyName()
+    {
+        return 'id';
+    }
+    
     public function getData()
     {
         return $this->data;
