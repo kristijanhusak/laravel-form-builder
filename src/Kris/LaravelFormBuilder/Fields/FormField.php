@@ -5,7 +5,6 @@ namespace Kris\LaravelFormBuilder\Fields;
 use Kris\LaravelFormBuilder\Form;
 use Illuminate\Database\Eloquent\Model;
 use Kris\LaravelFormBuilder\FormHelper;
-use Kris\LaravelFormBuilder\RulesParser;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -234,7 +233,7 @@ abstract class FormField
     protected function prepareOptions(array $options = [])
     {
         $helper = $this->formHelper;
-        $rulesParser = new RulesParser($this);
+        $rulesParser = $helper->createRulesParser($this);
         $rules = $this->getOption('rules');
         $parsedRules = $rules ? $rulesParser->parse($rules) : [];
 

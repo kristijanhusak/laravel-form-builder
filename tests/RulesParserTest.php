@@ -1,7 +1,6 @@
 <?php
 
 use Kris\LaravelFormBuilder\Fields\InputType;
-use Kris\LaravelFormBuilder\RulesParser;
 
 class RulesParserTest extends FormBuilderTestCase
 {
@@ -14,7 +13,7 @@ class RulesParserTest extends FormBuilderTestCase
     {
         parent::setUp();
         $field = new InputType('address', 'text', $this->plainForm);
-        $this->parser = new RulesParser($field);
+        $this->parser = $this->formHelper->createRulesParser($field);
     }
 
     /** @test */
