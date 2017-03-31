@@ -7,9 +7,10 @@ use Illuminate\Contracts\View\Factory as View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Translation\Translator;
 use Kris\LaravelFormBuilder\Fields\FormField;
 use Kris\LaravelFormBuilder\Form;
-use Illuminate\Translation\Translator;
+use Kris\LaravelFormBuilder\RulesParser;
 
 class FormHelper
 {
@@ -258,6 +259,15 @@ class FormHelper
         }
 
         return ucfirst(str_replace('_', ' ', $name));
+    }
+
+    /**
+     * @param FormField $field
+     * @return RulesParser
+     */
+    public function createRulesParser(FormField $field)
+    {
+        return new RulesParser($field);
     }
 
     /**
