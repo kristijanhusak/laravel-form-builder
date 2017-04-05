@@ -12,7 +12,7 @@ class ButtonGroupType extends FormField
      */
     protected function getTemplate()
     {
-        return 'fields.buttongroup';
+        return 'buttongroup';
     }
 
     /**
