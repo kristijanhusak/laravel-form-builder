@@ -109,7 +109,13 @@ abstract class FormField
     protected function setupValue()
     {
         $value = $this->getOption($this->valueProperty);
+        $default = $this->getOption($this->defaultValueProperty);
         $isChild = $this->getOption('is_child');
+
+        if (is_null($value)) {
+            $value = $default;
+            $this->setOption($this->valueProperty, $default);
+        }
 
         if ($value instanceof \Closure) {
             $this->valueClosure = $value;
