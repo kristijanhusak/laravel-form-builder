@@ -12,22 +12,24 @@ Form builder for Laravel 5 inspired by Symfony's form builder. With help of Lara
 By default it supports Bootstrap 3.
 
 ## Laravel 4
-For laravel 4 version check [laravel4-form-builder](https://github.com/kristijanhusak/laravel4-form-builder)
+For Laravel 4 version check [laravel4-form-builder](https://github.com/kristijanhusak/laravel4-form-builder).
 
 ## Upgrade to 1.6
 If you upgraded to `>1.6.*` from `1.5.*` or earlier, and having problems with form value binding, rename `default_value` to `value`.
 
-More info in [changelog](https://github.com/kristijanhusak/laravel-form-builder/blob/master/CHANGELOG.md)
+More info in [changelog](https://github.com/kristijanhusak/laravel-form-builder/blob/master/CHANGELOG.md).
 
 ## Documentation
 For detailed documentation refer to [http://kristijanhusak.github.io/laravel-form-builder/](http://kristijanhusak.github.io/laravel-form-builder/).
 
 ## Changelog
-Changelog can be found [here](https://github.com/kristijanhusak/laravel-form-builder/blob/master/CHANGELOG.md)
+Changelog can be found [here](https://github.com/kristijanhusak/laravel-form-builder/blob/master/CHANGELOG.md).
 
-###Installation
+## Installation
 
-```
+### Using Composer
+
+```sh
 composer require kris/laravel-form-builder
 ```
 
@@ -41,7 +43,7 @@ Or manually by modifying `composer.json` file:
 }
 ```
 
-run `composer install`
+And run `composer install`
 
 Then add Service provider to `config/app.php`
 
@@ -62,10 +64,10 @@ And Facade (also in `config/app.php`)
 
 ```
 
-**Notice**: This package will add `laravelcollective/html` package and load aliases (Form, Html) if they do not exist in the IoC container
+**Notice**: This package will add `laravelcollective/html` package and load aliases (Form, Html) if they do not exist in the IoC container.
 
 
-### Quick start
+## Quick start
 
 Creating form classes is easy. With a simple artisan command:
 
@@ -193,23 +195,18 @@ class SongsController extends BaseController {
 }
 ```
 
-
-
-
-
-
 Create the routes
 
 ```php
 // app/Http/routes.php
 Route::get('songs/create', [
-	'uses' => 'SongsController@create',
-	'as' => 'song.create'
+    'uses' => 'SongsController@create',
+    'as' => 'song.create'
 ]);
 
 Route::post('songs', [
-	'uses' => 'SongsController@store',
-	'as' => 'song.store'
+    'uses' => 'SongsController@store',
+    'as' => 'song.store'
 ]);
 ```
 
@@ -245,7 +242,7 @@ Go to `/songs/create`; above code will generate this html:
 </form>
 ```
 
-### Contributing
+## Contributing
 Project follows [PSR-2](http://www.php-fig.org/psr/psr-2/) standard and it's covered with PHPUnit tests.
 Pull requests should include tests and pass [Travis CI](https://travis-ci.org/kristijanhusak/laravel-form-builder) build.
 
