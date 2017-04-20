@@ -86,7 +86,7 @@ class FormHelper
      *
      * @var array
      */
-    private $customTypes = [];
+    public $customTypes = [];
 
     /**
      * @param View    $view
