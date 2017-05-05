@@ -92,3 +92,12 @@ if (!function_exists('form_errors')) {
     }
 
 }
+
+if (!function_exists('form_fields')) {
+
+    function form_fields(Form $form, array $options = [])
+    {
+        return $form->renderForm($options, false, true, false);
+    }
+
+}
