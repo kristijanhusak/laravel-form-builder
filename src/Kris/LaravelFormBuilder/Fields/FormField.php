@@ -258,7 +258,11 @@ abstract class FormField
         }
 
         if ($this->parent->haveErrorsEnabled()) {
-            $this->addErrorClass();
+            try {
+                $this->addErrorClass();
+            } catch ( \Exception $e ) {
+                // Ignore this
+            }
         }
 
         if ($this->getOption('required') === true || isset($parsedRules['required'])) {
