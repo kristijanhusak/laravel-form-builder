@@ -7,6 +7,7 @@ use Collective\Html\FormBuilder as LaravelForm;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\Application;
+use Kris\LaravelFormBuilder\Traits\ValidatesWhenResolved;
 
 class FormBuilderServiceProvider extends ServiceProvider
 {
@@ -36,6 +37,20 @@ class FormBuilderServiceProvider extends ServiceProvider
         });
 
         $this->app->alias('laravel-form-builder', 'Kris\LaravelFormBuilder\FormBuilder');
+
+        $this->app->resolving(function ($object, $app) {
+            $request = $app->make('request');
+
+            if (in_array(ValidatesWhenResolved::class, class_uses($object)) && $request->method() !== 'GET') {
+                $object->setEventDispatcher($app->make('events'));
+                $object->setFormHelper($app->make('laravel-form-helper'));
+                $object->setRequest($request);
+                $object->setFormBuilder($app->make('laravel-form-builder'));
+                $object->setValidator($app->make('validator'));
+                $object->buildForm();
+                $object->redirectIfNotValid();
+            }
+        });
     }
 
     /**
