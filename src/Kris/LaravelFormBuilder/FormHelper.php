@@ -86,7 +86,7 @@ class FormHelper
      *
      * @var array
      */
-    public $customTypes = [];
+    private $customTypes = [];
 
     /**
      * @param View    $view
@@ -145,7 +145,7 @@ class FormHelper
             throw new \InvalidArgumentException('Field type must be provided.');
         }
 
-        if (array_key_exists($type, $this->customTypes)) {
+        if ($this->hasCustomField($type)) {
             return $this->customTypes[$type];
         }
 
@@ -196,7 +196,7 @@ class FormHelper
      */
     public function addCustomField($name, $class)
     {
-        if (!array_key_exists($name, $this->customTypes)) {
+        if (!$this->hasCustomField($name)) {
             return $this->customTypes[$name] = $class;
         }
 
@@ -215,6 +215,16 @@ class FormHelper
                 $this->addCustomField($fieldName, $fieldClass);
             }
         }
+    }
+
+    /**
+     * Check if custom field with provided name exists
+     * @param string $name
+     * @return boolean
+     */
+    public function hasCustomField($name)
+    {
+        return array_key_exists($name, $this->customTypes);
     }
 
     /**

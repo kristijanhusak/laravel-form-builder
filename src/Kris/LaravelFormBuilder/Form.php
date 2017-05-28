@@ -430,17 +430,6 @@ class Form
     {
         return array_key_exists($name, $this->fields);
     }
-    
-    /**
-     * Check if form has custom field
-     *
-     * @param $name
-     * @return bool
-     */
-    public function hasCustom($name)
-    {
-        return array_key_exists($name, $this->formHelper->customTypes);
-    }
 
     /**
      * Get all form options.
@@ -702,10 +691,10 @@ class Form
      */
     public function addCustomField($name, $class)
     {
-        if ($this->rebuilding && $this->hasCustom($name)) {
+        if ($this->rebuilding && $this->formHelper->hasCustomField($name)) {
             return $this;
         }
-        
+
         $this->formHelper->addCustomField($name, $class);
     }
 

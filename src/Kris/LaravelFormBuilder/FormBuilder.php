@@ -60,15 +60,7 @@ class FormBuilder
             );
         }
 
-        $form = $this->container
-            ->make($class)
-            ->addData($data)
-            ->setRequest($this->container->make('request'))
-            ->setFormHelper($this->formHelper)
-            ->setEventDispatcher($this->eventDispatcher)
-            ->setFormBuilder($this)
-            ->setValidator($this->container->make('validator'))
-            ->setFormOptions($options);
+        $form = $this->setDependenciesAndOptions($this->container->make($class), $options, $data);
 
         $form->buildForm();
 
@@ -85,15 +77,11 @@ class FormBuilder
      */
     public function createByArray($items, array $options = [], array $data = [])
     {
-        $form = $this->container
-            ->make($this->plainFormClass)
-            ->addData($data)
-            ->setRequest($this->container->make('request'))
-            ->setFormHelper($this->formHelper)
-            ->setEventDispatcher($this->eventDispatcher)
-            ->setFormBuilder($this)
-            ->setValidator($this->container->make('validator'))
-            ->setFormOptions($options);
+        $form = $this->setDependenciesAndOptions(
+            $this->container->make($this->plainFormClass),
+            $options,
+            $data
+        );
 
         $this->buildFormByArray($form, $items);
 
@@ -173,8 +161,28 @@ class FormBuilder
      */
     public function plain(array $options = [], array $data = [])
     {
-        $form = $this->container
-            ->make($this->plainFormClass)
+        $form = $this->setDependenciesAndOptions(
+            $this->container->make($this->plainFormClass),
+            $options,
+            $data
+        );
+
+        $this->eventDispatcher->fire(new AfterFormCreation($form));
+
+        return $form;
+    }
+
+    /**
+     * Set depedencies and options on existing form instance
+     *
+     * @param \Kris\LaravelFormBuilder\Form $instance
+     * @param array $options
+     * @param array $data
+     * @return \Kris\LaravelFormBuilder\Form
+     */
+    public function setDependenciesAndOptions($instance, array $options = [], array $data = [])
+    {
+        return $instance
             ->addData($data)
             ->setRequest($this->container->make('request'))
             ->setFormHelper($this->formHelper)
@@ -182,9 +190,5 @@ class FormBuilder
             ->setFormBuilder($this)
             ->setValidator($this->container->make('validator'))
             ->setFormOptions($options);
-
-        $this->eventDispatcher->fire(new AfterFormCreation($form));
-
-        return $form;
     }
 }

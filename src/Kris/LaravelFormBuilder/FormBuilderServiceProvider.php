@@ -42,13 +42,9 @@ class FormBuilderServiceProvider extends ServiceProvider
             $request = $app->make('request');
 
             if (in_array(ValidatesWhenResolved::class, class_uses($object)) && $request->method() !== 'GET') {
-                $object->setEventDispatcher($app->make('events'));
-                $object->setFormHelper($app->make('laravel-form-helper'));
-                $object->setRequest($request);
-                $object->setFormBuilder($app->make('laravel-form-builder'));
-                $object->setValidator($app->make('validator'));
-                $object->buildForm();
-                $object->redirectIfNotValid();
+                $form = $app->make('laravel-form-builder')->setDependenciesAndOptions($object);
+                $form->buildForm();
+                $form->redirectIfNotValid();
             }
         });
     }

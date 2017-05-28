@@ -13,7 +13,9 @@ namespace {
         public function setUp()
         {
             parent::setUp();
-            $this->app->make('Illuminate\Contracts\Http\Kernel')->pushMiddleware('Illuminate\Session\Middleware\StartSession');
+            $this->app
+                ->make('Illuminate\Contracts\Http\Kernel')
+                ->pushMiddleware('Illuminate\Session\Middleware\StartSession');
         }
 
         public function testItValidatesWhenResolved()
