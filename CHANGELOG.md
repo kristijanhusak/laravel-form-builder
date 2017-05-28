@@ -1,3 +1,15 @@
+## 1.12.0
+- Add `createByArray` to Form builder form building forms with simple array - #316 (Thanks to [@saeidraei](https://github.com/saeidraei))
+- Add ability to automatically validate form classes when they are instantiated by adding ValidatesWhenResolved trait - #345 (Thanks to [@mpociot](https://github.com/mpociot))
+- Allow configuring plain form class - #319 (Thanks to [@rudiedirkx](https://github.com/rudiedirkx))
+- Allow creating custom validation rules parser - #345 (Thanks to [@rudiedirkx](https://github.com/rudiedirkx))
+- Use primary key as default property_key for EntityType field - #334 (Thanks to Thanks to [@pimlie](https://github.com/pimlie))
+- Check if custom field already defined on rebuild form - #348 (Thanks to [@alamcordeiro](https://github.com/alamcordeiro))
+- Fix child models not being bound correctly in collection forms - #325 (Thanks to [@njbarrett](https://github.com/njbarrett))
+- Fix passing `choice_options` from view - #336 - (Thanks to Thanks to [@schursin](https://github.com/schursin))
+- Fix ButtonGroupType having wrong template - #344 (Thanks to [@jayjfletcher](https://github.com/jayjfletcher))
+- Fix CollectionType using request's `get()` instead of `input()` method - #346 (Thanks to [@unfalln](https://github.com/unfalln))
+
 ## 1.10.0
 - Add `buttongroup` field type - #298 (Thanks to [@noxify](https://github.com/noxify))
 - Allow custom `id` and `for` attributes for a field - #285
