@@ -47,8 +47,10 @@ class Form
      */
     protected $formOptions = [
         'method' => 'GET',
-        'url' => null
+        'url' => null,
     ];
+
+    protected $formStyle = 'default';
 
     /**
      * Additional data which can be used to build fields.
@@ -359,6 +361,15 @@ class Form
      */
     public function renderForm(array $options = [], $showStart = true, $showFields = true, $showEnd = true)
     {
+        if($this->isHorizontalForm()){
+            if(
+            (is_null(array_get($this->formOptions,'class')) || !str_is('*form-horizontal*',array_get($this->formOptions,'class')))
+            && (is_null(array_get($options,'class')) || !str_is('*form-horizontal*',array_get($options,'class')))
+            ){
+                $options['class'] = 'form-horizontal';
+            }
+        }
+
         return $this->render($options, $this->fields, $showStart, $showFields, $showEnd);
     }
 
@@ -439,6 +450,21 @@ class Form
     public function getFormOptions()
     {
         return $this->formOptions;
+    }
+
+
+    public function getFormStyle()
+    {
+        return $this->formStyle;
+    }
+
+    public function setFormStyle($value)
+    {
+        $this->formStyle = $value;
+    }
+
+    protected function isHorizontalForm(){
+        return $this->getFormStyle() == 'horizontal';
     }
 
     /**
@@ -967,6 +993,14 @@ class Form
     protected function setupFieldOptions($name, &$options)
     {
         $options['real_name'] = $name;
+        if($this->isHorizontalForm()){
+            if(array_get($options,'label_attr.class') === null || array_get($options,'label_attr.class') === false){
+                $options['label_attr']['class'] = $this->formHelper->getConfig('defaults.horizontal_label_class');
+            }
+            if(array_get($options,'right_wrapper.class') === null || array_get($options,'right_wrapper.class') === false){
+                $options['right_wrapper']['class'] = $this->formHelper->getConfig('defaults.horizontal_right_wrapper');
+            }
+        }
     }
 
     /**
