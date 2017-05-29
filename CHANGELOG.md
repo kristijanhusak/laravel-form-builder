@@ -1,3 +1,6 @@
+## 1.12.1
+- Fix issue #354
+
 ## 1.12.0
 - Add `createByArray` to Form builder form building forms with simple array - #316 (Thanks to [@saeidraei](https://github.com/saeidraei))
 - Add ability to automatically validate form classes when they are instantiated by adding ValidatesWhenResolved trait - #345 (Thanks to [@mpociot](https://github.com/mpociot))
