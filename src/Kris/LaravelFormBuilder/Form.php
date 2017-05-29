@@ -966,7 +966,10 @@ class Form
      */
     protected function setupFieldOptions($name, &$options)
     {
-        $options['real_name'] = $name;
+        // Only set real_name if not already specified
+        if (!isset($options['real_name'])) {
+            $options['real_name'] = $name;
+        }
     }
 
     /**
