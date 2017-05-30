@@ -95,6 +95,30 @@ abstract class ParentType extends FormField
 
     /**
      * @inheritdoc
+         */
+    public function setOption($name, $value)
+    {
+        parent::setOption($name, $value);
+
+        foreach ((array) $this->children as $key => $child) {
+            $this->children[$key]->setOption($name, $value);
+        }
+    }
+
+    /**
+     * @inheritdoc
+         */
+    public function setOptions($options)
+    {
+        parent::setOptions($options);
+
+        foreach ((array) $this->children as $key => $child) {
+            $this->children[$key]->setOptions($options);
+        }
+    }
+
+    /**
+     * @inheritdoc
      */
     public function isRendered()
     {
