@@ -152,6 +152,9 @@ abstract class FormField
         $value = $this->getValue();
         $defaultValue = $this->getDefaultValue();
 
+        // Let the field definition choose whether to show the label.
+        $showLabel = $this->getOption('showLabel', $showLabel);
+
         if ($showField) {
             $this->rendered = true;
         }
