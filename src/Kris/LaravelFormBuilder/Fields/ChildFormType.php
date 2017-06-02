@@ -210,4 +210,15 @@ class ChildFormType extends ParentType
     {
         return $value !== null;
     }
+
+    /**
+     * Get child dynamically
+     *
+     * @param $name
+     * @return FormField
+     */
+    public function __get($name)
+    {
+        return $this->getChild($name);
+    }
 }
