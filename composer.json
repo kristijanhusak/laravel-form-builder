@@ -1,16 +1,16 @@
 {
-    "name": "kris/laravel-form-builder",
+    "name": "mikemnd/laravel-form-builder",
     "description": "Laravel form builder - symfony like",
     "license": "MIT",
     "authors": [
         {
-            "name": "Kristijan Husak",
+            "name": "Mihail Ilinov",
             "email": "husakkristijan@gmail.com"
         }
     ],
     "require": {
         "php": ">=5.6.0",
-        "laravelcollective/html": "5.*",
+        "mikemnd/html": "5.*",
         "illuminate/database": "5.*@dev",
         "illuminate/validation": "5.*@dev"
     },
@@ -23,6 +23,12 @@
             "dev-master": "1.12.x-dev"
         }
     },
+    "repositories":[
+        {
+            "type": "git",
+            "url": "git@github.com:MikeMnD/html.git"
+        },
+    ],
     "autoload": {
         "psr-0": {
             "Kris\\LaravelFormBuilder": "src/"
