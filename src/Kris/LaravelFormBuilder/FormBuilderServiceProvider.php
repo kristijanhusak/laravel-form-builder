@@ -124,7 +124,7 @@ class FormBuilderServiceProvider extends ServiceProvider
                     $form = new LaravelForm($app[ 'html' ], $app[ 'url' ], $app[ 'session.store' ]->getToken());
                 }
                 else {
-                    $form = new LaravelForm($app['html'], $app['url'], $app['view'], $app['session.store']->getToken());
+                    $form = new LaravelForm($app['html'], $app['url'], $app['view'], $app['session.store']->token());
                 }
 
                 return $form->setSessionStore($app['session.store']);
