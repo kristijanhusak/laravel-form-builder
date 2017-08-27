@@ -2,6 +2,9 @@
 
 namespace Kris\LaravelFormBuilder\Fields;
 
+use Kris\LaravelFormBuilder\Filters\Exception\FilterAlreadyBindedException;
+use Kris\LaravelFormBuilder\Filters\FilterInterface;
+use Kris\LaravelFormBuilder\Filters\FilterResolver;
 use Kris\LaravelFormBuilder\Form;
 use Illuminate\Database\Eloquent\Model;
 use Kris\LaravelFormBuilder\FormHelper;
@@ -84,6 +87,20 @@ abstract class FormField
     protected $valueClosure = null;
 
     /**
+     * Array of filters key => objects.
+     *
+     * @var array
+     */
+    protected $filters = [];
+
+    /**
+     * Override filters with same alias/name for field.
+     *
+     * @var bool
+     */
+    protected $filtersOverride = false;
+
+    /**
      * @param string $name
      * @param string $type
      * @param Form $parent
@@ -98,6 +115,7 @@ abstract class FormField
         $this->setTemplate();
         $this->setDefaultOptions($options);
         $this->setupValue();
+        $this->initFilters();
     }
 
 
@@ -518,7 +536,6 @@ abstract class FormField
         }
     }
 
-
     /**
      * Merge all defaults with field specific defaults and set template if passed.
      *
@@ -693,5 +710,144 @@ abstract class FormField
     protected function isValidValue($value)
     {
         return $value !== null;
+    }
+
+    /**
+     * Method initFilters used to initialize filters
+     * from field options and bind it to the same.
+     *
+     * @return $this
+     */
+    protected function initFilters()
+    {
+        // If override status is set in field options to true
+        // we will change filtersOverride property value to true
+        // so we can override existing filters with registered
+        // alias/name in addFilter method.
+        $overrideStatus = $this->getOption('filters_override', false);
+        if ($overrideStatus) {
+            $this->filtersOverride = true;
+        }
+
+        // Get filters and bind it to field.
+        $filters = $this->getOption('filters', []);
+        foreach ($filters as $filter) {
+            $this->addFilter($filter);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Method setFilters used to set filters to current filters property.
+     *
+     * @param  array $filters
+     *
+     * @return \Kris\LaravelFormBuilder\Fields\FormField
+     */
+    public function setFilters(array $filters)
+    {
+        $this->clearFilters();
+        foreach ($filters as $filter) {
+            $this->addFilter($filter);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Method getFilters returns array of binded filters
+     * if there are any binded. Otherwise empty array.
+     *
+     * @return array
+     */
+    public function getFilters()
+    {
+        return $this->filters;
+    }
+
+    /**
+     * @param  string|FilterInterface $filter
+     *
+     * @return \Kris\LaravelFormBuilder\Fields\FormField
+     *
+     * @throws FilterAlreadyBindedException
+     */
+    public function addFilter($filter)
+    {
+        // Resolve filter object from string, object or throw Ex.
+        $filterObj = FilterResolver::instance($filter);
+
+        // If filtersOverride is allowed we will override filter
+        // with same alias/name if there is one with new resolved filter.
+        if ($this->filtersOverride) {
+            if ($key = array_search($filterObj->getName(), $this->getFilters())) {
+                $this->filters[$key] = $filterObj;
+            } else {
+                $this->filters[$filterObj->getName()] = $filterObj;
+            }
+        } else {
+            // If filtersOverride is disabled and we found
+            // equal alias defined we will throw Ex.
+            if (array_key_exists($filterObj->getName(), $this->getFilters())) {
+                $ex = new FilterAlreadyBindedException($filterObj->getName(), $this->getName());
+                throw $ex;
+            }
+
+            // Filter with resolvedFilter alias/name doesn't exist
+            // so we will bind it as new one to field.
+            $this->filters[$filterObj->getName()] = $filter;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Method removeFilter used to remove filter by provided alias/name.
+     *
+     * @param  string $name
+     *
+     * @return \Kris\LaravelFormBuilder\Fields\FormField
+     */
+    public function removeFilter($name)
+    {
+        $filters = $this->getFilters();
+        if (array_key_exists($name, $filters)) {
+            unset($filters[$name]);
+            $this->filters = $filters;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Method removeFilters used to remove filters by provided aliases/names.
+     *
+     * @param  array $filterNames
+     *
+     * @return \Kris\LaravelFormBuilder\Fields\FormField
+     */
+    public function removeFilters(array $filterNames)
+    {
+        $filters = $this->getFilters();
+        foreach ($filterNames as $filterName) {
+            if (array_key_exists($filterName, $filters)) {
+                unset($filters[$filterName]);
+                $this->filters = $filters;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Method clearFilters used to empty current filters property.
+     *
+     * @return \Kris\LaravelFormBuilder\Fields\FormField
+     */
+    public function clearFilters()
+    {
+        $this->filters = [];
+        return $this;
     }
 }

@@ -16,11 +16,12 @@ class AfterFormCreation
     /**
      * Create a new after form creation instance.
      *
-     * @param Form $form
+     * @param  Form $form
      * @return void
      */
     public function __construct(Form $form) {
         $this->form = $form;
+        $this->filterFields();
     }
 
     /**
@@ -30,5 +31,15 @@ class AfterFormCreation
      */
     public function getForm() {
         return $this->form;
+    }
+
+    /**
+     * Init filter field process on Form creation.
+     *
+     * @return void
+     */
+    public function filterFields()
+    {
+        $this->form->filterFields();
     }
 }
