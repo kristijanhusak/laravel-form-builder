@@ -6,9 +6,7 @@ use Kris\LaravelFormBuilder\Filters\Exception\FilterAlreadyBindedException;
 use Kris\LaravelFormBuilder\Filters\FilterInterface;
 use Kris\LaravelFormBuilder\Filters\FilterResolver;
 use Kris\LaravelFormBuilder\Form;
-use Illuminate\Database\Eloquent\Model;
 use Kris\LaravelFormBuilder\FormHelper;
-use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class FormField
@@ -87,7 +85,7 @@ abstract class FormField
     protected $valueClosure = null;
 
     /**
-     * Array of filters key => objects.
+     * Array of filters key(alias/name) => objects.
      *
      * @var array
      */
@@ -726,7 +724,7 @@ abstract class FormField
         // alias/name in addFilter method.
         $overrideStatus = $this->getOption('filters_override', false);
         if ($overrideStatus) {
-            $this->filtersOverride = true;
+            $this->setFiltersOverride(true);
         }
 
         // Get filters and bind it to field.
@@ -775,12 +773,12 @@ abstract class FormField
      */
     public function addFilter($filter)
     {
-        // Resolve filter object from string, object or throw Ex.
+        // Resolve filter object from string/object or throw Ex.
         $filterObj = FilterResolver::instance($filter);
 
         // If filtersOverride is allowed we will override filter
         // with same alias/name if there is one with new resolved filter.
-        if ($this->filtersOverride) {
+        if ($this->getFiltersOverride()) {
             if ($key = array_search($filterObj->getName(), $this->getFilters())) {
                 $this->filters[$key] = $filterObj;
             } else {
@@ -796,7 +794,7 @@ abstract class FormField
 
             // Filter with resolvedFilter alias/name doesn't exist
             // so we will bind it as new one to field.
-            $this->filters[$filterObj->getName()] = $filter;
+            $this->filters[$filterObj->getName()] = $filterObj;
         }
 
         return $this;
@@ -849,5 +847,26 @@ abstract class FormField
     {
         $this->filters = [];
         return $this;
+    }
+
+    /**
+     * Method used to set FiltersOverride status to provided value.
+     *
+     * @param $status
+     *
+     * @return \Kris\LaravelFormBuilder\Fields\FormField
+     */
+    public function setFiltersOverride($status)
+    {
+        $this->filtersOverride = $status;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getFiltersOverride()
+    {
+        return $this->filtersOverride;
     }
 }

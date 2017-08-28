@@ -1286,6 +1286,7 @@ class Form
             // Init required vars.
             $filters = $this->getFilters();
             $request = $this->getRequest();
+
             if (!empty($filters)) {
                 foreach ($filters as $field => $fieldFilters) {
                     // If field exist in request object, try to mutate/filter
@@ -1298,8 +1299,9 @@ class Form
                     }
                 }
             }
-
         }
+
+        return $this;
     }
 
     /**
@@ -1310,7 +1312,7 @@ class Form
     public function getFilters()
     {
         $filters = [];
-        foreach ($this->fields as $field) {
+        foreach ($this->getFields() as $field) {
             $filters[$field->getName()] = $field->getFilters();
         }
 
@@ -1326,6 +1328,17 @@ class Form
     public function lockFiltering()
     {
         $this->lockFiltering = true;
+        return $this;
+    }
+
+    /**
+     * Unlock fields filtering/mutating.
+     *
+     * @return \Kris\LaravelFormBuilder\Form
+     */
+    public function unlockFiltering()
+    {
+        $this->lockFiltering = false;
         return $this;
     }
 

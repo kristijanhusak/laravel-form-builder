@@ -26,24 +26,20 @@ class FilterResolver
      */
     public static function instance($filter)
     {
-        if (is_string($filter)) {
-            if (class_exists($filter)) {
-                $filter = new $filter();
-                self::validateFilterInstance($filter);
-            } elseif ($filter = FilterResolver::resolveFromCollection($filter)) {
-                self::validateFilterInstance($filter);
-            } else {
-                $ex = new UnableToResolveFilterException();
-                throw $ex;
-            }
-        } elseif (self::validateFilterInstance($filter)) {
-            return $filter;
-        } else {
-            $ex = new UnableToResolveFilterException();
-            throw $ex;
+        if (!is_string($filter)) {
+            return self::validateFilterInstance($filter);
         }
 
-        return $filter;
+        if (class_exists($filter)) {
+            return self::validateFilterInstance(new $filter());
+        }
+
+        if ($filter = FilterResolver::resolveFromCollection($filter)) {
+            return self::validateFilterInstance($filter);
+        }
+
+        $ex = new UnableToResolveFilterException();
+        throw $ex;
     }
 
     /**
@@ -59,11 +55,13 @@ class FilterResolver
             $ex = new InvalidInstanceException();
             throw $ex;
         }
-        return true;
+
+        return $filter;
     }
 
     /**
      * @param  $filterName
+     *
      * @return FilterInterface|null
      */
     public static function resolveFromCollection($filterName)
