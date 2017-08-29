@@ -20,9 +20,9 @@ class StringToUpper implements FilterInterface
     /**
      * StringToUpper constructor.
      *
-     * @param null $options
+     * @param array $options
      */
-    public function __construct($options = null)
+    public function __construct($options = [])
     {
         if (!array_key_exists('encoding', $options) && function_exists('mb_internal_encoding')) {
             $options['encoding'] = mb_internal_encoding();
