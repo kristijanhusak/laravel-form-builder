@@ -5,24 +5,26 @@ namespace Kris\LaravelFormBuilder\Filters\Collection;
 use Kris\LaravelFormBuilder\Filters\FilterInterface;
 
 /**
- * Class StringTrim
+ * Class StringToLower
  *
  * @package Kris\LaravelFormBuilder\Filters\Collection
  * @author  Djordje Stojiljkovic <djordjestojilljkovic@gmail.com>
  */
-class StringToUpper implements FilterInterface
+class StringToLower implements FilterInterface
 {
     /**
+     * Encoding for string input.
+     *
      * @var string $encoding
      */
     protected $encoding = null;
 
     /**
-     * StringToUpper constructor.
+     * StringToLower constructor.
      *
-     * @param null $options
+     * @param array $options
      */
-    public function __construct($options = null)
+    public function __construct(array $options = [])
     {
         if (!array_key_exists('encoding', $options) && function_exists('mb_internal_encoding')) {
             $options['encoding'] = mb_internal_encoding();
@@ -34,16 +36,26 @@ class StringToUpper implements FilterInterface
     }
 
     /**
+     * Returns current encoding.
+     *
+     * @return string
+     */
+    public function getEncoding()
+    {
+        return $this->encoding;
+    }
+
+    /**
      * @param null $encoding
      *
-     * @return \Kris\LaravelFormBuilder\Filters\Collection\StringToUpper
+     * @return \Kris\LaravelFormBuilder\Filters\Collection\StringToLower
      *
      * @throws \Exception
      */
-    public function setEncoding($encoding)
+    public function setEncoding($encoding = null)
     {
         if ($encoding !== null) {
-            if (!function_exists('mb_strtoupper')) {
+            if (!function_exists('mb_strtolower')) {
                 $ex = new \Exception('mbstring extension is required for value mutating.');
                 throw $ex;
             }
@@ -60,27 +72,21 @@ class StringToUpper implements FilterInterface
     }
 
     /**
-     * @return string
-     */
-    public function getEncoding()
-    {
-        return $this->encoding;
-    }
-
-    /**
-     * @param  mixed  $value
-     * @param  array  $options
+     * Returns the string lowercased $value.
      *
-     * @return string
+     * @param  mixed $value
+     * @param  array $options
+     *
+     * @return mixed
      */
     public function filter($value, $options = [])
     {
         $value = (string) $value;
-        if ($this->getEncoding()) {
-            return mb_strtoupper($value, $this->getEncoding());
+        if ($this->getEncoding() !== null) {
+            return mb_strtolower($value, $this->getEncoding());
         }
 
-        return strtoupper($value);
+        return strtolower($value);
     }
 
     /**
@@ -88,6 +94,6 @@ class StringToUpper implements FilterInterface
      */
     public function getName()
     {
-        return 'StringToUpper';
+        return 'StringToLower';
     }
 }
