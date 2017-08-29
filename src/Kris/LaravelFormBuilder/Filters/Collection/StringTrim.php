@@ -24,9 +24,9 @@ class StringTrim implements FilterInterface
     /**
      * StringTrim constructor.
      *
-     * @param null $options
+     * @param array $options
      */
-    public function __construct($options = null)
+    public function __construct($options = [])
     {
         if (array_key_exists('charlist', $options)) {
             $this->setCharList($options['charlist']);

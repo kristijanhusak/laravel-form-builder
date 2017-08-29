@@ -35,9 +35,9 @@ class StripTags implements FilterInterface
     /**
      * StripTags constructor.
      *
-     * @param null $options
+     * @param array $options
      */
-    public function __construct($options = null)
+    public function __construct($options = [])
     {
         if (array_key_exists('allowedTags', $options)) {
             $this->setAllowedTags($options['allowedTags']);

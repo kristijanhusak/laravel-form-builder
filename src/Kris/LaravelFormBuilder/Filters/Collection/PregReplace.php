@@ -29,9 +29,9 @@ class PregReplace implements FilterInterface
     /**
      * PregReplace constructor.
      *
-     * @param null $options
+     * @param array $options
      */
-    public function __construct($options = null)
+    public function __construct($options = [])
     {
         if (array_key_exists('pattern', $options)) {
             $this->setPattern($options['pattern']);
