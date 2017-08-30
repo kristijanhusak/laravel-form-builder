@@ -5,12 +5,12 @@ namespace Kris\LaravelFormBuilder\Filters\Collection;
 use Kris\LaravelFormBuilder\Filters\FilterInterface;
 
 /**
- * Class StringTrim
+ * Class Uppercase
  *
  * @package Kris\LaravelFormBuilder\Filters\Collection
  * @author  Djordje Stojiljkovic <djordjestojilljkovic@gmail.com>
  */
-class StringToUpper implements FilterInterface
+class Uppercase implements FilterInterface
 {
     /**
      * @var string $encoding
@@ -36,7 +36,7 @@ class StringToUpper implements FilterInterface
     /**
      * @param null $encoding
      *
-     * @return \Kris\LaravelFormBuilder\Filters\Collection\StringToUpper
+     * @return \Kris\LaravelFormBuilder\Filters\Collection\Uppercase
      *
      * @throws \Exception
      */
@@ -88,6 +88,6 @@ class StringToUpper implements FilterInterface
      */
     public function getName()
     {
-        return 'StringToUpper';
+        return 'Uppercase';
     }
 }

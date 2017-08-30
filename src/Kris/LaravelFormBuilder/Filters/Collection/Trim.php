@@ -5,12 +5,12 @@ namespace Kris\LaravelFormBuilder\Filters\Collection;
 use Kris\LaravelFormBuilder\Filters\FilterInterface;
 
 /**
- * Class StringTrim
+ * Class Trim
  *
  * @package Kris\LaravelFormBuilder\Filters\Collection
  * @author  Djordje Stojiljkovic <djordjestojilljkovic@gmail.com>
  */
-class StringTrim implements FilterInterface
+class Trim implements FilterInterface
 {
     /**
      * List of characters provided to the trim() function
@@ -22,7 +22,7 @@ class StringTrim implements FilterInterface
     protected $charList;
 
     /**
-     * StringTrim constructor.
+     * Trim constructor.
      *
      * @param array $options
      */
@@ -36,7 +36,7 @@ class StringTrim implements FilterInterface
     /**
      * @param  $charList
      *
-     * @return \Kris\LaravelFormBuilder\Filters\Collection\StringTrim
+     * @return \Kris\LaravelFormBuilder\Filters\Collection\Trim
      */
     public function setCharList($charList)
     {
@@ -79,8 +79,8 @@ class StringTrim implements FilterInterface
     protected function trimUnicode($value, $charList = '\\\\s')
     {
         $chars = preg_replace(
-            array( '/[\^\-\]\\\]/S', '/\\\{4}/S', '/\//'),
-            array( '\\\\\\0', '\\', '\/' ),
+            ['/[\^\-\]\\\]/S', '/\\\{4}/S', '/\//'],
+            ['\\\\\\0', '\\', '\/' ],
             $charList
         );
 
@@ -93,6 +93,6 @@ class StringTrim implements FilterInterface
      */
     public function getName()
     {
-        return 'StringTrim';
+        return 'Trim';
     }
 }

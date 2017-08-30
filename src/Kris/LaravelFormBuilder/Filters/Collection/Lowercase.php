@@ -5,12 +5,12 @@ namespace Kris\LaravelFormBuilder\Filters\Collection;
 use Kris\LaravelFormBuilder\Filters\FilterInterface;
 
 /**
- * Class StringToLower
+ * Class Lowercase
  *
  * @package Kris\LaravelFormBuilder\Filters\Collection
  * @author  Djordje Stojiljkovic <djordjestojilljkovic@gmail.com>
  */
-class StringToLower implements FilterInterface
+class Lowercase implements FilterInterface
 {
     /**
      * Encoding for string input.
@@ -48,7 +48,7 @@ class StringToLower implements FilterInterface
     /**
      * @param null $encoding
      *
-     * @return \Kris\LaravelFormBuilder\Filters\Collection\StringToLower
+     * @return \Kris\LaravelFormBuilder\Filters\Collection\Lowercase
      *
      * @throws \Exception
      */
@@ -94,6 +94,6 @@ class StringToLower implements FilterInterface
      */
     public function getName()
     {
-        return 'StringToLower';
+        return 'Lowercase';
     }
 }

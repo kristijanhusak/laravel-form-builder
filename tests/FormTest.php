@@ -1072,20 +1072,20 @@ class FormTest extends FormBuilderTestCase
         $customPlainForm = $this->formBuilder->plain();
         $customPlainForm
             ->add('test_field', 'text', [
-                'filters' => ['StringTrim', 'StringToUpper']
+                'filters' => ['Trim', 'Uppercase']
             ])
             ->add('test_field2', 'text', [
-                'filters' => ['StringToUpper']
+                'filters' => ['Uppercase']
             ])
         ;
 
         $expected = [
             'test_field' => [
-                'StringTrim'    => new \Kris\LaravelFormBuilder\Filters\Collection\StringTrim(),
-                'StringToUpper' => new \Kris\LaravelFormBuilder\Filters\Collection\StringToUpper()
+                'Trim'    => new \Kris\LaravelFormBuilder\Filters\Collection\Trim(),
+                'Uppercase' => new \Kris\LaravelFormBuilder\Filters\Collection\Uppercase()
             ],
             'test_field2' => [
-                'StringToUpper' => new \Kris\LaravelFormBuilder\Filters\Collection\StringToUpper()
+                'Uppercase' => new \Kris\LaravelFormBuilder\Filters\Collection\Uppercase()
             ]
         ];
 
@@ -1104,7 +1104,7 @@ class FormTest extends FormBuilderTestCase
 
         $customPlainForm = $this->formBuilder->plain();
         $customPlainForm->add('test_field', 'text', [
-            'filters' => ['StringTrim', 'StringToUpper']
+            'filters' => ['Trim', 'Uppercase']
         ]);
         $customPlainForm->filterFields();
 

@@ -16,7 +16,6 @@ use Kris\LaravelFormBuilder\Filters\FilterResolver;
 
 class Form
 {
-
     /**
      * All fields that are added.
      *
@@ -1292,6 +1291,8 @@ class Form
                     // If field exist in request object, try to mutate/filter
                     // it to filtered value if there is one.
                     if (array_key_exists($field, $request->all())) {
+                        // Assign current Raw/Unmutated value from request.
+                        $this->fields[$field]->setRawValue($request[$field]);
                         foreach ($fieldFilters as $filter) {
                             $filterObj = FilterResolver::instance($filter);
                             $request[$field] = $filterObj->filter($request[$field]);
@@ -1351,5 +1352,20 @@ class Form
     public function isFilteringLocked()
     {
         return !$this->lockFiltering ? false : true;
+    }
+
+    /**
+     * Method getRawValues returns Unfiltered/Unmutated fields -> values.
+     *
+     * @return array
+     */
+    public function getRawValues()
+    {
+        $rawValues = [];
+        foreach ($this->getFields() as $field) {
+            $rawValues[$field->getName()] = $field->getRawValue();
+        }
+
+        return $rawValues;
     }
 }

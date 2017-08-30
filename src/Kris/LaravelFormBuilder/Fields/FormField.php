@@ -92,6 +92,13 @@ abstract class FormField
     protected $filters = [];
 
     /**
+     * Raw/unfiltered field value.
+     *
+     * @var mixed $rawValues
+     */
+    protected $rawValue;
+
+    /**
      * Override filters with same alias/name for field.
      *
      * @var bool
@@ -868,5 +875,29 @@ abstract class FormField
     public function getFiltersOverride()
     {
         return $this->filtersOverride;
+    }
+
+    /**
+     * Method used to set Unfiltered/Unmutated field value.
+     * Method is called before field value mutating starts - request value filtering.
+     *
+     * @param mixed $value
+     *
+     * @return \Kris\LaravelFormBuilder\Fields\FormField
+     */
+    public function setRawValue($value)
+    {
+        $this->rawValue = $value;
+        return $this;
+    }
+
+    /**
+     * Returns unfiltered raw value of field.
+     *
+     * @return mixed
+     */
+    public function getRawValue()
+    {
+        return $this->rawValue;
     }
 }

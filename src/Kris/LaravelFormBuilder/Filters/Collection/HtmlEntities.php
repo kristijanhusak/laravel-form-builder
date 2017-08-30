@@ -167,14 +167,14 @@ class HtmlEntities implements FilterInterface
             $this->getDoubleQuote()
         );
 
-        if (strlen((string) $value) && !strlen($filtered)) {
+        if (strlen($value) && !strlen($filtered)) {
             if (!function_exists('iconv')) {
                 $ex = new \Exception('Encoding mismatch has resulted in htmlentities errors.');
                 throw $ex;
             }
 
             $enc      = $this->getEncoding();
-            $value    = iconv('', $enc . '//IGNORE', (string) $value);
+            $value    = iconv('', $enc . '//IGNORE', $value);
             $filtered = htmlentities($value, $this->getQuoteStyle(), $enc, $this->getDoubleQuote());
 
             if (!strlen($filtered)) {

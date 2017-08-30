@@ -1,6 +1,6 @@
 <?php
 
-use \Kris\LaravelFormBuilder\Filters\Collection\StringTrim;
+use \Kris\LaravelFormBuilder\Filters\Collection\Trim;
 
 class FilterResolverTest extends FormBuilderTestCase
 {
@@ -10,7 +10,7 @@ class FilterResolverTest extends FormBuilderTestCase
         $expected = \Kris\LaravelFormBuilder\Filters\FilterInterface::class;
         $resolver = $this->filtersResolver;
         $this->assertInstanceOf(
-            $expected, $resolver::instance('StringTrim')
+            $expected, $resolver::instance('Trim')
         );
     }
 
@@ -18,7 +18,7 @@ class FilterResolverTest extends FormBuilderTestCase
     public function it_resolve_object_based_filter()
     {
         $expected  = \Kris\LaravelFormBuilder\Filters\FilterInterface::class;
-        $filterObj = new StringTrim();
+        $filterObj = new Trim();
         $resolver  = $this->filtersResolver;
 
         $resolvedFilterObj = $resolver::instance($filterObj);

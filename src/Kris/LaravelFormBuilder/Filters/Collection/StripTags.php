@@ -115,7 +115,7 @@ class StripTags implements FilterInterface
     public function setAllowedAttributes($allowedAttribs)
     {
         if (!is_array($allowedAttribs)) {
-            $allowedAttribs = array($allowedAttribs);
+            $allowedAttribs = [$allowedAttribs];
         }
 
         // Store each attribute as allowed.
@@ -160,7 +160,7 @@ class StripTags implements FilterInterface
         $dataFiltered = '';
         // Parse the input data iteratively as regular pre-tag text followed by a
         // tag; either may be empty strings.
-        preg_match_all('/([^<]*)(<?[^>]*>?)/', (string) $value, $matches);
+        preg_match_all('/([^<]*)(<?[^>]*>?)/', $value, $matches);
 
         // Iterate over each set of matches
         foreach ($matches[1] as $index => $preTag) {

@@ -225,7 +225,7 @@ class FormFieldTest extends FormBuilderTestCase
     {
         $customPlainForm = $this->formBuilder->plain();
 
-        $filters = ['StringTrim', 'StringToUpper'];
+        $filters = ['Trim', 'Uppercase'];
         $customPlainForm->add('test_field', 'text', [
             'filters' => $filters
         ]);
@@ -259,18 +259,18 @@ class FormFieldTest extends FormBuilderTestCase
     {
         $customPlainForm = $this->formBuilder->plain();
         $customPlainForm->add('test_field', 'text', [
-            'filters' => ['StringTrim']
+            'filters' => ['Trim']
         ]);
 
         $testField = $customPlainForm->getField('test_field');
-        $testField->addFilter('StringTrim');
+        $testField->addFilter('Trim');
     }
 
     /** @test */
     public function it_overrides_already_existing_filter()
     {
         $customPlainForm = $this->formBuilder->plain();
-        $filter = 'StringTrim';
+        $filter = 'Trim';
         $customPlainForm->add('test_field', 'text', [
             'filters' => [$filter],
             'filters_override' => true
@@ -287,20 +287,20 @@ class FormFieldTest extends FormBuilderTestCase
     {
         $customPlainForm = $this->formBuilder->plain();
         $customPlainForm->add('test_field', 'text', [
-            'filters' => ['StringTrim', 'StringToUpper']
+            'filters' => ['Trim', 'Uppercase']
         ]);
 
         $testField = $customPlainForm->getField('test_field');
-        $testField->removeFilter('StringTrim');
+        $testField->removeFilter('Trim');
         $this->assertTrue(count($testField->getFilters()) == 1);
-        $this->assertArrayHasKey('StringToUpper', $testField->getFilters());
+        $this->assertArrayHasKey('Uppercase', $testField->getFilters());
     }
 
     /** @test */
     public function it_removes_multiple_filters()
     {
         $customPlainForm = $this->formBuilder->plain();
-        $filters = ['StringTrim', 'StringToUpper'];
+        $filters = ['Trim', 'Uppercase'];
         $customPlainForm->add('test_field', 'text', [
             'filters' => $filters
         ]);
@@ -315,7 +315,7 @@ class FormFieldTest extends FormBuilderTestCase
     {
         $customPlainForm = $this->formBuilder->plain();
         $customPlainForm->add('test_field', 'text', [
-            'filters' => ['StringTrim', 'StringToUpper']
+            'filters' => ['Trim', 'Uppercase']
         ]);
 
         $testField = $customPlainForm->getField('test_field');

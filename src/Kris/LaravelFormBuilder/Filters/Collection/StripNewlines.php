@@ -20,7 +20,7 @@ class StripNewlines implements FilterInterface
      */
     public function filter($value, $options = [])
     {
-        return str_replace(array("\n", "\r"), '', $value);
+        return str_replace(["\n", "\r"], '', $value);
     }
 
     /**
