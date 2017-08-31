@@ -66,6 +66,8 @@ class FormBuilder
 
         $this->eventDispatcher->fire(new AfterFormCreation($form));
 
+        $form->filterFields();
+
         return $form;
     }
 
@@ -86,6 +88,8 @@ class FormBuilder
         $this->buildFormByArray($form, $items);
 
         $this->eventDispatcher->fire(new AfterFormCreation($form));
+
+        $form->filterFields();
 
         return $form;
     }
@@ -168,6 +172,8 @@ class FormBuilder
         );
 
         $this->eventDispatcher->fire(new AfterFormCreation($form));
+
+        $form->filterFields();
 
         return $form;
     }

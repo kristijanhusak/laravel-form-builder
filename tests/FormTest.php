@@ -1054,4 +1054,60 @@ class FormTest extends FormBuilderTestCase
         $form->setFormHelper($helper);
         $form->renderForm();
     }
+
+    /** @test */
+    public function it_locks_filtering()
+    {
+        $customPlainForm = $this->formBuilder->plain();
+        $customPlainForm->lockFiltering();
+
+        $this->assertTrue(
+            $customPlainForm->isFilteringLocked()
+        );
+    }
+
+    /** @test */
+    public function it_returns_binded_field_filters()
+    {
+        $customPlainForm = $this->formBuilder->plain();
+        $customPlainForm
+            ->add('test_field', 'text', [
+                'filters' => ['Trim', 'Uppercase']
+            ])
+            ->add('test_field2', 'text', [
+                'filters' => ['Uppercase']
+            ])
+        ;
+
+        $expected = [
+            'test_field' => [
+                'Trim'    => new \Kris\LaravelFormBuilder\Filters\Collection\Trim(),
+                'Uppercase' => new \Kris\LaravelFormBuilder\Filters\Collection\Uppercase()
+            ],
+            'test_field2' => [
+                'Uppercase' => new \Kris\LaravelFormBuilder\Filters\Collection\Uppercase()
+            ]
+        ];
+
+        $bindedFields = $customPlainForm->getFilters();
+
+        $this->assertEquals(
+            $expected, $bindedFields
+        );
+    }
+
+    /** @test */
+    public function it_filter_and_mutate_fields_request_values()
+    {
+        $toMutateValue = ' test ';
+        $this->request['test_field'] = $toMutateValue;
+
+        $customPlainForm = $this->formBuilder->plain();
+        $customPlainForm->add('test_field', 'text', [
+            'filters' => ['Trim', 'Uppercase']
+        ]);
+        $customPlainForm->filterFields();
+
+        $this->assertEquals('TEST', $this->request['test_field']);
+    }
 }

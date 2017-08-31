@@ -219,4 +219,107 @@ class FormFieldTest extends FormBuilderTestCase
             $customPlainForm->custom->getOption('label')
         );
     }
+
+    /** @test */
+    public function it_initialize_all_defined_field_filters()
+    {
+        $customPlainForm = $this->formBuilder->plain();
+
+        $filters = ['Trim', 'Uppercase'];
+        $customPlainForm->add('test_field', 'text', [
+            'filters' => $filters
+        ]);
+
+        $testField = $customPlainForm->getField('test_field');
+
+        foreach ($filters as $filterName) {
+            $this->assertArrayHasKey($filterName, $testField->getFilters());
+        }
+    }
+
+    /** @test */
+    public function it_enables_overriding_existing_filters()
+    {
+        $customPlainForm = $this->formBuilder->plain();
+        $customPlainForm->add('test_field', 'text', [
+            'filters_override' => true
+        ]);
+
+        $testField = $customPlainForm->getField('test_field');
+        $this->assertTrue(
+            $testField->getFiltersOverride()
+        );
+    }
+
+    /**
+     * @test
+     * @expectedException \Kris\LaravelFormBuilder\Filters\Exception\FilterAlreadyBindedException
+     */
+    public function it_throws_an_exception_if_filters_override_is_false_but_passed_already_binded_filter()
+    {
+        $customPlainForm = $this->formBuilder->plain();
+        $customPlainForm->add('test_field', 'text', [
+            'filters' => ['Trim']
+        ]);
+
+        $testField = $customPlainForm->getField('test_field');
+        $testField->addFilter('Trim');
+    }
+
+    /** @test */
+    public function it_overrides_already_existing_filter()
+    {
+        $customPlainForm = $this->formBuilder->plain();
+        $filter = 'Trim';
+        $customPlainForm->add('test_field', 'text', [
+            'filters' => [$filter],
+            'filters_override' => true
+        ]);
+
+        // TODO: Find out for mocking object or stubing new with same alias/name but different implementation.
+        $testField = $customPlainForm->getField('test_field');
+        $testField->addFilter($filter);
+        $this->assertArrayHasKey($filter, $testField->getFilters());
+    }
+
+    /** @test */
+    public function it_removes_binded_filter()
+    {
+        $customPlainForm = $this->formBuilder->plain();
+        $customPlainForm->add('test_field', 'text', [
+            'filters' => ['Trim', 'Uppercase']
+        ]);
+
+        $testField = $customPlainForm->getField('test_field');
+        $testField->removeFilter('Trim');
+        $this->assertTrue(count($testField->getFilters()) == 1);
+        $this->assertArrayHasKey('Uppercase', $testField->getFilters());
+    }
+
+    /** @test */
+    public function it_removes_multiple_filters()
+    {
+        $customPlainForm = $this->formBuilder->plain();
+        $filters = ['Trim', 'Uppercase'];
+        $customPlainForm->add('test_field', 'text', [
+            'filters' => $filters
+        ]);
+
+        $testField = $customPlainForm->getField('test_field');
+        $testField->removeFilters($filters);
+        $this->assertEmpty($testField->getFilters());
+    }
+
+    /** @test */
+    public function it_clears_all_filters()
+    {
+        $customPlainForm = $this->formBuilder->plain();
+        $customPlainForm->add('test_field', 'text', [
+            'filters' => ['Trim', 'Uppercase']
+        ]);
+
+        $testField = $customPlainForm->getField('test_field');
+        $testField->clearFilters();
+        $this->assertEmpty($testField->getFilters());
+    }
 }
