@@ -21,6 +21,14 @@
     "extra": {
         "branch-alias": {
             "dev-master": "1.12.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Kris\\LaravelFormBuilder\\FormBuilderServiceProvider"
+            ],
+            "aliases": {
+                "FormBuilder": "Kris\\LaravelFormBuilder\\Facades\\FormBuilder"
+            }
         }
     },
     "autoload": {
