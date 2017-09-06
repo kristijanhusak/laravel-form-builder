@@ -1,8 +1,12 @@
 <?php
 
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Kris\LaravelFormBuilder\Events\AfterFormValidation;
+use Kris\LaravelFormBuilder\Events\BeforeFormValidation;
+use Kris\LaravelFormBuilder\Fields\InputType;
 use Kris\LaravelFormBuilder\Form;
 use Kris\LaravelFormBuilder\FormHelper;
-use Kris\LaravelFormBuilder\Fields\InputType;
+use Kris\LaravelFormBuilder\FormBuilder;
 
 class FormTest extends FormBuilderTestCase
 {
@@ -94,7 +98,29 @@ class FormTest extends FormBuilderTestCase
     }
 
     /** @test */
-    public function it_overrides_default_rules_and_messages()
+    public function it_alters_validity_and_adds_messages()
+    {
+        $customForm = $this->formBuilder->create('CustomNesterDummyForm');
+
+        $this->request['subcustom'] = ['title' => "don't fail on this"];
+
+        $isValid = $customForm->isValid();
+        $this->assertTrue($isValid);
+
+        $this->request['subcustom'] = ['title' => 'fail on this'];
+
+        $isValid = $customForm->isValid();
+        $this->assertFalse($isValid);
+
+        $errors = $customForm->getErrors();
+        $this->assertEquals(
+            ['subcustom.title' => ['Error on title!']],
+            $errors
+        );
+    }
+
+    /** @test */
+    public function it_can_automatically_redirect_back_when_failing_verification()
     {
         $this->plainForm
             ->add('name', 'text', [
@@ -104,10 +130,101 @@ class FormTest extends FormBuilderTestCase
                 'rules' => 'max:10'
             ]);
 
+        $this->request['description'] = 'some long description';
+
+        try {
+            $this->plainForm->redirectIfNotValid();
+            $this->fail('Expected an HttpResponseException, but was allowed to continue');
+        } catch (HttpResponseException $e) {
+            $response = $e->getResponse();
+            $this->assertNotNull($response);
+
+            // It should be a redirect
+            $this->assertEquals(302, $response->status());
+
+            // It should go "back" to the root, which is the fallback when no referer is given
+            $this->assertEquals('http://localhost', $response->getTargetUrl());
+
+            // It should contain the old input
+            $this->assertEquals('some long description', $response->getSession()->getOldInput('description'));
+
+            // It should contain an error
+            $this->assertNotEmpty($response->getSession()->get('errors'));
+            $errorBag = $response->getSession()->get('errors');
+            $this->assertTrue($errorBag->has('description'));
+            $this->assertTrue($errorBag->has('name'));
+            $this->assertEquals('The Description may not be greater than 10 characters.', $errorBag->first('description'));
+        }
+    }
+
+    /** @test */
+    public function it_can_automatically_redirect_to_a_specified_destination_when_failing_verification()
+    {
+        $this->plainForm
+            ->add('name', 'text', [
+                'rules' => 'required|min:5'
+            ])
+            ->add('description', 'textarea', [
+                'rules' => 'max:10'
+            ]);
+
+        $this->request['description'] = 'some long description';
+
+        try {
+            $this->plainForm->redirectIfNotValid('my-custom-destination');
+            $this->fail('Expected an HttpResponseException, but was allowed to continue');
+        } catch (HttpResponseException $e) {
+            $response = $e->getResponse();
+            $this->assertNotNull($response);
+
+            // It should be a redirect
+            $this->assertEquals(302, $response->status());
+
+            // It should go to 'my-custom-destination'
+            $this->assertEquals('http://localhost/my-custom-destination', $response->getTargetUrl());
+
+            // It should contain the old input
+            $this->assertEquals('some long description', $response->getSession()->getOldInput('description'));
+
+            // It should contain an error
+            $this->assertNotEmpty($response->getSession()->get('errors'));
+            $errorBag = $response->getSession()->get('errors');
+            $this->assertTrue($errorBag->has('description'));
+            $this->assertTrue($errorBag->has('name'));
+            $this->assertEquals('The Description may not be greater than 10 characters.', $errorBag->first('description'));
+        }
+    }
+
+    /** @test */
+    public function it_overrides_default_rules_and_messages()
+    {
+        $this->plainForm
+            ->add('name', 'text', [
+                'rules' => 'required|min:5'
+            ])
+            ->add('age', 'text', [
+                'rules' => 'required',
+                'error_messages' => [
+                    'age.required' => 'The age field is a must.'
+                ]
+            ])
+            ->add('email', 'email', [
+                'rules' => 'required|email',
+                'error_messages' => [
+                    'email.email' => 'The email is needed and this will not be shown.'
+                ]
+            ])
+            ->add('description', 'textarea', [
+                'rules' => 'max:10'
+            ]);
+
         $this->request['name'] = 'name';
         $this->request['description'] = 'some long description';
+        $this->request['email'] = 'invalidemail';
+
         $validate = $this->plainForm->validate(['name' => 'numeric'], [
-            'name.numeric' => 'Name field must be numeric.'
+            'name.numeric' => 'Name field must be numeric.',
+            'email.email' => 'The email is very required.'
         ]);
 
         $isValid = $this->plainForm->isValid();
@@ -116,7 +233,43 @@ class FormTest extends FormBuilderTestCase
 
         $errors = [
             'name' => ['Name field must be numeric.'],
-            'description' => ['The Description may not be greater than 10 characters.']
+            'description' => ['The Description may not be greater than 10 characters.'],
+            'age' => ['The age field is a must.'],
+            'email' => ['The email is very required.']
+        ];
+
+        $this->assertEquals($errors, $this->plainForm->getErrors());
+    }
+
+    /** @test */
+    public function it_uses_error_messages_from_fields()
+    {
+        $childForm = $this->formBuilder->plain();
+        $childForm->add('street', 'text', [
+            'rules' => 'required|min:5',
+            'error_messages' => [
+                'street.min' => 'Street needs to have 5 letters.'
+            ]
+        ]);
+
+        $this->plainForm
+            ->add('name', 'text', [
+                'rules' => 'required|min:5',
+                'error_messages' => [
+                    'name.required' => 'Please provide your name.'
+                ]
+            ])
+            ->add('address', 'form', [
+                'class' => $childForm
+            ]);
+
+        $this->request['address'] = ['street' => 'ab'];
+
+        $this->assertFalse($this->plainForm->isValid());
+
+        $errors = [
+            'name' => ['Please provide your name.'],
+            'address.street' => ['Street needs to have 5 letters.']
         ];
 
         $this->assertEquals($errors, $this->plainForm->getErrors());
@@ -138,6 +291,76 @@ class FormTest extends FormBuilderTestCase
 
         $this->request['description'] = 'some long description';
         $this->plainForm->getErrors();
+    }
+
+    /** @test */
+    public function it_returns_field_values()
+    {
+        $this->plainForm
+            ->add('name', 'text', [
+                'rules' => ['required', 'min:20', 'max:255'],
+            ])
+            ->add('description[text]', 'textarea')
+            ->add('address', 'form', [
+                'class' => $this->formBuilder->plain()
+                    ->add('street[name]', 'text', ['rules' => 'required']),
+            ])
+            ->add('user[address]', 'form', [
+                'class' => $this->formBuilder->plain()
+                    ->add('street', 'text', ['rules' => 'required'])
+                    ->add('number', 'number'),
+            ]);
+
+        // Should return all fields, including nested, no matter validation rules
+        $this->assertEquals(
+            ['name', 'description.text', 'address.street.name', 'user.address.street', 'user.address.number'],
+            $this->plainForm->getAllAttributes()
+        );
+
+        $this->request['status'] = 1;
+        $this->request['role'] = 'admin';
+        $this->request['name'] = 'Foo';
+        $this->request['description'] = ['text' => 'Foo Bar'];
+        $this->request['address'] = ['street' => ['id' => 1000, 'name' => 'Street 1']];
+        $this->request['user'] = ['id' => 1000, 'address' => ['street' => 'Street 2']]; // Missing optional 'number'
+
+        $check_values = [
+            'name' => 'Foo',
+            'description' => ['text' => 'Foo Bar'],
+            'address' => ['street' => ['name' => 'Street 1']],
+            'user' => ['address' => ['street' => 'Street 2']],
+        ];
+
+        // Ignore unknown data, skip missing input
+        $this->assertEquals(
+            $check_values,
+            $this->plainForm->getFieldValues(false)
+        );
+
+        // Ignore unknown data, add NIL for missing input
+        $check_values['user']['address']['number'] = null;
+        $this->assertEquals(
+            $check_values,
+            $this->plainForm->getFieldValues()
+        );
+    }
+
+    /** @test */
+    public function it_returns_altered_field_values()
+    {
+        $customForm = $this->formBuilder->create('CustomNesterDummyForm');
+
+        $this->request['name'] = 'lower case';
+        $this->request['subcustom'] = ['title' => 'Bar foo', 'body' => 'Foo bar'];
+
+        $this->assertEquals(
+            [
+                'name' => 'LOWER CASE',
+                'options' => ['x'],
+                'subcustom' => ['title' => 'Bar foo', 'body' => 'Foo bar'],
+            ],
+            $customForm->getFieldValues()
+        );
     }
 
     /** @test */
@@ -287,17 +510,6 @@ class FormTest extends FormBuilderTestCase
      * @test
      * @expectedException \InvalidArgumentException
      */
-    public function it_throws_exception_when_removing_nonexisting_field()
-    {
-        $this->plainForm->add('name', 'text');
-
-        $this->plainForm->remove('nonexisting');
-    }
-
-    /**
-     * @test
-     * @expectedException \InvalidArgumentException
-     */
      public function it_throws_exception_when_rendering_until_nonexisting_field()
      {
         $this->plainForm
@@ -315,6 +527,15 @@ class FormTest extends FormBuilderTestCase
     public function it_prevents_adding_fields_with_same_name()
     {
         $this->plainForm->add('name', 'text')->add('name', 'textarea');
+    }
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
+    public function it_throws_exception_if_field_name_is_reserved()
+    {
+        $this->plainForm->add('save', 'submit');
     }
 
     /** @test */
@@ -469,12 +690,19 @@ class FormTest extends FormBuilderTestCase
     {
         $form = $this->formBuilder->plain();
         $customForm = $this->formBuilder->create('CustomDummyForm');
-        $customForm->add('img', 'file');
+        $customForm->add('img', 'file')->add('name', 'text', ['label_show' => false]);
         $model = ['song' => ['body' => 'test body'], 'title' => 'main title'];
         $form->setModel($model);
 
         $form
-            ->add('title', 'text')
+            ->add('title', 'text', [
+                'label_attr' => [
+                    'for' => 'custom_title'
+                ],
+                'attr' => [
+                    'id' => 'custom_title'
+                ]
+            ])
             ->add('song', 'form', [
                 'class' => $customForm
             ])
@@ -492,11 +720,14 @@ class FormTest extends FormBuilderTestCase
 
         $this->assertEquals($form, $form->title->getParent());
 
-        $form->renderForm();
+        $view = $form->renderForm();
 
         $this->assertEquals('songs[1]', $customForm->getName());
 
         $this->assertEquals('song[title]', $form->song->getChild('title')->getName());
+        $this->assertEquals('custom_title', $form->title->getOption('attr.id'));
+        $this->assertEquals('custom_title', $form->title->getOption('label_attr.for'));
+        $this->assertFalse($form->song->name->getOption('label_show'));
         $this->assertCount(2, $form->songs->getChildren());
         $this->assertEquals('lorem', $form->songs->getChild(0)->title->getOption('value'));
         $this->assertEquals('test body', $form->song->body->getOption('value'));
@@ -506,6 +737,10 @@ class FormTest extends FormBuilderTestCase
             $form->song->getForm()
         );
 
+        $this->assertNotRegExp('/label.*for="name"/', $view);
+        $this->assertRegExp('/label.*for="custom_title"/', $view);
+        $this->assertRegExp('/input.*id="custom_title"/', $view);
+
         $this->assertTrue($form->song->getFormOption('files'));
 
         try {
@@ -514,6 +749,44 @@ class FormTest extends FormBuilderTestCase
             return;
         }
         $this->fail('No exception on bad method call on child form.');
+    }
+
+    /** @test */
+    public function it_reads_configuration_properly()
+    {
+        $config = $this->config;
+        $config['defaults']['textarea'] = ['field_class' => 'my-textarea-class'];
+        $formHelper = new FormHelper($this->view, $this->translator, $config);
+        $formBuilder = new FormBuilder($this->app, $formHelper, $this->eventDispatcher);
+
+        $form = $formBuilder->plain()
+            ->add('name', 'text')
+            ->add('desc', 'textarea');
+
+        $overridenClassForm = $formBuilder->plain()
+            ->add('name', 'text', ['attr' => ['class' => 'my-text-class']])
+            ->add('desc', 'textarea', ['attr' => ['class' => 'overwrite-textarea-class']]);
+
+        $formView = $form->renderForm();
+        $overridenView = $overridenClassForm->renderForm();
+
+        $this->assertRegExp('/textarea.*class="my-textarea-class"/', $formView);
+        $this->assertRegExp('/input.*class="form-control"/', $formView);
+
+        $this->assertRegExp('/textarea.*class="overwrite-textarea-class"/', $overridenView);
+        $this->assertRegExp('/input.*class="my-text-class"/', $overridenView);
+    }
+
+    /** @test */
+    public function it_works_when_setModel_method_is_called()
+    {
+        $customForm = $this->formBuilder->create('CustomDummyForm')->setModel([
+            'title' => 'john doe'
+        ]);
+
+        $customForm->renderForm();
+
+        $this->assertEquals('john doe', $customForm->title->getValue());
     }
 
     /** @test */
@@ -571,6 +844,19 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals('test_name[name]', $this->plainForm->getField('name')->getName());
         $this->assertEquals('test_name[address]', $this->plainForm->getField('address')->getName());
         $this->assertEquals($expectModel, $this->plainForm->getModel());
+    }
+
+    /** @test */
+    public function it_has_html_valid_element_names()
+    {
+        $this->plainForm
+            ->add('name[text]', 'text')
+            ->add('child[form]', 'form', [
+                'class' => $this->formBuilder->plain()->add('name[text]', 'text'),
+            ]);
+
+        $this->assertEquals('name[text]', $this->plainForm->getField('name[text]')->getName());
+        $this->assertEquals('child[form][name][text]', $this->plainForm->getField('child[form]')->getField('name[text]')->getName());
     }
 
     /** @test */
@@ -698,6 +984,34 @@ class FormTest extends FormBuilderTestCase
     }
 
     /** @test */
+    public function it_receives_validation_events()
+    {
+        $events = [];
+
+        $this->eventDispatcher->listen(BeforeFormValidation::class, function($event) use (&$events) {
+            $events[] = get_class($event);
+        });
+
+        $this->eventDispatcher->listen(AfterFormValidation::class, function($event) use (&$events) {
+            $events[] = get_class($event);
+        });
+
+        $this->plainForm->add('name', 'text', ['rules' => ['required', 'min:3']]);
+
+        $this->request['name'] = 'Foo Bar';
+
+        $this->plainForm->isValid();
+
+        $this->assertEquals(
+            [
+                'Kris\LaravelFormBuilder\Events\BeforeFormValidation',
+                'Kris\LaravelFormBuilder\Events\AfterFormValidation',
+            ],
+            $events
+        );
+    }
+
+    /** @test */
     public function it_has_a_template_prefix()
     {
         $form = $this->formBuilder->plain();
@@ -724,7 +1038,7 @@ class FormTest extends FormBuilderTestCase
         $viewStub->method('make')->willReturn($viewStub);
         $viewStub->method('with')->willReturn($viewStub);
 
-        $helper = new FormHelper($viewStub, $this->request, $this->config);
+        $helper = new FormHelper($viewStub, $this->translator, $this->config);
 
         $form = $this->formBuilder->plain();
         $form->setFormOptions([
@@ -739,5 +1053,61 @@ class FormTest extends FormBuilderTestCase
 
         $form->setFormHelper($helper);
         $form->renderForm();
+    }
+
+    /** @test */
+    public function it_locks_filtering()
+    {
+        $customPlainForm = $this->formBuilder->plain();
+        $customPlainForm->lockFiltering();
+
+        $this->assertTrue(
+            $customPlainForm->isFilteringLocked()
+        );
+    }
+
+    /** @test */
+    public function it_returns_binded_field_filters()
+    {
+        $customPlainForm = $this->formBuilder->plain();
+        $customPlainForm
+            ->add('test_field', 'text', [
+                'filters' => ['Trim', 'Uppercase']
+            ])
+            ->add('test_field2', 'text', [
+                'filters' => ['Uppercase']
+            ])
+        ;
+
+        $expected = [
+            'test_field' => [
+                'Trim'    => new \Kris\LaravelFormBuilder\Filters\Collection\Trim(),
+                'Uppercase' => new \Kris\LaravelFormBuilder\Filters\Collection\Uppercase()
+            ],
+            'test_field2' => [
+                'Uppercase' => new \Kris\LaravelFormBuilder\Filters\Collection\Uppercase()
+            ]
+        ];
+
+        $bindedFields = $customPlainForm->getFilters();
+
+        $this->assertEquals(
+            $expected, $bindedFields
+        );
+    }
+
+    /** @test */
+    public function it_filter_and_mutate_fields_request_values()
+    {
+        $toMutateValue = ' test ';
+        $this->request['test_field'] = $toMutateValue;
+
+        $customPlainForm = $this->formBuilder->plain();
+        $customPlainForm->add('test_field', 'text', [
+            'filters' => ['Trim', 'Uppercase']
+        ]);
+        $customPlainForm->filterFields();
+
+        $this->assertEquals('TEST', $this->request['test_field']);
     }
 }

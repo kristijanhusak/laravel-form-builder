@@ -1,3 +1,78 @@
+## 1.12.1
+- Fix issue #354
+
+## 1.12.0
+- Add `createByArray` to Form builder form building forms with simple array - #316 (Thanks to [@saeidraei](https://github.com/saeidraei))
+- Add ability to automatically validate form classes when they are instantiated by adding ValidatesWhenResolved trait - #345 (Thanks to [@mpociot](https://github.com/mpociot))
+- Allow configuring plain form class - #319 (Thanks to [@rudiedirkx](https://github.com/rudiedirkx))
+- Allow creating custom validation rules parser - #345 (Thanks to [@rudiedirkx](https://github.com/rudiedirkx))
+- Use primary key as default property_key for EntityType field - #334 (Thanks to Thanks to [@pimlie](https://github.com/pimlie))
+- Check if custom field already defined on rebuild form - #348 (Thanks to [@alamcordeiro](https://github.com/alamcordeiro))
+- Fix child models not being bound correctly in collection forms - #325 (Thanks to [@njbarrett](https://github.com/njbarrett))
+- Fix passing `choice_options` from view - #336 - (Thanks to Thanks to [@schursin](https://github.com/schursin))
+- Fix ButtonGroupType having wrong template - #344 (Thanks to [@jayjfletcher](https://github.com/jayjfletcher))
+- Fix CollectionType using request's `get()` instead of `input()` method - #346 (Thanks to [@unfalln](https://github.com/unfalln))
+
+## 1.10.0
+- Add `buttongroup` field type - #298 (Thanks to [@noxify](https://github.com/noxify))
+- Allow custom `id` and `for` attributes for a field - #285
+- Fix accessing fields from twig by adding `__isset` magic method - #301
+- Use custom Form macro for labels in views
+
+## 1.9.0
+- Bump minimum php version to 5.6 - #276 (Thanks to [@max-kovpak](https://github.com/max-kovpak))
+- Add support for Laravel 5.3 and fix EntityType lists method - #276 (Thanks to [@max-kovpak](https://github.com/max-kovpak))
+- Add `alterFieldValues` and `alterValid` methods to Form class - #272 (Thanks to [@rudiedirkx](https://github.com/rudiedirkx))
+- Fix collection type to use current request data if old input is not available - issue #268
+- Fix automatic class append functionality that was added in PR #220 - use `class_append` option instead.
+
+
+## 1.8.0
+- Add default classes per field - #220 (Thanks to @jvdlaar)
+- Set up ServiceProvider to be compatible with Laravel 5.3 - #236 (Thanks to @marcoraddatz)
+- Added `getFieldValues` method to form which returns all field values from request - #248 (Thanks to @rudiedirkx)
+- Added events after form and field creation/validation - #254 (Thanks to @rudiedirkx)
+- Allow nested field names without usage of any child fields - #251 (Thanks to @rudiedirkx)
+- Add `redirectIfNotValid` method to Form - #258 (Thanks to @koenvu)
+- Add `class_append` option for `label_attr`, `attr` and `wrapper` options which appends classes to the default ones - #257 (Thanks to @koenvu)
+- Add `form_rows` helper method, and pass `child_form` to view in ChildFormType, which contains internal Form instance - #262 (Thanks to @rudiedirkx)
+- Fix adding `required` class to label even without client validation enabled - #261 (Thanks to @koenvu)
+
+## 1.7.10
+- Fix bug where `error_messages` were not namespaced properly in child forms ([#225](https://github.com/kristijanhusak/laravel-form-builder/issues/225))
+- Add check for field name and forbid reserved words ([#232](https://github.com/kristijanhusak/laravel-form-builder/issues/232))
+- Use Symfony's `TranslatorInterface` instead of Laravel's Translator implementation([#231](https://github.com/kristijanhusak/laravel-form-builder/issues/231))
+
+## 1.7.0
+- Add check for nested translations (Thanks to [@paultela](https://github.com/paultela))
+- Add `label_show` property for field to allow hiding the label without setting it to false (Fixes issue with validation where error message requires label)
+- Add `error_messages` property for field to allow defining error messages in `buildForm`.
+
+## 1.6.50
+- Translate form field labels if translation exist, and add `language_name` option to Form class in order to allow translating fields from specifing file (Thanks to [@koenvu](https://github.com/koenvu))
+- Add required attribute if validation rules contains `required` option (Thanks to [@koenvu](https://github.com/koenvu))
+- Fix issue #211 - Multiple select name wrong in subform
+- Fix issue #212 - ChoiceType ignoring own validation rules
+- Fix issue #213 - required attribute applied even if client validation is disabled
+
+## 1.6.42
+- Fix issue #191 - clientValidationEnabled for child forms not working
+- Fix issue #202 - 'Field already exists' exception when using `compose()` method
+- Fix issue #204 - 'default_value' not handled properly for CheckableType
+- Fix issue #205 - Data not being passed properly to child form
+
+## 1.6.41
+- Fix LaravelCollective compatibility with older versions of Laravel (Thanks to [@marcoraddatz](https://github.com/marcoraddatz))
+- Do not throw exception when trying to remove non existing field - [#149](https://github.com/kristijanhusak/laravel-form-builder/issues/149) (Thanks to [@marcoraddatz](https://github.com/marcoraddatz))
+- Fix README to match php 5.5+ syntax (Thanks to [@marcoraddatz](https://github.com/marcoraddatz))
+
+## 1.6.40
+- Setup compatibility with Laravel 5.2 and LaravelCollective
+- Bump php requirement to version 5.5
+- Fix bug where different request was used in tests
+- Fix `setModel` method
+- Add some deprecation warnings
+
 ## 1.6.31
 - Add `template_prefix` option form form and fields (Thanks to [@koenvu](https://github.com/koenvu))
 - Add `empty_row` option for Collection type to remove initial empty row when there is no data for it

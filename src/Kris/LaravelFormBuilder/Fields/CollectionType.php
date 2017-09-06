@@ -1,11 +1,13 @@
-<?php  namespace Kris\LaravelFormBuilder\Fields;
+<?php
+
+namespace Kris\LaravelFormBuilder\Fields;
 
 use Illuminate\Support\Collection;
 
 class CollectionType extends ParentType
 {
     /**
-     * Contains template for a collection element
+     * Contains template for a collection element.
      *
      * @var FormField
      */
@@ -41,7 +43,7 @@ class CollectionType extends ParentType
     }
 
     /**
-     * Get the prototype object
+     * Get the prototype object.
      *
      * @return FormField
      * @throws \Exception
@@ -61,11 +63,21 @@ class CollectionType extends ParentType
     /**
      * @inheritdoc
      */
+    public function getAllAttributes()
+    {
+        // Collect all children's attributes.
+        return $this->parent->getFormHelper()->mergeAttributes($this->children);
+    }
+
+    /**
+     * @inheritdoc
+     */
     protected function createChildren()
     {
         $this->children = [];
         $type = $this->getOption('type');
         $oldInput = $this->parent->getRequest()->old($this->getNameKey());
+        $currentInput = $this->parent->getRequest()->input($this->getNameKey());
 
         try {
             $fieldType = $this->formHelper->getFieldType($type);
@@ -78,7 +90,13 @@ class CollectionType extends ParentType
 
         $data = $this->getOption($this->valueProperty, []);
 
-        // Needs to have more than 1 item because 1 is rendered by default
+        // If no value is provided, get values from current request.
+        if (count($data) === 0) {
+            $data = $currentInput;
+        }
+
+        // Needs to have more than 1 item because 1 is rendered by default.
+        // This overrides current request in situations when validation fails.
         if (count($oldInput) > 1) {
             $data = $oldInput;
         }
@@ -113,7 +131,7 @@ class CollectionType extends ParentType
     }
 
     /**
-     * Set up a single child element for a collection
+     * Set up a single child element for a collection.
      *
      * @param FormField $field
      * @param           $name
@@ -141,18 +159,21 @@ class CollectionType extends ParentType
 
         $field->setValue($value);
 
+
         return $field;
     }
 
     /**
-     * Generate prototype for regular form field
+     * Generate prototype for regular form field.
      *
      * @param FormField $field
+     * @return void
      */
     protected function generatePrototype(FormField $field)
     {
+        $value = $field instanceof ChildFormType ? false : null;
         $field->setOption('is_prototype', true);
-        $field = $this->setupChild($field, $this->getPrototypeName());
+        $field = $this->setupChild($field, $this->getPrototypeName(), $value);
 
         if ($field instanceof ChildFormType) {
             foreach ($field->getChildren() as $child) {
@@ -166,7 +187,7 @@ class CollectionType extends ParentType
     }
 
     /**
-     * Generate array like prototype name
+     * Generate array like prototype name.
      *
      * @return string
      */
@@ -176,8 +197,10 @@ class CollectionType extends ParentType
     }
 
     /**
-     * Prepare collection for prototype by adding prototype as child
+     * Prepare collection for prototype by adding prototype as child.
+     *
      * @param FormField $field
+     * @return void
      */
     public function preparePrototype(FormField $field)
     {

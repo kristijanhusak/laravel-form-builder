@@ -2,12 +2,12 @@
 
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Validation\Factory;
-use Illuminate\Contracts\Validation\Validator;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Kris\LaravelFormBuilder\FormHelper;
 use Kris\LaravelFormBuilder\Form;
 use Orchestra\Testbench\TestCase;
 use Illuminate\Database\Eloquent\Model;
+use Kris\LaravelFormBuilder\Filters\FilterResolver;
 
 class TestModel extends Model {
     protected $fillable = ['m', 'f'];
@@ -19,6 +19,11 @@ abstract class FormBuilderTestCase extends TestCase {
      * @var \Illuminate\View\Factory
      */
     protected $view;
+
+    /**
+     * @var \Illuminate\Translation\Translator
+     */
+    protected $translator;
 
     /**
      * @var \Illuminate\Http\Request
@@ -56,25 +61,39 @@ abstract class FormBuilderTestCase extends TestCase {
     protected $validatorFactory;
 
     /**
+     * @var EventDispatcher
+     */
+    protected $eventDispatcher;
+
+    /**
      * @var Form
      */
     protected $plainForm;
+
+    /**
+     * @var FilterResolver $filtersResolver
+     */
+    protected $filtersResolver;
 
     public function setUp()
     {
         parent::setUp();
 
         $this->view = $this->app['view'];
+        $this->translator = $this->app['translator'];
         $this->request = $this->app['request'];
-        $this->request->setSession($this->app['session.store']);
+        $this->request->setLaravelSession($this->app['session.store']);
         $this->validatorFactory = $this->app['validator'];
+        $this->eventDispatcher = $this->app['events'];
         $this->model = new TestModel();
         $this->config = include __DIR__.'/../src/config/config.php';
 
-        $this->formHelper = new FormHelper($this->view, $this->request, $this->config);
-        $this->formBuilder = new FormBuilder($this->app, $this->formHelper);
+        $this->formHelper = new FormHelper($this->view, $this->translator, $this->config);
+        $this->formBuilder = new FormBuilder($this->app, $this->formHelper, $this->eventDispatcher);
 
         $this->plainForm = $this->formBuilder->plain();
+
+        $this->filtersResolver = new FilterResolver();
     }
 
     public function tearDown()
@@ -87,6 +106,7 @@ abstract class FormBuilderTestCase extends TestCase {
         $this->formHelper = null;
         $this->formBuilder = null;
         $this->plainForm = null;
+        $this->filtersResolver = null;
     }
 
     protected function getDefaults($attr = [], $label = '', $defaultValue = null, $helpText = null)
@@ -100,12 +120,14 @@ abstract class FormBuilderTestCase extends TestCase {
             'value' => $defaultValue,
             'default_value' => null,
             'label' => $label,
+            'label_show' => true,
             'is_child' => false,
             'label_attr' => ['class' => 'control-label'],
             'errors' => ['class' => 'text-danger'],
             'wrapperAttrs' => 'class="form-group" ',
             'errorAttrs' => 'class="text-danger" ',
-            'rules' => []
+            'rules' => [],
+            'error_messages' => []
         ];
     }
 

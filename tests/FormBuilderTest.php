@@ -1,6 +1,9 @@
 <?php
+
 namespace {
 
+    use Kris\LaravelFormBuilder\Events\AfterFieldCreation;
+    use Kris\LaravelFormBuilder\Events\AfterFormCreation;
     use Kris\LaravelFormBuilder\Form;
     use Kris\LaravelFormBuilder\FormBuilder;
     use Kris\LaravelFormBuilder\FormHelper;
@@ -26,6 +29,25 @@ namespace {
         }
 
         /** @test */
+        public function it_creates_form_with_array_and_compares_it_with_created_form_by_class()
+        {
+            $form = $this->formBuilder->create(CustomDummyForm::class);
+            $arrayForm = $this->formBuilder->createByArray([
+                [
+                    'type' => 'text',
+                    'name' => 'title',
+                ],
+                [
+                    'type' => 'textarea',
+                    'name' => 'body',
+                ]
+            ]);
+
+            $this->assertEquals($form->getField('title')->getType(), $arrayForm->getField('title')->getType());
+            $this->assertEquals($form->getField('body')->getType(), $arrayForm->getField('body')->getType());
+        }
+
+        /** @test */
         public function it_creates_custom_form_and_sets_options_on_it()
         {
             $options = [
@@ -43,6 +65,41 @@ namespace {
             $this->assertInstanceOf('Kris\\LaravelFormBuilder\\Form', $customForm);
             $this->assertArrayHasKey('title', $customForm->getFields());
             $this->assertArrayHasKey('body', $customForm->getFields());
+        }
+
+        /** @test */
+        public function it_receives_creation_events()
+        {
+            $events = [];
+
+            $this->eventDispatcher->listen(AfterFormCreation::class, function($event) use (&$events) {
+                $events[] = get_class($event);
+            });
+
+            $this->eventDispatcher->listen(AfterFieldCreation::class, function($event) use (&$events) {
+                $events[] = get_class($event);
+            });
+
+            $form = $this->formBuilder->plain()
+                ->add('name', 'text', ['rules' => ['required', 'min:3']])
+                ->add('alias', 'text');
+
+            $form = $this->formBuilder->create('CustomDummyForm');
+
+            $this->assertEquals(
+                [
+                    // Plain: form first
+                    'Kris\LaravelFormBuilder\Events\AfterFormCreation',
+                    'Kris\LaravelFormBuilder\Events\AfterFieldCreation',
+                    'Kris\LaravelFormBuilder\Events\AfterFieldCreation',
+
+                    // Class: fields first
+                    'Kris\LaravelFormBuilder\Events\AfterFieldCreation',
+                    'Kris\LaravelFormBuilder\Events\AfterFieldCreation',
+                    'Kris\LaravelFormBuilder\Events\AfterFormCreation',
+                ],
+                $events
+            );
         }
 
         /**
@@ -95,8 +152,8 @@ namespace {
             $form =  new LaravelFormBuilderTest\Forms\NamespacedDummyForm();
             $config = $this->config;
             $config['default_namespace'] = 'LaravelFormBuilderTest\Forms';
-            $formHelper = new FormHelper($this->view, $this->request, $config);
-            $formBuilder = new FormBuilder($this->app, $formHelper);
+            $formHelper = new FormHelper($this->view, $this->translator, $config);
+            $formBuilder = new FormBuilder($this->app, $formHelper, $this->app['events']);
 
             $formBuilder->create('NamespacedDummyForm');
         }
@@ -109,6 +166,44 @@ namespace {
         {
             $this->add('title', 'text')
                 ->add('body', 'textarea');
+        }
+
+        public function alterValid(Form $mainForm, &$isValid)
+        {
+            $values = $this->getFieldValues();
+            if ($values['title'] === 'fail on this') {
+                $isValid = false;
+                return ['title' => ['Error on title!']];
+            }
+        }
+    }
+
+    class CustomNesterDummyForm extends Form
+    {
+        public function buildForm()
+        {
+            $this->add('name', 'text');
+
+            $this->add('options', 'choice', [
+                'choices' => ['a' => 'Aaa', 'b' => 'Bbb'],
+                'expanded' => TRUE,
+                'multiple' => TRUE,
+            ]);
+
+            $this->add('subcustom', 'form', [
+                'class' => CustomDummyForm::class,
+            ]);
+        }
+
+        public function alterFieldValues(array &$values)
+        {
+            if (isset($values['name'])) {
+                $values['name'] = strtoupper($values['name']);
+            }
+
+            if (empty($values['options'])) {
+                $values['options'] = ['x'];
+            }
         }
     }
 }

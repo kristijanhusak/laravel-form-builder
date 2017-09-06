@@ -95,9 +95,18 @@ class DummyModel {
 
     public function lists($val, $key)
     {
-        return $this->data->lists($val, $key);
+        if (method_exists($this->data, 'pluck')) {
+            return $this->data->pluck($val, $key);
+        } else {
+            return $this->data->lists($val, $key);
+        }
     }
 
+    public function getKeyName()
+    {
+        return 'id';
+    }
+    
     public function getData()
     {
         return $this->data;

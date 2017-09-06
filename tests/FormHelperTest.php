@@ -10,7 +10,6 @@ class FormHelperTest extends FormBuilderTestCase
     public function it_sets_constructor_dependencies_to_properties()
     {
         $this->assertEquals($this->view, $this->formHelper->getView());
-        $this->assertEquals($this->request, $this->formHelper->getRequest());
     }
 
     /** @test */
@@ -99,7 +98,7 @@ class FormHelperTest extends FormBuilderTestCase
 
         $config['custom_fields']['datetime'] = 'App\Forms\DatetimeType';
 
-        $formHelper = new FormHelper($this->view, $this->request, $config);
+        $formHelper = new FormHelper($this->view, $this->translator, $config);
 
         $this->assertEquals(
             'App\Forms\DatetimeType',
@@ -137,5 +136,23 @@ class FormHelperTest extends FormBuilderTestCase
         $this->assertEquals($data, $sameData);
         $this->assertEquals($data, $eloquentModel);
         $this->assertNull($this->formHelper->convertModelToArray([]));
+    }
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
+    public function it_throws_InvalidArgumentException_for_empty_field_name()
+    {
+        $this->formHelper->checkFieldName('', get_class($this));
+    }
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
+    public function it_throws_InvalidArgumentException_for_reserved_field_names()
+    {
+        $this->formHelper->checkFieldName('save', get_class($this));
     }
 }

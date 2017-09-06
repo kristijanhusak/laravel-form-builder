@@ -1,12 +1,14 @@
-<?php  namespace Kris\LaravelFormBuilder\Console;
+<?php
+
+namespace Kris\LaravelFormBuilder\Console;
 
 class FormGenerator
 {
 
     /**
-     * Get fields from options and create add methods from it
+     * Get fields from options and create add methods from it.
      *
-     * @param null $fields
+     * @param string|null $fields
      * @return string
      */
     public function getFieldsVariable($fields = null)
@@ -35,9 +37,9 @@ class FormGenerator
     }
 
     /**
-     * Parse fields from string
+     * Parse fields from string.
      *
-     * @param $fields
+     * @param string $fields
      * @return string
      */
     protected function parseFields($fields)
@@ -53,9 +55,9 @@ class FormGenerator
     }
 
     /**
-     * Prepare template for single add field
+     * Prepare template for single add field.
      *
-     * @param      $field
+     * @param string $field
      * @param bool $isLast
      * @return string
      */

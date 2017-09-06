@@ -1,10 +1,16 @@
-<?php  namespace Kris\LaravelFormBuilder;
+<?php
 
+namespace Kris\LaravelFormBuilder;
+
+use Illuminate\Contracts\Support\MessageBag;
 use Illuminate\Contracts\View\Factory as View;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Http\Request;
+use Illuminate\Translation\Translator;
 use Kris\LaravelFormBuilder\Fields\FormField;
+use Kris\LaravelFormBuilder\Form;
+use Kris\LaravelFormBuilder\RulesParser;
 
 class FormHelper
 {
@@ -15,19 +21,26 @@ class FormHelper
     protected $view;
 
     /**
+     * @var TranslatorInterface
+     */
+    protected $translator;
+
+    /**
      * @var array
      */
     protected $config;
 
     /**
-     * @var Request
-     */
-    protected $request;
-
-    /**
      * @var FormBuilder
      */
     protected $formBuilder;
+
+    /**
+     * @var array
+     */
+    protected static $reservedFieldNames = [
+        'save'
+    ];
 
     /**
      * All available field types
@@ -55,6 +68,7 @@ class FormHelper
         'select'         => 'SelectType',
         'textarea'       => 'TextareaType',
         'button'         => 'ButtonType',
+        'buttongroup'    => 'ButtonGroupType',
         'submit'         => 'ButtonType',
         'reset'          => 'ButtonType',
         'radio'          => 'CheckableType',
@@ -76,14 +90,14 @@ class FormHelper
 
     /**
      * @param View    $view
-     * @param Request $request
+     * @param Translator $translator
      * @param array   $config
      */
-    public function __construct(View $view, Request $request, array $config = [])
+    public function __construct(View $view, Translator $translator, array $config = [])
     {
         $this->view = $view;
+        $this->translator = $translator;
         $this->config = $config;
-        $this->request = $request;
         $this->loadCustomTypes();
     }
 
@@ -106,15 +120,7 @@ class FormHelper
     }
 
     /**
-     * @return Request
-     */
-    public function getRequest()
-    {
-        return $this->request;
-    }
-
-    /**
-     * Merge options array
+     * Merge options array.
      *
      * @param array $first
      * @param array $second
@@ -126,7 +132,7 @@ class FormHelper
     }
 
     /**
-     * Get proper class for field type
+     * Get proper class for field type.
      *
      * @param $type
      * @return string
@@ -139,7 +145,7 @@ class FormHelper
             throw new \InvalidArgumentException('Field type must be provided.');
         }
 
-        if (array_key_exists($type, $this->customTypes)) {
+        if ($this->hasCustomField($type)) {
             return $this->customTypes[$type];
         }
 
@@ -159,7 +165,7 @@ class FormHelper
     }
 
     /**
-     * Convert array of attributes to html attributes
+     * Convert array of attributes to html attributes.
      *
      * @param $options
      * @return string
@@ -183,14 +189,14 @@ class FormHelper
     }
 
     /**
-     * Add custom field
+     * Add custom field.
      *
      * @param $name
      * @param $class
      */
     public function addCustomField($name, $class)
     {
-        if (!array_key_exists($name, $this->customTypes)) {
+        if (!$this->hasCustomField($name)) {
             return $this->customTypes[$name] = $class;
         }
 
@@ -198,7 +204,7 @@ class FormHelper
     }
 
     /**
-     * Load custom field types from config file
+     * Load custom field types from config file.
      */
     private function loadCustomTypes()
     {
@@ -211,6 +217,20 @@ class FormHelper
         }
     }
 
+    /**
+     * Check if custom field with provided name exists
+     * @param string $name
+     * @return boolean
+     */
+    public function hasCustomField($name)
+    {
+        return array_key_exists($name, $this->customTypes);
+    }
+
+    /**
+     * @param object $model
+     * @return object|null
+     */
     public function convertModelToArray($model)
     {
         if (!$model) {
@@ -229,7 +249,7 @@ class FormHelper
     }
 
     /**
-     * Format the label to the proper format
+     * Format the label to the proper format.
      *
      * @param $name
      * @return string
@@ -240,7 +260,24 @@ class FormHelper
             return null;
         }
 
+        if ($this->translator->has($name)) {
+            $translatedName = $this->translator->get($name);
+
+            if (is_string($translatedName)) {
+                return $translatedName;
+            }
+        }
+
         return ucfirst(str_replace('_', ' ', $name));
+    }
+
+    /**
+     * @param FormField $field
+     * @return RulesParser
+     */
+    public function createRulesParser(FormField $field)
+    {
+        return new RulesParser($field);
     }
 
     /**
@@ -251,18 +288,101 @@ class FormHelper
     {
         $rules = [];
         $attributes = [];
+        $messages = [];
 
         foreach ($fields as $field) {
             if ($fieldRules = $field->getValidationRules()) {
                 $rules = array_merge($rules, $fieldRules['rules']);
                 $attributes = array_merge($attributes, $fieldRules['attributes']);
+                $messages = array_merge($messages, $fieldRules['error_messages']);
             }
         }
 
         return [
             'rules' => $rules,
-            'attributes' => $attributes
+            'attributes' => $attributes,
+            'error_messages' => $messages
         ];
+    }
+
+    /**
+     * @param array $fields
+     * @return array
+     */
+    public function mergeAttributes(array $fields)
+    {
+        $attributes = [];
+        foreach ($fields as $field) {
+            $attributes = array_merge($attributes, $field->getAllAttributes());
+        }
+
+        return $attributes;
+    }
+
+    /**
+     * Alter a form's values recursively according to its fields.
+     *
+     * @param  Form  $form
+     * @param  array $values
+     * @return void
+     */
+    public function alterFieldValues(Form $form, array &$values)
+    {
+        // Alter the form itself
+        $form->alterFieldValues($values);
+
+        // Alter the form's child forms recursively
+        foreach ($form->getFields() as $name => $field) {
+            if (method_exists($field, 'alterFieldValues')) {
+                $fullName = $this->transformToDotSyntax($name);
+
+                $subValues = Arr::get($values, $fullName);
+                $field->alterFieldValues($subValues);
+                Arr::set($values, $fullName, $subValues);
+            }
+        }
+    }
+
+    /**
+     * Alter a form's validity recursively, and add messages with nested form prefix.
+     *
+     * @return void
+     */
+    public function alterValid(Form $form, Form $mainForm, &$isValid)
+    {
+        // Alter the form itself
+        $messages = $form->alterValid($mainForm, $isValid);
+
+        // Add messages to the existing Bag
+        if ($messages) {
+            $messageBag = $mainForm->getValidator()->getMessageBag();
+            $this->appendMessagesWithPrefix($messageBag, $form->getName(), $messages);
+        }
+
+        // Alter the form's child forms recursively
+        foreach ($form->getFields() as $name => $field) {
+            if (method_exists($field, 'alterValid')) {
+                $field->alterValid($mainForm, $isValid);
+            }
+        }
+    }
+
+    /**
+     * Add unprefixed messages with prefix to a MessageBag.
+     *
+     * @return void
+     */
+    public function appendMessagesWithPrefix(MessageBag $messageBag, $prefix, array $keyedMessages)
+    {
+        foreach ($keyedMessages as $key => $messages) {
+            if ($prefix) {
+                $key = $this->transformToDotSyntax($prefix . '[' . $key . ']');
+            }
+
+            foreach ((array) $messages as $message) {
+                $messageBag->add($key, $message);
+            }
+        }
     }
 
     /**
@@ -272,5 +392,53 @@ class FormHelper
     public function transformToDotSyntax($string)
     {
         return str_replace(['.', '[]', '[', ']'], ['_', '', '.', ''], $string);
+    }
+
+    /**
+     * @param string $string
+     * @return string
+     */
+    public function transformToBracketSyntax($string)
+    {
+        $name = explode('.', $string);
+        if (count($name) == 1) {
+            return $name[0];
+        }
+
+        $first = array_shift($name);
+        return $first . '[' . implode('][', $name) . ']';
+    }
+
+    /**
+     * @return TranslatorInterface
+     */
+    public function getTranslator()
+    {
+        return $this->translator;
+    }
+
+    /**
+     * Check if field name is valid and not reserved.
+     *
+     * @throws \InvalidArgumentException
+     * @param string $name
+     * @param string $className
+     */
+    public function checkFieldName($name, $className)
+    {
+        if (!$name || trim($name) == '') {
+            throw new \InvalidArgumentException(
+                "Please provide valid field name for class [{$className}]"
+            );
+        }
+
+        if (in_array($name, static::$reservedFieldNames)) {
+            throw new \InvalidArgumentException(
+                "Field name [{$name}] in form [{$className}] is a reserved word. Please use a different field name." .
+                "\nList of all reserved words: " . join(', ', static::$reservedFieldNames)
+            );
+        }
+
+        return true;
     }
 }

@@ -1,4 +1,6 @@
-<?php namespace  Kris\LaravelFormBuilder\Fields;
+<?php
+
+namespace  Kris\LaravelFormBuilder\Fields;
 
 class CheckableType extends FormField
 {
@@ -26,5 +28,13 @@ class CheckableType extends FormField
             'value' => 1,
             'checked' => null
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function isValidValue($value)
+    {
+        return $value !== null;
     }
 }

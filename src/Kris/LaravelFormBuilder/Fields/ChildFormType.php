@@ -1,4 +1,6 @@
-<?php  namespace Kris\LaravelFormBuilder\Fields;
+<?php
+
+namespace Kris\LaravelFormBuilder\Fields;
 
 use Kris\LaravelFormBuilder\Form;
 
@@ -41,6 +43,38 @@ class ChildFormType extends ParentType
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getAllAttributes()
+    {
+        // Collect all children's attributes.
+        return $this->parent->getFormHelper()->mergeAttributes($this->children);
+    }
+
+    /**
+     * Allow form-specific value alters.
+     *
+     * @param  array $values
+     * @return void
+     */
+    public function alterFieldValues(array &$values)
+    {
+        $this->parent->getFormHelper()->alterFieldValues($this->form, $values);
+    }
+
+    /**
+     * Allow form-specific valid alters.
+     *
+     * @param  Form  $mainForm
+     * @param  bool  $isValid
+     * @return void
+     */
+    public function alterValid(Form $mainForm, &$isValid)
+    {
+        $this->parent->getFormHelper()->alterValid($this->form, $mainForm, $isValid);
+    }
+
+    /**
      * @return mixed|void
      */
     protected function createChildren()
@@ -51,7 +85,7 @@ class ChildFormType extends ParentType
             $this->parent->setFormOption('files', true);
         }
         $model = $this->getOption($this->valueProperty);
-        if ($model !== null) {
+        if ($this->isValidValue($model)) {
             foreach ($this->form->getFields() as $name => $field) {
                 $field->setValue($this->getModelValueAttribute($model, $name));
             }
@@ -80,11 +114,19 @@ class ChildFormType extends ParentType
 
         if (is_string($class)) {
             $options = [
-                'model' => $this->parent->getModel(),
+                'model' => $this->getOption($this->valueProperty) ?: $this->parent->getModel(),
                 'name' => $this->name,
-                'errors_enabled' => $this->parent->haveErrorsEnabled(),
-                'client_validation' => $this->parent->clientValidationEnabled()
+                'language_name' => $this->parent->getLanguageName()
             ];
+
+            if (!$this->parent->clientValidationEnabled()) {
+                $options['client_validation'] = false;
+            }
+
+            if (!$this->parent->haveErrorsEnabled()) {
+                $options['errors_enabled'] = false;
+            }
+
             $formOptions = array_merge($options, $this->getOption('formOptions'));
 
             $data = array_merge($this->parent->getData(), $this->getOption('data'));
@@ -100,8 +142,17 @@ class ChildFormType extends ParentType
                 $class->addData($this->parent->getData());
             }
 
-            $class->setErrorsEnabled($this->parent->haveErrorsEnabled());
-            $class->setClientValidationEnabled($this->parent->clientValidationEnabled());
+            if (!$class->getLanguageName()) {
+                $class->setLanguageName($this->parent->getLanguageName());
+            }
+
+            if (!$this->parent->clientValidationEnabled()) {
+                $class->setClientValidationEnabled(false);
+            }
+
+            if (!$this->parent->haveErrorsEnabled()) {
+                $class->setErrorsEnabled(false);
+            }
 
             return $class->setName($this->name);
         }
@@ -125,6 +176,15 @@ class ChildFormType extends ParentType
     }
 
     /**
+     * @inheritdoc
+     */
+    protected function getRenderData() {
+        $data = parent::getRenderData();
+        $data['child_form'] = $this->form;
+        return $data;
+    }
+
+    /**
      * @param $method
      * @param $arguments
      *
@@ -139,5 +199,15 @@ class ChildFormType extends ParentType
         throw new \BadMethodCallException(
             'Method ['.$method.'] does not exist on form ['.get_class($this->form).']'
         );
+    }
+
+    /**
+     * Check if provided value is valid for this type.
+     *
+     * @return bool
+     */
+    protected function isValidValue($value)
+    {
+        return $value !== null;
     }
 }
