@@ -298,11 +298,9 @@ abstract class FormField
             }
         }
 
-        if ($this->parent->clientValidationEnabled()) {
-            if ($parsedRules) {
-                $attrs = $this->getOption('attr') + $parsedRules;
-                $this->setOption('attr', $attrs);
-            }
+        if ($this->parent->clientValidationEnabled() && $parsedRules) {
+            $attrs = $this->getOption('attr') + $parsedRules;
+            $this->setOption('attr', $attrs);
         }
 
         $this->setOption('wrapperAttrs', $helper->prepareAttributes($this->getOption('wrapper')));
