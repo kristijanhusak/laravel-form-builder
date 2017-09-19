@@ -1,8 +1,6 @@
 <?php
 
 use Kris\LaravelFormBuilder\Fields\ChoiceType;
-use Kris\LaravelFormBuilder\Fields\SelectType;
-use Kris\LaravelFormBuilder\Form;
 
 class ChoiceTypeTest extends FormBuilderTestCase
 {
@@ -85,5 +83,27 @@ class ChoiceTypeTest extends FormBuilderTestCase
         $this->plainForm->renderForm();
 
         $this->assertEquals('users[]', $this->plainForm->users->getName());
+    }
+
+    /** @test */
+    public function it_can_override_choices()
+    {
+        $options = [
+            'choices' => ['yes' => 'Yes', 'no' => 'No'],
+            'selected' => 'test',
+            'data_override' => function ($choices, $field) {
+                $choices['test'] = 'test';
+
+                return $choices;
+            }
+        ];
+
+        $choice = new ChoiceType('some_choice', 'choice', $this->plainForm, $options);
+
+        $choice->render();
+
+        $this->assertEquals(3, count($choice->getOption('choices')));
+
+        $this->assertEquals('test', $choice->getOption('selected'));
     }
 }

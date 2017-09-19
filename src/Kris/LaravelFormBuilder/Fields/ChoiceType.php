@@ -69,6 +69,10 @@ class ChoiceType extends ParentType
      */
     protected function createChildren()
     {
+        if (($data_override = $this->getOption('data_override')) && $data_override instanceof \Closure) {
+            $this->options['choices'] = $data_override($this->options['choices'], $this);
+        }
+        
         $this->children = [];
         $this->determineChoiceField();
 
