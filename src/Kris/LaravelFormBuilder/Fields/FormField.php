@@ -644,6 +644,18 @@ abstract class FormField
     }
 
     /**
+     * Hidden field.
+     *
+     * @return $this
+     */
+    public function hidden()
+    {
+        $this->setOption('attr.style', 'display:none;');
+
+        return $this;
+    }
+
+    /**
      * Get validation rules for a field if any with label for attributes.
      *
      * @return array|null
