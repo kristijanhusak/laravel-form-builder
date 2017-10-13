@@ -1,3 +1,9 @@
+## 1.13.0
+- Add Laravel 5.5 support [#377](https://github.com/kristijanhusak/laravel-form-builder/pull/377) (Thanks to [@wuwx](https://github.com/wuwx))
+- Add field filters [#376](https://github.com/kristijanhusak/laravel-form-builder/pull/376) (Thanks to [@unckleg](https://github.com/unckleg))
+- Add `data_override` closure for choice type fields [#383](https://github.com/kristijanhusak/laravel-form-builder/pull/383) (Thanks to [@yemenifree](https://github.com/yemenifree))
+- Fix adding client validation attributes to non required fields [#379](https://github.com/kristijanhusak/laravel-form-builder/pull/379) (Thanks to [@koichirose](https://github.com/koichirose))
+
 ## 1.12.1
 - Fix issue #354
 
