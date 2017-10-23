@@ -43,7 +43,7 @@ class RulesParser
     public function parse($rules)
     {
         $attributes = array();
-        $rules = $rule = (is_string($rules)) ? explode('|', $rules) : $rules;
+        $rules = $rule = $this->getRulesAsArray($rules);
 
         foreach ($rules as $rule) {
             list($rule, $parameters) = $this->parseRule($rule);
@@ -583,5 +583,23 @@ class RulesParser
             return [$parameter];
         }
         return str_getcsv($parameter);
+    }
+
+    /**
+     * Parse field rules as array and initialize closure rules
+     *
+     * @param string|array $rules
+     * @return array
+     */
+    protected function getRulesAsArray($rules) {
+        $rulesArray = (is_string($rules)) ? explode('|', $rules) : $rules;
+
+        return array_map(function($rule) {
+            if ($rule instanceof \Closure) {
+                return $rule($this->field->getNameKey());
+            }
+
+            return $rule;
+        }, $rulesArray);
     }
 }

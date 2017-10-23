@@ -668,6 +668,16 @@ abstract class FormField
             return [];
         }
 
+        if (is_array($rules)) {
+            $rules = array_map(function($rule) {
+                if ($rule instanceof \Closure) {
+                    return $rule($name);
+                }
+
+                return $rule;
+            }, $rules);
+        }
+
         return [
             'rules' => [$name => $rules],
             'attributes' => [$name => $this->getOption('label')],
