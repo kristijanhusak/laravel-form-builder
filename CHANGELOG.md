@@ -1,3 +1,5 @@
+## 1.14.0
+- Fix php7.2 compatibility
 ## 1.13.0
 - Add Laravel 5.5 support [#377](https://github.com/kristijanhusak/laravel-form-builder/pull/377) (Thanks to [@wuwx](https://github.com/wuwx))
 - Add field filters [#376](https://github.com/kristijanhusak/laravel-form-builder/pull/376) (Thanks to [@unckleg](https://github.com/unckleg))

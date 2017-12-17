@@ -401,7 +401,7 @@ class FormHelper
     public function transformToBracketSyntax($string)
     {
         $name = explode('.', $string);
-        if (count($name) == 1) {
+        if ($name && count($name) == 1) {
             return $name[0];
         }
 
