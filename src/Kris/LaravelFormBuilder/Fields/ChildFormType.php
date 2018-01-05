@@ -116,7 +116,8 @@ class ChildFormType extends ParentType
             $options = [
                 'model' => $this->getOption($this->valueProperty) ?: $this->parent->getModel(),
                 'name' => $this->name,
-                'language_name' => $this->parent->getLanguageName()
+                'language_name' => $this->parent->getLanguageName(),
+                'translation_template' => $this->parent->getTranslationTemplate(),
             ];
 
             if (!$this->parent->clientValidationEnabled()) {
@@ -144,6 +145,10 @@ class ChildFormType extends ParentType
 
             if (!$class->getLanguageName()) {
                 $class->setLanguageName($this->parent->getLanguageName());
+            }
+
+            if (!$class->getTranslationTemplate()) {
+                $class->setTranslationTemplate($this->parent->getTranslationTemplate());
             }
 
             if (!$this->parent->clientValidationEnabled()) {

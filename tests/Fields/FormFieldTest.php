@@ -172,6 +172,19 @@ class FormFieldTest extends FormBuilderTestCase
     }
 
     /** @test */
+    public function it_translates_the_label_using_translation_templates()
+    {
+        // We use build in validation translations prefix for easier testing
+        // just to make sure translation file is properly used
+        $this->plainForm->setTranslationTemplate('validation.{name}')->add('accepted', 'text');
+
+        $this->assertEquals(
+            'The :attribute must be accepted.',
+            $this->plainForm->accepted->getOption('label')
+        );
+    }
+
+    /** @test */
     public function provided_label_from_option_overrides_translated_one()
     {
         // We use build in validation translations prefix for easier testing
