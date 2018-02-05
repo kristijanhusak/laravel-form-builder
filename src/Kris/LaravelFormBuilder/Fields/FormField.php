@@ -669,7 +669,7 @@ abstract class FormField
         }
 
         if (is_array($rules)) {
-            $rules = array_map(function($rule) {
+            $rules = array_map(function ($rule) use ($name) {
                 if ($rule instanceof \Closure) {
                     return $rule($name);
                 }
