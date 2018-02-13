@@ -78,6 +78,36 @@ class EntityTypeTest extends FormBuilderTestCase
 
         $this->assertEquals($expected, $choice->getOption('choices'));
     }
+
+    /** @test */
+    public function options_are_passed_to_the_children()
+    {
+        $mdl = new DummyModel();
+        $options = [
+            'class' => 'DummyModel'
+        ];
+
+        $choice = new EntityType('entity_choice', 'entity', $this->plainForm, $options);
+        $choice->setOption('attr.data-key', 'value');
+
+        $field = $choice->render();
+
+        $expectedField = '<div class="form-group"  >
+    
+    <label for="entity_choice" class="control-label">Entity choice</label>
+            <select class="form-control" data-key="value" id="entity_choice" name="entity_choice"><option value="1">English</option><option value="2">French</option><option value="3">Serbian</option></select>    
+
+
+    
+    
+
+
+
+
+        </div>';
+
+        $this->assertEquals(trim($field), $expectedField);
+    }
 }
 
 class DummyModel {
