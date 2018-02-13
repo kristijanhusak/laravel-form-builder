@@ -203,7 +203,8 @@ abstract class FormField
                 'options' => $this->options,
                 'showLabel' => $showLabel,
                 'showField' => $showField,
-                'showError' => $showError
+                'showError' => $showError,
+                'translationTemplate' => $this->parent->getTranslationTemplate(),
             ]
         )->render();
     }
@@ -593,7 +594,13 @@ abstract class FormField
             return;
         }
 
-        if ($langName = $this->parent->getLanguageName()) {
+        if ($template = $this->parent->getTranslationTemplate()) {
+            $label = str_replace(
+                ['{name}', '{type}'],
+                [$this->getRealName(), 'label'],
+                $template
+            );
+        } elseif ($langName = $this->parent->getLanguageName()) {
             $label = sprintf('%s.%s', $langName, $this->getRealName());
         } else {
             $label = $this->getRealName();

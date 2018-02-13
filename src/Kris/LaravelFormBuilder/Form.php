@@ -123,6 +123,11 @@ class Form
     protected $languageName;
 
     /**
+     * @var string
+     */
+    protected $translationTemplate;
+
+    /**
      * To filter and mutate request values or not.
      *
      * @var bool
@@ -491,6 +496,7 @@ class Form
         $this->pullFromOptions('client_validation', 'setClientValidationEnabled');
         $this->pullFromOptions('template_prefix', 'setTemplatePrefix');
         $this->pullFromOptions('language_name', 'setLanguageName');
+        $this->pullFromOptions('translation_template', 'setTranslationTemplate');
 
         return $this;
     }
@@ -866,6 +872,29 @@ class Form
     public function setLanguageName($prefix)
     {
         $this->languageName = (string) $prefix;
+
+        return $this;
+    }
+
+    /**
+     * Get the translation template.
+     *
+     * @return string
+     */
+    public function getTranslationTemplate()
+    {
+        return $this->translationTemplate;
+    }
+
+    /**
+     * Set a translation template, used to determine labels for fields.
+     *
+     * @param string $template
+     * @return $this
+     */
+    public function setTranslationTemplate($template)
+    {
+        $this->translationTemplate = (string) $template;
 
         return $this;
     }
