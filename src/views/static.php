@@ -9,7 +9,7 @@
 <?php endif; ?>
 
 <?php if ($showField): ?>
-    <<?= $options['tag'] ?> <?= $options['elemAttrs'] ?>><?= $options['value'] ?></<?= $options['tag'] ?>>
+    <<?= $options['tag'] ?> <?= $options['elemAttrs'] ?>><?= htmlspecialchars($options['value']) ?></<?= $options['tag'] ?>>
 
     <?php include 'help_block.php' ?>
 
