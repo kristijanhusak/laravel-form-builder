@@ -532,11 +532,19 @@ abstract class FormField
         $errors = $this->parent->getRequest()->session()->get('errors');
 
         if ($errors && $errors->has($this->getNameKey())) {
-            $errorClass = $this->formHelper->getConfig('defaults.wrapper_error_class');
+            $fieldErrorClass = $this->formHelper->getConfig('defaults.field_error_class');
+            $fieldClass = $this->getOption('attr.class');
+
+            if ($fieldErrorClass && !str_contains($fieldClass, $fieldErrorClass)) {
+                $fieldClass .= ' ' . $fieldErrorClass;
+                $this->setOption('attr.class', $fieldClass);
+            }
+
+            $wrapperErrorClass = $this->formHelper->getConfig('defaults.wrapper_error_class');
             $wrapperClass = $this->getOption('wrapper.class');
 
-            if ($this->getOption('wrapper') && !str_contains($wrapperClass, $errorClass)) {
-                $wrapperClass .= ' ' . $errorClass;
+            if ($wrapperErrorClass && $this->getOption('wrapper') && !str_contains($wrapperClass, $wrapperErrorClass)) {
+                $wrapperClass .= ' ' . $wrapperErrorClass;
                 $this->setOption('wrapper.class', $wrapperClass);
             }
         }
