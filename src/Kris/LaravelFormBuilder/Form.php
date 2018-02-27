@@ -135,6 +135,13 @@ class Form
     protected $lockFiltering = false;
 
     /**
+     * Define the error bag name for the form.
+     *
+     * @var string
+     */
+    protected $errorBag = 'default';
+
+    /**
      * Build the form.
      *
      * @return mixed
@@ -430,6 +437,11 @@ class Form
         }
 
         $this->fieldDoesNotExist($name);
+    }
+
+    public function getErrorBag()
+    {
+        return $this->errorBag;
     }
 
     /**
@@ -1184,7 +1196,7 @@ class Form
                 $response = $response->back();
             }
 
-            $response = $response->withErrors($this->getErrors())->withInput();
+            $response = $response->withErrors($this->getErrors(), $this->getErrorBag())->withInput();
 
             throw new HttpResponseException($response);
         }
