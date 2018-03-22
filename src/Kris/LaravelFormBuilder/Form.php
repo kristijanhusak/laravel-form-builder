@@ -634,6 +634,7 @@ class Form
     protected function setupModel($model)
     {
         $this->model = $model;
+        $this->setupNamedModel();
 
         return $this;
     }
@@ -1031,8 +1032,10 @@ class Form
 
         $dotName = $this->formHelper->transformToDotSyntax($this->getName());
         $model = $this->formHelper->convertModelToArray($this->getModel());
+        $isCollectionFormModel = preg_match('/^.*\.\d$/', $dotName);
+        $isCollectionPrototype = strpos($dotName, '__NAME__') !== false;
 
-        if (!array_get($model, $dotName)) {
+        if (!array_get($model, $dotName) && !$isCollectionFormModel && !$isCollectionPrototype) {
             $newModel = [];
             array_set($newModel, $dotName, $model);
             $this->model = $newModel;
