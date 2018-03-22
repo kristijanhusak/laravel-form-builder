@@ -634,6 +634,7 @@ class Form
     protected function setupModel($model)
     {
         $this->model = $model;
+        $this->setupNamedModel();
 
         return $this;
     }
