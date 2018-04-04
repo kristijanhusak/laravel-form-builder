@@ -1304,6 +1304,14 @@ class Form
      */
     public function alterFieldValues(array &$values)
     {
+        foreach ($this->getFields() as $name => $field) {
+            if (method_exists($field, 'transformValue')) {
+                $fullName = $this->formHelper->transformToDotSyntax($name);
+                $subValues = Arr::get($values, $fullName);
+                Arr::set($values, $fullName, $field->transformValue($subValues));
+            }
+        }
+    }
     }
 
     /**
