@@ -1312,7 +1312,6 @@ class Form
             }
         }
     }
-    }
 
     /**
      * Throw an exception indicating a field does not exist on the class.
