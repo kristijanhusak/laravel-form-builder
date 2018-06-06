@@ -530,7 +530,7 @@ class RulesParser
      * Extract the rule name and parameters from a rule.
      *
      * @param  array|string $rules
-     * @return array
+     * @return array|null;
      */
     protected function parseRule($rules)
     {
