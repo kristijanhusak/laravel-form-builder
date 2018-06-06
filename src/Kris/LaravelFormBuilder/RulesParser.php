@@ -537,7 +537,9 @@ class RulesParser
         if (is_array($rules)) {
             return $this->parseArrayRule($rules);
         }
-        return $this->parseStringRule($rules);
+        if(is_string($rules)) {
+            return $this->parseStringRule($rules);
+        }
     }
 
     /**
