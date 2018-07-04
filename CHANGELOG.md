@@ -10,6 +10,7 @@
 - Use request as model when validating to properly validate collection types
 - Setup named model after attaching model to form
 - Fix custom closure interpreted as string when using html5 validation rules [#435](https://github.com/kristijanhusak/laravel-form-builder/pull/435) (Thanks to [@yarbsemaj](https://github.com/yarbsemaj))
+- Fix radio and checkbox help block position [#440](https://github.com/kristijanhusak/laravel-form-builder/pull/440) (Thanks to [@sagarnasit](https://github.com/sagarnasit))
 ## 1.14.0
 - Fix php7.2 compatibility
 ## 1.13.0
