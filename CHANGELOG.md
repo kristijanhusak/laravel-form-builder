@@ -1,3 +1,15 @@
+## 1.15.0
+- Add translation template [#399](https://github.com/kristijanhusak/laravel-form-builder/pull/399) (Thanks to [@koenvu](https://github.com/koenvu))
+- Add field error class [#411](https://github.com/kristijanhusak/laravel-form-builder/pull/411) (Thanks to [@n7olkachev](https://github.com/n7olkachev))
+- Allow using different error bag per form [#414](https://github.com/kristijanhusak/laravel-form-builder/pull/414) (Thanks to [@Fellner96](https://github.com/Fellner96))
+- Get PSR-4 namespace from composer [#424](https://github.com/kristijanhusak/laravel-form-builder/pull/424) (Thanks to [@icfr](https://github.com/icfr))
+- Escape static field value [#407](https://github.com/kristijanhusak/laravel-form-builder/pull/407) (Thanks to [@beghelli](https://github.com/beghelli))
+- Fix missing field name for rule closure [#403](https://github.com/kristijanhusak/laravel-form-builder/pull/403) (Thanks to [@yemenifree](https://github.com/yemenifree))
+- Fix checking trueness of empty array in collection type [#412](https://github.com/kristijanhusak/laravel-form-builder/pull/412) (Thanks to [@kiperz](https://github.com/kiperz))
+- Fix parent type not pushing options to children [#356](https://github.com/kristijanhusak/laravel-form-builder/pull/356) (Thanks to [@pimlie](https://github.com/pimlie))
+- Use request as model when validating to properly validate collection types
+- Setup named model after attaching model to form
+- Fix custom closure interpreted as string when using html5 validation rules [#435](https://github.com/kristijanhusak/laravel-form-builder/pull/435) (Thanks to [@yarbsemaj](https://github.com/yarbsemaj))
 ## 1.14.0
 - Fix php7.2 compatibility
 ## 1.13.0
