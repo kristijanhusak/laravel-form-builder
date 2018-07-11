@@ -1157,8 +1157,6 @@ class Form
      */
     public function validate($validationRules = [], $messages = [])
     {
-        $this->setupModel($this->getRequest()->all());
-        $this->rebuildForm();
         $fieldRules = $this->formHelper->mergeFieldsRules($this->fields);
         $rules = array_merge($fieldRules['rules'], $validationRules);
         $messages = array_merge($fieldRules['error_messages'], $messages);
