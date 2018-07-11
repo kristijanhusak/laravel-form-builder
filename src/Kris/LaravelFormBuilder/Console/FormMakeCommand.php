@@ -106,7 +106,7 @@ class FormMakeCommand extends GeneratorCommand
 
         if (!$namespace) {
             $namespace = $this->formGenerator->getClassInfo($name)->namespace;
-            
+
             if ($path) {
                 $namespace = str_replace('/', '\\', trim($path, '/'));
                 foreach ($this->getAutoload() as $autoloadNamespace => $autoloadPath) {
@@ -147,7 +147,7 @@ class FormMakeCommand extends GeneratorCommand
             $composerPath
         ), true);
 
-        return $composer['autoload']['psr-4'] ?? [];
+        return array_get($composer, 'autoload.psr-4', []);
     }
 
     /**
