@@ -1,3 +1,6 @@
+## 1.15.1
+- Fix issue [#441](https://github.com/kristijanhusak/laravel-form-builder/issues/441)
+- Fix issue [#442](https://github.com/kristijanhusak/laravel-form-builder/issues/442)
 ## 1.15.0
 - Add translation template [#399](https://github.com/kristijanhusak/laravel-form-builder/pull/399) (Thanks to [@koenvu](https://github.com/koenvu))
 - Add field error class [#411](https://github.com/kristijanhusak/laravel-form-builder/pull/411) (Thanks to [@n7olkachev](https://github.com/n7olkachev))
