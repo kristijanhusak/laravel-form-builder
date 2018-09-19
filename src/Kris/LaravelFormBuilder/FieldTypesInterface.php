@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tresa
- * Date: 9/19/2018
- * Time: 10:04 AM
- */
 
 namespace Kris\LaravelFormBuilder;
 
