@@ -14,7 +14,7 @@ use Kris\LaravelFormBuilder\Events\BeforeFormValidation;
 use Kris\LaravelFormBuilder\Fields\FormField;
 use Kris\LaravelFormBuilder\Filters\FilterResolver;
 
-class Form
+class Form implements FieldTypesInterface
 {
     /**
      * All fields that are added.
