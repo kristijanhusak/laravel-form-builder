@@ -288,7 +288,7 @@ abstract class FormField
 
         if ($this->getOption('required') === true || isset($parsedRules['required'])) {
             $lblClass = $this->getOption('label_attr.class', '');
-            $requiredClass = $helper->getConfig('defaults.required_class', 'required');
+            $requiredClass = $this->getConfig('defaults.required_class', 'required');
 
             if (! str_contains($lblClass, $requiredClass)) {
                 $lblClass .= ' '.$requiredClass;
@@ -461,18 +461,18 @@ abstract class FormField
     private function allDefaults()
     {
         return [
-            'wrapper' => ['class' => $this->formHelper->getConfig('defaults.wrapper_class')],
-            'attr' => ['class' => $this->formHelper->getConfig('defaults.field_class')],
+            'wrapper' => ['class' => $this->getConfig('defaults.wrapper_class')],
+            'attr' => ['class' => $this->getConfig('defaults.field_class')],
             'help_block' => ['text' => null, 'tag' => 'p', 'attr' => [
-                'class' => $this->formHelper->getConfig('defaults.help_block_class')
+                'class' => $this->getConfig('defaults.help_block_class')
             ]],
             'value' => null,
             'default_value' => null,
             'label' => null,
             'label_show' => true,
             'is_child' => false,
-            'label_attr' => ['class' => $this->formHelper->getConfig('defaults.label_class')],
-            'errors' => ['class' => $this->formHelper->getConfig('defaults.error_class')],
+            'label_attr' => ['class' => $this->getConfig('defaults.label_class')],
+            'errors' => ['class' => $this->getConfig('defaults.error_class')],
             'rules' => [],
             'error_messages' => []
         ];
@@ -520,7 +520,7 @@ abstract class FormField
      */
     private function setTemplate()
     {
-        $this->template = $this->formHelper->getConfig($this->getTemplate(), $this->getTemplate());
+        $this->template = $this->getConfig($this->getTemplate(), $this->getTemplate());
     }
 
     /**
@@ -534,7 +534,7 @@ abstract class FormField
         $errorBag = $this->parent->getErrorBag();
 
         if ($errors && $errors->hasBag($errorBag) && $errors->getBag($errorBag)->has($this->getNameKey())) {
-            $fieldErrorClass = $this->formHelper->getConfig('defaults.field_error_class');
+            $fieldErrorClass = $this->getConfig('defaults.field_error_class');
             $fieldClass = $this->getOption('attr.class');
 
             if ($fieldErrorClass && !str_contains($fieldClass, $fieldErrorClass)) {
@@ -542,7 +542,7 @@ abstract class FormField
                 $this->setOption('attr.class', $fieldClass);
             }
 
-            $wrapperErrorClass = $this->formHelper->getConfig('defaults.wrapper_error_class');
+            $wrapperErrorClass = $this->getConfig('defaults.wrapper_error_class');
             $wrapperClass = $this->getOption('wrapper.class');
 
             if ($wrapperErrorClass && $this->getOption('wrapper') && !str_contains($wrapperClass, $wrapperErrorClass)) {
@@ -576,9 +576,9 @@ abstract class FormField
      */
     protected function setDefaultClasses(array $options = [])
     {
-        $wrapper_class = $this->formHelper->getConfig('defaults.' . $this->type . '.wrapper_class', '');
-        $label_class = $this->formHelper->getConfig('defaults.' . $this->type . '.label_class', '');
-        $field_class = $this->formHelper->getConfig('defaults.' . $this->type . '.field_class', '');
+        $wrapper_class = $this->getConfig('defaults.' . $this->type . '.wrapper_class', '');
+        $label_class = $this->getConfig('defaults.' . $this->type . '.label_class', '');
+        $field_class = $this->getConfig('defaults.' . $this->type . '.field_class', '');
 
         $defaults = [];
         if ($wrapper_class && !array_get($options, 'wrapper.class')) {
@@ -926,5 +926,15 @@ abstract class FormField
     public function getRawValue()
     {
         return $this->rawValue;
+    }
+
+    /**
+     * Get config from the form.
+     *
+     * @return mixed
+     */
+    private function getConfig($key = null, $default = null)
+    {
+        return $this->parent->getConfig($key, $default);
     }
 }

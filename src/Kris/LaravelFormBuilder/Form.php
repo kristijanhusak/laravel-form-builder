@@ -51,6 +51,13 @@ class Form
     ];
 
     /**
+     * Form specific configuration.
+     *
+     * @var array
+     */
+    protected $formConfig;
+
+    /**
      * Additional data which can be used to build fields.
      *
      * @var array
@@ -493,6 +500,20 @@ class Form
     }
 
     /**
+     * Get the passed config key using the custom
+     * form config, if any.
+     *
+     * @param string $key
+     * @param mixed $default
+     *
+     * @return mixed
+     */
+    public function getConfig($key = null, $default = null)
+    {
+        return $this->formHelper->getConfig($key, $default, $this->formConfig);
+    }
+
+    /**
      * Set form options.
      *
      * @param array $formOptions
@@ -850,7 +871,7 @@ class Form
             return $this->templatePrefix;
         }
 
-        return $this->formHelper->getConfig('template_prefix');
+        return $this->getConfig('template_prefix');
     }
 
     /**
@@ -946,7 +967,7 @@ class Form
      */
     protected function getTemplate()
     {
-        return $this->getTemplatePrefix() . $this->getFormOption('template', $this->formHelper->getConfig('form'));
+        return $this->getTemplatePrefix() . $this->getFormOption('template', $this->getConfig('form'));
     }
 
     /**
