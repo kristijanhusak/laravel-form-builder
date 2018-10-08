@@ -104,24 +104,18 @@ class FormHelper
     /**
      * @param string $key
      * @param string $default
-     * @param mixed $customConfig
+     * @param array $customConfig
      * @return mixed
      */
-    public function getConfig($key = null, $default = null, $customConfig = null)
+    public function getConfig($key = null, $default = null, $customConfig = [])
     {
-        $config = $this->config;
-        if (is_array($customConfig)) {
-            $config = array_replace_recursive($config, $customConfig);
-        }
+        $config = array_replace_recursive($this->config, $customConfig);
 
         if ($key) {
-            $returnConfig = array_get($config, $key, $default);
-        }
-        else {
-            $returnConfig = $config;
+            return array_get($config, $key, $default);
         }
 
-        return $returnConfig;
+        return $config;
     }
 
     /**

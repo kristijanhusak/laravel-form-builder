@@ -55,7 +55,7 @@ class Form
      *
      * @var array
      */
-    protected $formConfig;
+    protected $formConfig = [];
 
     /**
      * Additional data which can be used to build fields.
