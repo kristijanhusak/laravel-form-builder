@@ -204,6 +204,7 @@ abstract class FormField
                 'showLabel' => $showLabel,
                 'showField' => $showField,
                 'showError' => $showError,
+                'errorBag'  => $this->parent->getErrorBag(),
                 'translationTemplate' => $this->parent->getTranslationTemplate(),
             ]
         )->render();
@@ -530,8 +531,9 @@ abstract class FormField
     protected function addErrorClass()
     {
         $errors = $this->parent->getRequest()->session()->get('errors');
+        $errorBag = $this->parent->getErrorBag();
 
-        if ($errors && $errors->has($this->getNameKey())) {
+        if ($errors && $errors->hasBag($errorBag) && $errors->getBag($errorBag)->has($this->getNameKey())) {
             $fieldErrorClass = $this->getConfig('defaults.field_error_class');
             $fieldClass = $this->getOption('attr.class');
 

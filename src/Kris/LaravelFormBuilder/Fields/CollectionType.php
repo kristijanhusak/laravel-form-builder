@@ -91,7 +91,7 @@ class CollectionType extends ParentType
         $data = $this->getOption($this->valueProperty, []);
 
         // If no value is provided, get values from current request.
-        if ($data && count($data) === 0) {
+        if (!is_null($data) && count($data) === 0) {
             $data = $currentInput;
         }
 

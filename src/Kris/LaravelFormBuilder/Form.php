@@ -142,6 +142,13 @@ class Form
     protected $lockFiltering = false;
 
     /**
+     * Define the error bag name for the form.
+     *
+     * @var string
+     */
+    protected $errorBag = 'default';
+
+    /**
      * Build the form.
      *
      * @return mixed
@@ -439,6 +446,11 @@ class Form
         $this->fieldDoesNotExist($name);
     }
 
+    public function getErrorBag()
+    {
+        return $this->errorBag;
+    }
+
     /**
      * Check if form has field.
      *
@@ -643,6 +655,7 @@ class Form
     protected function setupModel($model)
     {
         $this->model = $model;
+        $this->setupNamedModel();
 
         return $this;
     }
@@ -1040,8 +1053,10 @@ class Form
 
         $dotName = $this->formHelper->transformToDotSyntax($this->getName());
         $model = $this->formHelper->convertModelToArray($this->getModel());
+        $isCollectionFormModel = preg_match('/^.*\.\d$/', $dotName);
+        $isCollectionPrototype = strpos($dotName, '__NAME__') !== false;
 
-        if (!array_get($model, $dotName)) {
+        if (!array_get($model, $dotName) && !$isCollectionFormModel && !$isCollectionPrototype) {
             $newModel = [];
             array_set($newModel, $dotName, $model);
             $this->model = $newModel;
@@ -1163,8 +1178,6 @@ class Form
      */
     public function validate($validationRules = [], $messages = [])
     {
-        $this->setupModel($this->getRequest()->all());
-        $this->rebuildForm();
         $fieldRules = $this->formHelper->mergeFieldsRules($this->fields);
         $rules = array_merge($fieldRules['rules'], $validationRules);
         $messages = array_merge($fieldRules['error_messages'], $messages);
@@ -1205,7 +1218,7 @@ class Form
                 $response = $response->back();
             }
 
-            $response = $response->withErrors($this->getErrors())->withInput();
+            $response = $response->withErrors($this->getErrors(), $this->getErrorBag())->withInput();
 
             throw new HttpResponseException($response);
         }

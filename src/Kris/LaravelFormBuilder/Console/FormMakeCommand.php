@@ -109,6 +109,11 @@ class FormMakeCommand extends GeneratorCommand
 
             if ($path) {
                 $namespace = str_replace('/', '\\', trim($path, '/'));
+                foreach ($this->getAutoload() as $autoloadNamespace => $autoloadPath) {
+                    if (preg_match('|'.$autoloadPath.'|', $path)) {
+                        $namespace = str_replace([$autoloadPath, '/'], [$autoloadNamespace, '\\'], trim($path, '/'));
+                    }
+                }
             }
         }
 
@@ -125,6 +130,24 @@ class FormMakeCommand extends GeneratorCommand
     protected function getStub()
     {
         return __DIR__ . '/stubs/form-class-template.stub';
+    }
+
+    /**
+     * Get psr-4 namespace.
+     *
+     * @return array
+     */
+    protected function getAutoload()
+    {
+        $composerPath = base_path('/composer.json');
+        if (! file_exists($composerPath)) {
+            return [];
+        }
+        $composer = json_decode(file_get_contents(
+            $composerPath
+        ), true);
+
+        return array_get($composer, 'autoload.psr-4', []);
     }
 
     /**
