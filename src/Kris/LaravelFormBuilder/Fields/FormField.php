@@ -563,7 +563,7 @@ abstract class FormField
         $this->options = $this->prepareOptions($options);
 
         $defaults = $this->setDefaultClasses($options);
-        $this->options = $this->formHelper->mergeOptions($this->options, $defaults);
+        $this->options = $this->formHelper->mergeOptions($defaults, $this->options);
 
         $this->setupLabel();
     }
