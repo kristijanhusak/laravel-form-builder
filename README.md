@@ -83,19 +83,20 @@ Form is created in path `app/Forms/SongForm.php` with content:
 namespace App\Forms;
 
 use Kris\LaravelFormBuilder\Form;
+use Kris\LaravelFormBuilder\Field;
 
 class SongForm extends Form
 {
     public function buildForm()
     {
         $this
-            ->add('name', 'text', [
+            ->add('name', Field::TEXT, [
                 'rules' => 'required|min:5'
             ])
-            ->add('lyrics', 'textarea', [
+            ->add('lyrics', Field::TEXTAREA, [
                 'rules' => 'max:5000'
             ])
-            ->add('publish', 'checkbox');
+            ->add('publish', Field::CHECKBOX);
     }
 }
 ```
@@ -250,6 +251,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
 use Kris\LaravelFormBuilder\FormBuilder;
+use Kris\LaravelFormBuilder\Field;
 use App\Forms\SongForm;
 
 class SongsController extends BaseController {
@@ -259,15 +261,15 @@ class SongsController extends BaseController {
         $form = $formBuilder->createByArray([
                         [
                             'name' => 'name',
-                            'type' => 'text',
+                            'type' => Field::TEXT,
                         ],
                         [
                             'name' => 'lyrics',
-                            'type' => 'textarea',
+                            'type' => Field::TEXTAREA,
                         ], 
                         [
                             'name' => 'publish',
-                            'type' => 'checkbox'
+                            'type' => Field::CHECKBOX
                         ],
                     ]
             ,[
