@@ -1,3 +1,6 @@
+## 1.16.0
+- Add option for form specific config. [#406](https://github.com/kristijanhusak/laravel-form-builder/pull/406) (Thanks to [@beghelli](https://github.com/beghelli))
+- Add class enum that contains all field types [#455](https://github.com/kristijanhusak/laravel-form-builder/pull/455) (Thanks to [@tresa02](https://github.com/tresa02))
 ## 1.15.1
 - Fix issue [#441](https://github.com/kristijanhusak/laravel-form-builder/issues/441)
 - Fix issue [#442](https://github.com/kristijanhusak/laravel-form-builder/issues/442)
