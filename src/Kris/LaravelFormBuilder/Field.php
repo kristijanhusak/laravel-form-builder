@@ -18,7 +18,7 @@ class Field
     const STATIC = 'static';
     //Date time fields
     const DATE = 'date';
-    const DATETIME_LOCAL = 'datetime_local';
+    const DATETIME_LOCAL = 'datetime-local';
     const MONTH = 'month';
     const TIME = 'time';
     const WEEK = 'week';
