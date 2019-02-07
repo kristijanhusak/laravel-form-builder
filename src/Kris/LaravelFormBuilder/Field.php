@@ -31,6 +31,7 @@ class Field
     const TEL = 'tel';
     const NUMBER = 'number';
     const RANGE = 'range';
+    const ENTITY = 'entity';
     //Buttons
     const BUTTON_SUBMIT = 'submit';
     const BUTTON_RESET = 'reset';
