@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Translation\Translator;
+use Kris\LaravelFormBuilder\Events\AfterCollectingFieldRules;
 use Kris\LaravelFormBuilder\Fields\FormField;
 use Kris\LaravelFormBuilder\Form;
 use Kris\LaravelFormBuilder\RulesParser;
@@ -288,28 +289,36 @@ class FormHelper
     }
 
     /**
+     * @param FormField $field
+     * @return array
+     */
+    public function getFieldValidationRules(FormField $field)
+    {
+        $fieldRules = $field->getValidationRules();
+
+        if (is_array($fieldRules)) {
+          $fieldRules = Rules::fromArray($fieldRules);
+        }
+
+        $formBuilder = $field->getParent()->getFormBuilder();
+        $formBuilder->fireEvent(new AfterCollectingFieldRules($field, $fieldRules));
+
+        return $fieldRules;
+    }
+
+    /**
      * @param FormField[] $fields
      * @return array
      */
     public function mergeFieldsRules($fields)
     {
-        $rules = [];
-        $attributes = [];
-        $messages = [];
+        $rules = new Rules([]);
 
         foreach ($fields as $field) {
-            if ($fieldRules = $field->getValidationRules()) {
-                $rules = array_merge($rules, $fieldRules['rules']);
-                $attributes = array_merge($attributes, $fieldRules['attributes']);
-                $messages = array_merge($messages, $fieldRules['error_messages']);
-            }
+            $rules->append($this->getFieldValidationRules($field));
         }
 
-        return [
-            'rules' => $rules,
-            'attributes' => $attributes,
-            'error_messages' => $messages
-        ];
+        return $rules;
     }
 
     /**

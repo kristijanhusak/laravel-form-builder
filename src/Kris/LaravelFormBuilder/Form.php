@@ -1179,11 +1179,11 @@ class Form
     public function validate($validationRules = [], $messages = [])
     {
         $fieldRules = $this->formHelper->mergeFieldsRules($this->fields);
-        $rules = array_merge($fieldRules['rules'], $validationRules);
-        $messages = array_merge($fieldRules['error_messages'], $messages);
+        $rules = array_merge($fieldRules->getRules(), $validationRules);
+        $messages = array_merge($fieldRules->getMessages(), $messages);
 
         $this->validator = $this->validatorFactory->make($this->getRequest()->all(), $rules, $messages);
-        $this->validator->setAttributeNames($fieldRules['attributes']);
+        $this->validator->setAttributeNames($fieldRules->getAttributes());
 
         $this->eventDispatcher->fire(new BeforeFormValidation($this, $this->validator));
 
@@ -1200,7 +1200,7 @@ class Form
     {
         $fieldRules = $this->formHelper->mergeFieldsRules($this->fields);
 
-        return array_merge($fieldRules['rules'], $overrideRules);
+        return array_merge($fieldRules->getRules(), $overrideRules);
     }
 
     /**
