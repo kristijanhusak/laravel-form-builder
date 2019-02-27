@@ -43,6 +43,17 @@ class FormBuilder
     }
 
     /**
+     * Fire an event.
+     *
+     * @param object $event
+     * @return array|null
+     */
+    public function fireEvent($event)
+    {
+        return $this->eventDispatcher->fire($event);
+    }
+
+    /**
      * Create a Form instance.
      *
      * @param string $formClass The name of the class that inherits \Kris\LaravelFormBuilder\Form.

@@ -188,7 +188,7 @@ abstract class ParentType extends FormField
     {
         $rules = parent::getValidationRules();
         $childrenRules = $this->formHelper->mergeFieldsRules($this->children);
-        return array_replace_recursive($rules, $childrenRules);
 
+        return $rules->append($childrenRules);
     }
 }
