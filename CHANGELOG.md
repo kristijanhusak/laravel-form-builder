@@ -1,3 +1,9 @@
+## 1.20.0
+- Add field rules event [#491](https://github.com/kristijanhusak/laravel-form-builder/pull/491)(Thanks to [@rudiedirkx](https://github.com/rudiedirkx))
+- Escape html with `e()` to respect Htmlable [#473](https://github.com/kristijanhusak/laravel-form-builder/pull/473)(Thanks to [@rudiedirkx](https://github.com/rudiedirkx))
+- Fix `datetime_local` to `datetime-local` field constant [#483](https://github.com/kristijanhusak/laravel-form-builder/pull/483)(Thanks to [@nea](https://github.com/nea))
+- Add missing `entity` field to constants [#484](https://github.com/kristijanhusak/laravel-form-builder/pull/484)(Thanks to [@nea](https://github.com/nea))
+- Fix compatibility with Laravel 5.8 by using EventDispatcher `dispatch` method instead of `fire`
 ## 1.16.0
 - Add option for form specific config. [#406](https://github.com/kristijanhusak/laravel-form-builder/pull/406) (Thanks to [@beghelli](https://github.com/beghelli))
 - Add class enum that contains all field types [#455](https://github.com/kristijanhusak/laravel-form-builder/pull/455) (Thanks to [@tresa02](https://github.com/tresa02))
