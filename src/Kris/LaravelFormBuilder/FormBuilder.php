@@ -50,7 +50,7 @@ class FormBuilder
      */
     public function fireEvent($event)
     {
-        return $this->eventDispatcher->fire($event);
+        return $this->eventDispatcher->dispatch($event);
     }
 
     /**
