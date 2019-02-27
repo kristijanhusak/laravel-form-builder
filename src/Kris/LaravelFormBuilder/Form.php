@@ -199,7 +199,7 @@ class Form
 
         $field = new $fieldType($fieldName, $type, $this, $options);
 
-        $this->eventDispatcher->fire(new AfterFieldCreation($this, $field));
+        $this->eventDispatcher->dispatch(new AfterFieldCreation($this, $field));
 
         return $field;
     }
@@ -1185,7 +1185,7 @@ class Form
         $this->validator = $this->validatorFactory->make($this->getRequest()->all(), $rules, $messages);
         $this->validator->setAttributeNames($fieldRules['attributes']);
 
-        $this->eventDispatcher->fire(new BeforeFormValidation($this, $this->validator));
+        $this->eventDispatcher->dispatch(new BeforeFormValidation($this, $this->validator));
 
         return $this->validator;
     }
@@ -1249,7 +1249,7 @@ class Form
 
         $this->formHelper->alterValid($this, $this, $isValid);
 
-        $this->eventDispatcher->fire(new AfterFormValidation($this, $this->validator, $isValid));
+        $this->eventDispatcher->dispatch(new AfterFormValidation($this, $this->validator, $isValid));
 
         return $isValid;
     }
