@@ -170,7 +170,7 @@ class Form
         if (get_class($this) === 'Kris\LaravelFormBuilder\Form') {
             foreach ($this->fields as $name => $field) {
                 // Remove any temp variables added in previous instance
-                $options = array_except($field->getOptions(), 'tmp');
+                $options =  Arr::except($field->getOptions(), 'tmp');
                 $this->add($name, $field->getType(), $options);
             }
         } else {
