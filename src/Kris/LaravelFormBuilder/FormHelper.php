@@ -113,7 +113,7 @@ class FormHelper
         $config = array_replace_recursive($this->config, $customConfig);
 
         if ($key) {
-            return array_get($config, $key, $default);
+            return Arr::get($config, $key, $default);
         }
 
         return $config;
