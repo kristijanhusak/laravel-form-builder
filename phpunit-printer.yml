@@ -1,0 +1,14 @@
+options:
+  cd-printer-hide-class: false
+  cd-printer-simple-output: false
+  cd-printer-show-config: true
+  cd-printer-hide-namespace: true
+  cd-printer-anybar: false
+  cd-printer-anybar-port: 1738
+markers:
+  cd-pass: "✔︎ "
+  cd-fail: "✖ "
+  cd-error: "⚈ "
+  cd-skipped: "=> "
+  cd-incomplete: "∅ "
+  cd-risky: "⌽ "
