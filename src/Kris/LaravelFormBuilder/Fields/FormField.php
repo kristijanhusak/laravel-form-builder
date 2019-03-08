@@ -7,6 +7,7 @@ use Kris\LaravelFormBuilder\Filters\FilterInterface;
 use Kris\LaravelFormBuilder\Filters\FilterResolver;
 use Kris\LaravelFormBuilder\Form;
 use Kris\LaravelFormBuilder\FormHelper;
+use Kris\LaravelFormBuilder\Rules;
 
 /**
  * Class FormField
@@ -682,7 +683,7 @@ abstract class FormField
         }
 
         if (!$rules) {
-            return [];
+            return new Rules([]);
         }
 
         if (is_array($rules)) {
@@ -695,11 +696,11 @@ abstract class FormField
             }, $rules);
         }
 
-        return [
-            'rules' => [$name => $rules],
-            'attributes' => [$name => $this->getOption('label')],
-            'error_messages' => $messages
-        ];
+        return new Rules(
+            [$name => $rules],
+            [$name => $this->getOption('label')],
+            $messages
+        );
     }
 
     /**

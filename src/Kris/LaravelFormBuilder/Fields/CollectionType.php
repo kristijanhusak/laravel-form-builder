@@ -38,7 +38,8 @@ class CollectionType extends ParentType
             'data' => null,
             'property' => 'id',
             'prototype_name' => '__NAME__',
-            'empty_row' => true
+            'empty_row' => true,
+            'prefer_input' => false,
         ];
     }
 
@@ -92,6 +93,10 @@ class CollectionType extends ParentType
 
         // If no value is provided, get values from current request.
         if (!is_null($data) && count($data) === 0) {
+            $data = $currentInput;
+        }
+        // Or if the current request input is preferred over original data.
+        elseif ($this->getOption('prefer_input') && count($currentInput)) {
             $data = $currentInput;
         }
 

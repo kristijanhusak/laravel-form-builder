@@ -170,7 +170,7 @@ class Form
         if (get_class($this) === 'Kris\LaravelFormBuilder\Form') {
             foreach ($this->fields as $name => $field) {
                 // Remove any temp variables added in previous instance
-                $options = array_except($field->getOptions(), 'tmp');
+                $options =  Arr::except($field->getOptions(), 'tmp');
                 $this->add($name, $field->getType(), $options);
             }
         } else {
@@ -199,7 +199,7 @@ class Form
 
         $field = new $fieldType($fieldName, $type, $this, $options);
 
-        $this->eventDispatcher->fire(new AfterFieldCreation($this, $field));
+        $this->eventDispatcher->dispatch(new AfterFieldCreation($this, $field));
 
         return $field;
     }
@@ -1179,13 +1179,13 @@ class Form
     public function validate($validationRules = [], $messages = [])
     {
         $fieldRules = $this->formHelper->mergeFieldsRules($this->fields);
-        $rules = array_merge($fieldRules['rules'], $validationRules);
-        $messages = array_merge($fieldRules['error_messages'], $messages);
+        $rules = array_merge($fieldRules->getRules(), $validationRules);
+        $messages = array_merge($fieldRules->getMessages(), $messages);
 
         $this->validator = $this->validatorFactory->make($this->getRequest()->all(), $rules, $messages);
-        $this->validator->setAttributeNames($fieldRules['attributes']);
+        $this->validator->setAttributeNames($fieldRules->getAttributes());
 
-        $this->eventDispatcher->fire(new BeforeFormValidation($this, $this->validator));
+        $this->eventDispatcher->dispatch(new BeforeFormValidation($this, $this->validator));
 
         return $this->validator;
     }
@@ -1200,7 +1200,7 @@ class Form
     {
         $fieldRules = $this->formHelper->mergeFieldsRules($this->fields);
 
-        return array_merge($fieldRules['rules'], $overrideRules);
+        return array_merge($fieldRules->getRules(), $overrideRules);
     }
 
     /**
@@ -1249,7 +1249,7 @@ class Form
 
         $this->formHelper->alterValid($this, $this, $isValid);
 
-        $this->eventDispatcher->fire(new AfterFormValidation($this, $this->validator, $isValid));
+        $this->eventDispatcher->dispatch(new AfterFormValidation($this, $this->validator, $isValid));
 
         return $isValid;
     }

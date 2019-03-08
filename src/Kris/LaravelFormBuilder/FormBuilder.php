@@ -43,6 +43,17 @@ class FormBuilder
     }
 
     /**
+     * Fire an event.
+     *
+     * @param object $event
+     * @return array|null
+     */
+    public function fireEvent($event)
+    {
+        return $this->eventDispatcher->dispatch($event);
+    }
+
+    /**
      * Create a Form instance.
      *
      * @param string $formClass The name of the class that inherits \Kris\LaravelFormBuilder\Form.
@@ -64,7 +75,7 @@ class FormBuilder
 
         $form->buildForm();
 
-        $this->eventDispatcher->fire(new AfterFormCreation($form));
+        $this->eventDispatcher->dispatch(new AfterFormCreation($form));
 
         $form->filterFields();
 
@@ -87,7 +98,7 @@ class FormBuilder
 
         $this->buildFormByArray($form, $items);
 
-        $this->eventDispatcher->fire(new AfterFormCreation($form));
+        $this->eventDispatcher->dispatch(new AfterFormCreation($form));
 
         $form->filterFields();
 
@@ -171,7 +182,7 @@ class FormBuilder
             $data
         );
 
-        $this->eventDispatcher->fire(new AfterFormCreation($form));
+        $this->eventDispatcher->dispatch(new AfterFormCreation($form));
 
         $form->filterFields();
 

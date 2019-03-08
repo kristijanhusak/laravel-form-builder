@@ -28,7 +28,7 @@ abstract class ParentType extends FormField
      */
     public function __construct($name, $type, Form $parent, array $options = [])
     {
-        parent::__construct($name, $type, $parent, $options);
+        parent::__construct($name, $type, $parent, $options + ['copy_options_to_children' => true]);
         // If there is default value provided and  setValue was not triggered
         // in the parent call, make sure we generate child elements.
         if ($this->hasDefault) {
@@ -95,25 +95,29 @@ abstract class ParentType extends FormField
 
     /**
      * @inheritdoc
-         */
+     */
     public function setOption($name, $value)
     {
         parent::setOption($name, $value);
 
-        foreach ((array) $this->children as $key => $child) {
-            $this->children[$key]->setOption($name, $value);
+        if ($this->options['copy_options_to_children']) {
+            foreach ((array) $this->children as $key => $child) {
+                $this->children[$key]->setOption($name, $value);
+            }
         }
     }
 
     /**
      * @inheritdoc
-         */
+     */
     public function setOptions($options)
     {
         parent::setOptions($options);
 
-        foreach ((array) $this->children as $key => $child) {
-            $this->children[$key]->setOptions($options);
+        if ($this->options['copy_options_to_children']) {
+            foreach ((array) $this->children as $key => $child) {
+                $this->children[$key]->setOptions($options);
+            }
         }
     }
 
@@ -188,7 +192,7 @@ abstract class ParentType extends FormField
     {
         $rules = parent::getValidationRules();
         $childrenRules = $this->formHelper->mergeFieldsRules($this->children);
-        return array_replace_recursive($rules, $childrenRules);
 
+        return $rules->append($childrenRules);
     }
 }

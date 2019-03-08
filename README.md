@@ -266,7 +266,7 @@ class SongsController extends BaseController {
                         [
                             'name' => 'lyrics',
                             'type' => Field::TEXTAREA,
-                        ], 
+                        ],
                         [
                             'name' => 'publish',
                             'type' => Field::CHECKBOX
