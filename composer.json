@@ -1,12 +1,20 @@
 {
     "name": "kris/laravel-form-builder",
     "description": "Laravel form builder - symfony like",
-    "keywords": ["laravel", "form", "builder"],
+    "keywords": ["laravel", "form", "builder","symfony"],
     "license": "MIT",
     "authors": [
         {
             "name": "Kristijan Husak",
             "email": "husakkristijan@gmail.com"
+        },
+        {
+            "name": "Mike Erickson",
+            "email": "codedungeon@gmail.com"
+        },
+        {
+            "name": "Mike Erickson",
+            "email": "mike.erickson@codedungeon.io"
         }
     ],
     "require": {

@@ -4,6 +4,7 @@ namespace Kris\LaravelFormBuilder\Console;
 
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Arr;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -147,7 +148,7 @@ class FormMakeCommand extends GeneratorCommand
             $composerPath
         ), true);
 
-        return array_get($composer, 'autoload.psr-4', []);
+        return Arr::get($composer, 'autoload.psr-4', []);
     }
 
     /**

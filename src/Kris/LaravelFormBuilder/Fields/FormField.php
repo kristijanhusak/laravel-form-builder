@@ -2,6 +2,8 @@
 
 namespace Kris\LaravelFormBuilder\Fields;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Kris\LaravelFormBuilder\Filters\Exception\FilterAlreadyBindedException;
 use Kris\LaravelFormBuilder\Filters\FilterInterface;
 use Kris\LaravelFormBuilder\Filters\FilterResolver;
@@ -235,7 +237,7 @@ abstract class FormField
         } elseif (is_object($model)) {
             return object_get($model, $transformedName);
         } elseif (is_array($model)) {
-            return array_get($model, $transformedName);
+            return Arr::get($model, $transformedName);
         }
     }
 
@@ -291,7 +293,7 @@ abstract class FormField
             $lblClass = $this->getOption('label_attr.class', '');
             $requiredClass = $this->getConfig('defaults.required_class', 'required');
 
-            if (! str_contains($lblClass, $requiredClass)) {
+            if (! Str::contains($lblClass, $requiredClass)) {
                 $lblClass .= ' '.$requiredClass;
                 $this->setOption('label_attr.class', $lblClass);
             }
@@ -371,7 +373,7 @@ abstract class FormField
      */
     public function getOption($option, $default = null)
     {
-        return array_get($this->options, $option, $default);
+        return Arr::get($this->options, $option, $default);
     }
 
     /**
@@ -396,7 +398,7 @@ abstract class FormField
      */
     public function setOption($name, $value)
     {
-        array_set($this->options, $name, $value);
+        Arr::set($this->options, $name, $value);
 
         return $this;
     }
@@ -582,13 +584,13 @@ abstract class FormField
         $field_class = $this->getConfig('defaults.' . $this->type . '.field_class', '');
 
         $defaults = [];
-        if ($wrapper_class && !array_get($options, 'wrapper.class')) {
+        if ($wrapper_class && !Arr::get($options, 'wrapper.class')) {
             $defaults['wrapper']['class'] = $wrapper_class;
         }
-        if ($label_class && !array_get($options, 'label_attr.class')) {
+        if ($label_class && !Arr::get($options, 'label_attr.class')) {
             $defaults['label_attr']['class'] = $label_class;
         }
-        if ($field_class && !array_get($options, 'attr.class')) {
+        if ($field_class && !Arr::get($options, 'attr.class')) {
             $defaults['attr']['class'] = $field_class;
         }
         return $defaults;
@@ -656,7 +658,7 @@ abstract class FormField
      */
     public function enable()
     {
-        array_forget($this->options, 'attr.disabled');
+        Arr::forget($this->options, 'attr.disabled');
 
         return $this;
     }
