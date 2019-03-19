@@ -4,3 +4,5 @@ composer.lock
 .DS_Store
 .idea
 coverage
+*.taskpaper
+NOTES.md

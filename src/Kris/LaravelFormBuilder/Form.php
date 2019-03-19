@@ -170,7 +170,7 @@ class Form
         if (get_class($this) === 'Kris\LaravelFormBuilder\Form') {
             foreach ($this->fields as $name => $field) {
                 // Remove any temp variables added in previous instance
-                $options = array_except($field->getOptions(), 'tmp');
+                $options =  Arr::except($field->getOptions(), 'tmp');
                 $this->add($name, $field->getType(), $options);
             }
         } else {
@@ -199,7 +199,7 @@ class Form
 
         $field = new $fieldType($fieldName, $type, $this, $options);
 
-        $this->eventDispatcher->fire(new AfterFieldCreation($this, $field));
+        $this->eventDispatcher->dispatch(new AfterFieldCreation($this, $field));
 
         return $field;
     }
@@ -481,7 +481,7 @@ class Form
      */
     public function getFormOption($option, $default = null)
     {
-        return array_get($this->formOptions, $option, $default);
+        return Arr::get($this->formOptions, $option, $default);
     }
 
     /**
@@ -542,8 +542,8 @@ class Form
      */
     protected function pullFromOptions($name, $method)
     {
-        if (array_get($this->formOptions, $name) !== null) {
-            $this->{$method}(array_pull($this->formOptions, $name));
+        if (Arr::get($this->formOptions, $name) !== null) {
+            $this->{$method}(Arr::pull($this->formOptions, $name));
         }
     }
 
@@ -817,7 +817,7 @@ class Form
             return $this->data;
         }
 
-        return array_get($this->data, $name, $default);
+        return Arr::get($this->data, $name, $default);
     }
 
     /**
@@ -1024,7 +1024,7 @@ class Form
     protected function checkIfNamedForm()
     {
         if ($this->getFormOption('name')) {
-            $this->name = array_pull($this->formOptions, 'name', $this->name);
+            $this->name = Arr::pull($this->formOptions, 'name', $this->name);
         }
     }
 
@@ -1056,9 +1056,9 @@ class Form
         $isCollectionFormModel = preg_match('/^.*\.\d$/', $dotName);
         $isCollectionPrototype = strpos($dotName, '__NAME__') !== false;
 
-        if (!array_get($model, $dotName) && !$isCollectionFormModel && !$isCollectionPrototype) {
+        if (!Arr::get($model, $dotName) && !$isCollectionFormModel && !$isCollectionPrototype) {
             $newModel = [];
-            array_set($newModel, $dotName, $model);
+            Arr::set($newModel, $dotName, $model);
             $this->model = $newModel;
 
             return true;
@@ -1179,13 +1179,13 @@ class Form
     public function validate($validationRules = [], $messages = [])
     {
         $fieldRules = $this->formHelper->mergeFieldsRules($this->fields);
-        $rules = array_merge($fieldRules['rules'], $validationRules);
-        $messages = array_merge($fieldRules['error_messages'], $messages);
+        $rules = array_merge($fieldRules->getRules(), $validationRules);
+        $messages = array_merge($fieldRules->getMessages(), $messages);
 
         $this->validator = $this->validatorFactory->make($this->getRequest()->all(), $rules, $messages);
-        $this->validator->setAttributeNames($fieldRules['attributes']);
+        $this->validator->setAttributeNames($fieldRules->getAttributes());
 
-        $this->eventDispatcher->fire(new BeforeFormValidation($this, $this->validator));
+        $this->eventDispatcher->dispatch(new BeforeFormValidation($this, $this->validator));
 
         return $this->validator;
     }
@@ -1200,7 +1200,7 @@ class Form
     {
         $fieldRules = $this->formHelper->mergeFieldsRules($this->fields);
 
-        return array_merge($fieldRules['rules'], $overrideRules);
+        return array_merge($fieldRules->getRules(), $overrideRules);
     }
 
     /**
@@ -1249,7 +1249,7 @@ class Form
 
         $this->formHelper->alterValid($this, $this, $isValid);
 
-        $this->eventDispatcher->fire(new AfterFormValidation($this, $this->validator, $isValid));
+        $this->eventDispatcher->dispatch(new AfterFormValidation($this, $this->validator, $isValid));
 
         return $isValid;
     }
