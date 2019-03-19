@@ -6,6 +6,11 @@ class Rules
 {
 
     /**
+     * @var string|null
+     */
+    protected $fieldName;
+
+    /**
      * @var array
      */
     protected $rules;
@@ -29,6 +34,59 @@ class Rules
         $this->rules = $rules;
         $this->attributes = $attributes;
         $this->messages = $messages;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setFieldName($name) {
+        $this->fieldName = $name;
+
+        return $this;
+    }
+
+    /**
+     * @param string $fieldName
+     */
+    public function getFieldRules($fieldName = null) {
+      $fieldName = $this->ensureFieldName($fieldName);
+
+      $rules = $this->rules;
+      return isset($rules[$fieldName]) ? $rules[$fieldName] : [];
+    }
+
+    /**
+     * @param mixes $rule
+     * @param string $fieldName
+     */
+    public function addFieldRule($rule, $fieldName = null) {
+      $rules = $this->getFieldRules($fieldName);
+      $rules[] = $rule;
+      $this->setFieldRules($rules, $fieldName);
+    }
+
+    /**
+     * @param array $rules
+     * @param string $fieldName
+     */
+    public function setFieldRules(array $rules, $fieldName = null) {
+      $fieldName = $this->ensureFieldName($fieldName);
+      $this->rules[$fieldName] = $rules;
+    }
+
+    /**
+     * @param string $fieldName
+     */
+    protected function ensureFieldName($fieldName) {
+      if (!$fieldName) {
+        if (!$this->fieldName) {
+          throw new InvalidArgumentException("Field functions on non-field Rules need explicit field name");
+        }
+
+        $fieldName = $this->fieldName;
+      }
+
+      return $fieldName;
     }
 
     /**

@@ -297,7 +297,7 @@ class FormHelper
         $fieldRules = $field->getValidationRules();
 
         if (is_array($fieldRules)) {
-          $fieldRules = Rules::fromArray($fieldRules);
+          $fieldRules = Rules::fromArray($fieldRules)->setFieldName($field->getNameKey());
         }
 
         $formBuilder = $field->getParent()->getFormBuilder();

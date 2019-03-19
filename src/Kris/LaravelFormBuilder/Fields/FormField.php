@@ -685,7 +685,7 @@ abstract class FormField
         }
 
         if (!$rules) {
-            return new Rules([]);
+            return (new Rules([]))->setFieldName($this->getNameKey());
         }
 
         if (is_array($rules)) {
@@ -698,11 +698,11 @@ abstract class FormField
             }, $rules);
         }
 
-        return new Rules(
+        return (new Rules(
             [$name => $rules],
             [$name => $this->getOption('label')],
             $messages
-        );
+        ))->setFieldName($this->getNameKey());
     }
 
     /**
