@@ -352,7 +352,7 @@ class FormHelper
             if (method_exists($field, 'alterFieldValues')) {
                 $fullName = $this->transformToDotSyntax($name);
 
-                $subValues = Arr::get($values, $fullName);
+                $subValues = (array) Arr::get($values, $fullName);
                 $field->alterFieldValues($subValues);
                 Arr::set($values, $fullName, $subValues);
             }
