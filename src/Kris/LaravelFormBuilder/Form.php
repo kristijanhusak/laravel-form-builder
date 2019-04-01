@@ -1347,22 +1347,32 @@ class Form
     {
         // If filtering is unlocked/allowed we can start with filtering process.
         if (!$this->isFilteringLocked()) {
-            // Init required vars.
-            $filters = $this->getFilters();
-            $request = $this->getRequest();
+            $filters = array_filter($this->getFilters());
 
-            if (!empty($filters)) {
+            if (count($filters)) {
+                $dotForm = $this->formHelper->transformToDotSyntax($this->getName());
+
+                $request = $this->getRequest();
+                $requestData = $request->all();
+
                 foreach ($filters as $field => $fieldFilters) {
-                    // If field exist in request object, try to mutate/filter
-                    // it to filtered value if there is one.
-                    if (array_key_exists($field, $request->all())) {
+                    $dotField = $this->formHelper->transformToDotSyntax($field);
+                    $fieldData = Arr::get($requestData, $dotField);
+                    if ($fieldData !== null) {
                         // Assign current Raw/Unmutated value from request.
-                        $this->fields[$field]->setRawValue($request[$field]);
+                        $localDotField = preg_replace('#^' . preg_quote("$dotForm.", '#') . '#', '', $dotField);
+                        $localBracketField = $this->formHelper->transformToBracketSyntax($localDotField);
+                        $this->getField($localBracketField)->setRawValue($fieldData);
                         foreach ($fieldFilters as $filter) {
                             $filterObj = FilterResolver::instance($filter);
-                            $request[$field] = $filterObj->filter($request[$field]);
+                            $fieldData = $filterObj->filter($fieldData);
                         }
+                        Arr::set($requestData, $dotField, $fieldData);
                     }
+                }
+
+                foreach ($requestData as $name => $value) {
+                    $request[$name] = $value;
                 }
             }
         }
