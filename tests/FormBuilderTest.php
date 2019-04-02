@@ -186,8 +186,8 @@ namespace {
 
             $this->add('options', 'choice', [
                 'choices' => ['a' => 'Aaa', 'b' => 'Bbb'],
-                'expanded' => TRUE,
-                'multiple' => TRUE,
+                'expanded' => true,
+                'multiple' => true,
             ]);
 
             $this->add('subcustom', 'form', [
