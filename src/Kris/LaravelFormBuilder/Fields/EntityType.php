@@ -52,7 +52,7 @@ class EntityType extends ChoiceType
         }
 
         if ($queryBuilder instanceof \Closure) {
-            $data = $queryBuilder($entity);
+            $data = $queryBuilder($entity, $this->parent);
         } else {
             $data = $entity;
         }
