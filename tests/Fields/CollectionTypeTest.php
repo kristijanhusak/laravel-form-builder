@@ -139,6 +139,25 @@ namespace {
             }
         }
 
+        /** @test */
+        public function it_get_all_items_of_collection_with_child_form()
+        {
+            $excepted = [
+                'entries' => [
+                    0 => ['name' => 'test'],
+                    1 => ['name' => 'test2'],
+                ]
+            ];
+
+            $this->request['entries'] = $excepted['entries'];
+
+            $form = $this->formBuilder->create('\LaravelFormBuilderCollectionTypeTest\Forms\EntriesForm');
+
+            $actual = $form->getFieldValues();
+
+            $this->assertEquals($excepted, $actual);
+        }
+
         /**
          * @test
          * @expectedException \Exception
@@ -219,9 +238,37 @@ namespace {
 
 namespace LaravelFormBuilderCollectionTypeTest\Forms {
 
+    use Kris\LaravelFormBuilder\Field;
     use Kris\LaravelFormBuilder\Form;
 
     class NamespacedDummyForm extends Form
     {
+    }
+
+    class EntriesForm extends Form
+    {
+        public function buildForm()
+        {
+            parent::buildForm();
+            $this
+                ->add('entries', 'collection', [
+                    'type' => 'form',
+                    'options' => [
+                        'class' => EntryForm::class
+                    ]
+                ]);
+        }
+    }
+
+    class EntryForm extends Form
+    {
+        public function buildForm()
+        {
+            parent::buildForm();
+            $this
+                ->add('name', Field::TEXT, [
+                    'rules' => 'required'
+                ]);
+        }
     }
 }

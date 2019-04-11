@@ -35,7 +35,7 @@ class CollectionType extends ParentType
             'type' => null,
             'options' => ['is_child' => true],
             'prototype' => true,
-            'data' => null,
+            'data' => [],
             'property' => 'id',
             'prototype_name' => '__NAME__',
             'empty_row' => true,
