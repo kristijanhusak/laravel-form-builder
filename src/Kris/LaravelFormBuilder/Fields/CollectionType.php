@@ -40,6 +40,7 @@ class CollectionType extends ParentType
             'prototype_name' => '__NAME__',
             'empty_row' => true,
             'prefer_input' => false,
+            'attempt_keep_data' => false,
         ];
     }
 
@@ -100,14 +101,14 @@ class CollectionType extends ParentType
             $data = $currentInput;
         }
 
+        if ($data instanceof Collection) {
+            $data = $data->all();
+        }
+
         // Needs to have more than 1 item because 1 is rendered by default.
         // This overrides current request in situations when validation fails.
         if ($oldInput && count($oldInput) > 1) {
-            $data = $oldInput;
-        }
-
-        if ($data instanceof Collection) {
-            $data = $data->all();
+            $data = $this->overrideDataWithInput($data, $oldInput);
         }
 
         $field = new $fieldType($this->name, $type, $this->parent, $this->getOption('options'));
@@ -132,6 +133,39 @@ class CollectionType extends ParentType
 
         foreach ($data as $key => $val) {
             $this->children[] = $this->setupChild(clone $field, '['.$key.']', $val);
+        }
+    }
+
+    protected function overrideDataWithInput(array $data, array $input)
+    {
+        if (!$this->getOption('attempt_keep_data')) {
+            return $input;
+        }
+
+        foreach ($input as $i => $inputItem) {
+            if (is_array($inputItem)) {
+                foreach ($inputItem as $key => $value) {
+                    $this->overrideSingleData($data[$i], $key, $value);
+                }
+            }
+            else {
+                $data[$i] = $inputItem;
+            }
+        }
+
+        return $data;
+    }
+
+    protected function overrideSingleData(&$container, $property, $value)
+    {
+        if (is_object($container)) {
+            $container->$property = $value;
+        }
+        elseif (is_array($container)) {
+            $container[$property] = $value;
+        }
+        else {
+            $container = [$property => $value];
         }
     }
 
