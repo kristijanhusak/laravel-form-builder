@@ -117,8 +117,9 @@ class CollectionType extends ParentType
         }
 
         if (!$data || empty($data)) {
-            if ($this->getOption('empty_row')) {
-                return $this->children[] = $this->setupChild(clone $field, '[0]');
+            if ($empty = $this->getOption('empty_row')) {
+                $val = $empty === true ? null : $empty;
+                return $this->children[] = $this->setupChild(clone $field, '[0]', $val);
             }
 
             return $this->children = [];
