@@ -10,6 +10,7 @@ return [
         'help_block_class'    => 'help-block',
         'error_class'         => 'text-danger',
         'required_class'      => 'required'
+		'method'              => 'GET',
 
         // Override a class from a field.
         //'text'                => [

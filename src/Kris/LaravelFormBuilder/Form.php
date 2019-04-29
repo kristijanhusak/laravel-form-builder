@@ -46,7 +46,6 @@ class Form
      * @var array
      */
     protected $formOptions = [
-        'method' => 'GET',
         'url' => null
     ];
 
@@ -521,6 +520,9 @@ class Form
      */
     public function setFormOptions(array $formOptions)
     {
+		if (!isset($formOptions['method'])) {
+            $formOptions['method'] = $this->getConfig('defaults.method', 'GET');
+        }
         $this->formOptions = $this->formHelper->mergeOptions($this->formOptions, $formOptions);
         $this->checkIfNamedForm();
         $this->pullFromOptions('data', 'addData');
