@@ -830,9 +830,9 @@ class FormTest extends FormBuilderTestCase
             'gender' => 'f'
         ]);
 
-        $expectModel = [
-            'test_name' => $model->all()
-        ];
+        $expectModel = new StdClass;
+        $expectModel->test_name = $model;
+
         $this->plainForm
             ->add('name', 'text')
             ->add('address', 'static');

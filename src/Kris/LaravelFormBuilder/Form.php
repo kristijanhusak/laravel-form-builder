@@ -1052,14 +1052,18 @@ class Form
         }
 
         $dotName = $this->formHelper->transformToDotSyntax($this->getName());
-        $model = $this->formHelper->convertModelToArray($this->getModel());
+        $model = $this->getModel();
         $isCollectionFormModel = (bool) preg_match('/^.*\.\d+$/', $dotName);
         $isCollectionPrototype = strpos($dotName, '__NAME__') !== false;
 
-        if (!Arr::get($model, $dotName) && !$isCollectionFormModel && !$isCollectionPrototype) {
+        if (!$this->formHelper->getModelValue($model, $dotName) && !$isCollectionFormModel && !$isCollectionPrototype) {
             $newModel = [];
             Arr::set($newModel, $dotName, $model);
             $this->model = $newModel;
+
+            if (is_object($model)) {
+                $this->model = (object) $newModel;
+            }
 
             return true;
         }

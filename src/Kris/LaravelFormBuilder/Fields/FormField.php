@@ -231,14 +231,7 @@ abstract class FormField
      */
     protected function getModelValueAttribute($model, $name)
     {
-        $transformedName = $this->transformKey($name);
-        if (is_string($model)) {
-            return $model;
-        } elseif (is_object($model)) {
-            return object_get($model, $transformedName);
-        } elseif (is_array($model)) {
-            return Arr::get($model, $transformedName);
-        }
+        return $this->formHelper->getModelValue($model, $name);
     }
 
     /**
