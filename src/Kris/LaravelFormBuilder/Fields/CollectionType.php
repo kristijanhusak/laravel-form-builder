@@ -80,6 +80,9 @@ class CollectionType extends ParentType
         $oldInput = $this->parent->getRequest()->old($this->getNameKey());
         $currentInput = $this->parent->getRequest()->input($this->getNameKey());
 
+        is_array($oldInput) or $oldInput = [];
+        is_array($currentInput) or $currentInput = [];
+
         try {
             $fieldType = $this->formHelper->getFieldType($type);
         } catch (\Exception $e) {
