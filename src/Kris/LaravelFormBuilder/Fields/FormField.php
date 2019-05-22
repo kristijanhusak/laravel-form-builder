@@ -533,7 +533,10 @@ abstract class FormField
      */
     protected function addErrorClass()
     {
-        $errors = $this->parent->getRequest()->session()->get('errors');
+        $errors = [];
+        if($this->parent->getRequest()->hasSession()) {
+            $errors = $this->parent->getRequest()->session()->get('errors');
+        }
         $errorBag = $this->parent->getErrorBag();
 
         if ($errors && $errors->hasBag($errorBag) && $errors->getBag($errorBag)->has($this->getNameKey())) {
