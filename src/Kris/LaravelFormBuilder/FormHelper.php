@@ -344,9 +344,6 @@ class FormHelper
      */
     public function alterFieldValues(Form $form, array &$values)
     {
-        // Alter the form itself
-        $form->alterFieldValues($values);
-
         // Alter the form's child forms recursively
         foreach ($form->getFields() as $name => $field) {
             if (method_exists($field, 'alterFieldValues')) {
@@ -357,6 +354,9 @@ class FormHelper
                 Arr::set($values, $fullName, $subValues);
             }
         }
+
+        // Alter the form itself
+        $form->alterFieldValues($values);
     }
 
     /**
