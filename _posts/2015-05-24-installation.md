@@ -6,7 +6,7 @@ order: 1
 date: 2015-05-24 17:09:14
 ---
 
-###Installation
+Add package to `composer.json`
 
 ```json
 {
