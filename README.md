@@ -199,6 +199,82 @@ class SongsController extends BaseController {
 }
 ```
 
+
+If you want to store a model after a form submit considerating all fields are model properties:
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use Kris\LaravelFormBuilder\FormBuilder;
+use App\SongForm;
+
+class SongFormController extends Controller
+{
+    public function store(FormBuilder $formBuilder)
+    {
+        $form = $formBuilder->create(\App\Forms\SongForm::class);
+        $form->redirectIfNotValid();
+        
+        SongForm::create($form->getFieldValues());
+
+        // Do redirecting...
+    }
+```
+
+You can only save properties you need:
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use Kris\LaravelFormBuilder\FormBuilder;
+use App\SongForm;
+
+class SongFormController extends Controller
+{
+    public function store(FormBuilder $formBuilder, Request $request)
+    {
+        $form = $formBuilder->create(\App\Forms\SongForm::class);
+        $form->redirectIfNotValid();
+        
+        $songForm = new SongForm();
+        $songForm->fill($request->only(['name', 'artist'])->save();
+
+        // Do redirecting...
+    }
+```
+
+Or you can update any model after form submit:
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use Kris\LaravelFormBuilder\FormBuilder;
+use App\SongForm;
+
+class SongFormController extends Controller
+{
+    public function update(int $id, Request $request)
+    {
+        $songForm = SongForm::findOrFail($id);
+
+        $form = $this->getForm($songForm);
+        $form->redirectIfNotValid();
+
+        $songForm->update($form->getFieldValues());
+
+        // Do redirecting...
+    }
+```
+
 Create the routes
 
 ```php
