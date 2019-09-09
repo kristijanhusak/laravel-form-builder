@@ -218,7 +218,8 @@ abstract class FormField
      *
      * @return array
      */
-    protected function getRenderData() {
+    protected function getRenderData()
+    {
         return [];
     }
 
@@ -272,7 +273,7 @@ abstract class FormField
             if ($this->getOption("{$appendable}.class_append")) {
                 // Combine the current class attribute with the appends
                 $append = $this->getOption("{$appendable}.class_append");
-                $classAttribute = $this->getOption("{$appendable}.class", '').' '.$append;
+                $classAttribute = $this->getOption("{$appendable}.class", '') . ' ' . $append;
                 $this->setOption("{$appendable}.class", $classAttribute);
 
                 // Then remove the class_append option to prevent it from showing up as an attribute in the HTML
@@ -281,7 +282,7 @@ abstract class FormField
         }
 
         if ($this->getOption('attr.multiple') && !$this->getOption('tmp.multipleBracesSet')) {
-            $this->name = $this->name.'[]';
+            $this->name = $this->name . '[]';
             $this->setOption('tmp.multipleBracesSet', true);
         }
 
@@ -293,8 +294,8 @@ abstract class FormField
             $lblClass = $this->getOption('label_attr.class', '');
             $requiredClass = $this->getConfig('defaults.required_class', 'required');
 
-            if (! Str::contains($lblClass, $requiredClass)) {
-                $lblClass .= ' '.$requiredClass;
+            if (!Str::contains($lblClass, $requiredClass)) {
+                $lblClass .= ' ' . $requiredClass;
                 $this->setOption('label_attr.class', $lblClass);
             }
 
@@ -534,7 +535,7 @@ abstract class FormField
     protected function addErrorClass()
     {
         $errors = [];
-        if($this->parent->getRequest()->hasSession()) {
+        if ($this->parent->getRequest()->hasSession()) {
             $errors = $this->parent->getRequest()->session()->get('errors');
         }
         $errorBag = $this->parent->getErrorBag();
@@ -543,7 +544,7 @@ abstract class FormField
             $fieldErrorClass = $this->getConfig('defaults.field_error_class');
             $fieldClass = $this->getOption('attr.class');
 
-            if ($fieldErrorClass && !str_contains($fieldClass, $fieldErrorClass)) {
+            if ($fieldErrorClass && !Str::contains($fieldClass, $fieldErrorClass)) {
                 $fieldClass .= ' ' . $fieldErrorClass;
                 $this->setOption('attr.class', $fieldClass);
             }
@@ -551,7 +552,7 @@ abstract class FormField
             $wrapperErrorClass = $this->getConfig('defaults.wrapper_error_class');
             $wrapperClass = $this->getOption('wrapper.class');
 
-            if ($wrapperErrorClass && $this->getOption('wrapper') && !str_contains($wrapperClass, $wrapperErrorClass)) {
+            if ($wrapperErrorClass && $this->getOption('wrapper') && !Str::contains($wrapperClass, $wrapperErrorClass)) {
                 $wrapperClass .= ' ' . $wrapperErrorClass;
                 $this->setOption('wrapper.class', $wrapperClass);
             }
