@@ -220,7 +220,7 @@ class RulesParser
         }
 
         return [
-            'pattern' => '\d{'.$digits.'}',
+            'pattern' => '\d{' . $digits . '}',
             'title' => $this->getTitle('digits', compact('digits')),
         ];
     }
@@ -248,7 +248,7 @@ class RulesParser
         }
 
         return [
-            'pattern' => '\d{'.$min.','.$max.'}',
+            'pattern' => '\d{' . $min . ',' . $max . '}',
             'title' => $this->getTitle('digits_between', compact('min', 'max')),
         ];
     }
@@ -315,7 +315,7 @@ class RulesParser
      */
     protected function between($param)
     {
-        list ($min, $max) = $param;
+        list($min, $max) = $param;
 
         if ($this->isNumeric()) {
             return [
@@ -355,7 +355,7 @@ class RulesParser
         }
 
         return [
-            'pattern' =>  '.{'.$size.'}',
+            'pattern' =>  '.{' . $size . '}',
             'title' => $this->getTitle('size.string', compact('size')),
         ];
     }
@@ -480,7 +480,7 @@ class RulesParser
     {
         $params['attribute'] = $this->field->getOption('label');
 
-        return $this->formHelper->getTranslator()->trans('validation.' . $rule, $params);
+        return $this->formHelper->getTranslator()->get('validation.' . $rule, $params);
     }
 
     /**
@@ -537,7 +537,7 @@ class RulesParser
         if (is_array($rules)) {
             return $this->parseArrayRule($rules);
         }
-        if(is_string($rules)) {
+        if (is_string($rules)) {
             return $this->parseStringRule($rules);
         }
     }
@@ -593,10 +593,11 @@ class RulesParser
      * @param string|array $rules
      * @return array
      */
-    protected function getRulesAsArray($rules) {
+    protected function getRulesAsArray($rules)
+    {
         $rulesArray = (is_string($rules)) ? explode('|', $rules) : $rules;
 
-        return array_map(function($rule) {
+        return array_map(function ($rule) {
             if ($rule instanceof \Closure) {
                 return $rule($this->field->getNameKey());
             }
