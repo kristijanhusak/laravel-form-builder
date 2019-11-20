@@ -2,6 +2,7 @@ name: "Run unit tests"
 
 on:
   - push
+  - pull_request
 
 env:
   COMPOSER_MEMORY_LIMIT: -1
