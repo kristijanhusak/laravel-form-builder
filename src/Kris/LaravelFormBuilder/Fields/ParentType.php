@@ -103,7 +103,7 @@ abstract class ParentType extends FormField
 
         if ($this->options['copy_options_to_children']) {
             foreach ((array) $this->children as $key => $child) {
-                $this->children[$key]->setOption($name, $value);
+                $this->children[$key]->setOption($name, is_array($value) ? array_merge($value, $this->children[$key]->getOption($name)) : $value);
             }
         }
     }

@@ -1,5 +1,6 @@
 <?php
 
+use Kris\LaravelFormBuilder\Fields\CheckableType;
 use Kris\LaravelFormBuilder\Fields\ChoiceType;
 
 class ChoiceTypeTest extends FormBuilderTestCase
@@ -105,5 +106,30 @@ class ChoiceTypeTest extends FormBuilderTestCase
         $this->assertEquals(3, count($choice->getOption('choices')));
 
         $this->assertEquals('test', $choice->getOption('selected'));
+    }
+
+    /** @test */
+    public function it_keeps_default_options_from_children()
+    {
+        $options = [
+            'rules' => 'required',
+            'choices' => ['yes' => 'Yes', 'no' => 'No'],
+            'expanded' => true,
+            'multiple' => true,
+        ];
+
+        $choice = new ChoiceType('some_choice', 'choice', $this->plainForm, $options);
+
+        $choice->render();
+
+        $this->assertEquals(2, count($choice->getChildren()));
+
+        $this->assertContainsOnlyInstancesOf(CheckableType::class, $choice->getChildren());
+
+        /** @var CheckableType $firstChoice */
+        $firstChoice = $choice->getChildren()[0];
+
+        $this->assertEquals('some_choice_yes', $firstChoice->getOption('attr.id'));
+        $this->assertEquals($firstChoice->getOption('label_attr.for'), $firstChoice->getOption('attr.id'));
     }
 }
