@@ -340,13 +340,15 @@ class Form
     /**
      * Remove field with specified name from the form.
      *
-     * @param $name
+     * @param string|string[] $names
      * @return $this
      */
-    public function remove($name)
+    public function remove($names)
     {
-        if ($this->has($name)) {
-            unset($this->fields[$name]);
+        foreach (is_array($names) ? $names : func_get_args() as $name) {
+            if ($this->has($name)) {
+                unset($this->fields[$name]);
+            }
         }
 
         return $this;
