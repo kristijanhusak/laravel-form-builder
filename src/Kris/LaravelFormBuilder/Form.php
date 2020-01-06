@@ -355,6 +355,25 @@ class Form
     }
 
     /**
+     * Take only the given fields from the form.
+     *
+     * @param string|string[] $fieldNames
+     * @return $this
+     */
+    public function only($fieldNames)
+    {
+        $newFields = [];
+
+        foreach (is_array($fieldNames) ? $fieldNames : func_get_args() as $fieldName) {
+            $newFields[$fieldName] = $this->getField($fieldName);
+        }
+
+        $this->fields = $newFields;
+
+        return $this;
+    }
+
+    /**
      * Modify existing field. If it doesn't exist, it is added to form.
      *
      * @param string $name

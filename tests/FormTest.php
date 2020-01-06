@@ -457,6 +457,24 @@ class FormTest extends FormBuilderTestCase
     }
 
     /** @test */
+    public function it_can_take_and_replace_existing_fields()
+    {
+        $this->plainForm
+            ->add('name', 'text')
+            ->add('description', 'textarea')
+            ->add('remember', 'checkbox');
+
+        $this->plainForm->only('remember', 'name');
+
+        $this->assertEquals(2, count($this->plainForm->getFields()));
+        
+        $this->assertTrue($this->plainForm->has('remember'));
+        $this->assertTrue($this->plainForm->has('name'));
+        $this->assertFalse($this->plainForm->has('description'));
+    }
+
+
+    /** @test */
     public function it_can_modify_existing_fields()
     {
         $this->plainForm
