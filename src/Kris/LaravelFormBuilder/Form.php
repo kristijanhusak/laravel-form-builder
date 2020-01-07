@@ -625,6 +625,16 @@ class Form
     }
 
     /**
+     * Get dot notation key for the form.
+     *
+     * @return string
+     **/
+    public function getNameKey()
+    {
+        return $this->formHelper->transformToDotSyntax($this->name);
+    }
+
+    /**
      * Set the name of the form.
      *
      * @param string $name
