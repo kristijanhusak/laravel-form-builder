@@ -1082,7 +1082,7 @@ class Form
             return false;
         }
 
-        $dotName = $this->formHelper->transformToDotSyntax($this->getName());
+        $dotName = $this->getNameKey();
         $model = $this->formHelper->convertModelToArray($this->getModel());
         $isCollectionFormModel = (bool) preg_match('/^.*\.\d+$/', $dotName);
         $isCollectionPrototype = strpos($dotName, '__NAME__') !== false;
@@ -1335,8 +1335,8 @@ class Form
         }
 
         // If this form is a child form, cherry pick a part
-        if ($prefix = $this->getName()) {
-            $prefix = $this->formHelper->transformToDotSyntax($prefix);
+        if ($this->getName()) {
+            $prefix = $this->getNameKey();
             $values = Arr::get($values, $prefix);
         }
 
@@ -1381,7 +1381,7 @@ class Form
             $filters = array_filter($this->getFilters());
 
             if (count($filters)) {
-                $dotForm = $this->formHelper->transformToDotSyntax($this->getName());
+                $dotForm = $this->getNameKey();
 
                 $request = $this->getRequest();
                 $requestData = $request->all();
