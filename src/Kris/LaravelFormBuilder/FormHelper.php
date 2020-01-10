@@ -130,13 +130,23 @@ class FormHelper
     /**
      * Merge options array.
      *
-     * @param array $first
-     * @param array $second
+     * @param array $targetOptions
+     * @param array $sourceOptions
      * @return array
      */
-    public function mergeOptions(array $first, array $second)
+    public function mergeOptions(array $targetOptions, array $sourceOptions)
     {
-        return array_replace_recursive($first, $second);
+        if (array_key_exists('+rules', $sourceOptions)) {
+            $mergedRules = array_values(array_unique(array_merge($targetOptions['rules'] ?? [], $sourceOptions['+rules'])));
+            $targetOptions['rules'] = $mergedRules;
+            unset($sourceOptions['+rules']);
+        }
+
+        if (array_key_exists('rules', $targetOptions) && array_key_exists('rules', $sourceOptions)) {
+            unset($targetOptions['rules']);
+        }
+
+        return array_replace_recursive($targetOptions, $sourceOptions);
     }
 
     /**

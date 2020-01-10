@@ -38,6 +38,33 @@ class FormHelperTest extends FormBuilderTestCase
     }
 
     /** @test */
+    public function it_merges_rules_properly()
+    {
+        $targetOptions = [
+            'rules' => ['rule1', 'rule2'],
+        ];
+
+        $sourceOptionsForReplacing = [
+            'rules' => ['replaced_rule'],
+        ];
+
+        $expectedForReplacing = [
+            'rules' => ['replaced_rule'],
+        ];
+
+        $sourceOptionsForAppending = [
+            '+rules' => ['rule2', 'new_rule1', 'new_rule2'],
+        ];
+
+        $expectedForAppending = [
+            'rules' => ['rule1', 'rule2', 'new_rule1', 'new_rule2'],
+        ];
+
+        $this->assertEquals($expectedForAppending, $this->formHelper->mergeOptions($targetOptions, $sourceOptionsForAppending));
+        $this->assertEquals($expectedForReplacing, $this->formHelper->mergeOptions($targetOptions, $sourceOptionsForReplacing));
+    }
+
+    /** @test */
     public function it_gets_proper_class_for_specific_field_type()
     {
         $input = $this->formHelper->getFieldType('text');
