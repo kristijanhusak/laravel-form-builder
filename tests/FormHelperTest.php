@@ -53,15 +53,23 @@ class FormHelperTest extends FormBuilderTestCase
         ];
 
         $sourceOptionsForAppending = [
-            '+rules' => ['rule2', 'new_rule1', 'new_rule2'],
+            '+rules' => ['rule2', 'new_rule1', 'new_rule2', 'new_rule3|new_rule4'],
         ];
 
         $expectedForAppending = [
-            'rules' => ['rule1', 'rule2', 'new_rule1', 'new_rule2'],
+            'rules' => ['rule1', 'rule2', 'new_rule1', 'new_rule2', 'new_rule3', 'new_rule4'],
         ];
 
         $this->assertEquals($expectedForAppending, $this->formHelper->mergeOptions($targetOptions, $sourceOptionsForAppending));
         $this->assertEquals($expectedForReplacing, $this->formHelper->mergeOptions($targetOptions, $sourceOptionsForReplacing));
+    }
+
+    /** @test */
+    public function it_normalize_rules_properly()
+    {
+        $this->assertEquals(['rule1', 'rule2', 'rule3', 'rule4', 'rule5'], $this->formHelper->normalizeRules(['rule1', 'rule2', 'rule3|rule4', 'rule5']));
+        $this->assertEquals(['rule1', 'rule2', 'rule3'], $this->formHelper->normalizeRules('rule1|rule2|rule3'));
+        $this->assertEquals(['rule1', 'rule2', 'rule3', 'new_rule'], $this->formHelper->normalizeRules(['rule1|rule2|rule3', 'rule1', 'rule2', 'new_rule']));
     }
 
     /** @test */

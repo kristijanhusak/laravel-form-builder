@@ -136,17 +136,60 @@ class FormHelper
      */
     public function mergeOptions(array $targetOptions, array $sourceOptions)
     {
+        // Normalize rules
         if (array_key_exists('+rules', $sourceOptions)) {
-            $mergedRules = array_values(array_unique(array_merge($targetOptions['rules'] ?? [], $sourceOptions['+rules'])));
-            $targetOptions['rules'] = $mergedRules;
-            unset($sourceOptions['+rules']);
+            $sourceOptions['+rules'] = $this->normalizeRules($sourceOptions['+rules']);
         }
 
+        if (array_key_exists('rules', $sourceOptions)) {
+            $sourceOptions['rules'] = $this->normalizeRules($sourceOptions['rules']);
+        }
+
+        if (array_key_exists('rules', $targetOptions)) {
+            $targetOptions['rules'] = $this->normalizeRules($targetOptions['rules']);
+        }
+
+
+        // Append rules
+        if ($rulesToBeAppended = Arr::pull($sourceOptions, '+rules')) {
+            $mergedRules = array_values(array_unique(array_merge($targetOptions['rules'], $rulesToBeAppended)));
+            $targetOptions['rules'] = $mergedRules;
+        }
+
+
+        // Replace rules
         if (array_key_exists('rules', $targetOptions) && array_key_exists('rules', $sourceOptions)) {
             unset($targetOptions['rules']);
         }
 
         return array_replace_recursive($targetOptions, $sourceOptions);
+    }
+
+    /**
+     * Normalize the the given rule expression to an array.
+     * @param mixed $rules
+     * @return array
+     */
+    public function normalizeRules($rules)
+    {
+        if (empty($rules)) {
+            return [];
+        }
+
+        if (is_string($rules)) {
+            return explode('|', $rules);
+        }
+
+        if (is_array($rules)) {
+            $normalizedRules = [];
+            foreach ($rules as $rule) {
+                $normalizedRules[] = $this->normalizeRules($rule);
+            }
+
+            return array_values(array_unique(Arr::flatten($normalizedRules)));
+        }
+
+        return $rules;
     }
 
     /**
