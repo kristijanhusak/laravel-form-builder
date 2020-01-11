@@ -47,7 +47,8 @@ class Form
      */
     protected $formOptions = [
         'method' => 'GET',
-        'url' => null
+        'url' => null,
+        'attr' => [],
     ];
 
     /**
@@ -947,7 +948,9 @@ class Form
      */
     protected function render($options, $fields, $showStart, $showFields, $showEnd)
     {
-        $formOptions = $this->formHelper->mergeOptions($this->formOptions, $options);
+        $formOptions = $this->buildFormOptionsForFormBuilder(
+            $this->formHelper->mergeOptions($this->formOptions, $options)
+        );
 
         $this->setupNamedModel();
 
@@ -961,6 +964,21 @@ class Form
             ->with('form', $this)
             ->render();
     }
+
+    /**
+     * @param $formOptions
+     * @return array
+     */
+    protected function buildFormOptionsForFormBuilder($formOptions)
+    {
+        $reserved = ['method', 'url', 'route', 'action', 'files'];
+        $formAttributes = Arr::get($formOptions, 'attr', []);
+
+        return array_merge(
+            $formAttributes, Arr::only($formOptions, $reserved)
+        );
+    }
+
 
     /**
      * Get template from options if provided, otherwise fallback to config.
