@@ -588,11 +588,10 @@ class FormTest extends FormBuilderTestCase
     /** @test */
     public function it_can_set_form_options_with_array_of_options()
     {
-
         $options = [
             'method' => 'POST',
             'url' => '/url/1',
-            'class' => 'form-container',
+            'attr' => ['class' => 'form-container'],
             'model' => $this->model
         ];
 
@@ -620,7 +619,7 @@ class FormTest extends FormBuilderTestCase
         $this->plainForm->setName('test_name');
 
         $this->assertEquals(
-            ['method' => 'DELETE', 'url' => '/posts/all'],
+            ['method' => 'DELETE', 'url' => '/posts/all', 'attr' => []],
             $this->plainForm->getFormOptions()
         );
 
@@ -643,13 +642,14 @@ class FormTest extends FormBuilderTestCase
     /** @test */
     public function it_renders_the_form()
     {
-        $options = [
+        $formOptions = [
             'method' => 'POST',
             'url' => '/someurl',
-            'class' => 'has-error'
+            'class' => 'has-error',
+            'array_option' => ['foo' => 'bar'],
         ];
 
-        $this->plainForm->renderForm($options, true, true, true);
+        $this->plainForm->renderForm($formOptions, true, true, true);
     }
 
     /** @test */
