@@ -137,8 +137,8 @@ class FormHelper
     public function mergeOptions(array $targetOptions, array $sourceOptions)
     {
         // Normalize rules
-        if (array_key_exists('+rules', $sourceOptions)) {
-            $sourceOptions['+rules'] = $this->normalizeRules($sourceOptions['+rules']);
+        if (array_key_exists('rules_append', $sourceOptions)) {
+            $sourceOptions['rules_append'] = $this->normalizeRules($sourceOptions['rules_append']);
         }
 
         if (array_key_exists('rules', $sourceOptions)) {
@@ -151,15 +151,9 @@ class FormHelper
 
 
         // Append rules
-        if ($rulesToBeAppended = Arr::pull($sourceOptions, '+rules')) {
+        if ($rulesToBeAppended = Arr::pull($sourceOptions, 'rules_append')) {
             $mergedRules = array_values(array_unique(array_merge($targetOptions['rules'], $rulesToBeAppended)));
             $targetOptions['rules'] = $mergedRules;
-        }
-
-
-        // Replace rules
-        if (array_key_exists('rules', $targetOptions) && array_key_exists('rules', $sourceOptions)) {
-            unset($targetOptions['rules']);
         }
 
         return array_replace_recursive($targetOptions, $sourceOptions);
