@@ -974,6 +974,13 @@ class Form
         $reserved = ['method', 'url', 'route', 'action', 'files'];
         $formAttributes = Arr::get($formOptions, 'attr', []);
 
+        // move string value to `attr` to maintain backward compatibility
+        foreach ($formOptions as $key => $formOption) {
+            if (!in_array($formOption, $reserved) && is_string($formOption)) {
+                $formAttributes[$key] = $formOption;
+            }
+        }
+
         return array_merge(
             $formAttributes, Arr::only($formOptions, $reserved)
         );

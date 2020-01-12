@@ -624,13 +624,14 @@ class FormTest extends FormBuilderTestCase
     /** @test */
     public function it_renders_the_form()
     {
-        $options = [
+        $formOptions = [
             'method' => 'POST',
             'url' => '/someurl',
-            'class' => 'has-error'
+            'class' => 'has-error',
+            'array_option' => ['foo' => 'bar'],
         ];
 
-        $this->plainForm->renderForm($options, true, true, true);
+        $this->plainForm->renderForm($formOptions, true, true, true);
     }
 
     /** @test */
