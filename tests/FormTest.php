@@ -448,11 +448,12 @@ class FormTest extends FormBuilderTestCase
 
         $this->assertTrue($this->plainForm->has('name'));
 
-        $this->plainForm->remove('name');
+        $this->plainForm->remove('name', 'description');
 
-        $this->assertEquals(2, count($this->plainForm->getFields()));
+        $this->assertEquals(1, count($this->plainForm->getFields()));
 
         $this->assertFalse($this->plainForm->has('name'));
+        $this->assertFalse($this->plainForm->has('description'));
     }
 
     /** @test */
