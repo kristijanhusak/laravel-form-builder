@@ -38,30 +38,21 @@ class FormHelperTest extends FormBuilderTestCase
     }
 
     /** @test */
-    public function it_merges_rules_properly()
+    public function it_appends_rules_properly()
     {
-        $targetOptions = [
+        $defaultOptions = [
             'rules' => ['rule1', 'rule2'],
         ];
 
-        $sourceOptionsForReplacing = [
-            'rules' => ['replaced_rule'],
+        $sourceOptions = [
+            'rules_append' => ['rule2', 'new_rule1', 'new_rule2', 'new_rule3|new_rule4'],
         ];
 
-        $expectedForReplacing = [
-            'rules' => ['replaced_rule'],
-        ];
-
-        $sourceOptionsForAppending = [
-            '+rules' => ['rule2', 'new_rule1', 'new_rule2', 'new_rule3|new_rule4'],
-        ];
-
-        $expectedForAppending = [
+        $expected = [
             'rules' => ['rule1', 'rule2', 'new_rule1', 'new_rule2', 'new_rule3', 'new_rule4'],
         ];
 
-        $this->assertEquals($expectedForAppending, $this->formHelper->mergeOptions($targetOptions, $sourceOptionsForAppending));
-        $this->assertEquals($expectedForReplacing, $this->formHelper->mergeOptions($targetOptions, $sourceOptionsForReplacing));
+        $this->assertEquals($expected, $this->formHelper->mergeOptions($defaultOptions, $sourceOptions));
     }
 
     /** @test */
