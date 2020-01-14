@@ -87,6 +87,6 @@ class ButtonTypeTest extends FormBuilderTestCase
         $renderedView = $button->render();
 
         $this->assertEquals($expectedOptions, $button->getOptions());
-        $this->assertContains('<input', $renderedView);
+        $this->assertStringContainsString('<input', $renderedView);
     }
 }

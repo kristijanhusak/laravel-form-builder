@@ -1,8 +1,9 @@
 <?php
 
 use Kris\LaravelFormBuilder\Console\FormGenerator;
+use PHPUnit\Framework\TestCase;
 
-class FormGeneratorTest extends PHPUnit_Framework_TestCase
+class FormGeneratorTest extends TestCase
 {
 
     /**
@@ -10,7 +11,7 @@ class FormGeneratorTest extends PHPUnit_Framework_TestCase
      */
     protected $formGenerator;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->formGenerator = new FormGenerator();
     }
