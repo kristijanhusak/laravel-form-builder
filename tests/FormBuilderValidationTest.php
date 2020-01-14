@@ -10,7 +10,7 @@ namespace {
 
     class FormBuilderValidationTest extends FormBuilderTestCase
     {
-        public function setUp()
+        public function setUp(): void
         {
             parent::setUp();
             $this->app

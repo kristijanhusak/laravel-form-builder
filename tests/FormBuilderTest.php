@@ -104,10 +104,10 @@ namespace {
 
         /**
          * @test
-         * @expectedException \InvalidArgumentException
          */
         public function it_throws_exception_if_child_form_is_not_valid_class()
         {
+            $this->expectException(\InvalidArgumentException::class);
             $this->plainForm->add('song', 'form', [
                 'class' => 'nonvalid'
             ]);
@@ -115,10 +115,11 @@ namespace {
 
         /**
          * @test
-         * @expectedException \InvalidArgumentException
          */
         public function it_throws_exception_if_child_form_class_is_not_passed()
         {
+            $this->expectException(\InvalidArgumentException::class);
+
             $this->plainForm->add('song', 'form', [
                 'class' => null
             ]);
@@ -126,10 +127,11 @@ namespace {
 
         /**
          * @test
-         * @expectedException \InvalidArgumentException
          */
         public function it_throws_exception_if_child_form_class_is_not_valid_format()
         {
+            $this->expectException(\InvalidArgumentException::class);
+
             $this->plainForm->add('song', 'form', [
                 'class' => 1
             ]);
@@ -156,6 +158,8 @@ namespace {
             $formBuilder = new FormBuilder($this->app, $formHelper, $this->app['events']);
 
             $formBuilder->create('NamespacedDummyForm');
+
+            $this->assertNotThrown();
         }
 
     }
