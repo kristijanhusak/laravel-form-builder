@@ -1,6 +1,6 @@
 <?php
 
-use Kris\LaravelFormBuilder\Form;
+use Illuminate\Http\Request;
 use Kris\LaravelFormBuilder\FormHelper;
 use Kris\LaravelFormBuilder\Fields\InputType;
 
@@ -47,7 +47,7 @@ class FormFieldTest extends FormBuilderTestCase
         $view = $field->render();
 
         $this->assertFalse($field->getOption('label_show'));
-        $this->assertNotContains('label', $view);
+        $this->assertStringNotContainsString('label', $view);
     }
 
 
@@ -112,8 +112,8 @@ class FormFieldTest extends FormBuilderTestCase
         $defaultClasses = $this->config['defaults']['field_class'];
         $this->assertEquals('form-control appended', $text->getOption('attr.class'));
         
-        $this->assertContains($defaultClasses, $text->getOption('attr.class'));
-        $this->assertNotContains('class_append', $renderResult);
+        $this->assertStringContainsString($defaultClasses, $text->getOption('attr.class'));
+        $this->assertStringNotContainsString('class_append', $renderResult);
     }
 
     /** @test */
@@ -133,8 +133,8 @@ class FormFieldTest extends FormBuilderTestCase
         $defaultClasses = $this->config['defaults']['label_class'];
         $this->assertEquals('control-label appended', $text->getOption('label_attr.class'));
         
-        $this->assertContains($defaultClasses, $text->getOption('label_attr.class'));
-        $this->assertNotContains('class_append', $renderResult);
+        $this->assertStringContainsString($defaultClasses, $text->getOption('label_attr.class'));
+        $this->assertStringNotContainsString('class_append', $renderResult);
     }
 
     /** @test */
@@ -154,8 +154,42 @@ class FormFieldTest extends FormBuilderTestCase
         $defaultClasses = $this->config['defaults']['wrapper_class'];
         $this->assertEquals('form-group appended', $text->getOption('wrapper.class'));
         
-        $this->assertContains($defaultClasses, $text->getOption('wrapper.class'));
-        $this->assertNotContains('class_append', $renderResult);
+        $this->assertStringContainsString($defaultClasses, $text->getOption('wrapper.class'));
+        $this->assertStringNotContainsString('class_append', $renderResult);
+    }
+
+    /** @test */
+    public function it_appends_rules_properly()
+    {
+
+        $closureRule = function ($attribute, $value, $fail) {
+            $this->assertEquals('my_email', $attribute);
+            $this->assertEquals('foo@bar.com', $value);
+        };
+
+        // Default rules of DummyField : ['email', 'max:100']
+
+        $fieldOptions = [
+            'rules_append' => [
+                'email', // duplicated rule with DummyField
+                'required', // new rule
+                'confirmed', // new rule
+                $closureRule, // new rule
+            ],
+        ];
+
+        $expected = [
+            'email', 'max:100', // default rules
+            'required', 'confirmed', $closureRule, // appended rules
+        ];
+
+        $this->plainForm->setRequest(new Request(['my_email' => 'foo@bar.com']));
+        $this->plainForm->addCustomField('dummy',DummyField::class);
+        $this->plainForm->add('my_email', 'dummy', $fieldOptions);
+        $this->plainForm->isValid();
+        $field = $this->plainForm->getField('my_email');
+
+        $this->assertEquals($expected, $field->getOption('rules'));
     }
 
     /** @test */
@@ -266,10 +300,11 @@ class FormFieldTest extends FormBuilderTestCase
 
     /**
      * @test
-     * @expectedException \Kris\LaravelFormBuilder\Filters\Exception\FilterAlreadyBindedException
      */
     public function it_throws_an_exception_if_filters_override_is_false_but_passed_already_binded_filter()
     {
+        $this->expectException(\Kris\LaravelFormBuilder\Filters\Exception\FilterAlreadyBindedException::class);
+
         $customPlainForm = $this->formBuilder->plain();
         $customPlainForm->add('test_field', 'text', [
             'filters' => ['Trim']
@@ -334,5 +369,16 @@ class FormFieldTest extends FormBuilderTestCase
         $testField = $customPlainForm->getField('test_field');
         $testField->clearFilters();
         $this->assertEmpty($testField->getFilters());
+    }
+}
+
+
+class DummyField extends InputType
+{
+    protected function getDefaults()
+    {
+        return [
+            'rules' => ['email', 'max:100'],
+        ];
     }
 }
