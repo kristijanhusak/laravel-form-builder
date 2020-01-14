@@ -38,32 +38,6 @@ class FormHelperTest extends FormBuilderTestCase
     }
 
     /** @test */
-    public function it_appends_rules_properly()
-    {
-        $defaultOptions = [
-            'rules' => ['rule1', 'rule2'],
-        ];
-
-        $sourceOptions = [
-            'rules_append' => ['rule2', 'new_rule1', 'new_rule2', 'new_rule3|new_rule4'],
-        ];
-
-        $expected = [
-            'rules' => ['rule1', 'rule2', 'new_rule1', 'new_rule2', 'new_rule3', 'new_rule4'],
-        ];
-
-        $this->assertEquals($expected, $this->formHelper->mergeOptions($defaultOptions, $sourceOptions));
-    }
-
-    /** @test */
-    public function it_normalize_rules_properly()
-    {
-        $this->assertEquals(['rule1', 'rule2', 'rule3', 'rule4', 'rule5'], $this->formHelper->normalizeRules(['rule1', 'rule2', 'rule3|rule4', 'rule5']));
-        $this->assertEquals(['rule1', 'rule2', 'rule3'], $this->formHelper->normalizeRules('rule1|rule2|rule3'));
-        $this->assertEquals(['rule1', 'rule2', 'rule3', 'new_rule'], $this->formHelper->normalizeRules(['rule1|rule2|rule3', 'rule1', 'rule2', 'new_rule']));
-    }
-
-    /** @test */
     public function it_gets_proper_class_for_specific_field_type()
     {
         $input = $this->formHelper->getFieldType('text');
@@ -97,10 +71,11 @@ class FormHelperTest extends FormBuilderTestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
     public function it_throws_InvalidArgumentException_for_non_existing_field_type()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->formHelper->getFieldType('nonexisting');
     }
 
@@ -166,19 +141,21 @@ class FormHelperTest extends FormBuilderTestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
     public function it_throws_InvalidArgumentException_for_empty_field_name()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->formHelper->checkFieldName('', get_class($this));
     }
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
     public function it_throws_InvalidArgumentException_for_reserved_field_names()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->formHelper->checkFieldName('save', get_class($this));
     }
 }

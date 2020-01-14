@@ -257,16 +257,19 @@ abstract class FormField
      * Prepare options for rendering.
      *
      * @param array $options
-     * @return array
+     * @return array The parsed options
      */
     protected function prepareOptions(array $options = [])
     {
         $helper = $this->formHelper;
+
+        $this->options = $this->prepareRules($options);
+        $this->options = $helper->mergeOptions($this->options, $options);
+
         $rulesParser = $helper->createRulesParser($this);
         $rules = $this->getOption('rules');
         $parsedRules = $rules ? $rulesParser->parse($rules) : [];
 
-        $this->options = $helper->mergeOptions($this->options, $options);
 
         foreach (['attr', 'label_attr', 'wrapper'] as $appendable) {
             // Append values to the 'class' attribute
@@ -321,6 +324,66 @@ abstract class FormField
 
         return $this->options;
     }
+
+    /**
+     * Normalize and merge rules.
+     * @param array $sourceOptions
+     * @return array
+     */
+    protected function prepareRules(array &$sourceOptions = [])
+    {
+        $options = $this->options;
+
+        // Normalize rules
+        if (array_key_exists('rules_append', $sourceOptions)) {
+            $sourceOptions['rules_append'] = $this->normalizeRules($sourceOptions['rules_append']);
+        }
+
+        if (array_key_exists('rules', $sourceOptions)) {
+            $sourceOptions['rules'] = $this->normalizeRules($sourceOptions['rules']);
+        }
+
+        if (array_key_exists('rules', $options)) {
+            $options['rules'] = $this->normalizeRules($options['rules']);
+        }
+
+
+        // Append rules
+        if ($rulesToBeAppended = Arr::pull($sourceOptions, 'rules_append')) {
+            $mergedRules = array_values(array_unique(array_merge($options['rules'], $rulesToBeAppended), SORT_REGULAR));
+            $options['rules'] = $mergedRules;
+        }
+
+        return $options;
+    }
+
+    /**
+     * Normalize the the given rule expression to an array.
+     * @param mixed $rules
+     * @return array
+     */
+    protected function normalizeRules($rules)
+    {
+        if (empty($rules)) {
+            return [];
+        }
+
+        if (is_string($rules)) {
+            return explode('|', $rules);
+        }
+
+        if (is_array($rules)) {
+            $normalizedRules = [];
+            foreach ($rules as $rule) {
+                $normalizedRules[] = $this->normalizeRules($rule);
+            }
+
+            return array_values(array_unique(Arr::flatten($normalizedRules), SORT_REGULAR));
+        }
+
+        return $rules;
+    }
+
 
     /**
      * Get name of the field.
@@ -690,16 +753,6 @@ abstract class FormField
 
         if (!$rules) {
             return (new Rules([]))->setFieldName($this->getNameKey());
-        }
-
-        if (is_array($rules)) {
-            $rules = array_map(function ($rule) use ($name) {
-                if ($rule instanceof \Closure) {
-                    return $rule($name);
-                }
-
-                return $rule;
-            }, $rules);
         }
 
         return (new Rules(
