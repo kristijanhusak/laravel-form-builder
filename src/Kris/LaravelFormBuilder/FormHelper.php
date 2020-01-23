@@ -79,7 +79,8 @@ class FormHelper
         'entity'         => 'EntityType',
         'collection'     => 'CollectionType',
         'repeated'       => 'RepeatedType',
-        'static'         => 'StaticType'
+        'container'      => 'ContainerType',
+        'static'         => 'StaticType',
     ];
 
     /**

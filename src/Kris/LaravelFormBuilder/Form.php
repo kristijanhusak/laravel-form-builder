@@ -11,6 +11,7 @@ use Illuminate\Support\Arr;
 use Kris\LaravelFormBuilder\Events\AfterFieldCreation;
 use Kris\LaravelFormBuilder\Events\AfterFormValidation;
 use Kris\LaravelFormBuilder\Events\BeforeFormValidation;
+use Kris\LaravelFormBuilder\Fields\ContainerType;
 use Kris\LaravelFormBuilder\Fields\FormField;
 use Kris\LaravelFormBuilder\Filters\FilterResolver;
 
@@ -458,6 +459,7 @@ class Form
      *
      * @param string $name
      * @return FormField
+     * @throws \InvalidArgumentException
      */
     public function getField($name)
     {
@@ -465,8 +467,37 @@ class Form
             return $this->fields[$name];
         }
 
+        if ($result = $this->findField($name, $this->fields)) {
+            return $result;
+        }
+
         $this->fieldDoesNotExist($name);
     }
+
+    /**
+     * Find field by name including the children of ContainerType field.
+     * @param $name
+     * @param $fields
+     * @return FormField|null
+     */
+    protected function findField($name, $fields)
+    {
+        foreach ($fields as $thisFieldName => $field) {
+            if ($thisFieldName === $name) {
+                return $field;
+            }
+
+            if ($field instanceof ContainerType) {
+                $result = $this->findField($name, $field->getChildren());
+                if ($result) {
+                    return $result;
+                }
+            }
+        }
+
+        return null;
+    }
+
 
     public function getErrorBag()
     {

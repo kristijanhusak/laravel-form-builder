@@ -37,6 +37,7 @@ return [
     'repeated'      => 'laravel-form-builder::repeated',
     'child_form'    => 'laravel-form-builder::child_form',
     'collection'    => 'laravel-form-builder::collection',
+    'container'     => 'laravel-form-builder::container',
     'static'        => 'laravel-form-builder::static',
 
     // Remove the laravel-form-builder:: prefix above when using template_prefix
