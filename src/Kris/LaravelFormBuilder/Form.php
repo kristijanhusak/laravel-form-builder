@@ -302,6 +302,23 @@ class Form
     }
 
     /**
+     * @param \Closure $callback
+     * @param FieldGroup|null $fieldGroup
+     * @param Form|null $parent
+     * @return $this
+     */
+    public function group(\Closure $callback, FieldGroup $fieldGroup = null, Form $parent = null)
+    {
+        $fieldGroup = $fieldGroup ?? new FieldGroup($parent ?? $this);
+
+        $callback($fieldGroup);
+
+        $this->compose($fieldGroup->getForm());
+
+        return $this;
+    }
+
+    /**
      * Take another form and add it's fields directly to this form.
      *
      * @param mixed   $class        Form to merge.
@@ -351,6 +368,17 @@ class Form
                 unset($this->fields[$name]);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Remove all the fields.
+     * @return $this
+     */
+    public function removeAll()
+    {
+        $this->fields = [];
 
         return $this;
     }
@@ -407,7 +435,7 @@ class Form
      */
     public function renderForm(array $options = [], $showStart = true, $showFields = true, $showEnd = true)
     {
-        return $this->render($options, $this->fields, $showStart, $showFields, $showEnd);
+        return $this->render($options, FieldGroup::buildFieldsForRendering($this), $showStart, $showFields, $showEnd);
     }
 
     /**
@@ -969,7 +997,7 @@ class Form
      * Render the form.
      *
      * @param array $options
-     * @param string $fields
+     * @param array $fields
      * @param bool $showStart
      * @param bool $showFields
      * @param bool $showEnd

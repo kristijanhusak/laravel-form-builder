@@ -3,6 +3,7 @@
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Kris\LaravelFormBuilder\Events\AfterFormValidation;
 use Kris\LaravelFormBuilder\Events\BeforeFormValidation;
+use Kris\LaravelFormBuilder\FieldGroup;
 use Kris\LaravelFormBuilder\Fields\InputType;
 use Kris\LaravelFormBuilder\Form;
 use Kris\LaravelFormBuilder\FormHelper;
@@ -47,6 +48,45 @@ class FormTest extends FormBuilderTestCase
             'Kris\LaravelFormBuilder\Fields\StaticType',
             $this->plainForm->getField('address')
         );
+    }
+
+    /** @test */
+    public function it_groups_fields()
+    {
+        $form = $this->plainForm
+            ->add('foo')
+            ->group(function (FieldGroup $fieldGroup) {
+                $fieldGroup->add('bar');
+                $fieldGroup->add('foobar');
+                $fieldGroup->group(function (FieldGroup $subFieldGroup) {
+                    $subFieldGroup->add('sub_bar');
+                    $subFieldGroup->add('sub_foobar');
+                });
+            })
+            ->group(function (FieldGroup $fieldGroup) {
+                $fieldGroup->add('baz');
+            })
+            ->add('qux');
+
+
+        $this->assertEquals(['foo', 'bar', 'foobar', 'sub_bar', 'sub_foobar', 'baz', 'qux'], array_keys($form->getFields()));
+
+        $this->assertEquals(['foo', 'group_0', 'group_1', 'qux'], array_keys(FieldGroup::buildFieldsForRendering($form)));
+
+        // render form without exception.
+        $form->renderForm();
+
+        // still works after removing or modifying fields
+        $form->remove('bar', 'sub_bar');
+        $form->modify('sub_foobar', 'email');
+        $html = $form->renderForm();
+        $this->assertStringNotContainsString('name="bar"', $html);
+        $this->assertStringNotContainsString('name="sub_bar"', $html);
+        $this->assertStringContainsString('name="sub_foobar" type="email"', $html);
+
+        // has the correct namespace
+        $form->setName('form');
+        $this->assertStringContainsString('name="form[sub_foobar]"', $form->renderForm());
     }
 
     /** @test */
@@ -468,7 +508,7 @@ class FormTest extends FormBuilderTestCase
         $this->plainForm->only('remember', 'name');
 
         $this->assertEquals(2, count($this->plainForm->getFields()));
-        
+
         $this->assertTrue($this->plainForm->has('remember'));
         $this->assertTrue($this->plainForm->has('name'));
         $this->assertFalse($this->plainForm->has('description'));
@@ -484,7 +524,7 @@ class FormTest extends FormBuilderTestCase
                 'attr' => ['placeholder' => 'Enter text here...']
             ])
             ->add('category', 'select', [
-                'choices' => [ 1 => 'category-1', 2 => 'category-2']
+                'choices' => [1 => 'category-1', 2 => 'category-2']
             ]);
         // Adds new if provided name doesn't exist
         $this->plainForm->modify('remember', 'checkbox');
@@ -507,7 +547,7 @@ class FormTest extends FormBuilderTestCase
 
         // Check if complete option ovewrite work
         $this->assertEquals(
-            [ 1 => 'category-1', 2 => 'category-2'],
+            [1 => 'category-1', 2 => 'category-2'],
             $this->plainForm->category->getOption('choices')
         );
 
@@ -518,7 +558,7 @@ class FormTest extends FormBuilderTestCase
         ], true);
 
         $this->assertNotEquals(
-            [ 1 => 'category-1', 2 => 'category-2'],
+            [1 => 'category-1', 2 => 'category-2'],
             $this->plainForm->category->getOption('choices')
         );
 
@@ -529,17 +569,17 @@ class FormTest extends FormBuilderTestCase
     /**
      * @test
      */
-     public function it_throws_exception_when_rendering_until_nonexisting_field()
-     {
-         $this->expectException(\InvalidArgumentException::class);
+    public function it_throws_exception_when_rendering_until_nonexisting_field()
+    {
+        $this->expectException(\InvalidArgumentException::class);
 
-         $this->plainForm
+        $this->plainForm
             ->add('gender', 'select')
             ->add('name', 'text');
 
         $this->plainForm->gender->render();
         $this->plainForm->renderUntil('nonexisting');
-     }
+    }
 
     /**
      * @test
@@ -743,8 +783,7 @@ class FormTest extends FormBuilderTestCase
                 'options' => [
                     'class' => $customForm
                 ]
-            ])
-        ;
+            ]);
 
         $this->assertEquals($form, $form->title->getParent());
 
@@ -839,8 +878,7 @@ class FormTest extends FormBuilderTestCase
                 'options' => [
                     'class' => $customForm
                 ]
-            ])
-        ;
+            ]);
 
         $this->assertCount(2, $form->song->getChildren());
         $this->assertCount(2, $form->song->getForm()->getFields());
@@ -938,8 +976,7 @@ class FormTest extends FormBuilderTestCase
 
         $form
             ->add('name', 'text')
-            ->compose($customForm)
-        ;
+            ->compose($customForm);
 
         $this->assertEquals($form, $form->name->getParent());
 
@@ -991,7 +1028,7 @@ class FormTest extends FormBuilderTestCase
     /** @test */
     public function it_allows_disabling_showing_form_errors()
     {
-        $this->plainForm->add('child_form', 'form', ['class'=> 'CustomDummyForm']);
+        $this->plainForm->add('child_form', 'form', ['class' => 'CustomDummyForm']);
         $this->assertTrue($this->plainForm->haveErrorsEnabled());
         $this->assertTrue($this->plainForm->getField('child_form')->haveErrorsEnabled());
         $this->plainForm->setErrorsEnabled(false);
@@ -1003,7 +1040,7 @@ class FormTest extends FormBuilderTestCase
     /** @test */
     public function it_allows_disabling_client_validation()
     {
-        $this->plainForm->add('child_form', 'form', ['class'=> 'CustomDummyForm']);
+        $this->plainForm->add('child_form', 'form', ['class' => 'CustomDummyForm']);
         $this->assertTrue($this->plainForm->clientValidationEnabled());
         $this->assertTrue($this->plainForm->getField('child_form')->clientValidationEnabled());
 
@@ -1019,11 +1056,11 @@ class FormTest extends FormBuilderTestCase
     {
         $events = [];
 
-        $this->eventDispatcher->listen(BeforeFormValidation::class, function($event) use (&$events) {
+        $this->eventDispatcher->listen(BeforeFormValidation::class, function ($event) use (&$events) {
             $events[] = get_class($event);
         });
 
-        $this->eventDispatcher->listen(AfterFormValidation::class, function($event) use (&$events) {
+        $this->eventDispatcher->listen(AfterFormValidation::class, function ($event) use (&$events) {
             $events[] = get_class($event);
         });
 
@@ -1079,8 +1116,8 @@ class FormTest extends FormBuilderTestCase
 
         // Check that the form uses the correct template
         $viewStub->expects($this->atLeastOnce())
-                 ->method('make')
-                 ->with($this->equalTo('test::a_template'));
+            ->method('make')
+            ->with($this->equalTo('test::a_template'));
 
         $form->setFormHelper($helper);
         $form->renderForm();
@@ -1107,12 +1144,11 @@ class FormTest extends FormBuilderTestCase
             ])
             ->add('test_field2', 'text', [
                 'filters' => ['Uppercase']
-            ])
-        ;
+            ]);
 
         $expected = [
             'test_field' => [
-                'Trim'    => new \Kris\LaravelFormBuilder\Filters\Collection\Trim(),
+                'Trim' => new \Kris\LaravelFormBuilder\Filters\Collection\Trim(),
                 'Uppercase' => new \Kris\LaravelFormBuilder\Filters\Collection\Uppercase()
             ],
             'test_field2' => [
