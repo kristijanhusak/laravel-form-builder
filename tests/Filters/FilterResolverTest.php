@@ -34,11 +34,10 @@ class FilterResolverTest extends FormBuilderTestCase
 
     /**
      * @test
+     * @expectedException \Kris\LaravelFormBuilder\Filters\Exception\InvalidInstanceException
      */
     public function it_throws_an_exception_if_object_is_not_instance_of_filterinterface()
     {
-        $this->expectException(\Kris\LaravelFormBuilder\Filters\Exception\InvalidInstanceException::class);
-
         $invalidFilterObj = new stdClass();
         $resolver = $this->filtersResolver;
         $resolver::instance($invalidFilterObj);
@@ -46,11 +45,10 @@ class FilterResolverTest extends FormBuilderTestCase
 
     /**
      * @test
+     * @expectedException \Kris\LaravelFormBuilder\Filters\Exception\UnableToResolveFilterException
      */
     public function it_throws_an_exception_if_filter_cant_be_resolved()
     {
-        $this->expectException(\Kris\LaravelFormBuilder\Filters\Exception\UnableToResolveFilterException::class);
-
         $invalidFilterClass = "\\Test\\Not\\Existing\\Class\\";
         $resolver = $this->filtersResolver;
         $resolver::instance($invalidFilterClass);

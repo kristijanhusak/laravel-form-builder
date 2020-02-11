@@ -45,11 +45,10 @@ class EntityTypeTest extends FormBuilderTestCase
 
     /**
      * @test
+     * @expectedException \InvalidArgumentException
      */
     public function it_throws_an_exception_if_model_class_not_provided()
     {
-        $this->expectException(\InvalidArgumentException::class);
-
         $options = [];
 
         $choice = new EntityType('entity_choice', 'entity', $this->plainForm, $options);

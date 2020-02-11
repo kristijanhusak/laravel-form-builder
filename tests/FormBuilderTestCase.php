@@ -75,7 +75,7 @@ abstract class FormBuilderTestCase extends TestCase {
      */
     protected $filtersResolver;
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
 
@@ -96,7 +96,7 @@ abstract class FormBuilderTestCase extends TestCase {
         $this->filtersResolver = new FilterResolver();
     }
 
-    public function tearDown(): void
+    public function tearDown()
     {
         $this->view = null;
         $this->request = null;
@@ -141,10 +141,5 @@ abstract class FormBuilderTestCase extends TestCase {
         return [
             'Acme' => 'Kris\LaravelFormBuilder\Facades\FormBuilder'
         ];
-    }
-
-    protected function assertNotThrown(): void
-    {
-        $this->assertTrue(true);
     }
 }

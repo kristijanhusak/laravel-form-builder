@@ -595,6 +595,14 @@ class RulesParser
      */
     protected function getRulesAsArray($rules)
     {
-        return is_string($rules) ? explode('|', $rules) : (array)$rules;
+        $rulesArray = (is_string($rules)) ? explode('|', $rules) : $rules;
+
+        return array_map(function ($rule) {
+            if ($rule instanceof \Closure) {
+                return $rule($this->field->getNameKey());
+            }
+
+            return $rule;
+        }, $rulesArray);
     }
 }

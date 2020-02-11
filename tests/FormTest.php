@@ -277,11 +277,10 @@ class FormTest extends FormBuilderTestCase
 
     /**
      * @test
+     * @expectedException \InvalidArgumentException
      * */
     public function it_throws_exception_when_errors_requested_from_non_validated_form()
     {
-        $this->expectException(\InvalidArgumentException::class);
-
         $this->plainForm
             ->add('name', 'text', [
                 'rules' => 'required|min:5'
@@ -528,12 +527,11 @@ class FormTest extends FormBuilderTestCase
 
     /**
      * @test
+     * @expectedException \InvalidArgumentException
      */
      public function it_throws_exception_when_rendering_until_nonexisting_field()
      {
-         $this->expectException(\InvalidArgumentException::class);
-
-         $this->plainForm
+        $this->plainForm
             ->add('gender', 'select')
             ->add('name', 'text');
 
@@ -543,21 +541,19 @@ class FormTest extends FormBuilderTestCase
 
     /**
      * @test
+     * @expectedException \InvalidArgumentException
      */
     public function it_prevents_adding_fields_with_same_name()
     {
-        $this->expectException(\InvalidArgumentException::class);
-
         $this->plainForm->add('name', 'text')->add('name', 'textarea');
     }
 
     /**
      * @test
+     * @expectedException \InvalidArgumentException
      */
     public function it_throws_exception_if_field_name_is_reserved()
     {
-        $this->expectException(\InvalidArgumentException::class);
-
         $this->plainForm->add('save', 'submit');
     }
 
@@ -583,7 +579,6 @@ class FormTest extends FormBuilderTestCase
         }
 
         if ($exceptionThrown) {
-            $this->assertTrue($exceptionThrown);
             return;
         }
 
@@ -655,8 +650,6 @@ class FormTest extends FormBuilderTestCase
         ];
 
         $this->plainForm->renderForm($formOptions, true, true, true);
-
-        $this->assertNotThrown();
     }
 
     /** @test */
@@ -682,8 +675,6 @@ class FormTest extends FormBuilderTestCase
         $this->plainForm->gender->render();
 
         $this->plainForm->renderRest();
-
-        $this->assertNotThrown();
     }
 
     /** @test */
@@ -899,31 +890,28 @@ class FormTest extends FormBuilderTestCase
 
     /**
      * @test
+     * @expectedException \InvalidArgumentException
      */
     public function it_throws_exception_when_adding_field_with_invalid_name()
     {
-        $this->expectException(\InvalidArgumentException::class);
-
         $this->plainForm->add('', 'text');
     }
 
     /**
      * @test
+     * @expectedException \InvalidArgumentException
      */
     public function it_throws_exception_when_adding_field_with_invalid_type()
     {
-        $this->expectException(\InvalidArgumentException::class);
-
         $this->plainForm->add('name', '');
     }
 
     /**
      * @test
+     * @expectedException \InvalidArgumentException
      */
     public function it_prevents_adding_duplicate_custom_type()
     {
-        $this->expectException(\InvalidArgumentException::class);
-
         $this->plainForm->addCustomField('datetime', 'Some\\Namespace\\DatetimeType');
 
         $this->plainForm->addCustomField('datetime', 'Some\\Namespace\\DateType');
@@ -1141,5 +1129,4 @@ class FormTest extends FormBuilderTestCase
 
         $this->assertEquals('TEST', $this->request['test_field']);
     }
-
 }

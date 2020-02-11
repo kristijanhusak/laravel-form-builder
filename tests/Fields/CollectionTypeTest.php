@@ -141,11 +141,10 @@ namespace {
 
         /**
          * @test
+         * @expectedException \Exception
          */
         public function it_throws_exception_when_requesting_prototype_while_it_is_disabled()
         {
-            $this->expectException(\Exception::class);
-
             $options = [
                 'type' => 'text',
                 'prototype' => false
@@ -160,11 +159,10 @@ namespace {
 
         /**
          * @test
+         * @expectedException \Exception
          */
         public function it_throws_exception_when_creating_nonexisting_type()
         {
-            $this->expectException(\Exception::class);
-
             $options = [
                 'type' => 'nonexisting'
             ];
@@ -174,11 +172,10 @@ namespace {
 
         /**
          * @test
+         * @expectedException \Exception
          */
         public function it_throws_exception_when_data_is_not_iterable()
         {
-            $this->expectException(\Exception::class);
-
             $options = [
                 'type' => 'text',
                 'data' => 'invalid'

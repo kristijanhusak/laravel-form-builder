@@ -9,7 +9,7 @@ class RulesParserTest extends FormBuilderTestCase
      */
     protected $parser;
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
         $field = new InputType('address', 'text', $this->plainForm);
