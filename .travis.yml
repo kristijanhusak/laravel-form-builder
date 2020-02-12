@@ -3,6 +3,8 @@ language: php
 php:
   - 7.1
   - 7.2
+  - 7.3
+  - 7.4
 
 env:
   - COMPOSER_MEMORY_LIMIT=-1
