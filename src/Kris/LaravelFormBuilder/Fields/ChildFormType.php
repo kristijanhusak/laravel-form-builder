@@ -38,7 +38,13 @@ class ChildFormType extends ParentType
             'value' => null,
             'formOptions' => [],
             'data' => [],
-            'exclude' => []
+            'exclude' => [],
+
+            // Add a field named `_destroy` to the child form if true.
+            'allow_destroy' => false,
+
+            // All the fields except the given fields will be removed if `allow_destroy` is `true`.
+            'required_fields_for_allow_destroy' => ['_destroy'],
         ];
     }
 
@@ -76,14 +82,20 @@ class ChildFormType extends ParentType
 
     /**
      * @return mixed|void
+     * @throws \Exception
      */
     protected function createChildren()
     {
-        $this->form = $this->getClassFromOptions();
+        $this->form = $this->getFormFromOptions();
+
+        if ($this->allowDestroy()) {
+            $this->enableAllowDestroy();
+        }
 
         if ($this->form->getFormOption('files')) {
             $this->parent->setFormOption('files', true);
         }
+
         $model = $this->getOption($this->valueProperty);
         if ($this->isValidValue($model)) {
             foreach ($this->form->getFields() as $name => $field) {
@@ -91,14 +103,49 @@ class ChildFormType extends ParentType
             }
         }
 
+        $this->cleanupFieldsIfAllowDestroy();
+
         $this->children = $this->form->getFields();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function allowDestroy()
+    {
+        return (bool)($this->getOption('allow_destroy'));
+    }
+
+    /**
+     * Add extra fields for supporting `allow_destroy` feature.
+     * @return void
+     */
+    protected function enableAllowDestroy()
+    {
+        $this->form->add('_destroy', 'hidden', [
+            'rules' => 'boolean',
+            'default_value' => 0,
+            'attr' => ['class' => '_destroy'],
+        ], true);
+    }
+
+    /**
+     * If it should support `allow_destroy` remove all fields except '_destroy' and 'id' fields
+     * to remove the unnecessary validations.
+     * @return void
+     */
+    protected function cleanupFieldsIfAllowDestroy()
+    {
+        if ($this->allowDestroy() && $this->form->getField('_destroy')->getValue()) {
+            $this->form->only($this->getOption('required_fields_for_allow_destroy'));
+        }
     }
 
     /**
      * @return Form
      * @throws \Exception
      */
-    protected function getClassFromOptions()
+    protected function getFormFromOptions()
     {
         if ($this->form instanceof Form) {
             return $this->form->setName($this->name);
