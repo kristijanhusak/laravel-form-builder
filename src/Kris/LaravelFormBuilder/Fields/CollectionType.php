@@ -2,6 +2,7 @@
 
 namespace Kris\LaravelFormBuilder\Fields;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 
 class CollectionType extends ParentType
@@ -31,13 +32,15 @@ class CollectionType extends ParentType
      */
     protected function getDefaults()
     {
+        $prototypeName = Str::camel($this->getRealName());
+
         return [
             'type' => null,
             'options' => ['is_child' => true],
             'prototype' => true,
             'data' => null,
             'property' => 'id',
-            'prototype_name' => '__NAME__',
+            'prototype_name' => "__{$prototypeName}__",
             'empty_row' => true,
             'prefer_input' => false,
         ];

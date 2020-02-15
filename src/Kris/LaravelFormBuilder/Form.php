@@ -1109,8 +1109,8 @@ class Form
 
         $dotName = $this->getNameKey();
         $model = $this->formHelper->convertModelToArray($this->getModel());
-        $isCollectionFormModel = (bool) preg_match('/^.*\.\d+$/', $dotName);
-        $isCollectionPrototype = strpos($dotName, '__NAME__') !== false;
+        $isCollectionFormModel = (bool)preg_match('/^.*\.\d+$/', $dotName);
+        $isCollectionPrototype = (bool)preg_match('/__\w+__$/', $dotName);
 
         if (!Arr::get($model, $dotName) && !$isCollectionFormModel && !$isCollectionPrototype) {
             $newModel = [];

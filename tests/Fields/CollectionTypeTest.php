@@ -209,6 +209,22 @@ namespace {
                 $form->dummy_collection->prototype()->title->getValue()
             );
         }
+
+        /**
+         * @test
+         */
+        public function it_sets_up_default_prototype_name()
+        {
+            $options = [
+                'type' => 'form',
+                'options' => [
+                    'class' => Form::class,
+                ]
+            ];
+
+            $collectionField = $this->plainForm->add('foo_bar', 'collection', $options)->foo_bar;
+            $this->assertEquals('__fooBar__', $collectionField->getOption('prototype_name'));
+        }
     }
 
     class DummyEloquentModel extends Model {
