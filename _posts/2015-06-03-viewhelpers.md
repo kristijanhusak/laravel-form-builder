@@ -227,4 +227,4 @@ form_end($form, false);
         <textarea id="body" name="body" class="form-control"></textarea>
     </div>
 </form>
-```html
+```
