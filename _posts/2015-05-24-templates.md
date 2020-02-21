@@ -31,6 +31,10 @@ class PostForm extends Form
 {
     public function buildForm()
     {
+        // Change the form template (default from form.php)
+        $this->setFormOption('template', 'posts.form'); // resources/views/posts/form.blade.php
+        
+        // Change a field's template
         $this
             ->add('title', 'text')
             ->add('body', 'textearea', [
