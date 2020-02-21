@@ -23,7 +23,7 @@ If you upgraded to `>1.6.*` from `1.5.*` or earlier, and having problems with fo
 More info in [changelog](https://github.com/kristijanhusak/laravel-form-builder/blob/master/CHANGELOG.md).
 
 ## Documentation
-For detailed documentation refer to [http://kristijanhusak.github.io/laravel-form-builder/](http://kristijanhusak.github.io/laravel-form-builder/).
+For detailed documentation refer to [https://kristijanhusak.github.io/laravel-form-builder/](http://kristijanhusak.github.io/laravel-form-builder/).
 
 ## Changelog
 Changelog can be found [here](https://github.com/kristijanhusak/laravel-form-builder/blob/master/CHANGELOG.md).
