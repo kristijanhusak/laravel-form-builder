@@ -106,6 +106,8 @@ abstract class ParentType extends FormField
                 $this->children[$key]->setOption($name, $value);
             }
         }
+
+        return $this;
     }
 
     /**
@@ -120,6 +122,8 @@ abstract class ParentType extends FormField
                 $this->children[$key]->setOptions($options);
             }
         }
+
+        return $this;
     }
 
     /**
