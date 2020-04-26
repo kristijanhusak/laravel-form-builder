@@ -142,7 +142,8 @@ abstract class FormField
         }
 
         if (($value === null || $value instanceof \Closure) && !$isChild) {
-            $this->setValue($this->getModelValueAttribute($this->parent->getModel(), $this->name));
+            $attributeName = $this->getOption('property', $this->name);
+            $this->setValue($this->getModelValueAttribute($this->parent->getModel(), $attributeName));
         } elseif (!$isChild) {
             $this->hasDefault = true;
         }

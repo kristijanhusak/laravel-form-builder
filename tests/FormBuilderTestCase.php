@@ -11,6 +11,11 @@ use Kris\LaravelFormBuilder\Filters\FilterResolver;
 
 class TestModel extends Model {
     protected $fillable = ['m', 'f'];
+
+    public function getAccessorAttribute($value)
+    {
+        return 'accessor value';
+    }
 }
 
 abstract class FormBuilderTestCase extends TestCase {

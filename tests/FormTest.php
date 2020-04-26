@@ -716,11 +716,12 @@ class FormTest extends FormBuilderTestCase
     /** @test */
     public function it_can_add_child_form_as_field()
     {
-        $form = $this->formBuilder->plain();
+        $model = ['song' => ['body' => 'test body'], 'title' => 'main title'];
+        $form = $this->formBuilder->plain([
+            'model' => $model,
+        ]);
         $customForm = $this->formBuilder->create('CustomDummyForm');
         $customForm->add('img', 'file')->add('name', 'text', ['label_show' => false]);
-        $model = ['song' => ['body' => 'test body'], 'title' => 'main title'];
-        $form->setModel($model);
 
         $form
             ->add('title', 'text', [
@@ -780,6 +781,20 @@ class FormTest extends FormBuilderTestCase
     }
 
     /** @test */
+    public function it_can_use_model_property_to_set_value()
+    {
+        $form = $this->formBuilder->plain([
+            'model' => $this->model,
+        ]);
+
+        $form->add('alias_accessor', 'choice', [
+            'property' => 'accessor',
+        ]);
+
+        $this->assertEquals($form->alias_accessor->getValue(), $this->model->accessor);
+    }
+
+    /** @test */
     public function it_reads_configuration_properly()
     {
         $config = $this->config;
@@ -820,10 +835,11 @@ class FormTest extends FormBuilderTestCase
     /** @test */
     public function it_removes_children_from_parent_type_fields()
     {
-        $form = $this->formBuilder->plain();
-        $customForm = $this->formBuilder->create('CustomDummyForm');
         $model = ['song' => ['title' => 'test song title', 'body' => 'test body'], 'title' => 'main title'];
-        $form->setModel($model);
+        $form = $this->formBuilder->plain([
+            'model' => $model,
+        ]);
+        $customForm = $this->formBuilder->create('CustomDummyForm');
 
         $form
             ->add('title', 'text')
