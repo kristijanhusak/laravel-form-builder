@@ -19,9 +19,9 @@
     ],
     "require": {
         "php": ">=7.1",
-        "laravelcollective/html": "5.6.*|^6|^7",
-        "illuminate/database": "5.6.*@dev|^6|^7",
-        "illuminate/validation": "5.6.*@dev|^6|^7"
+        "laravelcollective/html": "^5.6|^6|^7",
+        "illuminate/database": "^5.6@dev|^6|^7",
+        "illuminate/validation": "^5.6@dev|^6|^7"
     },
     "require-dev": {
         "orchestra/testbench": "~3.6"
