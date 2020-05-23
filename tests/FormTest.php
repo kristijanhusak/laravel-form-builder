@@ -795,6 +795,26 @@ class FormTest extends FormBuilderTestCase
     }
 
     /** @test */
+    public function it_sets_entity_field_value_to_the_entity_model_value()
+    {
+        $dummyModel = new DummyModel();
+        $dummyModel->id = 1;
+
+        $this->model->dummy_model_id = $dummyModel->id;
+
+        $form = $this->formBuilder
+            ->plain([
+                'model' => $this->model,
+            ])
+            ->add('dummy_model_id', 'entity', [
+                'class' => DummyModel::class,
+                'property' => 'name',
+            ]);
+
+        $this->assertEquals($form->dummy_model_id->getValue(), $this->model->dummy_model_id);
+    }
+
+    /** @test */
     public function it_reads_configuration_properly()
     {
         $config = $this->config;
