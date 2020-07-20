@@ -19,7 +19,7 @@
 
 <?php endif; ?>
 
-<?php include 'errors.php' ?>
+<?php include errorBlockPath(); ?>
 
 <?php if ($showLabel && $showField): ?>
     <?php if ($options['wrapper'] !== false): ?>
