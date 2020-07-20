@@ -3,6 +3,27 @@
 use Kris\LaravelFormBuilder\Fields\FormField;
 use Kris\LaravelFormBuilder\Form;
 
+
+if(!function_exists('errorBlockPath'))
+{
+
+    function errorBlockPath()
+    {
+        return __DIR__.'/views/errors.php';
+    }
+
+}
+
+if(!function_exists('helpBlockPath'))
+{
+
+    function helpBlockPath()
+    {
+        return __DIR__.'/views/help_block.php';
+    }
+
+}
+
 if (!function_exists('form')) {
 
     function form(Form $form, array $options = [])

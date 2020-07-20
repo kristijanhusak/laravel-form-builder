@@ -13,11 +13,11 @@
         <?= $child->render() ?>
     <?php endforeach; ?>
 
-    <?php include 'help_block.php' ?>
+    <?php include helpBlockPath(); ?>
 
 <?php endif; ?>
 
-<?php include 'errors.php' ?>
+<?php include errorBlockPath(); ?>
 
 <?php if ($showLabel && $showField): ?>
     <?php if ($options['wrapper'] !== false): ?>
