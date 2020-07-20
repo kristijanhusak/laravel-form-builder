@@ -11,7 +11,7 @@
 <?php if ($showField): ?>
     <<?= $options['tag'] ?> <?= $options['elemAttrs'] ?>><?= e($options['value']) ?></<?= $options['tag'] ?>>
 
-    <?php include 'help_block.php' ?>
+    <?php include helpBlockPath(); ?>
 
 <?php endif; ?>
 

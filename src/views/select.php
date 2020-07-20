@@ -11,7 +11,7 @@
 <?php if ($showField): ?>
     <?php $emptyVal = $options['empty_value'] ? ['' => $options['empty_value']] : null; ?>
     <?= Form::select($name, (array)$emptyVal + $options['choices'], $options['selected'], $options['attr']) ?>
-    <?php include 'help_block.php' ?>
+    <?php include helpBlockPath(); ?>
 <?php endif; ?>
 
 <?php include 'errors.php' ?>

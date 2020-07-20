@@ -8,7 +8,7 @@
     <?= $options['children']['first']->render([], true, true, false) ?>
     <?= $options['children']['second']->render([], true, true, false) ?>
 
-    <?php include 'help_block.php' ?>
+    <?php include helpBlockPath(); ?>
 
 <?php endif; ?>
 

@@ -3,7 +3,7 @@
 <?php endif; ?>
 
 <?= Form::button($options['label'], $options['attr']) ?>
-<?php include 'help_block.php' ?>
+<?php include helpBlockPath(); ?>
 
 <?php if ($options['wrapper'] !== false): ?>
 </div>

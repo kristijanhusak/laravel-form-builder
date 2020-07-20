@@ -11,7 +11,7 @@
 <?php if ($showField): ?>
     <?= Form::input($type, $name, $options['value'], $options['attr']) ?>
 
-    <?php include 'help_block.php' ?>
+    <?php include helpBlockPath(); ?>
 <?php endif; ?>
 
 <?php include 'errors.php' ?>

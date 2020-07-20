@@ -13,7 +13,7 @@
         <?= $child->render() ?>
     <?php endforeach; ?>
 
-    <?php include 'help_block.php' ?>
+    <?php include helpBlockPath(); ?>
 
 <?php endif; ?>
 

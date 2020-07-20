@@ -13,7 +13,7 @@
         <?= $child->render($options['choice_options'], true, true, false) ?>
     <?php endforeach; ?>
 
-    <?php include 'help_block.php' ?>
+    <?php include helpBlockPath(); ?>
 
 <?php endif; ?>
 
