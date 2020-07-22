@@ -9,7 +9,7 @@ if(!function_exists('errorBlockPath'))
 
     function errorBlockPath()
     {
-        return __DIR__.'/views/errors.php';
+        return view('laravel-form-builder::errors')->getPath();
     }
 
 }
@@ -19,7 +19,7 @@ if(!function_exists('helpBlockPath'))
 
     function helpBlockPath()
     {
-        return __DIR__.'/views/help_block.php';
+        return view('laravel-form-builder::help_block')->getPath();
     }
 
 }
