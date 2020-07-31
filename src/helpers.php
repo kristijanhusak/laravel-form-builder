@@ -3,13 +3,26 @@
 use Kris\LaravelFormBuilder\Fields\FormField;
 use Kris\LaravelFormBuilder\Form;
 
+if(!function_exists('getFormBuilderViewPath'))
+{
+    function getFormBuilderViewPath($fileName)
+    {
+        $p = explode('.',$fileName);
+        $c = count($p);
+        if($c>2 || $p[$c-1]!='php')
+            throw new Exception('You should use only *.php files with this function');
+
+        $path = base_path('resources/views/vendor/laravel-form-builder/'.$fileName);
+        return file_exists($path) ? $path : __DIR__.'/views/'.$fileName;
+    }
+}
 
 if(!function_exists('errorBlockPath'))
 {
 
     function errorBlockPath()
     {
-        return __DIR__.'/views/errors.php';
+        return getFormBuilderViewPath('errors.php');
     }
 
 }
@@ -19,7 +32,7 @@ if(!function_exists('helpBlockPath'))
 
     function helpBlockPath()
     {
-        return __DIR__.'/views/help_block.php';
+        return getFormBuilderViewPath('help_block.php');
     }
 
 }
