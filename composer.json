@@ -1,5 +1,5 @@
 {
-    "name": "kris/laravel-form-builder",
+    "name": "bhcosta90/laravel-form-builder",
     "description": "Laravel form builder - symfony like",
     "keywords": ["laravel", "form", "builder","symfony"],
     "license": "MIT",
