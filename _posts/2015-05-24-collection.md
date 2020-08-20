@@ -15,7 +15,7 @@ Collections are used for working with array of data, mostly used for relationshi
 
 It can be any type that is available in the package. Here are some examples:
 
-``` php
+```php
 <?php
 use Kris\LaravelFormBuilder\Form;
 
@@ -265,7 +265,7 @@ Some forms let the user add more rows with Javascript (the `prototype`). In that
 
 Simple example of bad and good POST action:
 
-```
+```php
 // GET request: show form with all items
 public function edit(Post $post, FormBuilder $formBuilder)
     $form = $formBuilder->create('App\Forms\PostForm', [
