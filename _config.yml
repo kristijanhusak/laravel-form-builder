@@ -1,6 +1,6 @@
 # Site title and subtitle. This is used in _includes/header.html
 title: 'Laravel form builder'
-subtitle: "Laravel form builder inspired by Symfony\'s form component"
+subtitle: "Laravel form builder inspired by Symfony's form component"
 
 # if you wish to integrate disqus on pages set your shortname here
 disqus_shortname: ''
