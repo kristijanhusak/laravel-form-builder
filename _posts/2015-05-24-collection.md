@@ -9,6 +9,7 @@ date: 2015-05-24 20:52:57
 * [Collection of child forms](#collection-of-child-forms)
 * [Prototype](#prototype)
 * [Options](#options)
+* [Validated collection items (**read if it saves too few items**)](#validated-collection-items)
 
 Collections are used for working with array of data, mostly used for relationships (OneToMany, ManyToMany).
 
@@ -245,10 +246,52 @@ class PostForm extends Form
 
 Beside inherited, there are some additional options available:
 
-1. `type` (String) (Default: null) - Type of the collection item
-2. `options` (Array) (Default: `['is_child' => true]`) - Options that will be used for the collection item
-3. `data` (Array) (Default: `[]`) - This is the `value` for the collection
-4. `property` (String) (Default: `id`) - Property to be used when pulling data from model
-5. `prototype` (Boolean) (Default: `true`) - Should [prototype](#prototype) be generated
-6. `prototype_name` (String) (Default: `__NAME__`) - Namespace in the prototype that is generated
-7. `empty_row` (Boolean) (Default: `true`) - Add an empty row if no data provided
+- `type` (String) (Default: null) - Type of the collection item
+- `options` (Array) (Default: `['is_child' => true]`) - Options that will be used for the collection item
+- `data` (Array) (Default: `[]`) - This is the `value` for the collection
+- `property` (String) (Default: `id`) - Property to be used when pulling data from model
+- `prototype` (Boolean) (Default: `true`) - Should [prototype](#prototype) be generated
+- `prototype_name` (String) (Default: `__NAME__`) - Namespace in the prototype that is generated
+- `empty_row` (Boolean) (Default: `true`) - Add an empty row if no data provided
+- `prefer_input` (Boolean) (Default: `false`) - Uses POST input items for validation instead of configured model data items
+
+### Validated collection items
+
+The POST request only validates items that it knows from the configured model. If the GET request (form display) builds a form with data with 4 items, and the POST request (form validation) builds a form without data, only 1 collection item will be accepted and validated, because the form doesn't know there are 4.
+
+Always build your form in POST **exactly** like you built it in GET! Same model, same data, same buttons etc.
+
+Some forms let the user add more rows with Javascript (the `prototype`). In that case, you should set `prefer_input = true`, because the POST data will contain items unknown to the built form. In most cases, that is not necessary and not smart.
+
+Simple example of bad and good POST action:
+
+```
+// GET request: show form with all items
+public function edit(Post $post, FormBuilder $formBuilder)
+    $form = $formBuilder->create('App\Forms\PostForm', [
+        'model' => $post
+    ]);
+}
+
+// BAD
+public function store(Post $post, FormBuilder $formBuilder)
+    // BAD: Form built without data!
+    $form = $formBuilder->create('App\Forms\PostForm');
+    $form->redirectIfNotValid();
+    
+    // BAD RESULT: only 1 collection item
+    $values = $form->getFieldValues();
+}
+
+// GOOD
+public function store(Post $post, FormBuilder $formBuilder)
+    // GOOD: Form built exactly like in edit()
+    $form = $formBuilder->create('App\Forms\PostForm', [
+        'model' => $post
+    ]);
+    $form->redirectIfNotValid();
+    
+    // GOOD RESULT: all collection items, exactly like in the form HTML in edit()
+    $values = $form->getFieldValues();
+}
+```
