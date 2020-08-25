@@ -379,12 +379,7 @@ abstract class FormField
         }
 
         if (is_array($rules)) {
-            $normalizedRules = [];
-            foreach ($rules as $rule) {
-                $normalizedRules[] = $this->normalizeRules($rule);
-            }
-
-            return array_values(array_unique(Arr::flatten($normalizedRules), SORT_REGULAR));
+            return array_values(array_unique(Arr::flatten($rules), SORT_REGULAR));
         }
 
         return $rules;
