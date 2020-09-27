@@ -139,6 +139,25 @@ namespace {
             }
         }
 
+        /** @test */
+        public function it_creates_collection_with_child_form_with_correct_model_properties()
+        {
+            $items = new \Illuminate\Support\Collection([
+                (new DummyEloquentModel2())->forceFill(['id' => 1, 'foo' => 'bar']),
+                (new DummyEloquentModel2())->forceFill(['id' => 2, 'foo' => 'baz']),
+            ]);
+
+            $model = (new DummyEloquentModel())->forceFill(['id' => 11]);
+            $model->setRelation('items', $items);
+
+            $form = $this->formBuilder->create('\LaravelFormBuilderCollectionTypeTest\Forms\NamespacedDummyFormCollectionForm', [
+                'model' => $model,
+            ]);
+
+            $collectionValue = $form->getField('items')->getOption('data');
+            $this->assertEquals($items, $collectionValue);
+        }
+
         /**
          * @test
          */
@@ -226,5 +245,26 @@ namespace LaravelFormBuilderCollectionTypeTest\Forms {
 
     class NamespacedDummyForm extends Form
     {
+    }
+
+    class NamespacedDummyFormCollectionChildForm extends Form
+    {
+        function buildForm()
+        {
+            $this->add('foo', 'text');
+        }
+    }
+
+    class NamespacedDummyFormCollectionForm extends Form
+    {
+        function buildForm()
+        {
+            $this->add('items', 'collection', [
+                'type' => 'form',
+                'options' => [
+                    'class' => NamespacedDummyFormCollectionChildForm::class,
+                ],
+            ]);
+        }
     }
 }

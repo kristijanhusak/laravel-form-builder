@@ -145,7 +145,7 @@ abstract class FormField
             if ($this instanceof EntityType) {
                 $attributeName = $this->name;
             } else {
-                $attributeName = $this->getOption('property', $this->name);
+                $attributeName = $this->getOption('value_property', $this->name);
             }
 
             $this->setValue($this->getModelValueAttribute($this->parent->getModel(), $attributeName));

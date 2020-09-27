@@ -468,7 +468,7 @@ class FormTest extends FormBuilderTestCase
         $this->plainForm->only('remember', 'name');
 
         $this->assertEquals(2, count($this->plainForm->getFields()));
-        
+
         $this->assertTrue($this->plainForm->has('remember'));
         $this->assertTrue($this->plainForm->has('name'));
         $this->assertFalse($this->plainForm->has('description'));
@@ -788,7 +788,7 @@ class FormTest extends FormBuilderTestCase
         ]);
 
         $form->add('alias_accessor', 'choice', [
-            'property' => 'accessor',
+            'value_property' => 'accessor',
         ]);
 
         $this->assertEquals($form->alias_accessor->getValue(), $this->model->accessor);
