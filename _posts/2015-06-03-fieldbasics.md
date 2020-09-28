@@ -19,6 +19,7 @@ $options = [
         'attr' => ['class' => 'help-block']
     ],
     'default_value' => null, // Fallback value if none provided by value property or model
+    'value_property' => null, // Only use this if you want to take the default value from another property in the model
     'label' => $this->name,  // Field name used
     'label_show' => true,
     'label_attr' => ['class' => 'control-label', 'for' => $this->name],
