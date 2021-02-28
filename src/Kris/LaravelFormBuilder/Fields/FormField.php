@@ -311,11 +311,16 @@ abstract class FormField
             if ($this->parent->clientValidationEnabled()) {
                 $this->setOption('attr.required', 'required');
             }
+
+            if (isset($parsedRules['required'])) {
+                unset($parsedRules['required']);
+            }
         }
 
         if ($this->parent->clientValidationEnabled() && $parsedRules) {
-            $attrs = $this->getOption('attr') + $parsedRules;
-            $this->setOption('attr', $attrs);
+            foreach($parsedRules as $rule => $param){
+                $this->setOption('attr.' . $rule, $param);
+            }
         }
 
         $this->setOption('wrapperAttrs', $helper->prepareAttributes($this->getOption('wrapper')));
