@@ -196,7 +196,8 @@ namespace {
          */
         public function it_throws_exception_when_data_is_not_iterable()
         {
-            $this->expectException(\Exception::class);
+            $this->expectException(\Throwable::class);
+            $this->expectExceptionMessageMatches('#count\(#');
 
             $options = [
                 'type' => 'text',
