@@ -254,6 +254,8 @@ Beside inherited, there are some additional options available:
 - `prototype_name` (String) (Default: `__NAME__`) - Namespace in the prototype that is generated
 - `empty_row` (Boolean) (Default: `true`) - Add an empty row if no data provided
 - `prefer_input` (Boolean) (Default: `false`) - Uses POST input items for validation instead of configured model data items
+- `empty_model` (Closure) (Default: `null`) - (Only for `type = form`!) Use the result of this function for model in empty row, prototype, and new rows during validation. This ensures all child forms will always have a real model als `$this->model`, instead of an array of the parent model.  
+    Example: `'empty_model' => fn() => new Tag()`.
 
 ### Validated collection items
 
