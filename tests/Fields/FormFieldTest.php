@@ -61,7 +61,7 @@ class FormFieldTest extends FormBuilderTestCase
         $hidden = new InputType('hidden_id', 'hidden', $this->plainForm, $options);
         $hidden->render();
 
-        $this->assertRegExp('/required/', $hidden->getOption('label_attr.class'));
+        $this->assertMatchesRegularExpression('/required/', $hidden->getOption('label_attr.class'));
         $this->assertArrayHasKey('required', $hidden->getOption('attr'));
     }
 
@@ -75,7 +75,7 @@ class FormFieldTest extends FormBuilderTestCase
         $hidden = new InputType('hidden_id', 'hidden', $this->plainForm, $options);
         $hidden->render();
 
-        $this->assertRegExp('/required/', $hidden->getOption('label_attr.class'));
+        $this->assertMatchesRegularExpression('/required/', $hidden->getOption('label_attr.class'));
         $this->assertArrayHasKey('required', $hidden->getOption('attr'));
     }
 
@@ -91,7 +91,7 @@ class FormFieldTest extends FormBuilderTestCase
         $hidden = new InputType('hidden_id', 'hidden', $this->plainForm, $options);
         $hidden->render();
 
-        $this->assertRegExp('/required/', $hidden->getOption('label_attr.class'));
+        $this->assertMatchesRegularExpression('/required/', $hidden->getOption('label_attr.class'));
         $this->assertArrayNotHasKey('required', $hidden->getOption('attr'));
     }
 
@@ -107,11 +107,11 @@ class FormFieldTest extends FormBuilderTestCase
         $text = new InputType('field_name', 'text', $this->plainForm, $options);
         $renderResult = $text->render();
 
-        $this->assertRegExp('/appended/', $text->getOption('attr.class'));
+        $this->assertMatchesRegularExpression('/appended/', $text->getOption('attr.class'));
 
         $defaultClasses = $this->config['defaults']['field_class'];
         $this->assertEquals('form-control appended', $text->getOption('attr.class'));
-        
+
         $this->assertStringContainsString($defaultClasses, $text->getOption('attr.class'));
         $this->assertStringNotContainsString('class_append', $renderResult);
     }
@@ -128,11 +128,11 @@ class FormFieldTest extends FormBuilderTestCase
         $text = new InputType('field_name', 'text', $this->plainForm, $options);
         $renderResult = $text->render();
 
-        $this->assertRegExp('/appended/', $text->getOption('label_attr.class'));
+        $this->assertMatchesRegularExpression('/appended/', $text->getOption('label_attr.class'));
 
         $defaultClasses = $this->config['defaults']['label_class'];
         $this->assertEquals('control-label appended', $text->getOption('label_attr.class'));
-        
+
         $this->assertStringContainsString($defaultClasses, $text->getOption('label_attr.class'));
         $this->assertStringNotContainsString('class_append', $renderResult);
     }
@@ -149,11 +149,11 @@ class FormFieldTest extends FormBuilderTestCase
         $text = new InputType('field_name', 'text', $this->plainForm, $options);
         $renderResult = $text->render();
 
-        $this->assertRegExp('/appended/', $text->getOption('wrapper.class'));
+        $this->assertMatchesRegularExpression('/appended/', $text->getOption('wrapper.class'));
 
         $defaultClasses = $this->config['defaults']['wrapper_class'];
         $this->assertEquals('form-group appended', $text->getOption('wrapper.class'));
-        
+
         $this->assertStringContainsString($defaultClasses, $text->getOption('wrapper.class'));
         $this->assertStringNotContainsString('class_append', $renderResult);
     }

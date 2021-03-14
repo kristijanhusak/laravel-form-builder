@@ -91,7 +91,7 @@ class FormTest extends FormBuilderTestCase
 
         $errors = [
             'name' => ['The Name field is required.'],
-            'description' => ['The Description may not be greater than 10 characters.']
+            'description' => ['The Description must not be greater than 10 characters.']
         ];
 
         $this->assertEquals($errors, $this->plainForm->getErrors());
@@ -153,7 +153,7 @@ class FormTest extends FormBuilderTestCase
             $errorBag = $response->getSession()->get('errors');
             $this->assertTrue($errorBag->has('description'));
             $this->assertTrue($errorBag->has('name'));
-            $this->assertEquals('The Description may not be greater than 10 characters.', $errorBag->first('description'));
+            $this->assertEquals('The Description must not be greater than 10 characters.', $errorBag->first('description'));
         }
     }
 
@@ -191,7 +191,7 @@ class FormTest extends FormBuilderTestCase
             $errorBag = $response->getSession()->get('errors');
             $this->assertTrue($errorBag->has('description'));
             $this->assertTrue($errorBag->has('name'));
-            $this->assertEquals('The Description may not be greater than 10 characters.', $errorBag->first('description'));
+            $this->assertEquals('The Description must not be greater than 10 characters.', $errorBag->first('description'));
         }
     }
 
@@ -233,7 +233,7 @@ class FormTest extends FormBuilderTestCase
 
         $errors = [
             'name' => ['Name field must be numeric.'],
-            'description' => ['The Description may not be greater than 10 characters.'],
+            'description' => ['The Description must not be greater than 10 characters.'],
             'age' => ['The age field is a must.'],
             'email' => ['The email is very required.']
         ];
@@ -766,9 +766,9 @@ class FormTest extends FormBuilderTestCase
             $form->song->getForm()
         );
 
-        $this->assertNotRegExp('/label.*for="name"/', $view);
-        $this->assertRegExp('/label.*for="custom_title"/', $view);
-        $this->assertRegExp('/input.*id="custom_title"/', $view);
+        $this->assertDoesNotMatchRegularExpression('/label.*for="name"/', $view);
+        $this->assertMatchesRegularExpression('/label.*for="custom_title"/', $view);
+        $this->assertMatchesRegularExpression('/input.*id="custom_title"/', $view);
 
         $this->assertTrue($form->song->getFormOption('files'));
 
@@ -833,11 +833,11 @@ class FormTest extends FormBuilderTestCase
         $formView = $form->renderForm();
         $overridenView = $overridenClassForm->renderForm();
 
-        $this->assertRegExp('/textarea.*class="my-textarea-class"/', $formView);
-        $this->assertRegExp('/input.*class="form-control"/', $formView);
+        $this->assertMatchesRegularExpression('/textarea.*class="my-textarea-class"/', $formView);
+        $this->assertMatchesRegularExpression('/input.*class="form-control"/', $formView);
 
-        $this->assertRegExp('/textarea.*class="overwrite-textarea-class"/', $overridenView);
-        $this->assertRegExp('/input.*class="my-text-class"/', $overridenView);
+        $this->assertMatchesRegularExpression('/textarea.*class="overwrite-textarea-class"/', $overridenView);
+        $this->assertMatchesRegularExpression('/input.*class="my-text-class"/', $overridenView);
     }
 
     /** @test */

@@ -14,7 +14,7 @@ jobs:
     strategy:
       max-parallel: 12
       matrix:
-        php: ['7.1', '7.2', '7.3', '7.4']
+        php: ['7.3', '7.4', '8.0']
         package-release: [source, dist]
     steps:
       - name: Checkout repository
@@ -40,10 +40,6 @@ jobs:
             composer-${{ runner.os }}-${{ matrix.php }}-${{ matrix.package-release }}-
             composer-${{ runner.os }}-${{ matrix.php }}-
             composer-${{ runner.os }}-
-
-      - name: Pretend to be PHP 7.4
-        if: matrix.php == '8.0'
-        run: composer config platform.php 7.4.2
 
       - name: Install composer dependencies
         run: composer install --no-suggest --no-progress --no-interaction --prefer-${{ matrix.package-release }}
