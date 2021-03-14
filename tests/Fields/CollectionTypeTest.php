@@ -228,6 +228,74 @@ namespace {
                 $form->dummy_collection->prototype()->title->getValue()
             );
         }
+
+        /** @test */
+        public function it_uses_empty_model_for_empty_row_child_form()
+        {
+            $items = new \Illuminate\Support\Collection([]);
+
+            $model = (new DummyEloquentModel())->forceFill(['id' => 11]);
+            $model->setRelation('items', $items);
+
+            $form = $this->formBuilder->create('\LaravelFormBuilderCollectionTypeTest\Forms\NamespacedDummyFormCollectionForm', [
+                'model' => $model,
+            ]);
+
+            $itemsChildren = $form->getField('items')->getChildren();
+            $this->assertEquals(1, count($itemsChildren));
+            $this->assertInstanceOf(DummyEloquentModel2::class, $itemsChildren[0]->getForm()->getModel());
+        }
+
+        /** @test */
+        public function it_uses_empty_model_for_proto_child_forms()
+        {
+            $items = new \Illuminate\Support\Collection([
+                (new DummyEloquentModel2())->forceFill(['id' => 21, 'foo' => 'bar 21']),
+            ]);
+
+            $model = (new DummyEloquentModel())->forceFill(['id' => 21]);
+            $model->setRelation('items', $items);
+
+            $form = $this->formBuilder->create('\LaravelFormBuilderCollectionTypeTest\Forms\NamespacedDummyFormCollectionForm', [
+                'model' => $model,
+            ]);
+
+            $protoField = $form->getField('items')->prototype();
+            $protoModel = $protoField->getForm()->getModel();
+            $this->assertInstanceOf(DummyEloquentModel2::class, $protoModel);
+            $this->assertTrue($protoModel->_custom);
+        }
+
+        /** @test */
+        public function it_uses_empty_model_for_new_collection_children_after_validation_error()
+        {
+            $items = new \Illuminate\Support\Collection([
+                (new DummyEloquentModel2())->forceFill(['id' => 31, 'foo' => 'bar31']),
+            ]);
+
+            $model = (new DummyEloquentModel())->forceFill(['id' => 31]);
+            $model->setRelation('items', $items);
+
+            $this->session([
+                '_old_input' => ['items' => [
+                    ['foo' => 'bar21 B'],
+                    ['foo' => 'bar22 NEW']
+                ]],
+            ]);
+
+            $form = $this->formBuilder->create('\LaravelFormBuilderCollectionTypeTest\Forms\NamespacedDummyFormCollectionForm', [
+                'model' => $model,
+            ]);
+
+            $itemsChildren = $form->getField('items')->getChildren();
+            $this->assertEquals(2, count($itemsChildren));
+
+            foreach ($itemsChildren as $childField) {
+                $childFormModel = $childField->getForm()->getModel();
+                $this->assertInstanceOf(DummyEloquentModel2::class, $childFormModel);
+            }
+        }
+
     }
 
     class DummyEloquentModel extends Model {
@@ -242,6 +310,7 @@ namespace {
 namespace LaravelFormBuilderCollectionTypeTest\Forms {
 
     use Kris\LaravelFormBuilder\Form;
+    use DummyEloquentModel2;
 
     class NamespacedDummyForm extends Form
     {
@@ -261,6 +330,11 @@ namespace LaravelFormBuilderCollectionTypeTest\Forms {
         {
             $this->add('items', 'collection', [
                 'type' => 'form',
+                'prefer_input' => true,
+                'empty_row' => true,
+                'empty_model' => function() {
+                    return (new DummyEloquentModel2())->forceFill(['_custom' => true]);
+                },
                 'options' => [
                     'class' => NamespacedDummyFormCollectionChildForm::class,
                 ],

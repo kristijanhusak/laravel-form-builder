@@ -104,14 +104,14 @@ class CollectionType extends ParentType
             $data = $currentInput;
         }
 
+        if ($data instanceof Collection) {
+            $data = $data->all();
+        }
+
         // Needs to have more than 1 item because 1 is rendered by default.
         // This overrides current request in situations when validation fails.
         if ($oldInput && count($oldInput) > 1) {
             $data = $this->formatInputIntoModels($oldInput, $data);
-        }
-
-        if ($data instanceof Collection) {
-            $data = $data->all();
         }
 
         $field = new $fieldType($this->name, $type, $this->parent, $this->getOption('options'));
