@@ -7,14 +7,6 @@
         {
             "name": "Kristijan Husak",
             "email": "husakkristijan@gmail.com"
-        },
-        {
-            "name": "Mike Erickson",
-            "email": "codedungeon@gmail.com"
-        },
-        {
-            "name": "Mike Erickson",
-            "email": "mike.erickson@codedungeon.io"
         }
     ],
     "require": {
@@ -24,7 +16,7 @@
         "illuminate/validation": "^5.6@dev|^6|^7|^8"
     },
     "require-dev": {
-        "orchestra/testbench": "~3.6"
+        "orchestra/testbench": "^6.13"
     },
     "extra": {
         "branch-alias": {
