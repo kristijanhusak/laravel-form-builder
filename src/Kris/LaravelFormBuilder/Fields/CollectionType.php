@@ -101,7 +101,7 @@ class CollectionType extends ParentType
         }
         // Or if the current request input is preferred over original data.
         elseif ($this->getOption('prefer_input') && count($currentInput)) {
-            $data = $currentInput;
+            $data = $this->formatInputIntoModels($currentInput, $data);
         }
 
         if ($data instanceof Collection) {
