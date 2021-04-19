@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Translation\Translator;
 use Kris\LaravelFormBuilder\Events\AfterCollectingFieldRules;
+use Kris\LaravelFormBuilder\Fields\CheckableType;
 use Kris\LaravelFormBuilder\Fields\FormField;
 use Kris\LaravelFormBuilder\Form;
 use Kris\LaravelFormBuilder\RulesParser;
@@ -337,6 +338,43 @@ class FormHelper
     }
 
     /**
+     * Get a form's checkbox fields' names.
+     *
+     * @param  Form  $form
+     * @return array
+     */
+    public function getBoolableFields(Form $form)
+    {
+        $fields = [];
+        foreach ($form->getFields() as $name => $field) {
+            if ($field instanceof CheckableType && $field->getOption('value') == CheckableType::DEFAULT_VALUE) {
+                $fields[] = $this->transformToDotSyntax($name);
+            }
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Turn checkbox fields into bools.
+     *
+     * @param  Form  $form
+     * @param  array $values
+     * @return void
+     */
+    public function alterFieldValuesBools(Form $form, array &$values)
+    {
+        $fields = $this->getBoolableFields($form);
+
+        foreach ($fields as $name) {
+          $value = Arr::get($values, $name, -1);
+          if ($value !== -1) {
+            Arr::set($values, $name, (int) (bool) $value);
+          }
+        }
+    }
+
+    /**
      * Alter a form's values recursively according to its fields.
      *
      * @param  Form  $form
@@ -345,6 +383,8 @@ class FormHelper
      */
     public function alterFieldValues(Form $form, array &$values)
     {
+        $this->alterFieldValuesBools($form, $values);
+
         // Alter the form's child forms recursively
         foreach ($form->getFields() as $name => $field) {
             if (method_exists($field, 'alterFieldValues')) {

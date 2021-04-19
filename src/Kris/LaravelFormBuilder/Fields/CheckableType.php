@@ -5,6 +5,8 @@ namespace  Kris\LaravelFormBuilder\Fields;
 class CheckableType extends FormField
 {
 
+    const DEFAULT_VALUE = 1;
+
     /**
      * @inheritdoc
      */
@@ -25,7 +27,7 @@ class CheckableType extends FormField
     {
         return [
             'attr' => ['class' => null, 'id' => $this->getName()],
-            'value' => 1,
+            'value' => self::DEFAULT_VALUE,
             'checked' => null
         ];
     }
