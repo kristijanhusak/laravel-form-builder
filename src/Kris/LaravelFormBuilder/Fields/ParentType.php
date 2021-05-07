@@ -102,12 +102,18 @@ abstract class ParentType extends FormField
         parent::setOption($name, $value);
 
         if ($this->options['copy_options_to_children']) {
-            foreach ((array) $this->children as $key => $child) {
-                $this->children[$key]->setOption($name, $value);
-            }
+            $this->setChildrenOption($name, $value);
         }
+    }
 
-        return $this;
+    /**
+     * Set an option in all children
+     */
+    protected function setChildrenOption($name, $value)
+    {
+        foreach ((array) $this->children as $key => $child) {
+            $this->children[$key]->setOption($name, $value);
+        }
     }
 
     /**
@@ -118,12 +124,20 @@ abstract class ParentType extends FormField
         parent::setOptions($options);
 
         if ($this->options['copy_options_to_children']) {
-            foreach ((array) $this->children as $key => $child) {
-                $this->children[$key]->setOptions($options);
-            }
+            $this->setChildrenOptions($options);
         }
 
         return $this;
+    }
+
+    /**
+     * Set options in all children
+     */
+    protected function setChildrenOptions($options)
+    {
+        foreach ((array) $this->children as $key => $child) {
+            $this->children[$key]->setOptions($options);
+        }
     }
 
     /**

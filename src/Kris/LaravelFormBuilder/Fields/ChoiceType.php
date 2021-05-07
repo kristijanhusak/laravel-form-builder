@@ -4,6 +4,8 @@ namespace  Kris\LaravelFormBuilder\Fields;
 
 class ChoiceType extends ParentType
 {
+    const DONT_COPY_OPTIONS_TO_CHECKBOXES = ['attr.required'];
+
     /**
      * @var string
      */
@@ -20,6 +22,32 @@ class ChoiceType extends ParentType
     protected function getTemplate()
     {
         return 'choice';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function setChildrenOption($name, $value)
+    {
+        $checkboxes = $this->options['expanded'] && $this->options['multiple'];
+        if (!$checkboxes || !in_array($name, self::DONT_COPY_OPTIONS_TO_CHECKBOXES)) {
+            parent::setChildrenOption($name, $value);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function setChildrenOptions($options)
+    {
+        $checkboxes = $this->options['expanded'] && $this->options['multiple'];
+        if ($checkboxes) {
+            $options = array_diff_key($options, array_flip(self::DONT_COPY_OPTIONS_TO_CHECKBOXES));
+        }
+
+        foreach ((array) $this->children as $key => $child) {
+            $this->children[$key]->setOptions($options);
+        }
     }
 
     /**
@@ -72,7 +100,7 @@ class ChoiceType extends ParentType
         if (($data_override = $this->getOption('data_override')) && $data_override instanceof \Closure) {
             $this->options['choices'] = $data_override($this->options['choices'], $this);
         }
-        
+
         $this->children = [];
         $this->determineChoiceField();
 
