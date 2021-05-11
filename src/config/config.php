@@ -26,6 +26,7 @@ return [
     ],
     // Templates
     'form'          => 'laravel-form-builder::form',
+    'group'         => 'laravel-form-builder::group',
     'text'          => 'laravel-form-builder::text',
     'textarea'      => 'laravel-form-builder::textarea',
     'button'        => 'laravel-form-builder::button',
