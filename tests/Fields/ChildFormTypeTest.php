@@ -54,4 +54,35 @@ class ChildFormTypeTest extends FormBuilderTestCase
         $this->assertEquals('different.{name}', $plainChild->getTranslationTemplate());
         $this->assertEquals('test.{name}', $plainParent->getTranslationTemplate());
     }
+
+    /**
+     * @test
+     */
+    public function it_allow_destroy()
+    {
+        $parentForm = $this->formBuilder->plain([
+            'model' => [
+                'user' => [
+                    'id' => 1,
+                    'email' => 'foo@test.com',
+                    '_destroy'=>true,
+                ]
+            ]
+        ]);
+
+        $childForm = $this->formBuilder->plain()->add('id')->add('email');
+
+        $requiredFieldsForAllowDestroy = ['_destroy', 'id'];
+
+        $parentForm->add('user', 'form', [
+            'class' => $childForm,
+            'allow_destroy' => true,
+            'required_fields_for_allow_destroy' => $requiredFieldsForAllowDestroy
+        ]);
+
+        $childFormFields = $parentForm->getField('user')->getChildren();
+
+        $this->assertEquals($requiredFieldsForAllowDestroy, array_keys($childFormFields));
+        $this->assertArrayNotHasKey('email', $childFormFields);
+    }
 }
