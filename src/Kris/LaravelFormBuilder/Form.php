@@ -1403,8 +1403,8 @@ class Form
     {
         // If filtering is unlocked/allowed we can start with filtering process.
         if (!$this->isFilteringLocked()) {
-            $filters = array_filter($this->getFilters());
-
+            //$filters = array_filter($this->getFilters());
+            $filters = $this->getFilters();
             if (count($filters)) {
                 $dotForm = $this->getNameKey();
 
