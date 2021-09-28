@@ -737,6 +737,18 @@ abstract class FormField
     }
 
     /**
+     * Whether this field is disabled.
+     *
+     * @return bool
+     */
+    public function isDisabled()
+    {
+        $disabled = $this->getOption('attr.disabled');
+
+        return $disabled !== null && $disabled !== false;
+    }
+
+    /**
      * Get validation rules for a field if any with label for attributes.
      *
      * @return array|null
@@ -775,7 +787,7 @@ abstract class FormField
      */
     public function getAllAttributes()
     {
-        return [$this->getNameKey()];
+        return $this->isDisabled() ? [] : [$this->getNameKey()];
     }
 
     /**
