@@ -536,9 +536,11 @@ abstract class FormField
         return [
             'wrapper' => ['class' => $this->getConfig('defaults.wrapper_class')],
             'attr' => ['class' => $this->getConfig('defaults.field_class')],
-            'help_block' => ['text' => null, 'tag' => 'p', 'attr' => [
-                'class' => $this->getConfig('defaults.help_block_class')
-            ]],
+            'help_block' => [
+                'text' => null,
+                'tag' => $this->getConfig('defaults.help_block_tag', 'p'),
+                'attr' => ['class' => $this->getConfig('defaults.help_block_class')],
+            ],
             'value' => null,
             'default_value' => null,
             'label' => null,
