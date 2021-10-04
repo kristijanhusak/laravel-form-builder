@@ -9,7 +9,9 @@ return [
         'field_error_class'   => '',
         'help_block_class'    => 'help-block',
         'error_class'         => 'text-danger',
-        'required_class'      => 'required'
+        'required_class'      => 'required',
+
+        'help_block_tag'      => 'p',
 
         // Override a class from a field.
         //'text'                => [
