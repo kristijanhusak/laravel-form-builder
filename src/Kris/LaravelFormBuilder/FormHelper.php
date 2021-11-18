@@ -137,7 +137,7 @@ class FormHelper
      */
     public function mergeOptions(array $targetOptions, array $sourceOptions)
     {
-        return array_replace_recursive($targetOptions, $sourceOptions);
+        return array_merge_recursive($targetOptions, $sourceOptions);
     }
 
 
