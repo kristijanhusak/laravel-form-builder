@@ -517,18 +517,6 @@ abstract class FormField
     }
 
     /**
-     * Marks the view as rendered.
-     *
-     * @return $this
-     */
-    public function setRendered()
-    {
-        $this->rendered = true;
-
-        return $this;
-    }
-
-    /**
      * Default options for field.
      *
      * @return array
