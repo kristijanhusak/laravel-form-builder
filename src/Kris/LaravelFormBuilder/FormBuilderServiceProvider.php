@@ -35,10 +35,10 @@ class FormBuilderServiceProvider extends ServiceProvider
 
         $this->app->singleton('laravel-form-builder', function ($app) {
 
-            return new FormBuilder($app, $app['laravel-form-helper'], $app['events']);
+            return new config('laravel-form-builder.form_builder', FormBuilder::class)($app, $app['laravel-form-helper'], $app['events']);
         });
 
-        $this->app->alias('laravel-form-builder', 'Kris\LaravelFormBuilder\FormBuilder');
+        $this->app->alias('laravel-form-builder', config('laravel-form-builder.form_builder', FormBuilder::class));
 
         $this->app->afterResolving(Form::class, function ($object, $app) {
             $request = $app->make('request');
@@ -62,10 +62,10 @@ class FormBuilderServiceProvider extends ServiceProvider
 
             $configuration = $app['config']->get('laravel-form-builder');
 
-            return new FormHelper($app['view'], $app['translator'], $configuration);
+            return new config('laravel-form-builder.form_builder', FormHelper::class)($app['view'], $app['translator'], $configuration);
         });
 
-        $this->app->alias('laravel-form-helper', 'Kris\LaravelFormBuilder\FormHelper');
+        $this->app->alias('laravel-form-helper', config('laravel-form-builder.form_builder', FormHelper::class));
     }
 
     /**
