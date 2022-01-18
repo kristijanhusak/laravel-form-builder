@@ -11,12 +11,9 @@ use Illuminate\Translation\Translator;
 use Kris\LaravelFormBuilder\Events\AfterCollectingFieldRules;
 use Kris\LaravelFormBuilder\Fields\CheckableType;
 use Kris\LaravelFormBuilder\Fields\FormField;
-use Kris\LaravelFormBuilder\Form;
-use Kris\LaravelFormBuilder\RulesParser;
 
 class FormHelper
 {
-
     /**
      * @var View
      */
@@ -140,18 +137,17 @@ class FormHelper
         return array_replace_recursive($targetOptions, $sourceOptions);
     }
 
-
     /**
      * Get proper class for field type.
      *
-     * @param $type
+     * @param string $type
      * @return string
      */
     public function getFieldType($type)
     {
         $types = array_keys(static::$availableFieldTypes);
 
-        if (!$type || trim($type) == '') {
+        if (!$type || trim($type) === '') {
             throw new \InvalidArgumentException('Field type must be provided.');
         }
 
@@ -159,12 +155,12 @@ class FormHelper
             return $this->customTypes[$type];
         }
 
-        if (!in_array($type, $types)) {
+        if (!in_array($type, $types, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'Unsupported field type [%s]. Available types are: %s',
                     $type,
-                    join(', ', array_merge($types, array_keys($this->customTypes)))
+                    implode(', ', array_merge($types, array_keys($this->customTypes)))
                 )
             );
         }
@@ -178,7 +174,7 @@ class FormHelper
      * Convert array of attributes to html attributes.
      *
      * @param $options
-     * @return string
+     * @return string|null
      */
     public function prepareAttributes($options)
     {
@@ -195,7 +191,7 @@ class FormHelper
             }
         }
 
-        return join('', $attributes);
+        return implode('', $attributes);
     }
 
     /**
@@ -203,6 +199,7 @@ class FormHelper
      *
      * @param $name
      * @param $class
+     * @return mixed
      */
     public function addCustomField($name, $class)
     {
@@ -215,6 +212,8 @@ class FormHelper
 
     /**
      * Load custom field types from config file.
+     *
+     * @return void
      */
     private function loadCustomTypes()
     {
@@ -229,6 +228,7 @@ class FormHelper
 
     /**
      * Check if custom field with provided name exists
+     *
      * @param string $name
      * @return boolean
      */
@@ -239,7 +239,7 @@ class FormHelper
 
     /**
      * @param object $model
-     * @return object|null
+     * @return object|array|null
      */
     public function convertModelToArray($model)
     {
@@ -262,7 +262,7 @@ class FormHelper
      * Format the label to the proper format.
      *
      * @param $name
-     * @return string
+     * @return string|null
      */
     public function formatLabel($name)
     {
@@ -299,7 +299,7 @@ class FormHelper
         $fieldRules = $field->getValidationRules();
 
         if (is_array($fieldRules)) {
-          $fieldRules = Rules::fromArray($fieldRules)->setFieldName($field->getNameKey());
+            $fieldRules = Rules::fromArray($fieldRules)->setFieldName($field->getNameKey());
         }
 
         $formBuilder = $field->getParent()->getFormBuilder();
@@ -310,7 +310,7 @@ class FormHelper
 
     /**
      * @param FormField[] $fields
-     * @return array
+     * @return Rules
      */
     public function mergeFieldsRules($fields)
     {
@@ -324,7 +324,7 @@ class FormHelper
     }
 
     /**
-     * @param array $fields
+     * @param FormField[] $fields
      * @return array
      */
     public function mergeAttributes(array $fields)
@@ -458,7 +458,7 @@ class FormHelper
     public function transformToBracketSyntax($string)
     {
         $name = explode('.', $string);
-        if ($name && count($name) == 1) {
+        if ($name && count($name) === 1) {
             return $name[0];
         }
 
@@ -480,19 +480,20 @@ class FormHelper
      * @throws \InvalidArgumentException
      * @param string $name
      * @param string $className
+     * @return bool
      */
     public function checkFieldName($name, $className)
     {
-        if (!$name || trim($name) == '') {
+        if (!$name || trim($name) === '') {
             throw new \InvalidArgumentException(
                 "Please provide valid field name for class [{$className}]"
             );
         }
 
-        if (in_array($name, static::$reservedFieldNames)) {
+        if (in_array($name, static::$reservedFieldNames, true)) {
             throw new \InvalidArgumentException(
                 "Field name [{$name}] in form [{$className}] is a reserved word. Please use a different field name." .
-                "\nList of all reserved words: " . join(', ', static::$reservedFieldNames)
+                "\nList of all reserved words: " . implode(', ', static::$reservedFieldNames)
             );
         }
 
