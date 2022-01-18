@@ -66,7 +66,7 @@ class Form
     protected $data = [];
 
     /**
-     * Wether errors for each field should be shown when calling form($form) or form_rest($form).
+     * Whether errors for each field should be shown when calling form($form) or form_rest($form).
      *
      * @var bool
      */
@@ -114,7 +114,7 @@ class Form
     protected $exclude = [];
 
     /**
-     * Wether the form is beign rebuild.
+     * Whether the form is beign rebuild.
      *
      * @var bool
      */
@@ -778,7 +778,7 @@ class Form
     }
 
     /**
-     * Returns wether form errors should be shown under every field.
+     * Returns whether form errors should be shown under every field.
      *
      * @return bool
      */
