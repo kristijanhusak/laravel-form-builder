@@ -166,17 +166,19 @@ class Form
     public function rebuildForm()
     {
         $this->rebuilding = true;
+
         // If form is plain, buildForm method is empty, so we need to take
         // existing fields and add them again
-        if (get_class($this) === 'Kris\LaravelFormBuilder\Form') {
+        if (get_class($this) === __CLASS__) {
             foreach ($this->fields as $name => $field) {
                 // Remove any temp variables added in previous instance
-                $options =  Arr::except($field->getOptions(), 'tmp');
+                $options = Arr::except($field->getOptions(), 'tmp');
                 $this->add($name, $field->getType(), $options);
             }
         } else {
             $this->buildForm();
         }
+
         $this->rebuilding = false;
 
         return $this;
@@ -187,7 +189,7 @@ class Form
      *
      * @param string $name
      * @param string $type
-     * @param array  $options
+     * @param array $options
      * @return FormField
      */
     protected function makeField($name, $type = 'text', array $options = [])
@@ -210,8 +212,8 @@ class Form
      *
      * @param string $name
      * @param string $type
-     * @param array  $options
-     * @param bool   $modify
+     * @param array $options
+     * @param bool $modify
      * @return $this
      */
     public function add($name, $type = 'text', array $options = [], $modify = false)
@@ -231,6 +233,7 @@ class Form
      * Add a FormField to the form's fields.
      *
      * @param FormField $field
+     * @param bool $modify
      * @return $this
      */
     protected function addField(FormField $field, $modify = false)
@@ -239,8 +242,7 @@ class Form
             $this->preventDuplicate($field->getRealName());
         }
 
-
-        if ($field->getType() == 'file') {
+        if ($field->getType() === 'file') {
             $this->formOptions['files'] = true;
         }
 
@@ -252,16 +254,16 @@ class Form
     /**
      * Add field before another field.
      *
-     * @param string  $name         Name of the field before which new field is added.
-     * @param string  $fieldName    Field name which will be added.
-     * @param string  $type
-     * @param array   $options
+     * @param string $name Name of the field before which new field is added.
+     * @param string $fieldName Field name which will be added.
+     * @param string $type
+     * @param array $options
      * @param bool $modify
      * @return $this
      */
     public function addBefore($name, $fieldName, $type = 'text', $options = [], $modify = false)
     {
-        $offset = array_search($name, array_keys($this->fields));
+        $offset = array_search($name, array_keys($this->fields), true);
 
         $beforeFields = array_slice($this->fields, 0, $offset);
         $afterFields = array_slice($this->fields, $offset);
@@ -278,16 +280,16 @@ class Form
     /**
      * Add field before another field.
      *
-     * @param string  $name         Name of the field after which new field is added.
-     * @param string  $fieldName    Field name which will be added.
-     * @param string  $type
-     * @param array   $options
+     * @param string $name Name of the field after which new field is added.
+     * @param string $fieldName Field name which will be added.
+     * @param string $type
+     * @param array $options
      * @param bool $modify
      * @return $this
      */
     public function addAfter($name, $fieldName, $type = 'text', $options = [], $modify = false)
     {
-        $offset = array_search($name, array_keys($this->fields));
+        $offset = array_search($name, array_keys($this->fields), true);
 
         $beforeFields = array_slice($this->fields, 0, $offset + 1);
         $afterFields = array_slice($this->fields, $offset + 1);
@@ -304,8 +306,8 @@ class Form
     /**
      * Take another form and add it's fields directly to this form.
      *
-     * @param mixed   $class        Form to merge.
-     * @param array   $options
+     * @param mixed $class Form to merge.
+     * @param array $options
      * @param boolean $modify
      * @return $this
      */
@@ -379,8 +381,8 @@ class Form
      *
      * @param string $name
      * @param string $type
-     * @param array  $options
-     * @param bool   $overwriteOptions
+     * @param array $options
+     * @param bool $overwriteOptions
      * @return Form
      */
     public function modify($name, $type = 'text', array $options = [], $overwriteOptions = false)
@@ -400,9 +402,9 @@ class Form
      * Render full form.
      *
      * @param array $options
-     * @param bool  $showStart
-     * @param bool  $showFields
-     * @param bool  $showEnd
+     * @param bool $showStart
+     * @param bool $showFields
+     * @param bool $showEnd
      * @return string
      */
     public function renderForm(array $options = [], $showStart = true, $showFields = true, $showEnd = true)
@@ -428,8 +430,8 @@ class Form
      * Renders the rest of the form up until the specified field name.
      *
      * @param string $field_name
-     * @param bool   $showFormEnd
-     * @param bool   $showFields
+     * @param bool $showFormEnd
+     * @param bool $showFields
      * @return string
      */
     public function renderUntil($field_name, $showFormEnd = true, $showFields = true)
@@ -442,7 +444,7 @@ class Form
 
         $i = 1;
         foreach ($fields as $key => $value) {
-            if ($value->getRealName() == $field_name) {
+            if ($value->getRealName() === $field_name) {
                 break;
             }
             $i++;
@@ -468,6 +470,11 @@ class Form
         $this->fieldDoesNotExist($name);
     }
 
+    /**
+     * Get the error bag name.
+     *
+     * @return string
+     */
     public function getErrorBag()
     {
         return $this->errorBag;
@@ -767,6 +774,7 @@ class Form
      *
      * @param $name
      * @param $class
+     * @return Form|void
      */
     public function addCustomField($name, $class)
     {
@@ -795,7 +803,7 @@ class Form
      */
     public function setErrorsEnabled($enabled)
     {
-        $this->showFieldErrors = (bool) $enabled;
+        $this->showFieldErrors = (bool)$enabled;
 
         return $this;
     }
@@ -818,7 +826,7 @@ class Form
      */
     public function setClientValidationEnabled($enable)
     {
-        $this->clientValidationEnabled = (bool) $enable;
+        $this->clientValidationEnabled = (bool)$enable;
 
         return $this;
     }
@@ -826,10 +834,10 @@ class Form
     /**
      * Add any aditional data that field needs (ex. array of choices).
      *
-     * @deprecated deprecated since 1.6.20, will be removed in 1.7 - use 3rd param on create, or 2nd on plain method to pass data
-     * will be switched to protected in 1.7.
      * @param string $name
      * @param mixed $data
+     * @deprecated deprecated since 1.6.20, will be removed in 1.7 - use 3rd param on create, or 2nd on plain method to pass data
+     * will be switched to protected in 1.7.
      */
     public function setData($name, $data)
     {
@@ -840,7 +848,7 @@ class Form
      * Get single additional data.
      *
      * @param string $name
-     * @param null   $default
+     * @param null $default
      * @return mixed
      */
     public function getData($name = null, $default = null)
@@ -855,11 +863,11 @@ class Form
     /**
      * Add multiple peices of data at once.
      *
-     * @deprecated deprecated since 1.6.12, will be removed in 1.7 - use 3rd param on create, or 2nd on plain method to pass data
-     * will be switched to protected in 1.7.
-     * @param $data
+     * @param array $data
      * @return $this
-     **/
+     **@deprecated deprecated since 1.6.12, will be removed in 1.7 - use 3rd param on create, or 2nd on plain method to pass data
+     * will be switched to protected in 1.7.
+     */
     public function addData(array $data)
     {
         foreach ($data as $key => $value) {
@@ -899,11 +907,7 @@ class Form
      */
     public function getTemplatePrefix()
     {
-        if ($this->templatePrefix !== null) {
-            return $this->templatePrefix;
-        }
-
-        return $this->getConfig('template_prefix');
+        return $this->templatePrefix ?? $this->getConfig('template_prefix');
     }
 
     /**
@@ -914,7 +918,7 @@ class Form
      */
     public function setTemplatePrefix($prefix)
     {
-        $this->templatePrefix = (string) $prefix;
+        $this->templatePrefix = (string)$prefix;
 
         return $this;
     }
@@ -937,7 +941,7 @@ class Form
      */
     public function setLanguageName($prefix)
     {
-        $this->languageName = (string) $prefix;
+        $this->languageName = (string)$prefix;
 
         return $this;
     }
@@ -960,7 +964,7 @@ class Form
      */
     public function setTranslationTemplate($template)
     {
-        $this->translationTemplate = (string) $template;
+        $this->translationTemplate = (string)$template;
 
         return $this;
     }
@@ -969,7 +973,7 @@ class Form
      * Render the form.
      *
      * @param array $options
-     * @param string $fields
+     * @param array $fields
      * @param bool $showStart
      * @param bool $showFields
      * @param bool $showEnd
@@ -1005,13 +1009,14 @@ class Form
 
         // move string value to `attr` to maintain backward compatibility
         foreach ($formOptions as $key => $formOption) {
-            if (!in_array($formOption, $reserved) && is_string($formOption)) {
+            if (is_string($formOption) && !in_array($formOption, $reserved, true)) {
                 $formAttributes[$key] = $formOption;
             }
         }
 
         return array_merge(
-            $formAttributes, Arr::only($formOptions, $reserved)
+            $formAttributes,
+            Arr::only($formOptions, $reserved)
         );
     }
 
@@ -1019,7 +1024,7 @@ class Form
     /**
      * Get template from options if provided, otherwise fallback to config.
      *
-     * @return mixed
+     * @return string
      */
     protected function getTemplate()
     {
@@ -1049,13 +1054,13 @@ class Form
      * Prevent adding fields with same name.
      *
      * @param string $name
-     * @throws \InvalidArgumentException
      * @return void
+     * @throws \InvalidArgumentException
      */
     protected function preventDuplicate($name)
     {
         if ($this->has($name)) {
-            throw new \InvalidArgumentException('Field ['.$name.'] already exists in the form '.get_class($this));
+            throw new \InvalidArgumentException('Field [' . $name . '] already exists in the form ' . get_class($this));
         }
     }
 
@@ -1067,9 +1072,7 @@ class Form
      */
     protected function getFieldType($type)
     {
-        $fieldType = $this->formHelper->getFieldType($type);
-
-        return $fieldType;
+        return $this->formHelper->getFieldType($type);
     }
 
     /**
@@ -1109,18 +1112,28 @@ class Form
 
         $dotName = $this->getNameKey();
         $model = $this->formHelper->convertModelToArray($this->getModel());
-        $isCollectionFormModel = (bool) preg_match('/^.*\.\d+$/', $dotName);
-        $isCollectionPrototype = strpos($dotName, '__NAME__') !== false;
 
-        if (!Arr::get($model, $dotName) && !$isCollectionFormModel && !$isCollectionPrototype) {
-            $newModel = [];
-            Arr::set($newModel, $dotName, $model);
-            $this->model = $newModel;
-
-            return true;
+        if (Arr::get($model, $dotName)) {
+            return false;
         }
 
-        return false;
+        $isCollectionFormModel = (bool)preg_match('/^.*\.\d+$/', $dotName);
+
+        if ($isCollectionFormModel) {
+            return false;
+        }
+
+        $isCollectionPrototype = strpos($dotName, '__NAME__') !== false;
+
+        if ($isCollectionPrototype) {
+            return false;
+        }
+
+        $newModel = [];
+        Arr::set($newModel, $dotName, $model);
+        $this->model = $newModel;
+
+        return true;
     }
 
     /**
@@ -1207,6 +1220,8 @@ class Form
 
     /**
      * Disable all fields in a form.
+     *
+     * @return void
      */
     public function disableFields()
     {
@@ -1217,6 +1232,8 @@ class Form
 
     /**
      * Enable all fields in a form.
+     *
+     * @return void
      */
     public function enableFields()
     {
@@ -1262,12 +1279,13 @@ class Form
     /**
      * Redirects to a destination when form is invalid.
      *
-     * @param  string|null $destination The target url.
-     * @return HttpResponseException
+     * @param string|null $destination The target url.
+     * @return void
+     * @throws HttpResponseException
      */
     public function redirectIfNotValid($destination = null)
     {
-        if (! $this->isValid()) {
+        if (!$this->isValid()) {
             $response = redirect($destination);
 
             if (is_null($destination)) {
@@ -1326,6 +1344,7 @@ class Form
      * Get validation errors.
      *
      * @return array
+     * @throws \InvalidArgumentException
      */
     public function getErrors()
     {
@@ -1385,19 +1404,21 @@ class Form
      * Throw an exception indicating a field does not exist on the class.
      *
      * @param string $name
-     * @throws \InvalidArgumentException
      * @return void
+     * @throws \InvalidArgumentException
      */
     protected function fieldDoesNotExist($name)
     {
-        throw new \InvalidArgumentException('Field ['.$name.'] does not exist in '.get_class($this));
+        throw new \InvalidArgumentException('Field [' . $name . '] does not exist in ' . get_class($this));
     }
 
     /**
      * Method filterFields used as *Main* method for starting
      * filtering and request field mutating process.
      *
-     * @return \Kris\LaravelFormBuilder\Form
+     * @return $this
+     * @throws Filters\Exception\InvalidInstanceException
+     * @throws Filters\Exception\UnableToResolveFilterException
      */
     public function filterFields()
     {
@@ -1444,6 +1465,7 @@ class Form
     public function getFilters()
     {
         $filters = [];
+
         foreach ($this->getFields() as $field) {
             $filters[$field->getName()] = $field->getFilters();
         }
@@ -1455,22 +1477,24 @@ class Form
      * If lockFiltering is set to true then we will not
      * filter fields and mutate request data binded to fields.
      *
-     * @return \Kris\LaravelFormBuilder\Form
+     * @return $this
      */
     public function lockFiltering()
     {
         $this->lockFiltering = true;
+
         return $this;
     }
 
     /**
      * Unlock fields filtering/mutating.
      *
-     * @return \Kris\LaravelFormBuilder\Form
+     * @return $this
      */
     public function unlockFiltering()
     {
         $this->lockFiltering = false;
+
         return $this;
     }
 
@@ -1482,7 +1506,7 @@ class Form
      */
     public function isFilteringLocked()
     {
-        return !$this->lockFiltering ? false : true;
+        return (bool)$this->lockFiltering;
     }
 
     /**
@@ -1493,6 +1517,7 @@ class Form
     public function getRawValues()
     {
         $rawValues = [];
+
         foreach ($this->getFields() as $field) {
             $rawValues[$field->getName()] = $field->getRawValue();
         }
