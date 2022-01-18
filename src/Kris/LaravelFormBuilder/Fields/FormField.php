@@ -113,6 +113,9 @@ abstract class FormField
      * @param string $type
      * @param Form $parent
      * @param array $options
+     * @throws FilterAlreadyBindedException
+     * @throws \Kris\LaravelFormBuilder\Filters\Exception\InvalidInstanceException
+     * @throws \Kris\LaravelFormBuilder\Filters\Exception\UnableToResolveFilterException
      */
     public function __construct($name, $type, Form $parent, array $options = [])
     {
@@ -239,11 +242,16 @@ abstract class FormField
     protected function getModelValueAttribute($model, $name)
     {
         $transformedName = $this->transformKey($name);
+
         if (is_string($model)) {
             return $model;
-        } elseif (is_object($model)) {
+        }
+
+        if (is_object($model)) {
             return object_get($model, $transformedName);
-        } elseif (is_array($model)) {
+        }
+
+        if (is_array($model)) {
             return Arr::get($model, $transformedName);
         }
     }
@@ -291,7 +299,7 @@ abstract class FormField
         }
 
         if ($this->getOption('attr.multiple') && !$this->getOption('tmp.multipleBracesSet')) {
-            $this->name = $this->name . '[]';
+            $this->name .= '[]';
             $this->setOption('tmp.multipleBracesSet', true);
         }
 
@@ -338,6 +346,7 @@ abstract class FormField
 
     /**
      * Normalize and merge rules.
+     *
      * @param array $sourceOptions
      * @return array
      */
@@ -358,7 +367,6 @@ abstract class FormField
             $options['rules'] = $this->normalizeRules($options['rules']);
         }
 
-
         // Append rules
         if ($rulesToBeAppended = Arr::pull($sourceOptions, 'rules_append')) {
             $mergedRules = array_values(array_unique(array_merge($options['rules'], $rulesToBeAppended), SORT_REGULAR));
@@ -369,7 +377,8 @@ abstract class FormField
     }
 
     /**
-     * Normalize the the given rule expression to an array.
+     * Normalize the given rule expression to an array.
+     *
      * @param mixed $rules
      * @return array
      */
@@ -705,13 +714,9 @@ abstract class FormField
     protected function needsLabel()
     {
         // If field is <select> and child of choice, we don't need label for it
-        $isChildSelect = $this->type == 'select' && $this->getOption('is_child') === true;
+        $isChildSelect = $this->type === 'select' && $this->getOption('is_child') === true;
 
-        if ($this->type == 'hidden' || $isChildSelect) {
-            return false;
-        }
-
-        return true;
+        return !($this->type === 'hidden' || $isChildSelect);
     }
 
     /**
@@ -753,7 +758,7 @@ abstract class FormField
     /**
      * Get validation rules for a field if any with label for attributes.
      *
-     * @return array|null
+     * @return Rules
      */
     public function getValidationRules()
     {
@@ -829,6 +834,9 @@ abstract class FormField
      * from field options and bind it to the same.
      *
      * @return $this
+     * @throws FilterAlreadyBindedException
+     * @throws \Kris\LaravelFormBuilder\Filters\Exception\InvalidInstanceException
+     * @throws \Kris\LaravelFormBuilder\Filters\Exception\UnableToResolveFilterException
      */
     protected function initFilters()
     {
@@ -853,9 +861,11 @@ abstract class FormField
     /**
      * Method setFilters used to set filters to current filters property.
      *
-     * @param  array $filters
-     *
-     * @return \Kris\LaravelFormBuilder\Fields\FormField
+     * @param array $filters
+     * @return $this
+     * @throws FilterAlreadyBindedException
+     * @throws \Kris\LaravelFormBuilder\Filters\Exception\InvalidInstanceException
+     * @throws \Kris\LaravelFormBuilder\Filters\Exception\UnableToResolveFilterException
      */
     public function setFilters(array $filters)
     {
@@ -879,11 +889,11 @@ abstract class FormField
     }
 
     /**
-     * @param  string|FilterInterface $filter
-     *
+     * @param string|FilterInterface $filter
      * @return \Kris\LaravelFormBuilder\Fields\FormField
-     *
      * @throws FilterAlreadyBindedException
+     * @throws \Kris\LaravelFormBuilder\Filters\Exception\InvalidInstanceException
+     * @throws \Kris\LaravelFormBuilder\Filters\Exception\UnableToResolveFilterException
      */
     public function addFilter($filter)
     {
@@ -893,7 +903,7 @@ abstract class FormField
         // If filtersOverride is allowed we will override filter
         // with same alias/name if there is one with new resolved filter.
         if ($this->getFiltersOverride()) {
-            if ($key = array_search($filterObj->getName(), $this->getFilters())) {
+            if ($key = array_search($filterObj->getName(), $this->getFilters(), true)) {
                 $this->filters[$key] = $filterObj;
             } else {
                 $this->filters[$filterObj->getName()] = $filterObj;
@@ -902,8 +912,7 @@ abstract class FormField
             // If filtersOverride is disabled and we found
             // equal alias defined we will throw Ex.
             if (array_key_exists($filterObj->getName(), $this->getFilters())) {
-                $ex = new FilterAlreadyBindedException($filterObj->getName(), $this->getName());
-                throw $ex;
+                throw new FilterAlreadyBindedException($filterObj->getName(), $this->getName());
             }
 
             // Filter with resolvedFilter alias/name doesn't exist
@@ -918,8 +927,7 @@ abstract class FormField
      * Method removeFilter used to remove filter by provided alias/name.
      *
      * @param  string $name
-     *
-     * @return \Kris\LaravelFormBuilder\Fields\FormField
+     * @return $this
      */
     public function removeFilter($name)
     {
@@ -936,8 +944,7 @@ abstract class FormField
      * Method removeFilters used to remove filters by provided aliases/names.
      *
      * @param  array $filterNames
-     *
-     * @return \Kris\LaravelFormBuilder\Fields\FormField
+     * @return $this
      */
     public function removeFilters(array $filterNames)
     {
@@ -955,11 +962,12 @@ abstract class FormField
     /**
      * Method clearFilters used to empty current filters property.
      *
-     * @return \Kris\LaravelFormBuilder\Fields\FormField
+     * @return $this
      */
     public function clearFilters()
     {
         $this->filters = [];
+
         return $this;
     }
 
@@ -967,12 +975,12 @@ abstract class FormField
      * Method used to set FiltersOverride status to provided value.
      *
      * @param $status
-     *
-     * @return \Kris\LaravelFormBuilder\Fields\FormField
+     * @return $this
      */
     public function setFiltersOverride($status)
     {
         $this->filtersOverride = $status;
+
         return $this;
     }
 
@@ -989,12 +997,12 @@ abstract class FormField
      * Method is called before field value mutating starts - request value filtering.
      *
      * @param mixed $value
-     *
-     * @return \Kris\LaravelFormBuilder\Fields\FormField
+     * @return $this
      */
     public function setRawValue($value)
     {
         $this->rawValue = $value;
+
         return $this;
     }
 
