@@ -64,7 +64,7 @@ class AfterFormValidation
     }
 
     /**
-     * Return wether the form is valid.
+     * Return whether the form is valid.
      *
      * @return bool
      */
