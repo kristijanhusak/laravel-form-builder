@@ -149,18 +149,6 @@ class FormHelper
      */
     public function getFieldType($type)
     {
-        if (!isset(static::$availableFieldTypes[$type])) {
-            if (!class_exists($type)) {
-                throw new \InvalidArgumentException(sprintf('Could not load type "%s": class does not exist.', $type));
-            }
-
-            if (!is_subclass_of($type, FormField::class)) {
-                throw new \InvalidArgumentException(sprintf('Could not load type "%s": class is not a subclass of "%s".', $type, FormField::class));
-            }
-
-            return $type;
-        } 
-
         $types = array_keys(static::$availableFieldTypes);
 
         if (!$type || trim($type) == '') {
@@ -171,19 +159,27 @@ class FormHelper
             return $this->customTypes[$type];
         }
 
-        if (!in_array($type, $types)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Unsupported field type [%s]. Available types are: %s',
-                    $type,
-                    join(', ', array_merge($types, array_keys($this->customTypes)))
-                )
-            );
+        if (in_array($type, $types, true)) {
+            $namespace = __NAMESPACE__ . '\\Fields\\';
+
+            return $namespace . static::$availableFieldTypes[$type];
         }
 
-        $namespace = __NAMESPACE__ . '\\Fields\\';
+        if (class_exists($type)) {
+            if (!is_subclass_of($type, FormField::class)) {
+                throw new \InvalidArgumentException(sprintf('Could not load type "%s": class is not a subclass of "%s".', $type, FormField::class));
+            }
 
-        return $namespace . static::$availableFieldTypes[$type];
+            return $type;
+        }
+
+        throw new \InvalidArgumentException(
+            sprintf(
+                'Unsupported field type [%s]. Available types are: %s',
+                $type,
+                join(', ', array_merge($types, array_keys($this->customTypes)))
+            )
+        );
     }
 
     /**
