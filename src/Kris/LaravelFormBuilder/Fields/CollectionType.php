@@ -97,11 +97,19 @@ class CollectionType extends ParentType
 
         // If no value is provided, get values from current request.
         if (!is_null($data) && count($data) === 0) {
-            $data = $currentInput;
+            if ($this->getOption('prefer_input')) {
+                $data = $this->formatInputIntoModels($currentInput);
+            }
+            elseif ($this->getOption('empty_row')) {
+                $data = $this->formatInputIntoModels(array_slice($currentInput, 0, 1, true));
+            }
+            else {
+                $data = [];
+            }
         }
         // Or if the current request input is preferred over original data.
         elseif ($this->getOption('prefer_input') && count($currentInput)) {
-            $data = $this->formatInputIntoModels($currentInput, $data);
+            $data = $this->formatInputIntoModels($currentInput, $data ?? []);
         }
 
         if ($data instanceof Collection) {
@@ -111,7 +119,7 @@ class CollectionType extends ParentType
         // Needs to have more than 1 item because 1 is rendered by default.
         // This overrides current request in situations when validation fails.
         if ($oldInput && count($oldInput) > 1) {
-            $data = $this->formatInputIntoModels($oldInput, $data);
+            $data = $this->formatInputIntoModels($oldInput, $data ?? []);
         }
 
         $field = new $fieldType($this->name, $type, $this->parent, $this->getOption('options'));
