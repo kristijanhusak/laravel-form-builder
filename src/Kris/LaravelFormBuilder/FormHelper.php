@@ -50,37 +50,37 @@ class FormHelper
      * @var array
      */
     protected static $availableFieldTypes = [
-        'text'           => 'InputType',
-        'email'          => 'InputType',
-        'url'            => 'InputType',
-        'tel'            => 'InputType',
-        'search'         => 'InputType',
-        'password'       => 'InputType',
-        'hidden'         => 'InputType',
-        'number'         => 'InputType',
-        'date'           => 'InputType',
-        'file'           => 'InputType',
-        'image'          => 'InputType',
-        'color'          => 'InputType',
+        'text' => 'InputType',
+        'email' => 'InputType',
+        'url' => 'InputType',
+        'tel' => 'InputType',
+        'search' => 'InputType',
+        'password' => 'InputType',
+        'hidden' => 'InputType',
+        'number' => 'InputType',
+        'date' => 'InputType',
+        'file' => 'InputType',
+        'image' => 'InputType',
+        'color' => 'InputType',
         'datetime-local' => 'InputType',
-        'month'          => 'InputType',
-        'range'          => 'InputType',
-        'time'           => 'InputType',
-        'week'           => 'InputType',
-        'select'         => 'SelectType',
-        'textarea'       => 'TextareaType',
-        'button'         => 'ButtonType',
-        'buttongroup'    => 'ButtonGroupType',
-        'submit'         => 'ButtonType',
-        'reset'          => 'ButtonType',
-        'radio'          => 'CheckableType',
-        'checkbox'       => 'CheckableType',
-        'choice'         => 'ChoiceType',
-        'form'           => 'ChildFormType',
-        'entity'         => 'EntityType',
-        'collection'     => 'CollectionType',
-        'repeated'       => 'RepeatedType',
-        'static'         => 'StaticType'
+        'month' => 'InputType',
+        'range' => 'InputType',
+        'time' => 'InputType',
+        'week' => 'InputType',
+        'select' => 'SelectType',
+        'textarea' => 'TextareaType',
+        'button' => 'ButtonType',
+        'buttongroup' => 'ButtonGroupType',
+        'submit' => 'ButtonType',
+        'reset' => 'ButtonType',
+        'radio' => 'CheckableType',
+        'checkbox' => 'CheckableType',
+        'choice' => 'ChoiceType',
+        'form' => 'ChildFormType',
+        'entity' => 'EntityType',
+        'collection' => 'CollectionType',
+        'repeated' => 'RepeatedType',
+        'static' => 'StaticType'
     ];
 
     /**
@@ -91,9 +91,9 @@ class FormHelper
     private $customTypes = [];
 
     /**
-     * @param View    $view
+     * @param View $view
      * @param Translator $translator
-     * @param array   $config
+     * @param array $config
      */
     public function __construct(View $view, Translator $translator, array $config = [])
     {
@@ -159,19 +159,27 @@ class FormHelper
             return $this->customTypes[$type];
         }
 
-        if (!in_array($type, $types)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Unsupported field type [%s]. Available types are: %s',
-                    $type,
-                    join(', ', array_merge($types, array_keys($this->customTypes)))
-                )
-            );
+        if (in_array($type, $types, true)) {
+            $namespace = __NAMESPACE__ . '\\Fields\\';
+
+            return $namespace . static::$availableFieldTypes[$type];
         }
 
-        $namespace = __NAMESPACE__.'\\Fields\\';
+        if (class_exists($type)) {
+            if (!is_subclass_of($type, FormField::class)) {
+                throw new \InvalidArgumentException(sprintf('Could not load type "%s": class is not a subclass of "%s".', $type, FormField::class));
+            }
 
-        return $namespace . static::$availableFieldTypes[$type];
+            return $type;
+        }
+
+        throw new \InvalidArgumentException(
+            sprintf(
+                'Unsupported field type [%s]. Available types are: %s',
+                $type,
+                join(', ', array_merge($types, array_keys($this->customTypes)))
+            )
+        );
     }
 
     /**
@@ -191,7 +199,7 @@ class FormHelper
         foreach ($options as $name => $option) {
             if ($option !== null) {
                 $name = is_numeric($name) ? $option : $name;
-                $attributes[] = $name.'="'.$option.'" ';
+                $attributes[] = $name . '="' . $option . '" ';
             }
         }
 
@@ -210,7 +218,7 @@ class FormHelper
             return $this->customTypes[$name] = $class;
         }
 
-        throw new \InvalidArgumentException('Custom field ['.$name.'] already exists on this form object.');
+        throw new \InvalidArgumentException('Custom field [' . $name . '] already exists on this form object.');
     }
 
     /**
@@ -218,7 +226,7 @@ class FormHelper
      */
     private function loadCustomTypes()
     {
-        $customFields = (array) $this->getConfig('custom_fields');
+        $customFields = (array)$this->getConfig('custom_fields');
 
         if (!empty($customFields)) {
             foreach ($customFields as $fieldName => $fieldClass) {
@@ -299,7 +307,7 @@ class FormHelper
         $fieldRules = $field->getValidationRules();
 
         if (is_array($fieldRules)) {
-          $fieldRules = Rules::fromArray($fieldRules)->setFieldName($field->getNameKey());
+            $fieldRules = Rules::fromArray($fieldRules)->setFieldName($field->getNameKey());
         }
 
         $formBuilder = $field->getParent()->getFormBuilder();
@@ -340,7 +348,7 @@ class FormHelper
     /**
      * Get a form's checkbox fields' names.
      *
-     * @param  Form  $form
+     * @param Form $form
      * @return array
      */
     public function getBoolableFields(Form $form)
@@ -358,8 +366,8 @@ class FormHelper
     /**
      * Turn checkbox fields into bools.
      *
-     * @param  Form  $form
-     * @param  array $values
+     * @param Form $form
+     * @param array $values
      * @return void
      */
     public function alterFieldValuesBools(Form $form, array &$values)
@@ -367,18 +375,18 @@ class FormHelper
         $fields = $this->getBoolableFields($form);
 
         foreach ($fields as $name) {
-          $value = Arr::get($values, $name, -1);
-          if ($value !== -1) {
-            Arr::set($values, $name, (int) (bool) $value);
-          }
+            $value = Arr::get($values, $name, -1);
+            if ($value !== -1) {
+                Arr::set($values, $name, (int)(bool)$value);
+            }
         }
     }
 
     /**
      * Alter a form's values recursively according to its fields.
      *
-     * @param  Form  $form
-     * @param  array $values
+     * @param Form $form
+     * @param array $values
      * @return void
      */
     public function alterFieldValues(Form $form, array &$values)
@@ -390,7 +398,7 @@ class FormHelper
             if (method_exists($field, 'alterFieldValues')) {
                 $fullName = $this->transformToDotSyntax($name);
 
-                $subValues = (array) Arr::get($values, $fullName);
+                $subValues = (array)Arr::get($values, $fullName);
                 $field->alterFieldValues($subValues);
                 Arr::set($values, $fullName, $subValues);
             }
@@ -436,7 +444,7 @@ class FormHelper
                 $key = $this->transformToDotSyntax($prefix . '[' . $key . ']');
             }
 
-            foreach ((array) $messages as $message) {
+            foreach ((array)$messages as $message) {
                 $messageBag->add($key, $message);
             }
         }
@@ -477,9 +485,9 @@ class FormHelper
     /**
      * Check if field name is valid and not reserved.
      *
-     * @throws \InvalidArgumentException
      * @param string $name
      * @param string $className
+     * @throws \InvalidArgumentException
      */
     public function checkFieldName($name, $className)
     {

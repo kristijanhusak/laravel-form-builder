@@ -53,6 +53,7 @@ class FormHelperTest extends FormBuilderTestCase
         $collection = $this->formHelper->getFieldType('collection');
         $static = $this->formHelper->getFieldType('static');
         $entity = $this->formHelper->getFieldType('entity');
+        $className = $this->formHelper->getFieldType('Kris\\LaravelFormBuilder\\Fields\\InputType');
 
         $this->assertEquals('Kris\\LaravelFormBuilder\\Fields\\InputType', $input);
         $this->assertEquals('Kris\\LaravelFormBuilder\\Fields\\SelectType', $select);
@@ -67,6 +68,7 @@ class FormHelperTest extends FormBuilderTestCase
         $this->assertEquals('Kris\\LaravelFormBuilder\\Fields\\CollectionType', $collection);
         $this->assertEquals('Kris\\LaravelFormBuilder\\Fields\\StaticType', $static);
         $this->assertEquals('Kris\\LaravelFormBuilder\\Fields\\EntityType', $entity);
+        $this->assertEquals('Kris\\LaravelFormBuilder\\Fields\\InputType', $className);
     }
 
     /**
