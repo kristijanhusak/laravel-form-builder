@@ -154,6 +154,10 @@ class FormHelper
                 throw new \InvalidArgumentException(sprintf('Could not load type "%s": class does not exist.', $type));
             }
 
+            if (!is_subclass_of($type, FormField::class)) {
+                throw new \InvalidArgumentException(sprintf('Could not load type "%s": class is not a subclass of "%s".', $type, FormField::class));
+            }
+
             return $type;
         } 
 
