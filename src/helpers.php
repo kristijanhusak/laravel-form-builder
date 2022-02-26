@@ -56,7 +56,7 @@ if (!function_exists('form')) {
      * Render full form.
      *
      * @param Form $form
-     * @param array $options
+     * @param array<string, mixed> $options
      * @return string
      */
     function form(Form $form, array $options = [])
@@ -70,7 +70,7 @@ if (!function_exists('form_start')) {
      * Render form open tag.
      *
      * @param Form $form
-     * @param array $options
+     * @param array<string, mixed> $options
      * @return string
      */
     function form_start(Form $form, array $options = [])
@@ -125,7 +125,7 @@ if (!function_exists('form_row')) {
      * Render the field.
      *
      * @param FormField $formField
-     * @param array $options
+     * @param array<string, mixed> $options
      * @return string
      */
     function form_row(FormField $formField, array $options = [])
@@ -139,8 +139,8 @@ if (!function_exists('form_rows')) {
      * Render the fields.
      *
      * @param Form $form
-     * @param array $fields
-     * @param array $options
+     * @param string[] $fields
+     * @param array<string, mixed> $options
      * @return string
      */
     function form_rows(Form $form, array $fields, array $options = [])
@@ -156,7 +156,7 @@ if (!function_exists('form_label')) {
      * Render the label.
      *
      * @param FormField $formField
-     * @param array $options
+     * @param array<string, mixed> $options
      * @return string
      */
     function form_label(FormField $formField, array $options = [])
@@ -170,7 +170,7 @@ if (!function_exists('form_widget')) {
      * Render the widget.
      *
      * @param FormField $formField
-     * @param array $options
+     * @param array<string, mixed> $options
      * @return string
      */
     function form_widget(FormField $formField, array $options = [])
@@ -184,7 +184,7 @@ if (!function_exists('form_errors')) {
      * Render the errors.
      *
      * @param FormField $formField
-     * @param array $options
+     * @param array<string, mixed> $options
      * @return string
      */
     function form_errors(FormField $formField, array $options = [])
@@ -198,7 +198,7 @@ if (!function_exists('form_fields')) {
      * Render full form.
      *
      * @param Form $form
-     * @param array $options
+     * @param array<string, mixed> $options
      * @return string
      */
     function form_fields(Form $form, array $options = [])
