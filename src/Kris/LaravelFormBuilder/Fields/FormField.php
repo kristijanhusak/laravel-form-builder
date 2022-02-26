@@ -2,9 +2,12 @@
 
 namespace Kris\LaravelFormBuilder\Fields;
 
+use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Kris\LaravelFormBuilder\Filters\Exception\FilterAlreadyBindedException;
+use Kris\LaravelFormBuilder\Filters\Exception\InvalidInstanceException;
+use Kris\LaravelFormBuilder\Filters\Exception\UnableToResolveFilterException;
 use Kris\LaravelFormBuilder\Filters\FilterInterface;
 use Kris\LaravelFormBuilder\Filters\FilterResolver;
 use Kris\LaravelFormBuilder\Form;
@@ -35,7 +38,7 @@ abstract class FormField
     /**
      * All options for the field.
      *
-     * @var array
+     * @var array<string, mixed>
      */
     protected $options = [];
 
@@ -83,7 +86,7 @@ abstract class FormField
     protected $hasDefault = false;
 
     /**
-     * @var \Closure|null
+     * @var Closure|null
      */
     protected $valueClosure = null;
 
@@ -114,8 +117,8 @@ abstract class FormField
      * @param Form $parent
      * @param array $options
      * @throws FilterAlreadyBindedException
-     * @throws \Kris\LaravelFormBuilder\Filters\Exception\InvalidInstanceException
-     * @throws \Kris\LaravelFormBuilder\Filters\Exception\UnableToResolveFilterException
+     * @throws InvalidInstanceException
+     * @throws UnableToResolveFilterException
      */
     public function __construct($name, $type, Form $parent, array $options = [])
     {
@@ -140,11 +143,11 @@ abstract class FormField
         $value = $this->getOption($this->valueProperty);
         $isChild = $this->getOption('is_child');
 
-        if ($value instanceof \Closure) {
+        if ($value instanceof Closure) {
             $this->valueClosure = $value;
         }
 
-        if (($value === null || $value instanceof \Closure) && !$isChild) {
+        if (($value === null || $value instanceof Closure) && !$isChild) {
             if ($this instanceof EntityType) {
                 $attributeName = $this->name;
             } else {
@@ -260,7 +263,7 @@ abstract class FormField
      * Transform array like syntax to dot syntax.
      *
      * @param string $key
-     * @return mixed
+     * @return string
      */
     protected function transformKey($key)
     {
@@ -270,8 +273,8 @@ abstract class FormField
     /**
      * Prepare options for rendering.
      *
-     * @param array $options
-     * @return array The parsed options
+     * @param array<string, mixed> $options
+     * @return array<string, mixed> The parsed options
      */
     protected function prepareOptions(array $options = [])
     {
@@ -347,8 +350,8 @@ abstract class FormField
     /**
      * Normalize and merge rules.
      *
-     * @param array $sourceOptions
-     * @return array
+     * @param array<string, mixed> $sourceOptions
+     * @return array<string, mixed>
      */
     protected function prepareRules(array &$sourceOptions = [])
     {
@@ -380,7 +383,7 @@ abstract class FormField
      * Normalize the given rule expression to an array.
      *
      * @param mixed $rules
-     * @return array
+     * @return array<int, mixed>
      */
     protected function normalizeRules($rules)
     {
@@ -436,7 +439,7 @@ abstract class FormField
     /**
      * Get field options.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function getOptions()
     {
@@ -528,7 +531,7 @@ abstract class FormField
     /**
      * Default options for field.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     protected function getDefaults()
     {
@@ -538,7 +541,7 @@ abstract class FormField
     /**
      * Defaults used across all fields.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     private function allDefaults()
     {
@@ -584,7 +587,7 @@ abstract class FormField
 
         $closure = $this->valueClosure;
 
-        if ($closure instanceof \Closure) {
+        if ($closure instanceof Closure) {
             $value = $closure($value ?: null);
         }
 
@@ -642,7 +645,7 @@ abstract class FormField
     /**
      * Merge all defaults with field specific defaults and set template if passed.
      *
-     * @param array $options
+     * @param array<string, mixed> $options
      */
     protected function setDefaultOptions(array $options = [])
     {
@@ -658,8 +661,8 @@ abstract class FormField
     /**
      * Creates default wrapper classes for the form element.
      *
-     * @param array $options
-     * @return array
+     * @param array<string, mixed> $options
+     * @return array<string, mixed>
      */
     protected function setDefaultClasses(array $options = [])
     {
@@ -835,8 +838,8 @@ abstract class FormField
      *
      * @return $this
      * @throws FilterAlreadyBindedException
-     * @throws \Kris\LaravelFormBuilder\Filters\Exception\InvalidInstanceException
-     * @throws \Kris\LaravelFormBuilder\Filters\Exception\UnableToResolveFilterException
+     * @throws InvalidInstanceException
+     * @throws UnableToResolveFilterException
      */
     protected function initFilters()
     {
@@ -864,8 +867,8 @@ abstract class FormField
      * @param array $filters
      * @return $this
      * @throws FilterAlreadyBindedException
-     * @throws \Kris\LaravelFormBuilder\Filters\Exception\InvalidInstanceException
-     * @throws \Kris\LaravelFormBuilder\Filters\Exception\UnableToResolveFilterException
+     * @throws InvalidInstanceException
+     * @throws UnableToResolveFilterException
      */
     public function setFilters(array $filters)
     {
@@ -890,10 +893,10 @@ abstract class FormField
 
     /**
      * @param string|FilterInterface $filter
-     * @return \Kris\LaravelFormBuilder\Fields\FormField
+     * @return FormField
      * @throws FilterAlreadyBindedException
-     * @throws \Kris\LaravelFormBuilder\Filters\Exception\InvalidInstanceException
-     * @throws \Kris\LaravelFormBuilder\Filters\Exception\UnableToResolveFilterException
+     * @throws InvalidInstanceException
+     * @throws UnableToResolveFilterException
      */
     public function addFilter($filter)
     {
@@ -1019,6 +1022,8 @@ abstract class FormField
     /**
      * Get config from the form.
      *
+     * @param string|null $key
+     * @param mixed $default
      * @return mixed
      */
     private function getConfig($key = null, $default = null)
