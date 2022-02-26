@@ -169,7 +169,7 @@ class Form
 
         // If form is plain, buildForm method is empty, so we need to take
         // existing fields and add them again
-        if (get_class($this) === __CLASS__) {
+        if (get_class($this) === self::class) {
             foreach ($this->fields as $name => $field) {
                 // Remove any temp variables added in previous instance
                 $options = Arr::except($field->getOptions(), 'tmp');
