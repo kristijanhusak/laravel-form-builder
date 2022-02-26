@@ -2,6 +2,8 @@
 
 namespace Kris\LaravelFormBuilder;
 
+use InvalidArgumentException;
+
 class Rules
 {
     /**
@@ -48,7 +50,7 @@ class Rules
     }
 
     /**
-     * @param string $fieldName
+     * @param string|null $fieldName
      * @return array|mixed
      */
     public function getFieldRules($fieldName = null)
@@ -61,7 +63,7 @@ class Rules
 
     /**
      * @param mixed $rule
-     * @param string $fieldName
+     * @param string|null $fieldName
      * @return void
      */
     public function addFieldRule($rule, $fieldName = null)
@@ -73,7 +75,7 @@ class Rules
 
     /**
      * @param array $rules
-     * @param string $fieldName
+     * @param string|null $fieldName
      * @return void
      */
     public function setFieldRules(array $rules, $fieldName = null)
@@ -83,15 +85,15 @@ class Rules
     }
 
     /**
-     * @param string $fieldName
+     * @param string|null $fieldName
      * @return string|null
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function ensureFieldName($fieldName)
     {
         if (!$fieldName) {
             if (!$this->fieldName) {
-                throw new \InvalidArgumentException("Field functions on non-field Rules need explicit field name");
+                throw new InvalidArgumentException("Field functions on non-field Rules need explicit field name");
             }
 
             $fieldName = $this->fieldName;
@@ -101,7 +103,7 @@ class Rules
     }
 
     /**
-     * @param array $rules
+     * @param array|static $rules
      * @return $this
      */
     public function append($rules)
