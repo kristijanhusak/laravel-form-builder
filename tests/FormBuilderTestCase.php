@@ -8,6 +8,7 @@ use Kris\LaravelFormBuilder\Form;
 use Orchestra\Testbench\TestCase;
 use Illuminate\Database\Eloquent\Model;
 use Kris\LaravelFormBuilder\Filters\FilterResolver;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class TestModel extends Model {
     protected $fillable = ['m', 'f'];
