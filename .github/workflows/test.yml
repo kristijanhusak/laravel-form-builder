@@ -15,7 +15,7 @@ jobs:
       max-parallel: 12
       matrix:
         php: ['7.4', '8.0', '8.1']
-        package-release: [source, dist]
+        package-release: [dist]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
