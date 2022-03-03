@@ -14,7 +14,7 @@ jobs:
     strategy:
       max-parallel: 12
       matrix:
-        php: ['7.3', '7.4', '8.0']
+        php: ['7.4', '8.0', '8.1']
         package-release: [source, dist]
     steps:
       - name: Checkout repository
@@ -42,7 +42,7 @@ jobs:
             composer-${{ runner.os }}-
 
       - name: Install composer dependencies
-        run: composer install --no-suggest --no-progress --no-interaction --prefer-${{ matrix.package-release }}
+        run: composer install --no-progress --no-interaction --prefer-${{ matrix.package-release }}
 
       - name: Run unit tests
         run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
