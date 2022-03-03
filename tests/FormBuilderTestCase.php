@@ -139,13 +139,18 @@ abstract class FormBuilderTestCase extends TestCase {
 
     protected function getPackageProviders($app)
     {
-        return ['Kris\LaravelFormBuilder\FormBuilderServiceProvider'];
+        return [
+            'Collective\Html\HtmlServiceProvider',
+            'Kris\LaravelFormBuilder\FormBuilderServiceProvider',
+        ];
     }
 
     protected function getPackageAliases($app)
     {
         return [
-            'Acme' => 'Kris\LaravelFormBuilder\Facades\FormBuilder'
+            'Acme' => 'Kris\LaravelFormBuilder\Facades\FormBuilder',
+            'Form' => 'Collective\Html\FormFacade',
+            'Html' => 'Collective\Html\HtmlFacade',
         ];
     }
 
