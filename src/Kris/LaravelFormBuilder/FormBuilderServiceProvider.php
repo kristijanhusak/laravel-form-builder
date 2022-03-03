@@ -49,13 +49,18 @@ class FormBuilderServiceProvider extends ServiceProvider
     {
         $abstract = static::BUILDER_ABSTRACT;
 
-        $formBuilder = $this->getFormBuilderClass();
+        $formBuilderClass = $this->getFormBuilderClass();
 
-        $this->app->singleton($abstract, function ($app) use ($formBuilder) {
-            return new $formBuilder($app, $app[static::HELPER_ABSTRACT], $app['events']);
+        $this->app->singleton($abstract, function ($app) use ($formBuilderClass) {
+            $formBuilder = new $formBuilderClass($app, $app[static::HELPER_ABSTRACT], $app['events']);
+            $formBuilder->setFormClass($this->getPlainFormClass());
+            return $formBuilder;
         });
 
-        $this->app->alias($abstract, $formBuilder);
+        $this->app->alias($abstract, $formBuilderClass);
+        if ($formBuilderClass != FormBuilder::class) {
+            $this->app->alias($abstract, FormBuilder::class);
+        }
 
         $this->app->afterResolving(Form::class, function ($object, $app) use ($abstract) {
             $request = $app->make('request');
@@ -77,15 +82,18 @@ class FormBuilderServiceProvider extends ServiceProvider
     {
         $abstract = static::HELPER_ABSTRACT;
 
-        $formHelper = $this->getFormHelperClass();
+        $formHelperClass = $this->getFormHelperClass();
 
-        $this->app->singleton($abstract, function ($app) use ($formHelper) {
+        $this->app->singleton($abstract, function ($app) use ($formHelperClass) {
             $configuration = $app['config']->get('laravel-form-builder');
 
-            return new $formHelper($app['view'], $app['translator'], $configuration);
+            return new $formHelperClass($app['view'], $app['translator'], $configuration);
         });
 
-        $this->app->alias($abstract, $formHelper);
+        $this->app->alias($abstract, $formHelperClass);
+        if ($formHelperClass != FormHelper::class) {
+            $this->app->alias($abstract, FormHelper::class);
+        }
     }
 
     /**
@@ -194,12 +202,20 @@ class FormBuilderServiceProvider extends ServiceProvider
     /**
      * @return class-string
      */
+    protected function getPlainFormClass()
+    {
+        return $this->app['config']->get('laravel-form-builder.plain_form_class', Form::class);
+    }
+
+    /**
+     * @return class-string
+     */
     protected function getFormBuilderClass()
     {
         $expectedClass = FormBuilder::class;
         $defaultClass = FormBuilder::class;
 
-        $class = $this->app['config']->get('laravel-form-builder.form_builder', $defaultClass);
+        $class = $this->app['config']->get('laravel-form-builder.form_builder_class', $defaultClass);
 
         if (!class_exists($class)) {
             throw new InvalidArgumentException("Class {$class} does not exist");
@@ -220,7 +236,7 @@ class FormBuilderServiceProvider extends ServiceProvider
         $expectedClass = FormHelper::class;
         $defaultClass = FormHelper::class;
 
-        $class = $this->app['config']->get('laravel-form-builder.helper', $defaultClass);
+        $class = $this->app['config']->get('laravel-form-builder.form_helper_class', $defaultClass);
 
         if (!class_exists($class)) {
             throw new InvalidArgumentException("Class {$class} does not exist");

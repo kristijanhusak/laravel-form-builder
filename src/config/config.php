@@ -50,6 +50,7 @@ return [
 //        'datetime' => App\Forms\Fields\Datetime::class
     ],
 
-    'form_builder' => \Kris\LaravelFormBuilder\FormBuilder::class,
-    'helper' => \Kris\LaravelFormBuilder\FormHelper::class,
+    'plain_form_class' => \Kris\LaravelFormBuilder\Form::class,
+    'form_builder_class' => \Kris\LaravelFormBuilder\FormBuilder::class,
+    'form_helper_class' => \Kris\LaravelFormBuilder\FormHelper::class,
 ];
