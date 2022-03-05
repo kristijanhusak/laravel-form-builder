@@ -1,43 +1,58 @@
 <?php
 
-use Collective\Html\FormBuilder as LaravelForm;
-use Collective\Html\HtmlBuilder;
-use Kris\LaravelFormBuilder\FormBuilder;
-use Kris\LaravelFormBuilder\FormBuilderServiceProvider;
-use Kris\LaravelFormBuilder\FormHelper;
+namespace {
 
-class FormBuilderServiceProviderTest extends FormBuilderTestCase
-{
-    /** @test */
-    public function it_provides(): void
+    use App\FormBuilderStuff\MyFormBuilder;
+    use App\FormBuilderStuff\SomeService;
+
+    class FormBuilderServiceProviderTest extends FormBuilderTestCase
     {
-        $provider = new FormBuilderServiceProvider($this->app);
 
-        $this->assertEquals(
-            [
-                'laravel-form-builder',
-            ],
-            $provider->provides()
-        );
+        protected function resolveApplicationConfiguration($app)
+        {
+            parent::resolveApplicationConfiguration($app);
+
+            $app['config']->set('laravel-form-builder.form_builder_class', MyFormBuilder::class);
+        }
+
+        /** @test */
+        public function it_dependency_injects()
+        {
+            // The right form builder class is used for the container form builder.
+            $this->assertInstanceOf(MyFormBuilder::class, $this->app['laravel-form-builder']);
+
+            // Dependency injected MyFormBuilder in SomeService is from the container.
+            $service = $this->app->build(SomeService::class);
+            $this->assertIdentical($service->fb, $this->app['laravel-form-builder']);
+
+            // Dependency injected standard Kris FormBuilder also resolves to that container MyFormBuilder.
+            $fb2 = $this->app->call([$service, 'krisFB']);
+            $this->assertIdentical($fb2, $this->app['laravel-form-builder']);
+        }
+
     }
 
-    /** @test */
-    public function it_register(): void
+}
+
+namespace App\FormBuilderStuff {
+    use Kris\LaravelFormBuilder\FormBuilder;
+
+    class MyFormBuilder extends FormBuilder
     {
-        $provider = new FormBuilderServiceProvider($this->app);
 
-        $provider->register();
+    }
 
-        $this->assertTrue($this->app->bound('html'));
-        $this->assertInstanceOf(HtmlBuilder::class, $this->app['html']);
+    class SomeService
+    {
+        public $fb;
+        public function __construct(MyFormBuilder $fb)
+        {
+            $this->fb = $fb;
+        }
 
-        $this->assertTrue($this->app->bound('form'));
-        $this->assertInstanceOf(LaravelForm::class, $this->app['form']);
-
-        $this->assertTrue($this->app->bound('laravel-form-builder'));
-        $this->assertInstanceOf(FormBuilder::class, $this->app['laravel-form-builder']);
-
-        $this->assertTrue($this->app->bound('laravel-form-helper'));
-        $this->assertInstanceOf(FormHelper::class, $this->app['laravel-form-helper']);
+        public function krisFB(FormBuilder $fb)
+        {
+            return $fb;
+        }
     }
 }
