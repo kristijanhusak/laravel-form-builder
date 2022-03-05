@@ -168,7 +168,7 @@ class Form
         $this->rebuilding = true;
         // If form is plain, buildForm method is empty, so we need to take
         // existing fields and add them again
-        if (get_class($this) === 'Kris\LaravelFormBuilder\Form') {
+        if ($this->isPlain()) {
             foreach ($this->fields as $name => $field) {
                 // Remove any temp variables added in previous instance
                 $options =  Arr::except($field->getOptions(), 'tmp');
@@ -180,6 +180,14 @@ class Form
         $this->rebuilding = false;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isPlain()
+    {
+        return static::class === self::class;
     }
 
     /**

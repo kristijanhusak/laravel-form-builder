@@ -370,6 +370,22 @@ class FormFieldTest extends FormBuilderTestCase
         $testField->clearFilters();
         $this->assertEmpty($testField->getFilters());
     }
+
+    /** @test */
+    public function it_is_plain()
+    {
+        $methodName = 'isPlain';
+
+        $plainForm = $this->formBuilder->plain();
+        $modifiedForm = new TestForm();
+
+        $reflection = new \ReflectionClass($plainForm);
+        $method = $reflection->getMethod($methodName);
+        $method->setAccessible(true);
+
+        $this->assertTrue($method->invokeArgs($plainForm, []));
+        $this->assertFalse($method->invokeArgs($modifiedForm, []));
+    }
 }
 
 
