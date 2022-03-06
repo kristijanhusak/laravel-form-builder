@@ -6,8 +6,6 @@ use Illuminate\Foundation\AliasLoader;
 use Collective\Html\FormBuilder as LaravelForm;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Str;
 use Kris\LaravelFormBuilder\Traits\ValidatesWhenResolved;
 use Kris\LaravelFormBuilder\Form;
 
@@ -22,9 +20,6 @@ class FormBuilderServiceProvider extends ServiceProvider
     public function register()
     {
         $this->commands('Kris\LaravelFormBuilder\Console\FormMakeCommand');
-
-        $this->registerHtmlIfNeeded();
-        $this->registerFormIfHeeded();
 
         $this->mergeConfigFrom(
             __DIR__ . '/../../config/config.php',
@@ -102,75 +97,6 @@ class FormBuilderServiceProvider extends ServiceProvider
     public function provides()
     {
         return ['laravel-form-builder'];
-    }
-
-    /**
-     * Add Laravel Form to container if not already set.
-     *
-     * @return void
-     */
-    private function registerFormIfHeeded()
-    {
-        if (!$this->app->offsetExists('form')) {
-
-            $this->app->singleton('form', function($app) {
-
-                // LaravelCollective\HtmlBuilder 5.2 is not backward compatible and will throw an exception
-                $version = substr(Application::VERSION, 0, 3);
-
-                if(Str::is('5.4', $version)) {
-                    $form = new LaravelForm($app[ 'html' ], $app[ 'url' ], $app[ 'view' ], $app[ 'session.store' ]->token());
-                }
-                else if (Str::is('5.0', $version) || Str::is('5.1', $version)) {
-                    $form = new LaravelForm($app[ 'html' ], $app[ 'url' ], $app[ 'session.store' ]->token());
-                }
-                else {
-                    $form = new LaravelForm($app['html'], $app['url'], $app['view'], $app['session.store']->token());
-                }
-
-                return $form->setSessionStore($app['session.store']);
-            });
-
-            if (! $this->aliasExists('Form')) {
-
-                AliasLoader::getInstance()->alias(
-                    'Form',
-                    'Collective\Html\FormFacade'
-                );
-            }
-        }
-    }
-
-    /**
-     * Add Laravel Html to container if not already set.
-     */
-    private function registerHtmlIfNeeded()
-    {
-        if (!$this->app->offsetExists('html')) {
-
-            $this->app->singleton('html', function($app) {
-                return new HtmlBuilder($app['url'], $app['view']);
-            });
-
-            if (! $this->aliasExists('Html')) {
-
-                AliasLoader::getInstance()->alias(
-                    'Html',
-                    'Collective\Html\HtmlFacade'
-                );
-            }
-        }
-    }
-
-    /**
-     * Check if an alias already exists in the IOC.
-     *
-     * @param string $alias
-     * @return bool
-     */
-    private function aliasExists($alias)
-    {
-        return array_key_exists($alias, AliasLoader::getInstance()->getAliases());
     }
 
 }
