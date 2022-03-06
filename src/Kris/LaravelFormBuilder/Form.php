@@ -187,7 +187,11 @@ class Form
      */
     protected function isPlain()
     {
-        return static::class === self::class;
+        if($this->formBuilder === null) {
+            throw new \RuntimeException('FormBuilder is not set');
+        }
+
+        return static::class === $this->formBuilder->getFormClass();
     }
 
     /**
