@@ -48,5 +48,9 @@ return [
 
     'custom_fields' => [
 //        'datetime' => App\Forms\Fields\Datetime::class
-    ]
+    ],
+
+    'plain_form_class' => \Kris\LaravelFormBuilder\Form::class,
+    'form_builder_class' => \Kris\LaravelFormBuilder\FormBuilder::class,
+    'form_helper_class' => \Kris\LaravelFormBuilder\FormHelper::class,
 ];

@@ -2,12 +2,13 @@
 
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Validation\Factory;
-use Kris\LaravelFormBuilder\FormBuilder;
-use Kris\LaravelFormBuilder\FormHelper;
-use Kris\LaravelFormBuilder\Form;
-use Orchestra\Testbench\TestCase;
 use Illuminate\Database\Eloquent\Model;
 use Kris\LaravelFormBuilder\Filters\FilterResolver;
+use Kris\LaravelFormBuilder\Form;
+use Kris\LaravelFormBuilder\FormBuilder;
+use Kris\LaravelFormBuilder\FormHelper;
+use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Constraint\IsIdentical;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class TestModel extends Model {
@@ -157,5 +158,10 @@ abstract class FormBuilderTestCase extends TestCase {
     protected function assertNotThrown(): void
     {
         $this->assertTrue(true);
+    }
+
+    protected function assertIdentical($one, $two): void
+    {
+        self::assertThat($one, new IsIdentical($two));
     }
 }
