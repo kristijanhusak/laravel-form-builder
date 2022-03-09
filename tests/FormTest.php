@@ -91,7 +91,7 @@ class FormTest extends FormBuilderTestCase
 
         $errors = [
             'name' => ['The Name field is required.'],
-            'description' => ['The Description may not be greater than 10 characters.']
+            'description' => ['The Description must not be greater than 10 characters.']
         ];
 
         $this->assertEquals($errors, $this->plainForm->getErrors());
@@ -153,7 +153,7 @@ class FormTest extends FormBuilderTestCase
             $errorBag = $response->getSession()->get('errors');
             $this->assertTrue($errorBag->has('description'));
             $this->assertTrue($errorBag->has('name'));
-            $this->assertEquals('The Description may not be greater than 10 characters.', $errorBag->first('description'));
+            $this->assertEquals('The Description must not be greater than 10 characters.', $errorBag->first('description'));
         }
     }
 
@@ -191,7 +191,7 @@ class FormTest extends FormBuilderTestCase
             $errorBag = $response->getSession()->get('errors');
             $this->assertTrue($errorBag->has('description'));
             $this->assertTrue($errorBag->has('name'));
-            $this->assertEquals('The Description may not be greater than 10 characters.', $errorBag->first('description'));
+            $this->assertEquals('The Description must not be greater than 10 characters.', $errorBag->first('description'));
         }
     }
 
@@ -233,7 +233,7 @@ class FormTest extends FormBuilderTestCase
 
         $errors = [
             'name' => ['Name field must be numeric.'],
-            'description' => ['The Description may not be greater than 10 characters.'],
+            'description' => ['The Description must not be greater than 10 characters.'],
             'age' => ['The age field is a must.'],
             'email' => ['The email is very required.']
         ];
@@ -716,11 +716,12 @@ class FormTest extends FormBuilderTestCase
     /** @test */
     public function it_can_add_child_form_as_field()
     {
-        $form = $this->formBuilder->plain();
+        $model = ['song' => ['body' => 'test body'], 'title' => 'main title'];
+        $form = $this->formBuilder->plain([
+            'model' => $model,
+        ]);
         $customForm = $this->formBuilder->create('CustomDummyForm');
         $customForm->add('img', 'file')->add('name', 'text', ['label_show' => false]);
-        $model = ['song' => ['body' => 'test body'], 'title' => 'main title'];
-        $form->setModel($model);
 
         $form
             ->add('title', 'text', [
@@ -765,9 +766,9 @@ class FormTest extends FormBuilderTestCase
             $form->song->getForm()
         );
 
-        $this->assertNotRegExp('/label.*for="name"/', $view);
-        $this->assertRegExp('/label.*for="custom_title"/', $view);
-        $this->assertRegExp('/input.*id="custom_title"/', $view);
+        $this->assertDoesNotMatchRegularExpression('/label.*for="name"/', $view);
+        $this->assertMatchesRegularExpression('/label.*for="custom_title"/', $view);
+        $this->assertMatchesRegularExpression('/input.*id="custom_title"/', $view);
 
         $this->assertTrue($form->song->getFormOption('files'));
 
@@ -777,6 +778,40 @@ class FormTest extends FormBuilderTestCase
             return;
         }
         $this->fail('No exception on bad method call on child form.');
+    }
+
+    /** @test */
+    public function it_can_use_model_property_to_set_value()
+    {
+        $form = $this->formBuilder->plain([
+            'model' => $this->model,
+        ]);
+
+        $form->add('alias_accessor', 'choice', [
+            'value_property' => 'accessor',
+        ]);
+
+        $this->assertEquals($form->alias_accessor->getValue(), $this->model->accessor);
+    }
+
+    /** @test */
+    public function it_sets_entity_field_value_to_the_entity_model_value()
+    {
+        $dummyModel = new DummyModel();
+        $dummyModel->id = 1;
+
+        $this->model->dummy_model_id = $dummyModel->id;
+
+        $form = $this->formBuilder
+            ->plain([
+                'model' => $this->model,
+            ])
+            ->add('dummy_model_id', 'entity', [
+                'class' => DummyModel::class,
+                'property' => 'name',
+            ]);
+
+        $this->assertEquals($form->dummy_model_id->getValue(), $this->model->dummy_model_id);
     }
 
     /** @test */
@@ -798,11 +833,11 @@ class FormTest extends FormBuilderTestCase
         $formView = $form->renderForm();
         $overridenView = $overridenClassForm->renderForm();
 
-        $this->assertRegExp('/textarea.*class="my-textarea-class"/', $formView);
-        $this->assertRegExp('/input.*class="form-control"/', $formView);
+        $this->assertMatchesRegularExpression('/textarea.*class="my-textarea-class"/', $formView);
+        $this->assertMatchesRegularExpression('/input.*class="form-control"/', $formView);
 
-        $this->assertRegExp('/textarea.*class="overwrite-textarea-class"/', $overridenView);
-        $this->assertRegExp('/input.*class="my-text-class"/', $overridenView);
+        $this->assertMatchesRegularExpression('/textarea.*class="overwrite-textarea-class"/', $overridenView);
+        $this->assertMatchesRegularExpression('/input.*class="my-text-class"/', $overridenView);
     }
 
     /** @test */
@@ -820,10 +855,11 @@ class FormTest extends FormBuilderTestCase
     /** @test */
     public function it_removes_children_from_parent_type_fields()
     {
-        $form = $this->formBuilder->plain();
-        $customForm = $this->formBuilder->create('CustomDummyForm');
         $model = ['song' => ['title' => 'test song title', 'body' => 'test body'], 'title' => 'main title'];
-        $form->setModel($model);
+        $form = $this->formBuilder->plain([
+            'model' => $model,
+        ]);
+        $customForm = $this->formBuilder->create('CustomDummyForm');
 
         $form
             ->add('title', 'text')

@@ -43,6 +43,8 @@ class ChoiceType extends ParentType
         if ($expanded && $multiple) {
             return $this->choiceType = 'checkbox';
         }
+
+        return $this->choiceType = 'select';
     }
 
     /**

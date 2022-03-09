@@ -32,6 +32,7 @@ class Field
     const NUMBER = 'number';
     const RANGE = 'range';
     const ENTITY = 'entity';
+    const FORM = 'form';
     //Buttons
     const BUTTON_SUBMIT = 'submit';
     const BUTTON_RESET = 'reset';

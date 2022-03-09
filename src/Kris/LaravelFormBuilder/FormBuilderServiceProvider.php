@@ -6,13 +6,16 @@ use Illuminate\Foundation\AliasLoader;
 use Collective\Html\FormBuilder as LaravelForm;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Str;
+use InvalidArgumentException;
 use Kris\LaravelFormBuilder\Traits\ValidatesWhenResolved;
 use Kris\LaravelFormBuilder\Form;
 
 class FormBuilderServiceProvider extends ServiceProvider
 {
+    protected const HTML_ABSTRACT = 'html';
+    protected const FORM_ABSTRACT = 'form';
+    protected const BUILDER_ABSTRACT = 'laravel-form-builder';
+    protected const HELPER_ABSTRACT = 'laravel-form-helper';
 
     /**
      * Register the service provider.
@@ -23,28 +26,42 @@ class FormBuilderServiceProvider extends ServiceProvider
     {
         $this->commands('Kris\LaravelFormBuilder\Console\FormMakeCommand');
 
-        $this->registerHtmlIfNeeded();
-        $this->registerFormIfHeeded();
-
         $this->mergeConfigFrom(
-            __DIR__ . '/../../config/config.php',
+            dirname(__DIR__, 2) . '/config/config.php',
             'laravel-form-builder'
         );
 
         $this->registerFormHelper();
+        $this->registerFormBuilder();
+    }
 
-        $this->app->singleton('laravel-form-builder', function ($app) {
+    /**
+     * Register the form helper.
+     *
+     * @return void
+     */
+    protected function registerFormBuilder()
+    {
+        $abstract = static::BUILDER_ABSTRACT;
 
-            return new FormBuilder($app, $app['laravel-form-helper'], $app['events']);
+        $formBuilderClass = $this->getFormBuilderClass();
+
+        $this->app->singleton($abstract, function ($app) use ($formBuilderClass) {
+            $formBuilder = new $formBuilderClass($app, $app[static::HELPER_ABSTRACT], $app['events']);
+            $formBuilder->setFormClass($this->getPlainFormClass());
+            return $formBuilder;
         });
 
-        $this->app->alias('laravel-form-builder', 'Kris\LaravelFormBuilder\FormBuilder');
+        $this->app->alias($abstract, $formBuilderClass);
+        if ($formBuilderClass != FormBuilder::class) {
+            $this->app->alias($abstract, FormBuilder::class);
+        }
 
-        $this->app->afterResolving(Form::class, function ($object, $app) {
+        $this->app->afterResolving(Form::class, function ($object, $app) use ($abstract) {
             $request = $app->make('request');
 
-            if (in_array(ValidatesWhenResolved::class, class_uses($object)) && $request->method() !== 'GET') {
-                $form = $app->make('laravel-form-builder')->setDependenciesAndOptions($object);
+            if (in_array(ValidatesWhenResolved::class, class_uses($object), true) && $request->method() !== 'GET') {
+                $form = $app->make($abstract)->setDependenciesAndOptions($object);
                 $form->buildForm();
                 $form->redirectIfNotValid();
             }
@@ -58,14 +75,20 @@ class FormBuilderServiceProvider extends ServiceProvider
      */
     protected function registerFormHelper()
     {
-        $this->app->singleton('laravel-form-helper', function ($app) {
+        $abstract = static::HELPER_ABSTRACT;
 
+        $formHelperClass = $this->getFormHelperClass();
+
+        $this->app->singleton($abstract, function ($app) use ($formHelperClass) {
             $configuration = $app['config']->get('laravel-form-builder');
 
-            return new FormHelper($app['view'], $app['translator'], $configuration);
+            return new $formHelperClass($app['view'], $app['translator'], $configuration);
         });
 
-        $this->app->alias('laravel-form-helper', 'Kris\LaravelFormBuilder\FormHelper');
+        $this->app->alias($abstract, $formHelperClass);
+        if ($formHelperClass != FormHelper::class) {
+            $this->app->alias($abstract, FormHelper::class);
+        }
     }
 
     /**
@@ -82,15 +105,15 @@ class FormBuilderServiceProvider extends ServiceProvider
             __DIR__ . '/../../config/config.php' => config_path('laravel-form-builder.php')
         ]);
 
-        $form = $this->app['form'];
+        $form = $this->app[static::FORM_ABSTRACT];
 
-        $form->macro('customLabel', function($name, $value, $options = []) use ($form) {
+        $form->macro('customLabel', function($name, $value, $options = [], $escape_html = true) use ($form) {
             if (isset($options['for']) && $for = $options['for']) {
                 unset($options['for']);
-                return $form->label($for, $value, $options);
+                return $form->label($for, $value, $options, $escape_html);
             }
 
-            return $form->label($name, $value, $options);
+            return $form->label($name, $value, $options, $escape_html);
         });
     }
 
@@ -105,72 +128,52 @@ class FormBuilderServiceProvider extends ServiceProvider
     }
 
     /**
-     * Add Laravel Form to container if not already set.
-     *
-     * @return void
+     * @return class-string
      */
-    private function registerFormIfHeeded()
+    protected function getPlainFormClass()
     {
-        if (!$this->app->offsetExists('form')) {
-
-            $this->app->singleton('form', function($app) {
-
-                // LaravelCollective\HtmlBuilder 5.2 is not backward compatible and will throw an exception
-                $version = substr(Application::VERSION, 0, 3);
-
-                if(Str::is('5.4', $version)) {
-                    $form = new LaravelForm($app[ 'html' ], $app[ 'url' ], $app[ 'view' ], $app[ 'session.store' ]->token());
-                }
-                else if (Str::is('5.0', $version) || Str::is('5.1', $version)) {
-                    $form = new LaravelForm($app[ 'html' ], $app[ 'url' ], $app[ 'session.store' ]->token());
-                }
-                else {
-                    $form = new LaravelForm($app['html'], $app['url'], $app['view'], $app['session.store']->token());
-                }
-
-                return $form->setSessionStore($app['session.store']);
-            });
-
-            if (! $this->aliasExists('Form')) {
-
-                AliasLoader::getInstance()->alias(
-                    'Form',
-                    'Collective\Html\FormFacade'
-                );
-            }
-        }
+        return $this->app['config']->get('laravel-form-builder.plain_form_class', Form::class);
     }
 
     /**
-     * Add Laravel Html to container if not already set.
+     * @return class-string
      */
-    private function registerHtmlIfNeeded()
+    protected function getFormBuilderClass()
     {
-        if (!$this->app->offsetExists('html')) {
+        $expectedClass = FormBuilder::class;
+        $defaultClass = FormBuilder::class;
 
-            $this->app->singleton('html', function($app) {
-                return new HtmlBuilder($app['url'], $app['view']);
-            });
+        $class = $this->app['config']->get('laravel-form-builder.form_builder_class', $defaultClass);
 
-            if (! $this->aliasExists('Html')) {
-
-                AliasLoader::getInstance()->alias(
-                    'Html',
-                    'Collective\Html\HtmlFacade'
-                );
-            }
+        if (!class_exists($class)) {
+            throw new InvalidArgumentException("Class {$class} does not exist");
         }
+
+        if ($class !== $expectedClass && !is_subclass_of($class, $expectedClass)) {
+            throw new InvalidArgumentException("Class {$class} must extend " . $expectedClass);
+        }
+
+        return $class;
     }
 
     /**
-     * Check if an alias already exists in the IOC.
-     *
-     * @param string $alias
-     * @return bool
+     * @return class-string
      */
-    private function aliasExists($alias)
+    protected function getFormHelperClass()
     {
-        return array_key_exists($alias, AliasLoader::getInstance()->getAliases());
-    }
+        $expectedClass = FormHelper::class;
+        $defaultClass = FormHelper::class;
 
+        $class = $this->app['config']->get('laravel-form-builder.form_helper_class', $defaultClass);
+
+        if (!class_exists($class)) {
+            throw new InvalidArgumentException("Class {$class} does not exist");
+        }
+
+        if ($class !== $expectedClass && !is_subclass_of($class, $expectedClass)) {
+            throw new InvalidArgumentException("Class {$class} must extend " . $expectedClass);
+        }
+
+        return $class;
+    }
 }

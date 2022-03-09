@@ -40,6 +40,7 @@ class CollectionType extends ParentType
             'prototype_name' => '__NAME__',
             'empty_row' => true,
             'prefer_input' => false,
+            'empty_model' => null,
         ];
     }
 
@@ -96,21 +97,29 @@ class CollectionType extends ParentType
 
         // If no value is provided, get values from current request.
         if (!is_null($data) && count($data) === 0) {
-            $data = $currentInput;
+            if ($this->getOption('prefer_input')) {
+                $data = $this->formatInputIntoModels($currentInput);
+            }
+            elseif ($this->getOption('empty_row')) {
+                $data = $this->formatInputIntoModels(array_slice($currentInput, 0, 1, true));
+            }
+            else {
+                $data = [];
+            }
         }
         // Or if the current request input is preferred over original data.
         elseif ($this->getOption('prefer_input') && count($currentInput)) {
-            $data = $currentInput;
+            $data = $this->formatInputIntoModels($currentInput, $data ?? []);
+        }
+
+        if ($data instanceof Collection) {
+            $data = $data->all();
         }
 
         // Needs to have more than 1 item because 1 is rendered by default.
         // This overrides current request in situations when validation fails.
         if ($oldInput && count($oldInput) > 1) {
-            $data = $oldInput;
-        }
-
-        if ($data instanceof Collection) {
-            $data = $data->all();
+            $data = $this->formatInputIntoModels($oldInput, $data ?? []);
         }
 
         $field = new $fieldType($this->name, $type, $this->parent, $this->getOption('options'));
@@ -120,9 +129,8 @@ class CollectionType extends ParentType
         }
 
         if (!$data || empty($data)) {
-            if ($empty = $this->getOption('empty_row')) {
-                $val = $empty === true ? null : $empty;
-                return $this->children[] = $this->setupChild(clone $field, '[0]', $val);
+            if ($this->getOption('empty_row')) {
+                return $this->children[] = $this->setupChild(clone $field, '[0]', $this->makeEmptyRowValue());
             }
 
             return $this->children = [];
@@ -137,6 +145,36 @@ class CollectionType extends ParentType
         foreach ($data as $key => $val) {
             $this->children[] = $this->setupChild(clone $field, '['.$key.']', $val);
         }
+    }
+
+    protected function makeEmptyRowValue()
+    {
+        $empty = $this->getOption('empty_row');
+        return $empty === true ? $this->makeNewEmptyModel() : $empty;
+    }
+
+    protected function makeNewEmptyModel()
+    {
+        return value($this->getOption('empty_model'));
+    }
+
+    protected function formatInputIntoModels(array $input, array $originalData = [])
+    {
+        if (!$this->getOption('empty_model')) {
+            return $input;
+        }
+
+        $newData = [];
+        foreach ($input as $k => $inputItem) {
+            if (is_array($inputItem)) {
+                $newData[$k] = tap($originalData[$k] ?? $this->makeNewEmptyModel())->forceFill($inputItem);
+            }
+            else {
+                $newData[$k] = $inputItem;
+            }
+        }
+
+        return $newData;
     }
 
     /**
@@ -180,7 +218,7 @@ class CollectionType extends ParentType
      */
     protected function generatePrototype(FormField $field)
     {
-        $value = $field instanceof ChildFormType ? false : null;
+        $value = $this->makeNewEmptyModel();
         $field->setOption('is_prototype', true);
         $field = $this->setupChild($field, $this->getPrototypeName(), $value);
 
