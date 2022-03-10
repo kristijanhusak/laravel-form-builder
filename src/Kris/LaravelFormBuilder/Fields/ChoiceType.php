@@ -107,7 +107,7 @@ class ChoiceType extends ParentType
             $options = $this->formHelper->mergeOptions(
                 $this->getOption('choice_options'),
                 [
-                    'attr'       => ['id' => $id],
+                    'attr'       => array_merge(['id' => $id], $this->options['option_attributes'][$key] ?? []),
                     'label_attr' => ['for' => $id],
                     'label'      => $choice,
                     'checked'    => in_array($key, (array)$this->options[$this->valueProperty]),

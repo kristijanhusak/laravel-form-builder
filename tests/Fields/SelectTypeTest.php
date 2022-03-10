@@ -39,6 +39,7 @@ class SelectTypeTest extends FormBuilderTestCase
         $expectedOptions['choices'] = $choices;
         $expectedOptions['empty_value'] = 'Select your sex';
         $expectedOptions['selected'] = '1';
+        $expectedOptions['option_attributes'] = [];
 
         $select = new SelectType('sex', 'select', $this->plainForm, $options);
 

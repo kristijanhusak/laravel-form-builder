@@ -1178,4 +1178,55 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals('TEST', $this->request['test_field']);
     }
 
+    /** @test */
+    public function it_add_option_attributes_properly()
+    {
+        $config = $this->config;
+
+        $formHelper = new FormHelper($this->view, $this->translator, $config);
+        $formBuilder = new FormBuilder($this->app, $formHelper, $this->eventDispatcher);
+
+        $choices = ['en' => 'English', 'fr' => 'French', 'zh' => 'Chinese'];
+        $optionAttributes = ['zh' => ['disabled' => 'disabled']];
+
+        $form = $formBuilder->plain()
+            ->add('languages_select', 'select', [
+                'choices' => $choices,
+                'option_attributes' => $optionAttributes
+            ])
+            ->add('languages_choice_select', 'choice', [
+                'choices' => $choices,
+                'option_attributes' => $optionAttributes,
+                'expanded' => false,
+                'multiple' => false
+            ])
+            ->add('languages_choice_select_multiple', 'choice', [
+                'choices' => $choices,
+                'option_attributes' => $optionAttributes,
+                'expanded' => false,
+                'multiple' => true
+            ])
+            ->add('languages_choice_checkbox', 'choice', [
+                'choices' => $choices,
+                'option_attributes' => $optionAttributes,
+                'expanded' => true,
+                'multiple' => true
+            ])
+            ->add('languages_choice_radio', 'choice', [
+                'choices' => $choices,
+                'option_attributes' => $optionAttributes,
+                'expanded' => true,
+                'multiple' => false
+            ]);
+
+        $formView = $form->renderForm();
+
+        $this->assertStringContainsString('<option value="zh" disabled="disabled">', $formView);
+        $this->assertStringNotContainsString('<option value="en" disabled="disabled">', $formView);
+        $this->assertStringNotContainsString('<option value="fr" disabled="disabled">', $formView);
+        $this->assertStringContainsString('<input id="languages_choice_checkbox_zh" disabled="disabled" name="languages_choice_checkbox[]" type="checkbox" value="zh">', $formView);
+        $this->assertStringNotContainsString('<input id="languages_choice_checkbox_en" disabled="disabled" name="languages_choice_checkbox[]" type="checkbox" value="en">', $formView);
+        $this->assertStringContainsString('<input id="languages_choice_radio_zh" disabled="disabled" name="languages_choice_radio" type="radio" value="zh">', $formView);
+        $this->assertStringNotContainsString('<input id="languages_choice_radio_en" disabled="disabled" name="languages_choice_radio" type="radio" value="en">', $formView);
+    }
 }
