@@ -200,4 +200,21 @@ abstract class ParentType extends FormField
 
         return $rules->append($childrenRules);
     }
+
+    /**
+     * Allow form-specific value alters.
+     *
+     * @param  array $values
+     * @return void
+     */
+    public function alterFieldValues(array &$values)
+    {
+        foreach ($this->children as $i => $child) {
+            if (method_exists($child, 'alterFieldValues')) {
+                if (isset($values[$i])) {
+                    $child->alterFieldValues($values[$i]);
+                }
+            }
+        }
+    }
 }
