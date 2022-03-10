@@ -11,12 +11,94 @@ use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Constraint\IsIdentical;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class TestModel extends Model {
+class TestModel extends Model
+{
     protected $fillable = ['m', 'f'];
 
     public function getAccessorAttribute($value)
     {
         return 'accessor value';
+    }
+}
+
+class DummyModel
+{
+    protected $data = [
+        ['id' => 1, 'name' => 'English', 'short_name' => 'En'],
+        ['id' => 2, 'name' => 'French', 'short_name' => 'Fr'],
+        ['id' => 3, 'name' => 'Serbian', 'short_name' => 'Rs']
+    ];
+
+    public function __construct($data = [])
+    {
+        $this->data = new Illuminate\Support\Collection($data ?: $this->data);
+    }
+
+    public function lists($val, $key)
+    {
+        if (method_exists($this->data, 'pluck')) {
+            return $this->data->pluck($val, $key);
+        }
+        else {
+            return $this->data->lists($val, $key);
+        }
+    }
+
+    public function getKeyName()
+    {
+        return 'id';
+    }
+
+    public function getData()
+    {
+        return $this->data;
+    }
+}
+
+class CustomDummyForm extends Form
+{
+    public function buildForm()
+    {
+        $this->add('title', 'text')
+            ->add('body', 'textarea');
+    }
+
+    public function alterValid(Form $mainForm, &$isValid)
+    {
+        $values = $this->getFieldValues();
+        if ($values['title'] === 'fail on this') {
+            $isValid = false;
+            return ['title' => ['Error on title!']];
+        }
+    }
+}
+
+class CustomNesterDummyForm extends Form
+{
+    public function buildForm()
+    {
+        $this->add('name', 'text');
+
+        $this->add('options', 'choice', [
+            'choices' => ['a' => 'Aaa', 'b' => 'Bbb'],
+            'expanded' => true,
+            'multiple' => true,
+        ]);
+
+        $this->add('subcustom', 'form', [
+            'class' => CustomDummyForm::class,
+        ]);
+    }
+
+    public function alterFieldValues(array &$values)
+    {
+        if (isset($values['name'])) {
+            $values['name'] = strtoupper($values['name']);
+        }
+
+        if (empty($values['options'])) {
+            $values['options'] = ['x'];
+        }
     }
 }
 

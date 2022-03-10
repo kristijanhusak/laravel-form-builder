@@ -93,53 +93,11 @@ class EntityTypeTest extends FormBuilderTestCase
 
         $field = $choice->render();
 
-        $expectedField = '<div class="form-group"  >
-    
-    <label for="entity_choice" class="control-label">Entity choice</label>
-            <select class="form-control" data-key="value" id="entity_choice" name="entity_choice"><option value="1">English</option><option value="2">French</option><option value="3">Serbian</option></select>    
-
-
-    
-    
-
-
-
-
+        $expectedField = '<div class="form-group">
+            <label for="entity_choice" class="control-label">Entity choice</label>
+            <select class="form-control" data-key="value" id="entity_choice" name="entity_choice"><option value="1">English</option><option value="2">French</option><option value="3">Serbian</option></select>
         </div>';
 
-        $this->assertEquals(trim($field), $expectedField);
-    }
-}
-
-class DummyModel {
-
-    protected $data = [
-        ['id' => 1, 'name' => 'English', 'short_name' => 'En'],
-        ['id' => 2, 'name' => 'French', 'short_name' => 'Fr'],
-        ['id' => 3, 'name' => 'Serbian', 'short_name' => 'Rs']
-    ];
-
-    public function __construct($data = [])
-    {
-        $this->data = new Illuminate\Support\Collection($data ?: $this->data);
-    }
-
-    public function lists($val, $key)
-    {
-        if (method_exists($this->data, 'pluck')) {
-            return $this->data->pluck($val, $key);
-        } else {
-            return $this->data->lists($val, $key);
-        }
-    }
-
-    public function getKeyName()
-    {
-        return 'id';
-    }
-    
-    public function getData()
-    {
-        return $this->data;
+        $this->assertXmlStringEqualsXmlString(trim($field), $expectedField);
     }
 }
