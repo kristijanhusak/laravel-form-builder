@@ -349,16 +349,24 @@ class FormTest extends FormBuilderTestCase
     /** @test */
     public function it_returns_altered_field_values()
     {
-        $customForm = $this->formBuilder->create('CustomNesterDummyForm');
-
         $this->request['name'] = 'lower case';
         $this->request['subcustom'] = ['title' => 'Bar foo', 'body' => 'Foo bar'];
+        $this->request['subcustom_collection'] = [
+            ['title' => 'Item 1 title', 'body' => 'Item 1 body'],
+            ['title' => 'Item 2 title', 'body' => 'Item 2 body'],
+        ];
+
+        $customForm = $this->formBuilder->create('CustomNesterDummyForm');
 
         $this->assertEquals(
             [
                 'name' => 'LOWER CASE',
                 'options' => ['x'],
-                'subcustom' => ['title' => 'Bar foo', 'body' => 'Foo bar'],
+                'subcustom' => ['title' => 'Bar foo', 'body' => 'FOO BAR'],
+                'subcustom_collection' => [
+                    ['title' => 'Item 1 title', 'body' => 'ITEM 1 BODY'],
+                    ['title' => 'Item 2 title', 'body' => 'ITEM 2 BODY'],
+                ],
             ],
             $customForm->getFieldValues()
         );

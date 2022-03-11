@@ -63,6 +63,11 @@ class CustomDummyForm extends Form
             ->add('body', 'textarea');
     }
 
+    public function alterFieldValues(array &$values)
+    {
+        $values['body'] = strtoupper($values['body']);
+    }
+
     public function alterValid(Form $mainForm, &$isValid)
     {
         $values = $this->getFieldValues();
@@ -87,6 +92,15 @@ class CustomNesterDummyForm extends Form
 
         $this->add('subcustom', 'form', [
             'class' => CustomDummyForm::class,
+        ]);
+
+        $this->add('subcustom_collection', 'collection', [
+            'type' => 'form',
+            'empty_row' => true,
+            'prefer_input' => true,
+            'options' => [
+                'class' => CustomDummyForm::class,
+            ],
         ]);
     }
 
