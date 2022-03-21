@@ -155,7 +155,32 @@ class CollectionType extends ParentType
 
     protected function makeNewEmptyModel()
     {
-        return value($this->getOption('empty_model'));
+        if ($empty = $this->getOption('empty_model')) {
+            return value($empty);
+        }
+
+        $parent = $this->getParent()->getModel();
+        if ($parent instanceof \Illuminate\Database\Eloquent\Model) {
+            if (method_exists($parent, $this->name)) {
+                $relation = call_user_func([$parent, $this->name]);
+                if ($relation instanceof \Illuminate\Database\Eloquent\Relations\Relation) {
+                    $model = $relation->getRelated()->newInstance()->setAttribute(
+                        $relation->getForeignKeyName(),
+                        $parent->{$relation->getLocalKeyName()}
+                    );
+                    return $model;
+                }
+            }
+        }
+
+        if (($data = $this->getOption('data')) && count($data)) {
+            $model = reset($data);
+            if ($model instanceof Model) {
+                return new $model;
+            }
+        }
+
+        return null;
     }
 
     protected function formatInputIntoModels(array $input, array $originalData = [])
