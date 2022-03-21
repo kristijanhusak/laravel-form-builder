@@ -142,12 +142,7 @@ abstract class FormField
         }
 
         if (($value === null || $value instanceof \Closure) && !$isChild) {
-            if ($this instanceof EntityType) {
-                $attributeName = $this->name;
-            } else {
-                $attributeName = $this->getOption('value_property', $this->name);
-            }
-
+            $attributeName = $this->getOption('value_property', $this->name);
             $this->setValue($this->getModelValueAttribute($this->parent->getModel(), $attributeName));
         } elseif (!$isChild) {
             $this->hasDefault = true;

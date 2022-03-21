@@ -84,7 +84,7 @@ class CustomNesterDummyForm extends Form
     {
         $this->add('name', 'text');
 
-        $this->add('options', 'choice', [
+        $this->add('options', 'checkboxes', [
             'choices' => ['a' => 'Aaa', 'b' => 'Bbb'],
             'expanded' => true,
             'multiple' => true,

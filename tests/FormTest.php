@@ -39,7 +39,7 @@ class FormTest extends FormBuilderTestCase
         );
 
         $this->assertInstanceOf(
-            'Kris\LaravelFormBuilder\Fields\CheckableType',
+            'Kris\LaravelFormBuilder\Fields\CheckboxType',
             $this->plainForm->getField('remember')
         );
 
@@ -521,16 +521,14 @@ class FormTest extends FormBuilderTestCase
 
         $this->assertArrayNotHasKey('expanded', $this->plainForm->category->getOptions());
 
-        $this->plainForm->modify('category', 'choice', [
-            'expanded' => true
-        ], true);
+        $this->plainForm->modify('category', 'checkboxes', [], true);
 
         $this->assertNotEquals(
             [ 1 => 'category-1', 2 => 'category-2'],
             $this->plainForm->category->getOption('choices')
         );
 
-        $this->assertTrue($this->plainForm->category->getOption('expanded'));
+        $this->assertInstanceOf('Kris\LaravelFormBuilder\Fields\CheckboxesType', $this->plainForm->category);
 
     }
 
@@ -795,31 +793,11 @@ class FormTest extends FormBuilderTestCase
             'model' => $this->model,
         ]);
 
-        $form->add('alias_accessor', 'choice', [
+        $form->add('alias_accessor', 'select', [
             'value_property' => 'accessor',
         ]);
 
         $this->assertEquals($form->alias_accessor->getValue(), $this->model->accessor);
-    }
-
-    /** @test */
-    public function it_sets_entity_field_value_to_the_entity_model_value()
-    {
-        $dummyModel = new DummyModel();
-        $dummyModel->id = 1;
-
-        $this->model->dummy_model_id = $dummyModel->id;
-
-        $form = $this->formBuilder
-            ->plain([
-                'model' => $this->model,
-            ])
-            ->add('dummy_model_id', 'entity', [
-                'class' => DummyModel::class,
-                'property' => 'name',
-            ]);
-
-        $this->assertEquals($form->dummy_model_id->getValue(), $this->model->dummy_model_id);
     }
 
     /** @test */
@@ -1202,29 +1180,13 @@ class FormTest extends FormBuilderTestCase
                 'choices' => $choices,
                 'option_attributes' => $optionAttributes
             ])
-            ->add('languages_choice_select', 'choice', [
+            ->add('languages_checkboxes', 'checkboxes', [
                 'choices' => $choices,
                 'option_attributes' => $optionAttributes,
-                'expanded' => false,
-                'multiple' => false
             ])
-            ->add('languages_choice_select_multiple', 'choice', [
+            ->add('languages_radios', 'radios', [
                 'choices' => $choices,
                 'option_attributes' => $optionAttributes,
-                'expanded' => false,
-                'multiple' => true
-            ])
-            ->add('languages_choice_checkbox', 'choice', [
-                'choices' => $choices,
-                'option_attributes' => $optionAttributes,
-                'expanded' => true,
-                'multiple' => true
-            ])
-            ->add('languages_choice_radio', 'choice', [
-                'choices' => $choices,
-                'option_attributes' => $optionAttributes,
-                'expanded' => true,
-                'multiple' => false
             ]);
 
         $formView = $form->renderForm();
@@ -1232,9 +1194,11 @@ class FormTest extends FormBuilderTestCase
         $this->assertStringContainsString('<option value="zh" disabled="disabled">', $formView);
         $this->assertStringNotContainsString('<option value="en" disabled="disabled">', $formView);
         $this->assertStringNotContainsString('<option value="fr" disabled="disabled">', $formView);
-        $this->assertStringContainsString('<input id="languages_choice_checkbox_zh" disabled="disabled" name="languages_choice_checkbox[]" type="checkbox" value="zh">', $formView);
-        $this->assertStringNotContainsString('<input id="languages_choice_checkbox_en" disabled="disabled" name="languages_choice_checkbox[]" type="checkbox" value="en">', $formView);
-        $this->assertStringContainsString('<input id="languages_choice_radio_zh" disabled="disabled" name="languages_choice_radio" type="radio" value="zh">', $formView);
-        $this->assertStringNotContainsString('<input id="languages_choice_radio_en" disabled="disabled" name="languages_choice_radio" type="radio" value="en">', $formView);
+
+        $this->assertStringContainsString('<input disabled="disabled" id="languages_checkboxes_zh" name="languages_checkboxes[]" type="checkbox" value="zh">', $formView);
+        $this->assertStringNotContainsString('<input disabled="disabled" id="languages_checkboxes_en" name="languages_checkboxes[]" type="checkbox" value="en">', $formView);
+
+        $this->assertStringContainsString('<input disabled="disabled" id="languages_radios_zh" name="languages_radios" type="radio" value="zh">', $formView);
+        $this->assertStringNotContainsString('<input disabled="disabled" id="languages_radios_en" name="languages_radios" type="radio" value="en">', $formView);
     }
 }

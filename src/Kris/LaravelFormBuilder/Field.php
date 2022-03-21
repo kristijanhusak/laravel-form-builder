@@ -2,16 +2,16 @@
 
 namespace Kris\LaravelFormBuilder;
 
-
 class Field
 {
     // Simple fields
     const TEXT = 'text';
     const TEXTAREA = 'textarea';
     const SELECT = 'select';
-    const CHOICE = 'choice';
     const CHECKBOX = 'checkbox';
-    const RADIO = 'radio';
+    const CHECKBOXES = 'checkboxes';
+    const RADIOS = 'radios';
+    const DATALIST = 'datalist';
     const PASSWORD = 'password';
     const HIDDEN = 'hidden';
     const FILE = 'file';
@@ -31,7 +31,6 @@ class Field
     const TEL = 'tel';
     const NUMBER = 'number';
     const RANGE = 'range';
-    const ENTITY = 'entity';
     const FORM = 'form';
     //Buttons
     const BUTTON_SUBMIT = 'submit';

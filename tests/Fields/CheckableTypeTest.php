@@ -1,8 +1,8 @@
 <?php
 
-use Kris\LaravelFormBuilder\Fields\CheckableType;
+use Kris\LaravelFormBuilder\Fields\CheckboxType;
 
-class CheckableTypeTest extends FormBuilderTestCase
+class CheckboxTypeTest extends FormBuilderTestCase
 {
     /** @test */
     public function it_creates_checkbox_field(): void
@@ -36,7 +36,7 @@ class CheckableTypeTest extends FormBuilderTestCase
 
         $expectedOptions += $defaultOptions;
 
-        $checkable = new CheckableType('test', 'checkbox', $this->plainForm, $options);
+        $checkable = new CheckboxType('test', 'checkbox', $this->plainForm, $options);
 
         $checkable->render();
 
@@ -75,7 +75,7 @@ class CheckableTypeTest extends FormBuilderTestCase
 
         $expectedOptions += $defaultOptions;
 
-        $checkable = new CheckableType('test', 'radio', $this->plainForm, $options);
+        $checkable = new CheckboxType('test', 'radio', $this->plainForm, $options);
 
         $checkable->render();
 
@@ -91,7 +91,7 @@ class CheckableTypeTest extends FormBuilderTestCase
             'value' => $expectedValue,
         ];
         $this->plainForm->setModel(null);
-        $checkable = new CheckableType('test', 'checkbox', $this->plainForm, $options);
+        $checkable = new CheckboxType('test', 'checkbox', $this->plainForm, $options);
 
         $this->assertSame($expectedValue, $checkable->getOption('value'));
     }
@@ -103,7 +103,7 @@ class CheckableTypeTest extends FormBuilderTestCase
             'checked' => true,
         ];
         $this->plainForm->setModel(null);
-        $checkable = new CheckableType('test', 'checkbox', $this->plainForm, $options);
+        $checkable = new CheckboxType('test', 'checkbox', $this->plainForm, $options);
 
         $this->assertTrue($checkable->getValue());
         $this->assertTrue($checkable->getOption('checked'));

@@ -84,7 +84,7 @@ namespace {
             $form = clone $this->plainForm;
 
             $form->add('name', 'text')
-                ->add('gender', 'choice', [
+                ->add('gender', 'select', [
                     'choices' => ['m' => 'male', 'f' => 'female']
                 ])
                  ->add('published', 'checkbox');

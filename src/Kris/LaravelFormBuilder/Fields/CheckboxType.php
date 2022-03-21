@@ -2,7 +2,7 @@
 
 namespace  Kris\LaravelFormBuilder\Fields;
 
-class CheckableType extends FormField
+class CheckboxType extends FormField
 {
 
     const DEFAULT_VALUE = 1;
@@ -17,7 +17,7 @@ class CheckableType extends FormField
      */
     protected function getTemplate()
     {
-        return $this->type;
+        return 'checkbox';
     }
 
     /**

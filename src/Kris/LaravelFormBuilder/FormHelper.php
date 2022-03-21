@@ -9,7 +9,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Translation\Translator;
 use Kris\LaravelFormBuilder\Events\AfterCollectingFieldRules;
-use Kris\LaravelFormBuilder\Fields\CheckableType;
+use Kris\LaravelFormBuilder\Fields\CheckboxType;
 use Kris\LaravelFormBuilder\Fields\FormField;
 use Kris\LaravelFormBuilder\Form;
 use Kris\LaravelFormBuilder\RulesParser;
@@ -73,14 +73,14 @@ class FormHelper
         'buttongroup' => 'ButtonGroupType',
         'submit' => 'ButtonType',
         'reset' => 'ButtonType',
-        'radio' => 'CheckableType',
-        'checkbox' => 'CheckableType',
-        'choice' => 'ChoiceType',
+        'radios' => 'RadiosType',
+        'checkbox' => 'CheckboxType',
+        'checkboxes' => 'CheckboxesType',
         'form' => 'ChildFormType',
-        'entity' => 'EntityType',
+        'datalist' => 'DatalistType',
         'collection' => 'CollectionType',
         'repeated' => 'RepeatedType',
-        'static' => 'StaticType'
+        'static' => 'StaticType',
     ];
 
     /**
@@ -355,7 +355,7 @@ class FormHelper
     {
         $fields = [];
         foreach ($form->getFields() as $name => $field) {
-            if ($field instanceof CheckableType && $field->getOption('value') == CheckableType::DEFAULT_VALUE) {
+            if ($field instanceof CheckboxType && $field->getOption('value') == CheckboxType::DEFAULT_VALUE) {
                 $fields[] = $this->transformToDotSyntax($name);
             }
         }

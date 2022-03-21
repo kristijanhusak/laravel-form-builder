@@ -2,33 +2,22 @@
 
 namespace Kris\LaravelFormBuilder\Fields;
 
-class SelectType extends FormField
-{
+use Illuminate\Database\Eloquent\Collection;
 
-    /**
-     * The name of the property that holds the value.
-     *
-     * @var string
-     */
+class RadiosType extends FormField
+{
     protected $valueProperty = 'selected';
 
-     /**
-     * @inheritdoc
-     */
     protected function getTemplate()
     {
-        return 'select';
+        return 'radios';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getDefaults()
     {
         return [
             'choices' => [],
             'option_attributes' => [],
-            'empty_value' => null,
             'selected' => null
         ];
     }
