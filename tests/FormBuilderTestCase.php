@@ -118,6 +118,8 @@ class CustomNesterDummyForm extends Form
 
 abstract class FormBuilderTestCase extends TestCase {
 
+    use \Illuminate\Foundation\Testing\Concerns\InteractsWithDeprecationHandling;
+
     /**
      * @var \Illuminate\View\Factory
      */
@@ -181,6 +183,8 @@ abstract class FormBuilderTestCase extends TestCase {
     public function setUp(): void
     {
         parent::setUp();
+
+        $this->withoutDeprecationHandling();
 
         $this->view = $this->app['view'];
         $this->translator = $this->app['translator'];
