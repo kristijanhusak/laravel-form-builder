@@ -5,24 +5,26 @@
          colors="true" convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
+         convertDeprecationsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
     >
     <testsuites>
         <testsuite name="Package Test Suite">
             <directory suffix=".php">./tests/</directory>
         </testsuite>
     </testsuites>
-
-    <filter>
-        <whitelist>
+    <coverage>
+        <include>
             <directory>./src/Kris</directory>
-            <exclude>
-                <file>./src/Kris/LaravelFormBuilder/FormBuilderServiceProvider.php</file>
-                <file>./src/Kris/LaravelFormBuilder/Facades/FormBuilder.php</file>
-                <file>./src/Kris/LaravelFormBuilder/Console/FormMakeCommand.php</file>
-                <file>./src/Kris/LaravelFormBuilder/FormBuilderTrait.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
+        </include>
+        <exclude>
+            <file>./src/Kris/LaravelFormBuilder/FormBuilderServiceProvider.php</file>
+            <file>./src/Kris/LaravelFormBuilder/Facades/FormBuilder.php</file>
+            <file>./src/Kris/LaravelFormBuilder/Console/FormMakeCommand.php</file>
+            <file>./src/Kris/LaravelFormBuilder/FormBuilderTrait.php</file>
+        </exclude>
+    </coverage>
 </phpunit>
