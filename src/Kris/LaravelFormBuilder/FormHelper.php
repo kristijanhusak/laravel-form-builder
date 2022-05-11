@@ -456,7 +456,7 @@ class FormHelper
      */
     public function transformToDotSyntax($string)
     {
-        if (!$string) {
+        if ($string === null) {
             return '';
         }
 

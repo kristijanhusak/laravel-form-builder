@@ -65,7 +65,7 @@ class CustomDummyForm extends Form
 
     public function alterFieldValues(array &$values)
     {
-        $values['body'] = strtoupper($values['body']);
+        $values['body'] = strtoupper($values['body'] ?? '');
     }
 
     public function alterValid(Form $mainForm, &$isValid)

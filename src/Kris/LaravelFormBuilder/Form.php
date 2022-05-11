@@ -644,6 +644,10 @@ class Form
      **/
     public function getNameKey()
     {
+        if ($this->name === null) {
+            return '';
+        }
+
         return $this->formHelper->transformToDotSyntax($this->name);
     }
 
