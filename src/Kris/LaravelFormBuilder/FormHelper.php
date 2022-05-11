@@ -456,11 +456,7 @@ class FormHelper
      */
     public function transformToDotSyntax($string)
     {
-        if ($string === null) {
-            return '';
-        }
-
-        return str_replace(['.', '[]', '[', ']'], ['_', '', '.', ''], $string);
+        return str_replace(['.', '[]', '[', ']'], ['_', '', '.', ''], $string ?? '');
     }
 
     /**
