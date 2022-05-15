@@ -239,13 +239,24 @@ abstract class FormField
     protected function getModelValueAttribute($model, $name)
     {
         $transformedName = $this->transformKey($name);
+
+        if (is_null($model)) {
+            return null;
+        }
+
         if (is_string($model)) {
             return $model;
-        } elseif (is_object($model)) {
+        }
+
+        if (is_object($model)) {
             return object_get($model, $transformedName);
-        } elseif (is_array($model)) {
+        }
+
+        if (is_array($model)) {
             return Arr::get($model, $transformedName);
         }
+
+        throw new \InvalidArgumentException('Invalid model given to field');
     }
 
     /**
