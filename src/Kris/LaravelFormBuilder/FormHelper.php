@@ -247,7 +247,7 @@ class FormHelper
 
     /**
      * @param object $model
-     * @return object|null
+     * @return object|array|null
      */
     public function convertModelToArray($model)
     {
@@ -318,7 +318,7 @@ class FormHelper
 
     /**
      * @param FormField[] $fields
-     * @return array
+     * @return Rules
      */
     public function mergeFieldsRules($fields)
     {
