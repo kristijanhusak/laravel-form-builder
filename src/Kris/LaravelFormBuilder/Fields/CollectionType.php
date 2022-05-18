@@ -79,10 +79,13 @@ class CollectionType extends ParentType
      */
     public function alterFieldValues(array &$values)
     {
-        foreach ($this->children as $i => $child) {
+        $stripLeft = strlen($this->getName()) + 1;
+        $stripRight = 1;
+        foreach ($this->children as $child) {
             if (method_exists($child, 'alterFieldValues')) {
-                if (isset($values[$i])) {
-                    $child->alterFieldValues($values[$i]);
+                $itemKey = substr($child->getName(), $stripLeft, -$stripRight);
+                if (isset($values[$itemKey])) {
+                    $child->alterFieldValues($values[$itemKey]);
                 }
             }
         }
