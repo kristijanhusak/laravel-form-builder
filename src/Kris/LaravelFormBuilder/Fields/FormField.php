@@ -323,13 +323,13 @@ abstract class FormField
             }
         }
 
-        $this->setOption('wrapperAttrs', $helper->prepareAttributes($this->getOption('wrapper')));
-        $this->setOption('errorAttrs', $helper->prepareAttributes($this->getOption('errors')));
+        $this->setOption('wrapperAttrs', $helper->prepareAttributes($this->getOption('wrapper'), $this));
+        $this->setOption('errorAttrs', $helper->prepareAttributes($this->getOption('errors'), $this));
 
         if ($this->getOption('help_block.text')) {
             $this->setOption(
                 'help_block.helpBlockAttrs',
-                $helper->prepareAttributes($this->getOption('help_block.attr'))
+                $helper->prepareAttributes($this->getOption('help_block.attr'), $this)
             );
         }
 
