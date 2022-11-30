@@ -79,6 +79,9 @@ abstract class FormBuilderTestCase extends TestCase {
     {
         parent::setUp();
 
+        // add views for testing
+        $this->app['view']->addNamespace('laravel-form-builder-test', __DIR__ . '/resources/views');
+
         $this->view = $this->app['view'];
         $this->translator = $this->app['translator'];
         $this->request = $this->app['request'];

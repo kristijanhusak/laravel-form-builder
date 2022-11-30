@@ -1,6 +1,5 @@
 <?php
 
-use Kris\LaravelFormBuilder\Form;
 use Kris\LaravelFormBuilder\FormHelper;
 use Kris\LaravelFormBuilder\Fields\InputType;
 
@@ -335,4 +334,19 @@ class FormFieldTest extends FormBuilderTestCase
         $testField->clearFilters();
         $this->assertEmpty($testField->getFilters());
     }
+
+    /** @test */
+    public function text_label_template()
+    {
+        $options = [
+            'label' => 'Name',
+            'label_show' => true,
+            'label_template' => 'laravel-form-builder-test::test-label',
+        ];
+        $field = new InputType('name', 'text', $this->plainForm, $options);
+
+        $view = $field->render();
+        $this->assertRegExp('/test label view/', $view);
+    }
+
 }

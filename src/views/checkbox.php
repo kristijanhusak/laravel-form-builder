@@ -7,8 +7,10 @@
 <?php if ($showField): ?>
     <?= Form::checkbox($name, $options['value'], $options['checked'], $options['attr']) ?>
 
-    <?php if ($showLabel && $options['label'] !== false && $options['label_show']): ?>
-        <?= Form::customLabel($name, $options['label'], $options['label_attr']) ?>
+    <?php if(array_key_exists('label_template', $options) && $options['label_template']): ?>
+        <?= view($options['label_template'], get_defined_vars())->render(); ?>
+    <?php else: ?>
+        <?php include 'label.php' ?>
     <?php endif; ?>
 
     <?php include 'help_block.php' ?>
