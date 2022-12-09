@@ -41,7 +41,7 @@ abstract class ParentType extends FormField
     /**
      * @param  mixed $val
      *
-     * @return ChildFormType
+     * @return $this
      */
     public function setValue($val)
     {

@@ -765,7 +765,7 @@ abstract class FormField
     /**
      * Get validation rules for a field if any with label for attributes.
      *
-     * @return array|null
+     * @return Rules
      */
     public function getValidationRules()
     {
