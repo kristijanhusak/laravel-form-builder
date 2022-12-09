@@ -19,9 +19,6 @@
         "orchestra/testbench": "^6.13"
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "1.16.x-dev"
-        },
         "laravel": {
             "providers": [
                 "Kris\\LaravelFormBuilder\\FormBuilderServiceProvider"
