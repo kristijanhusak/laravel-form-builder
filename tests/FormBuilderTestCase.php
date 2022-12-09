@@ -23,6 +23,7 @@ class TestModel extends Model
 
 class DummyModel
 {
+    public $id;
     protected $data = [
         ['id' => 1, 'name' => 'English', 'short_name' => 'En'],
         ['id' => 2, 'name' => 'French', 'short_name' => 'Fr'],
@@ -65,7 +66,7 @@ class CustomDummyForm extends Form
 
     public function alterFieldValues(array &$values)
     {
-        $values['body'] = strtoupper($values['body']);
+        $values['body'] = strtoupper($values['body'] ?? '');
     }
 
     public function alterValid(Form $mainForm, &$isValid)
@@ -117,6 +118,8 @@ class CustomNesterDummyForm extends Form
 }
 
 abstract class FormBuilderTestCase extends TestCase {
+
+    use \Illuminate\Foundation\Testing\Concerns\InteractsWithDeprecationHandling;
 
     /**
      * @var \Illuminate\View\Factory
@@ -181,6 +184,8 @@ abstract class FormBuilderTestCase extends TestCase {
     public function setUp(): void
     {
         parent::setUp();
+
+        $this->withoutDeprecationHandling();
 
         $this->view = $this->app['view'];
         $this->translator = $this->app['translator'];

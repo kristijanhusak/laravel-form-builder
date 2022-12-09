@@ -73,6 +73,26 @@ class CollectionType extends ParentType
     }
 
     /**
+     * Allow form-specific value alters.
+     *
+     * @param  array $values
+     * @return void
+     */
+    public function alterFieldValues(array &$values)
+    {
+        $stripLeft = strlen($this->getName()) + 1;
+        $stripRight = 1;
+        foreach ($this->children as $child) {
+            if (method_exists($child, 'alterFieldValues')) {
+                $itemKey = substr($child->getName(), $stripLeft, -$stripRight);
+                if (isset($values[$itemKey])) {
+                    $child->alterFieldValues($values[$itemKey]);
+                }
+            }
+        }
+    }
+
+    /**
      * @inheritdoc
      */
     protected function createChildren()

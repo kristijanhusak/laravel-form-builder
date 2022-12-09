@@ -352,8 +352,8 @@ class FormTest extends FormBuilderTestCase
         $this->request['name'] = 'lower case';
         $this->request['subcustom'] = ['title' => 'Bar foo', 'body' => 'Foo bar'];
         $this->request['subcustom_collection'] = [
-            ['title' => 'Item 1 title', 'body' => 'Item 1 body'],
-            ['title' => 'Item 2 title', 'body' => 'Item 2 body'],
+            5 => ['title' => 'Item 1 title', 'body' => 'Item 1 body'],
+            17 => ['title' => 'Item 2 title', 'body' => 'Item 2 body'],
         ];
 
         $customForm = $this->formBuilder->create('CustomNesterDummyForm');
@@ -364,8 +364,8 @@ class FormTest extends FormBuilderTestCase
                 'options' => ['x'],
                 'subcustom' => ['title' => 'Bar foo', 'body' => 'FOO BAR'],
                 'subcustom_collection' => [
-                    ['title' => 'Item 1 title', 'body' => 'ITEM 1 BODY'],
-                    ['title' => 'Item 2 title', 'body' => 'ITEM 2 BODY'],
+                    5 => ['title' => 'Item 1 title', 'body' => 'ITEM 1 BODY'],
+                    17 => ['title' => 'Item 2 title', 'body' => 'ITEM 2 BODY'],
                 ],
             ],
             $customForm->getFieldValues()
