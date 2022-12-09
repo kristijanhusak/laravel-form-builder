@@ -7,6 +7,18 @@ use Kris\LaravelFormBuilder\Fields\InputType;
 class FormFieldTest extends FormBuilderTestCase
 {
     /** @test */
+    public function it_use_set_rendered()
+    {
+        $field = new InputType('name', 'text', $this->plainForm);
+
+        $this->assertFalse($field->isRendered());
+
+        $field->setRendered();
+
+        $this->assertTrue($field->isRendered());
+    }
+
+    /** @test */
     public function it_uses_the_template_prefix()
     {
         $viewStub = $this->getMockBuilder('Illuminate\View\Factory')->setMethods(['make', 'with', 'render'])->disableOriginalConstructor()->getMock();
