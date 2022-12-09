@@ -1279,7 +1279,8 @@ class Form
      * Redirects to a destination when form is invalid.
      *
      * @param  string|null $destination The target url.
-     * @return HttpResponseException
+     * @return void
+     * @throws HttpResponseException
      */
     public function redirectIfNotValid($destination = null)
     {

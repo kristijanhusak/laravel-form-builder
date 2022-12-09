@@ -517,6 +517,18 @@ abstract class FormField
     }
 
     /**
+     * Marks the view as rendered.
+     *
+     * @return $this
+     */
+    public function setRendered()
+    {
+        $this->rendered = true;
+
+        return $this;
+    }
+
+    /**
      * Default options for field.
      *
      * @return array
@@ -753,7 +765,7 @@ abstract class FormField
     /**
      * Get validation rules for a field if any with label for attributes.
      *
-     * @return array|null
+     * @return Rules
      */
     public function getValidationRules()
     {
