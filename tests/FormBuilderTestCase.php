@@ -23,6 +23,7 @@ class TestModel extends Model
 
 class DummyModel
 {
+    public $id;
     protected $data = [
         ['id' => 1, 'name' => 'English', 'short_name' => 'En'],
         ['id' => 2, 'name' => 'French', 'short_name' => 'Fr'],
