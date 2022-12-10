@@ -298,12 +298,11 @@ class FormFieldTest extends FormBuilderTestCase
         );
     }
 
-    /**
-     * @test
-     * @expectedException \Kris\LaravelFormBuilder\Filters\Exception\FilterAlreadyBindedException
-     */
+    /** @test  */
     public function it_throws_an_exception_if_filters_override_is_false_but_passed_already_binded_filter()
     {
+        $this->expectException(\Kris\LaravelFormBuilder\Filters\Exception\FilterAlreadyBindedException::class);
+
         $customPlainForm = $this->formBuilder->plain();
         $customPlainForm->add('test_field', 'text', [
             'filters' => ['Trim']
