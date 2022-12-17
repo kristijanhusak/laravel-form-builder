@@ -40,9 +40,9 @@ class InputTypeTest extends FormBuilderTestCase
     public function it_handles_default_values()
     {
         $options = [
-            'default_value' => 100
+            'default_value' => 100,
+            'model' => null,
         ];
-        $this->plainForm->setModel(null);
         $input = new InputType('test', 'text', $this->plainForm, $options);
 
         $this->assertEquals(100, $input->getOption('value'));
