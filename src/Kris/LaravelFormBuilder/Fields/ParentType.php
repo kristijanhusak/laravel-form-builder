@@ -175,9 +175,11 @@ abstract class ParentType extends FormField
      */
     public function disable()
     {
+        parent::disable();
         foreach ($this->children as $field) {
             $field->disable();
         }
+        return $this;
     }
 
     /**
@@ -185,9 +187,11 @@ abstract class ParentType extends FormField
      */
     public function enable()
     {
+        parent::enable();
         foreach ($this->children as $field) {
             $field->enable();
         }
+        return $this;
     }
 
     /**

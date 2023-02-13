@@ -297,6 +297,55 @@ namespace {
             }
         }
 
+        /** @test */
+        public function it_disables()
+        {
+            $options = [
+                'type' => 'text'
+            ];
+            $emailsCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
+            $children = $emailsCollection->getChildren();
+
+            $this->assertArrayNotHasKey('disabled', $emailsCollection->getOption('attr'));
+            foreach ($children as $child) {
+                $this->assertArrayNotHasKey('disabled', $child->getOption('attr'));
+            }
+
+            $emailsCollection->disable();
+
+            $this->assertArrayHasKey('disabled', $emailsCollection->getOption('attr'));
+            $this->assertEquals('disabled', $emailsCollection->getOption('attr')['disabled']);
+            foreach ($children as $child) {
+                $this->assertArrayHasKey('disabled', $child->getOption('attr'));
+                $this->assertEquals('disabled', $child->getOption('attr')['disabled']);
+            }
+        }
+        
+        /** @test */
+        public function it_enables()
+        {
+            $options = [
+                'type' => 'text',
+                'attr' => ['disabled' => 'disabled'],
+            ];
+            $collection = new CollectionType('emails', 'collection', $this->plainForm, $options);
+            $children = $collection->getChildren();
+
+            $this->assertArrayHasKey('disabled', $collection->getOption('attr'));
+            $this->assertEquals('disabled', $collection->getOption('attr')['disabled']);
+            foreach ($children as $child) {
+                $this->assertArrayHasKey('disabled', $child->getOption('attr'));
+                $this->assertEquals('disabled', $child->getOption('attr')['disabled']);
+            }
+
+            $collection->enable();
+
+            $this->assertArrayNotHasKey('disabled', $collection->getOption('attr'));
+            foreach ($children as $child) {
+                $this->assertArrayNotHasKey('disabled', $child->getOption('attr'));
+            }
+        }
+
     }
 
     class DummyEloquentModel extends Model {

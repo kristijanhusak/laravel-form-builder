@@ -24,7 +24,23 @@ return [
         //        'wrapper'     => ['class' => 'form-radio'],
         //        'label'       => ['class' => 'form-radio-label'],
         //        'field'       => ['class' => 'form-radio-field'],
+        //    ]
         //],
+        // 
+        // 'choice'             => [
+        //    'choice_options'  => [
+        //        'wrapper_class'  => 'choice-wrapper-class',
+        //        'label_class'    => 'choice-label-class',
+        //        'field_class'    => 'choice-field-class'
+        //
+        //        # For choice type you may overwrite default choice options for each variant (checkbox, radio or select)
+        //        'checkbox'       => [
+        //            'wrapper_class' => 'choice-checkbox-wrapper-class',
+        //            'label_class'   => 'choice-checkbox-label-class',
+        //            'field_class'   => 'choice-checkbox-field-class',
+        //        ]
+        //    ]
+        //]
     ],
     // Templates
     'form'          => 'laravel-form-builder::form',
