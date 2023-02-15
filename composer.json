@@ -16,7 +16,7 @@
         "illuminate/validation": "^6 || ^7 || ^8 || ^9 || ^10"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.13 || ^7.0 || ^8.0"
+        "orchestra/testbench": "^6.13 || ^7.0"
     },
     "extra": {
         "branch-alias": {
