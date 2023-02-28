@@ -166,6 +166,8 @@ class CollectionType extends ParentType
         foreach ($data as $key => $val) {
             $this->children[] = $this->setupChild(clone $field, '['.$key.']', $val);
         }
+
+        return $this->children;
     }
 
     protected function makeEmptyRowValue()

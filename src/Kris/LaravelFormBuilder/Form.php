@@ -783,6 +783,7 @@ class Form
      *
      * @param $name
      * @param $class
+     * @return $this
      */
     public function addCustomField($name, $class)
     {
@@ -791,6 +792,8 @@ class Form
         }
 
         $this->formHelper->addCustomField($name, $class);
+
+        return $this;
     }
 
     /**

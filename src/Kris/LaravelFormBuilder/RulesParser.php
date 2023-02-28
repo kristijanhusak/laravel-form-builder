@@ -43,7 +43,7 @@ class RulesParser
     public function parse($rules)
     {
         $attributes = array();
-        $rules = $rule = $this->getRulesAsArray($rules);
+        $rules = $this->getRulesAsArray($rules);
 
         foreach ($rules as $rule) {
             list($rule, $parameters) = $this->parseRule($rule);
@@ -273,6 +273,10 @@ class RulesParser
             return ['min' => $min];
         }
 
+        if ($this->isFile()) {
+        	return [];
+        }
+
         return [
             'minlength' => $min,
         ];
@@ -296,6 +300,10 @@ class RulesParser
 
         if ($this->isNumeric()) {
             return ['max' => $max];
+        }
+
+        if ($this->isFile()) {
+        	return [];
         }
 
         return ['maxlength' => $max];
@@ -322,6 +330,10 @@ class RulesParser
                 'min' => $min,
                 'max' => $max,
             ];
+        }
+
+        if ($this->isFile()) {
+        	return [];
         }
 
         return [
@@ -502,6 +514,16 @@ class RulesParser
     protected function isNumeric()
     {
         return $this->isType(['number', 'range']);
+    }
+
+    /**
+     * Check if the field is a file.
+     *
+     * @return bool
+     */
+    protected function isFile()
+    {
+        return $this->isType(['file']);
     }
 
     /**

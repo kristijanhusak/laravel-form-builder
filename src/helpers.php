@@ -37,6 +37,14 @@ if(!function_exists('helpBlockPath'))
 
 }
 
+if (!function_exists('labelBlockPath'))
+{
+    function labelBlockPath()
+    {
+        return getFormBuilderViewPath('label.php');
+    }
+}
+
 if (!function_exists('form')) {
 
     function form(Form $form, array $options = [])
