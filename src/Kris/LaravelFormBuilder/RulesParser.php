@@ -274,7 +274,7 @@ class RulesParser
         }
 
         if ($this->isFile()) {
-        	return [];
+            return [];
         }
 
         return [
@@ -303,7 +303,7 @@ class RulesParser
         }
 
         if ($this->isFile()) {
-        	return [];
+            return [];
         }
 
         return ['maxlength' => $max];
@@ -333,7 +333,7 @@ class RulesParser
         }
 
         if ($this->isFile()) {
-        	return [];
+            return [];
         }
 
         return [

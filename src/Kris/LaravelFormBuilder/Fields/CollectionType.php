@@ -202,22 +202,22 @@ class CollectionType extends ParentType
 
     protected function formatInputIntoModel($model, $input)
     {
-      if ($model instanceof Model) {
-        $model->forceFill($input);
-      }
-      elseif (is_object($model)) {
-        foreach ($input as $key => $value) {
-          $model->$key = $value;
+        if ($model instanceof Model) {
+            $model->forceFill($input);
         }
-      }
-      elseif (is_array($model)) {
-        $model = $input + $model;
-      }
-      else {
-        $model = $input;
-      }
+        elseif (is_object($model)) {
+            foreach ($input as $key => $value) {
+                $model->$key = $value;
+            }
+        }
+        elseif (is_array($model)) {
+            $model = $input + $model;
+        }
+        else {
+            $model = $input;
+        }
 
-      return $model;
+        return $model;
     }
 
     /**
