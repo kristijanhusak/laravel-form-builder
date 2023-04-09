@@ -91,7 +91,7 @@ class FormTest extends FormBuilderTestCase
 
         $errors = [
             'name' => ['The Name field is required.'],
-            'description' => ['The Description must not be greater than 10 characters.']
+            'description' => ['The Description field must not be greater than 10 characters.']
         ];
 
         $this->assertEquals($errors, $this->plainForm->getErrors());
@@ -153,7 +153,7 @@ class FormTest extends FormBuilderTestCase
             $errorBag = $response->getSession()->get('errors');
             $this->assertTrue($errorBag->has('description'));
             $this->assertTrue($errorBag->has('name'));
-            $this->assertEquals('The Description must not be greater than 10 characters.', $errorBag->first('description'));
+            $this->assertEquals('The Description field must not be greater than 10 characters.', $errorBag->first('description'));
         }
     }
 
@@ -191,7 +191,7 @@ class FormTest extends FormBuilderTestCase
             $errorBag = $response->getSession()->get('errors');
             $this->assertTrue($errorBag->has('description'));
             $this->assertTrue($errorBag->has('name'));
-            $this->assertEquals('The Description must not be greater than 10 characters.', $errorBag->first('description'));
+            $this->assertEquals('The Description field must not be greater than 10 characters.', $errorBag->first('description'));
         }
     }
 
@@ -233,7 +233,7 @@ class FormTest extends FormBuilderTestCase
 
         $errors = [
             'name' => ['Name field must be numeric.'],
-            'description' => ['The Description must not be greater than 10 characters.'],
+            'description' => ['The Description field must not be greater than 10 characters.'],
             'age' => ['The age field is a must.'],
             'email' => ['The email is very required.']
         ];
@@ -1109,9 +1109,7 @@ class FormTest extends FormBuilderTestCase
     /** @test */
     public function it_uses_the_template_prefix()
     {
-        $viewStub = $this->getMockBuilder('Illuminate\View\Factory')->setMethods(['make', 'with', 'render'])->disableOriginalConstructor()->getMock();
-        $viewStub->method('make')->willReturn($viewStub);
-        $viewStub->method('with')->willReturn($viewStub);
+        $viewStub = $this->getViewFactoryMock();
 
         $helper = new FormHelper($viewStub, $this->translator, $this->config);
 

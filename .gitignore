@@ -6,3 +6,5 @@ composer.lock
 coverage
 *.taskpaper
 NOTES.md
+/.phpunit.cache/
+/phpunit.xml.bak
