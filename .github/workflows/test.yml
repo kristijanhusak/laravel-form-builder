@@ -49,4 +49,6 @@ jobs:
 
       - name: Upload to Scrutinizer
         continue-on-error: true
-        run: ./vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
+        run: |
+          composer global require scrutinizer/ocular
+          ~/.composer/vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover

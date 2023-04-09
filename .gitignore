@@ -9,3 +9,4 @@ NOTES.md
 /.phpunit.result.cache
 /.phpunit.cache/
 /phpunit.xml.bak
+/coverage.clover
