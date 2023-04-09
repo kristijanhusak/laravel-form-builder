@@ -28,7 +28,7 @@ jobs:
 
       - name: Get user-level Composer cache
         id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        run: echo "dir=$(composer config cache-files-dir) >> $GITHUB_OUTPUT"
 
       - name: Setup Composer cache
         uses: actions/cache@v3
