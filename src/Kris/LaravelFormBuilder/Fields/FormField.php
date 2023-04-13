@@ -361,7 +361,7 @@ abstract class FormField
 
         // Append rules
         if ($rulesToBeAppended = Arr::pull($sourceOptions, 'rules_append')) {
-            $mergedRules = array_values(array_unique(array_merge($options['rules'], $rulesToBeAppended), SORT_REGULAR));
+            $mergedRules = $this->mergeRules($options['rules'], $rulesToBeAppended);
             $options['rules'] = $mergedRules;
         }
 
@@ -388,6 +388,18 @@ abstract class FormField
         }
 
         return $rules;
+    }
+
+    /**
+     * Merges two sets of rules into one
+     *
+     * @param array $first first set of rules
+     * @param array $second second set of rules
+     * @return array merged set of rules without duplicates 
+     */
+    protected function mergeRules($first, $second)
+    {
+        return array_values(array_unique(array_merge($first, $second), SORT_REGULAR));
     }
 
 
