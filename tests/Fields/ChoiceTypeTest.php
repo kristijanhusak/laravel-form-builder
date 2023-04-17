@@ -106,4 +106,185 @@ class ChoiceTypeTest extends FormBuilderTestCase
 
         $this->assertEquals('test', $choice->getOption('selected'));
     }
+
+    /** @test */
+    public function it_disables_select()
+    {
+        $options = [
+            'attr' => ['class' => 'choice-class'],
+            'choices' => ['yes' => 'Yes', 'no' => 'No'],
+            'selected' => 'yes'
+        ];
+        $field = new ChoiceType('some_choice', 'choice', $this->plainForm, $options);
+        $children = $field->getChildren();
+        
+        // there shall be no 'disabled' attribute set beforehand
+        $this->assertArrayNotHasKey('disabled', $field->getOption('attr'));
+        foreach ($children as $child) {
+            $this->assertArrayNotHasKey('disabled', $child->getOption('attr'));
+        }
+
+        $field->disable();
+
+        // there shall be 'disabled' attribute set after
+        $this->assertArrayHasKey('disabled', $field->getOption('attr'));
+        $this->assertEquals('disabled', $field->getOption('attr')['disabled']);
+        foreach ($children as $child) {
+            $this->assertArrayHasKey('disabled', $child->getOption('attr'));
+            $this->assertEquals('disabled', $child->getOption('attr')['disabled']);
+        }
+    }
+
+    /** @test */
+    public function it_disables_checkbox_list()
+    {
+        $options = [
+            'attr' => ['class' => 'choice-class-something'],
+            'choices' => [1 => 'monday', 2 => 'tuesday'],
+            'selected' => 'tuesday',
+            'multiple' => true,
+            'expanded' => true
+        ];
+
+        $field = new ChoiceType('some_choice', 'choice', $this->plainForm, $options);
+        $children = $field->getChildren();
+
+        // there shall be no 'disabled' attribute set beforehand
+        $this->assertArrayNotHasKey('disabled', $field->getOption('attr'));
+        foreach ($children as $child) {
+            $this->assertArrayNotHasKey('disabled', $child->getOption('attr'));
+        }
+
+        $field->disable();
+
+        // there shall be 'disabled' attribute set after
+        $this->assertArrayHasKey('disabled', $field->getOption('attr'));
+        $this->assertEquals('disabled', $field->getOption('attr')['disabled']);
+        foreach ($children as $child) {
+            $this->assertArrayHasKey('disabled', $child->getOption('attr'));
+            $this->assertEquals('disabled', $child->getOption('attr')['disabled']);
+        }
+    }
+    
+    /** @test */
+    public function it_disables_radios_list()
+    {
+        $options = [
+            'attr' => ['class' => 'choice-class-something'],
+            'choices' => [1 => 'yes', 2 => 'no'],
+            'selected' => 'no',
+            'expanded' => true
+        ];
+
+        $field = new ChoiceType('some_choice', 'choice', $this->plainForm, $options);
+        $children = $field->getChildren();
+
+        // there shall be no 'disabled' attribute set beforehand
+        $this->assertArrayNotHasKey('disabled', $field->getOption('attr'));
+        foreach ($children as $child) {
+            $this->assertArrayNotHasKey('disabled', $child->getOption('attr'));
+        }
+
+        $field->disable();
+
+        // there shall be 'disabled' attribute set after
+        $this->assertArrayHasKey('disabled', $field->getOption('attr'));
+        $this->assertEquals('disabled', $field->getOption('attr')['disabled']);
+        foreach ($children as $child) {
+            $this->assertArrayHasKey('disabled', $child->getOption('attr'));
+            $this->assertEquals('disabled', $child->getOption('attr')['disabled']);
+        }
+    }
+    
+    /** @test */
+    public function it_enables_select()
+    {
+        $options = [
+            'attr' => ['class' => 'choice-class', 'disabled' => 'disabled'],
+            'choices' => ['yes' => 'Yes', 'no' => 'No'],
+            'selected' => 'yes'
+        ];
+        $field = new ChoiceType('some_choice', 'choice', $this->plainForm, $options);
+        $children = $field->getChildren();
+
+        // there shall be 'disabled' attribute set beforehand
+        $this->assertArrayHasKey('disabled', $field->getOption('attr'));
+        $this->assertEquals('disabled', $field->getOption('attr')['disabled']);
+        foreach ($children as $child) {
+            $this->assertArrayHasKey('disabled', $child->getOption('attr'));
+            $this->assertEquals('disabled', $child->getOption('attr')['disabled']);
+        }
+
+
+        $field->enable();
+
+        // there shall be no 'disabled' attribute set after
+        $this->assertArrayNotHasKey('disabled', $field->getOption('attr'));
+        foreach ($children as $child) {
+            $this->assertArrayNotHasKey('disabled', $child->getOption('attr'));
+        }
+    }
+
+    /** @test */
+    public function it_enables_checkbox_list()
+    {
+        $options = [
+            'attr' => ['class' => 'choice-class-something', 'disabled' => 'disabled'],
+            'choices' => [1 => 'monday', 2 => 'tuesday'],
+            'selected' => 'tuesday',
+            'multiple' => true,
+            'expanded' => true
+        ];
+
+        $field = new ChoiceType('some_choice', 'choice', $this->plainForm, $options);
+        $children = $field->getChildren();
+
+        // there shall be 'disabled' attribute set beforehand
+        $this->assertArrayHasKey('disabled', $field->getOption('attr'));
+        $this->assertEquals('disabled', $field->getOption('attr')['disabled']);
+        foreach ($children as $child) {
+            $this->assertArrayHasKey('disabled', $child->getOption('attr'));
+            $this->assertEquals('disabled', $child->getOption('attr')['disabled']);
+        }
+
+
+        $field->enable();
+
+        // there shall be no 'disabled' attribute set after
+        $this->assertArrayNotHasKey('disabled', $field->getOption('attr'));
+        foreach ($children as $child) {
+            $this->assertArrayNotHasKey('disabled', $child->getOption('attr'));
+        }
+    }
+    
+    /** @test */
+    public function it_enables_radios_list()
+    {
+        $options = [
+            'attr' => ['class' => 'choice-class-something', 'disabled' => 'disabled'],
+            'choices' => [1 => 'yes', 2 => 'no'],
+            'selected' => 'no',
+            'expanded' => true
+        ];
+
+        $field = new ChoiceType('some_choice', 'choice', $this->plainForm, $options);
+        $children = $field->getChildren();
+
+        // there shall be 'disabled' attribute set beforehand
+        $this->assertArrayHasKey('disabled', $field->getOption('attr'));
+        $this->assertEquals('disabled', $field->getOption('attr')['disabled']);
+        foreach ($children as $child) {
+            $this->assertArrayHasKey('disabled', $child->getOption('attr'));
+            $this->assertEquals('disabled', $child->getOption('attr')['disabled']);
+        }
+
+
+        $field->enable();
+
+        // there shall be no 'disabled' attribute set after
+        $this->assertArrayNotHasKey('disabled', $field->getOption('attr'));
+        foreach ($children as $child) {
+            $this->assertArrayNotHasKey('disabled', $child->getOption('attr'));
+        }
+    }
 }
