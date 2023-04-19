@@ -3,6 +3,7 @@ composer.phar
 composer.lock
 .DS_Store
 .idea
+.vscode
 coverage
 *.taskpaper
 NOTES.md
