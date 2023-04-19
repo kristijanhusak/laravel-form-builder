@@ -21,9 +21,7 @@ class FormFieldTest extends FormBuilderTestCase
     /** @test */
     public function it_uses_the_template_prefix()
     {
-        $viewStub = $this->getMockBuilder('Illuminate\View\Factory')->setMethods(['make', 'with', 'render'])->disableOriginalConstructor()->getMock();
-        $viewStub->method('make')->willReturn($viewStub);
-        $viewStub->method('with')->willReturn($viewStub);
+        $viewStub = $this->getViewFactoryMock();
 
         $helper = new FormHelper($viewStub, $this->translator, $this->config);
 
@@ -212,7 +210,7 @@ class FormFieldTest extends FormBuilderTestCase
         $this->plainForm->setLanguageName('validation')->add('accepted', 'text');
 
         $this->assertEquals(
-            'The :attribute must be accepted.',
+            'The :attribute field must be accepted.',
             $this->plainForm->accepted->getOption('label')
         );
     }
@@ -225,7 +223,7 @@ class FormFieldTest extends FormBuilderTestCase
         $this->plainForm->setTranslationTemplate('validation.{name}')->add('accepted', 'text');
 
         $this->assertEquals(
-            'The :attribute must be accepted.',
+            'The :attribute field must be accepted.',
             $this->plainForm->accepted->getOption('label')
         );
     }
@@ -479,7 +477,7 @@ class FormFieldTest extends FormBuilderTestCase
                 'options' => [
                     'label' => 'Text Field #1',
                     'label_show' => true,
-                    'label_template' => 'laravel-form-builder-test::test-label',        
+                    'label_template' => 'laravel-form-builder-test::test-label',
                 ]
             ],
             [
@@ -488,10 +486,10 @@ class FormFieldTest extends FormBuilderTestCase
                 'options' => [
                     'label' => 'Textarea Field #1',
                     'label_show' => true,
-                    'label_template' => 'laravel-form-builder-test::test-label',        
+                    'label_template' => 'laravel-form-builder-test::test-label',
                 ]
             ],
-        
+
         ];
 
         foreach ($fieldsOptions as $config) {

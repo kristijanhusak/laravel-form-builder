@@ -13,12 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 12
+      fail-fast: false
       matrix:
         php: ['7.4', '8.0', '8.1', '8.2']
         package-release: [dist]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
 
       - name: Setup PHP ${{ matrix.php }}
         uses: shivammathur/setup-php@v2
@@ -28,7 +31,7 @@ jobs:
 
       - name: Get user-level Composer cache
         id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Setup Composer cache
         uses: actions/cache@v3
@@ -50,5 +53,5 @@ jobs:
       - name: Upload to Scrutinizer
         continue-on-error: true
         run: |
-          wget https://scrutinizer-ci.com/ocular.phar
-          php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+          composer global require scrutinizer/ocular
+          ~/.composer/vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover

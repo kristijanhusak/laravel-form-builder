@@ -16,7 +16,7 @@
         "illuminate/validation": "^6 || ^7 || ^8 || ^9 || ^10"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.13 || ^7.0"
+        "orchestra/testbench": "^6.13 || ^7.0 || ^8"
     },
     "extra": {
         "branch-alias": {
@@ -35,11 +35,13 @@
         "psr-0": {
             "Kris\\LaravelFormBuilder": "src/"
         },
-        "classmap": [
-            "tests/FormBuilderTestCase.php"
-        ],
         "files": [
             "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/"
         ]
     },
     "minimum-stability": "dev",

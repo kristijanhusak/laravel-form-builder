@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         bootstrap="vendor/autoload.php"
-         colors="true" convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         convertDeprecationsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
-    >
+<phpunit
+    backupGlobals="false"
+    backupStaticProperties="false"
+    bootstrap="vendor/autoload.php"
+    cacheDirectory=".phpunit.cache"
+    colors="true"
+    processIsolation="false"
+    stopOnFailure="false"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
+>
     <testsuites>
         <testsuite name="Package Test Suite">
             <directory suffix=".php">./tests/</directory>
             <exclude>./tests/resources/views/</exclude>
+            <exclude>./tests/resources/lang/</exclude>
+            <exclude>./tests/Fixtures/</exclude>
+            <exclude>./tests/FormBuilderTestCase.php</exclude>
         </testsuite>
     </testsuites>
     <coverage>
