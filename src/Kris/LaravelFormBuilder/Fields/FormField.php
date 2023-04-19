@@ -239,13 +239,24 @@ abstract class FormField
     protected function getModelValueAttribute($model, $name)
     {
         $transformedName = $this->transformKey($name);
+
+        if (is_null($model)) {
+            return null;
+        }
+
         if (is_string($model)) {
             return $model;
-        } elseif (is_object($model)) {
+        }
+
+        if (is_object($model)) {
             return object_get($model, $transformedName);
-        } elseif (is_array($model)) {
+        }
+
+        if (is_array($model)) {
             return Arr::get($model, $transformedName);
         }
+
+        throw new \InvalidArgumentException('Invalid model given to field');
     }
 
     /**
@@ -361,7 +372,7 @@ abstract class FormField
 
         // Append rules
         if ($rulesToBeAppended = Arr::pull($sourceOptions, 'rules_append')) {
-            $mergedRules = array_values(array_unique(array_merge($options['rules'], $rulesToBeAppended), SORT_REGULAR));
+            $mergedRules = $this->mergeRules($options['rules'], $rulesToBeAppended);
             $options['rules'] = $mergedRules;
         }
 
@@ -388,6 +399,18 @@ abstract class FormField
         }
 
         return $rules;
+    }
+
+    /**
+     * Merges two sets of rules into one
+     *
+     * @param array $first first set of rules
+     * @param array $second second set of rules
+     * @return array merged set of rules without duplicates 
+     */
+    protected function mergeRules($first, $second)
+    {
+        return array_values(array_unique(array_merge($first, $second), SORT_REGULAR));
     }
 
 

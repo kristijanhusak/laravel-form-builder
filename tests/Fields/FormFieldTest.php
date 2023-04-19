@@ -21,9 +21,7 @@ class FormFieldTest extends FormBuilderTestCase
     /** @test */
     public function it_uses_the_template_prefix()
     {
-        $viewStub = $this->getMockBuilder('Illuminate\View\Factory')->setMethods(['make', 'with', 'render'])->disableOriginalConstructor()->getMock();
-        $viewStub->method('make')->willReturn($viewStub);
-        $viewStub->method('with')->willReturn($viewStub);
+        $viewStub = $this->getViewFactoryMock();
 
         $helper = new FormHelper($viewStub, $this->translator, $this->config);
 
@@ -212,7 +210,7 @@ class FormFieldTest extends FormBuilderTestCase
         $this->plainForm->setLanguageName('validation')->add('accepted', 'text');
 
         $this->assertEquals(
-            'The :attribute must be accepted.',
+            'The :attribute field must be accepted.',
             $this->plainForm->accepted->getOption('label')
         );
     }
@@ -225,7 +223,7 @@ class FormFieldTest extends FormBuilderTestCase
         $this->plainForm->setTranslationTemplate('validation.{name}')->add('accepted', 'text');
 
         $this->assertEquals(
-            'The :attribute must be accepted.',
+            'The :attribute field must be accepted.',
             $this->plainForm->accepted->getOption('label')
         );
     }
@@ -310,9 +308,7 @@ class FormFieldTest extends FormBuilderTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    /** @test  */
     public function it_throws_an_exception_if_filters_override_is_false_but_passed_already_binded_filter()
     {
         $this->expectException(\Kris\LaravelFormBuilder\Filters\Exception\FilterAlreadyBindedException::class);
@@ -415,6 +411,94 @@ class FormFieldTest extends FormBuilderTestCase
 
         $this->assertTrue($method->invokeArgs($customPlainForm, []));
     }
+
+    /** @test */
+    public function label_template()
+    {
+        $fieldsOptions = [
+            [
+                'type' => 'checkbox',
+                'name' => 'checkbox_field',
+                'options' => [
+                    'label' => 'Checkbox Field #1',
+                    'label_show' => true,
+                    'label_template' => 'laravel-form-builder-test::test-label',
+                ]
+            ],
+            [
+                'type' => 'choice',
+                'name' => 'choide_field',
+                'options' => [
+                    'label' => 'Choice Field #1',
+                    'choices' => [true => 'Yes', false => 'No'],
+                    'label_show' => true,
+                    'label_template' => 'laravel-form-builder-test::test-label',
+                ]
+            ],
+            [
+                'type' => 'collection',
+                'name' => 'collection_field',
+                'options' => [
+                    'label' => 'Collection Field #1',
+                    'label_show' => true,
+                    'label_template' => 'laravel-form-builder-test::test-label',
+                ]
+            ],
+            [
+                'type' => 'radio',
+                'name' => 'radio_field',
+                'options' => [
+                    'label' => 'Radio Field #1',
+                    'label_show' => true,
+                    'label_template' => 'laravel-form-builder-test::test-label',
+                ]
+            ],
+            [
+                'type' => 'select',
+                'name' => 'select_field',
+                'options' => [
+                    'label' => 'Select Field #1',
+                    'label_show' => true,
+                    'label_template' => 'laravel-form-builder-test::test-label',
+                ]
+            ],
+            [
+                'type' => 'static',
+                'name' => 'static_field',
+                'options' => [
+                    'label' => 'Static Field #1',
+                    'label_show' => true,
+                    'label_template' => 'laravel-form-builder-test::test-label',
+                ]
+            ],
+            [
+                'type' => 'text',
+                'name' => 'text_field',
+                'options' => [
+                    'label' => 'Text Field #1',
+                    'label_show' => true,
+                    'label_template' => 'laravel-form-builder-test::test-label',
+                ]
+            ],
+            [
+                'type' => 'textarea',
+                'name' => 'textarea_field',
+                'options' => [
+                    'label' => 'Textarea Field #1',
+                    'label_show' => true,
+                    'label_template' => 'laravel-form-builder-test::test-label',
+                ]
+            ],
+
+        ];
+
+        foreach ($fieldsOptions as $config) {
+            $field = new InputType($config['name'] ?? 'name', $config['type'], $this->plainForm, $config['options']);
+            $view = $field->render();
+            $this->assertMatchesRegularExpression('/test label view/', $view);
+        }
+    }
+
 }
 
 

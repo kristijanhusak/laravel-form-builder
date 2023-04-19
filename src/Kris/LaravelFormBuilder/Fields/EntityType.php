@@ -103,6 +103,12 @@ class EntityType extends ChoiceType
             //laravel 5.2.*
             return $data->lists($value, $key);
         }
+
+        throw new \InvalidArgumentException(sprintf(
+            'Please provide valid "property" option for entity field [%s] in form class [%s]',
+            $this->getRealName(),
+            get_class($this->parent)
+        ));
     }
 
     protected function get($data)
@@ -115,5 +121,11 @@ class EntityType extends ChoiceType
             //laravel 5.3.*
             return $data->get();
         }
+
+        throw new \InvalidArgumentException(sprintf(
+            'Please provide valid "query_builder" option for entity field [%s] in form class [%s]',
+            $this->getRealName(),
+            get_class($this->parent)
+        ));
     }
 }

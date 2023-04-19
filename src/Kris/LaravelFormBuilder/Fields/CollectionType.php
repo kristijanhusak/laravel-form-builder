@@ -2,6 +2,7 @@
 
 namespace Kris\LaravelFormBuilder\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 class CollectionType extends ParentType
@@ -165,6 +166,8 @@ class CollectionType extends ParentType
         foreach ($data as $key => $val) {
             $this->children[] = $this->setupChild(clone $field, '['.$key.']', $val);
         }
+
+        return $this->children;
     }
 
     protected function makeEmptyRowValue()
@@ -187,7 +190,7 @@ class CollectionType extends ParentType
         $newData = [];
         foreach ($input as $k => $inputItem) {
             if (is_array($inputItem)) {
-                $newData[$k] = tap($originalData[$k] ?? $this->makeNewEmptyModel())->forceFill($inputItem);
+                $newData[$k] = $this->formatInputIntoModel($originalData[$k] ?? $this->makeNewEmptyModel(), $inputItem);
             }
             else {
                 $newData[$k] = $inputItem;
@@ -195,6 +198,26 @@ class CollectionType extends ParentType
         }
 
         return $newData;
+    }
+
+    protected function formatInputIntoModel($model, $input)
+    {
+        if ($model instanceof Model) {
+            $model->forceFill($input);
+        }
+        elseif (is_object($model)) {
+            foreach ($input as $key => $value) {
+                $model->$key = $value;
+            }
+        }
+        elseif (is_array($model)) {
+            $model = $input + $model;
+        }
+        else {
+            $model = $input;
+        }
+
+        return $model;
     }
 
     /**
@@ -211,7 +234,7 @@ class CollectionType extends ParentType
 
         $firstFieldOptions = $this->formHelper->mergeOptions(
             $this->getOption('options'),
-            ['attr' => ['id' => $newFieldName]]
+            ['attr' => array_merge(['id' => $newFieldName], $this->getOption('attr'))]
         );
 
         $field->setName($newFieldName);
