@@ -3,6 +3,7 @@
 namespace Kris\LaravelFormBuilder\Fields;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 
 class CollectionType extends ParentType
@@ -183,10 +184,10 @@ class CollectionType extends ParentType
         }
 
         $parent = $this->getParent()->getModel();
-        if ($parent instanceof \Illuminate\Database\Eloquent\Model) {
+        if ($parent instanceof Model) {
             if (method_exists($parent, $this->name)) {
                 $relation = call_user_func([$parent, $this->name]);
-                if ($relation instanceof \Illuminate\Database\Eloquent\Relations\Relation) {
+                if ($relation instanceof Relation) {
                     $model = $relation->getRelated()->newInstance()->setAttribute(
                         $relation->getForeignKeyName(),
                         $parent->{$relation->getLocalKeyName()}
@@ -197,9 +198,11 @@ class CollectionType extends ParentType
         }
 
         if (($data = $this->getOption('data')) && count($data)) {
-            $model = reset($data);
-            if ($model instanceof Model) {
-                return new $model;
+            foreach ($data as $model) {
+                if ($model instanceof Model) {
+                    return new $model;
+                }
+                break;
             }
         }
 
