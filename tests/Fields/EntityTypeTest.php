@@ -92,12 +92,68 @@ class EntityTypeTest extends FormBuilderTestCase
         $choice->setOption('attr.data-key', 'value');
 
         $field = $choice->render();
-
+        
         $expectedField = '<div class="form-group">
             <label for="entity_choice" class="control-label">Entity choice</label>
             <select class="form-control" data-key="value" id="entity_choice" name="entity_choice"><option value="1">English</option><option value="2">French</option><option value="3">Serbian</option></select>
-        </div>';
+            </div>';
+            
+            $this->assertXmlStringEqualsXmlString(trim($field), $expectedField);
+        }
 
-        $this->assertXmlStringEqualsXmlString(trim($field), $expectedField);
+    /** @test */
+    public function it_disables()
+    {
+        $choices = ['yes' => 'Yes', 'no' => 'No'];
+        $options = [
+            'attr' => ['class' => 'choice-class'],
+            'choices' => $choices,
+            'selected' => 'yes'
+        ];
+
+        $choice = new EntityType('some_entity', 'entity', $this->plainForm, $options);
+        $children = $choice->getChildren();
+
+        $this->assertArrayNotHasKey('disabled', $choice->getOption('attr'));
+        foreach ($children as $child) {
+            $this->assertArrayNotHasKey('disabled', $child->getOption('attr'));
+        }
+
+        $choice->disable();
+
+        $this->assertArrayHasKey('disabled', $choice->getOption('attr'));
+        $this->assertEquals('disabled', $choice->getOption('attr')['disabled']);
+        foreach ($children as $child) {
+            $this->assertArrayHasKey('disabled', $child->getOption('attr'));
+            $this->assertEquals('disabled', $child->getOption('attr')['disabled']);
+        }
+    }
+    
+    /** @test */
+    public function it_enables()
+    {
+        $choices = ['yes' => 'Yes', 'no' => 'No'];
+        $options = [
+            'attr' => ['class' => 'choice-class', 'disabled' => 'disabled'],
+            'choices' => $choices,
+            'selected' => 'yes'
+        ];
+
+        $choice = new EntityType('some_entity', 'entity', $this->plainForm, $options);
+        $children = $choice->getChildren();
+
+        $this->assertArrayHasKey('disabled', $choice->getOption('attr'));
+        $this->assertEquals('disabled', $choice->getOption('attr')['disabled']);
+        foreach ($children as $child) {
+            $this->assertArrayHasKey('disabled', $child->getOption('attr'));
+            $this->assertEquals('disabled', $child->getOption('attr')['disabled']);
+        }
+
+        $choice->enable();
+
+        $this->assertArrayNotHasKey('disabled', $choice->getOption('attr'));
+        foreach ($children as $child) {
+            $this->assertArrayNotHasKey('disabled', $child->getOption('attr'));
+        }
     }
 }
