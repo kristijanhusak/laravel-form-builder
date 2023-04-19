@@ -2,6 +2,8 @@
 
 namespace Kris\LaravelFormBuilder\Fields;
 
+use Illuminate\Support\Arr;
+
 class RepeatedType extends ParentType
 {
 
@@ -42,6 +44,8 @@ class RepeatedType extends ParentType
      */
     protected function createChildren()
     {
+        $this->prepareOptions();
+
         $firstName = $this->getRealName();
         $secondName = $this->getOption('second_name');
 
@@ -49,14 +53,27 @@ class RepeatedType extends ParentType
             $secondName = $firstName.'_confirmation';
         }
 
+        // merge field rules and first field rules
+        $firstOptions = $this->getOption('first_options');
+        $firstOptions['rules'] = $this->normalizeRules(Arr::pull($firstOptions, 'rules', []));
+        if ($mainRules = $this->getOption('rules')) {
+            $firstOptions['rules'] = $this->mergeRules($mainRules, $firstOptions['rules']);
+        }
+
+        $sameRule = 'same:' . $secondName;
+        if (!in_array($sameRule, $firstOptions['rules'])) {
+            $firstOptions['rules'][] = $sameRule;
+        }
+
         $form = $this->parent->getFormBuilder()->plain([
             'name' => $this->parent->getName(),
             'model' => $this->parent->getModel()
         ])
-        ->add($firstName, $this->getOption('type'), $this->getOption('first_options'))
+        ->add($firstName, $this->getOption('type'), $firstOptions)
         ->add($secondName, $this->getOption('type'), $this->getOption('second_options'));
 
         $this->children['first'] = $form->getField($firstName);
         $this->children['second'] = $form->getField($secondName);
     }
+
 }

@@ -187,6 +187,11 @@ abstract class FormBuilderTestCase extends TestCase {
 
         $this->withoutDeprecationHandling();
 
+        $this->app['path.lang'] = __DIR__ . '/resources/lang';
+
+        // add views for testing
+        $this->app['view']->addNamespace('laravel-form-builder-test', __DIR__ . '/resources/views');
+
         $this->view = $this->app['view'];
         $this->translator = $this->app['translator'];
         $this->request = $this->app['request'];
@@ -264,5 +269,17 @@ abstract class FormBuilderTestCase extends TestCase {
     protected function assertIdentical($one, $two): void
     {
         self::assertThat($one, new IsIdentical($two));
+    }
+
+    protected function getViewFactoryMock()
+    {
+        $mock = $this->getMockBuilder('Illuminate\View\Factory')
+            ->onlyMethods(['make'])
+            ->addMethods(['with', 'render'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $mock->method('make')->willReturn($mock);
+        $mock->method('with')->willReturn($mock);
+        return $mock;
     }
 }
