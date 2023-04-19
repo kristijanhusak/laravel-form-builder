@@ -1,8 +1,6 @@
 <?php
 
-
 use Kris\LaravelFormBuilder\Fields\RepeatedType;
-
 
 class RepeatedTypeTest extends FormBuilderTestCase
 {
@@ -55,7 +53,9 @@ class RepeatedTypeTest extends FormBuilderTestCase
         $this->assertFalse($valid);
 
         $errors = [
-            'password' => ['The Password and password confirmation must match.'],
+            'password' => [
+                'The Password field must match password confirmation.',
+            ],
         ];
         $this->assertEquals($errors, $plainForm->getErrors());
 
@@ -65,7 +65,7 @@ class RepeatedTypeTest extends FormBuilderTestCase
             'rules' => 'required|min:5',
         ]);
         $plainForm->renderForm();
-        
+
         $rules = ['password' => ['required', 'min:5', 'same:password_confirmation']];
         $this->assertEquals($rules, $plainForm->getRules());
 
@@ -74,8 +74,8 @@ class RepeatedTypeTest extends FormBuilderTestCase
 
         $errors = [
             'password' => [
-                'The Password must be at least 5 characters.',
-                'The Password and password confirmation must match.',
+                'The Password field must be at least 5 characters.',
+                'The Password field must match password confirmation.',
             ]
         ];
         $this->assertEquals($errors, $plainForm->getErrors());
@@ -95,9 +95,9 @@ class RepeatedTypeTest extends FormBuilderTestCase
 
         $errors = [
             'password' => [
-				'The Password must be at least 5 characters.',
-				'The Password and password confirmation must match.',
-			]
+                'The Password field must be at least 5 characters.',
+                'The Password field must match password confirmation.',
+            ]
         ];
         $this->assertEquals($errors, $plainForm->getErrors());
 
@@ -117,9 +117,9 @@ class RepeatedTypeTest extends FormBuilderTestCase
 
         $errors = [
             'password' => [
-				'The Password must be at least 5 characters.',
-				'The Password and password confirmation must match.',
-			]
+                'The Password field must be at least 5 characters.',
+                'The Password field must match password confirmation.',
+            ]
         ];
         $this->assertEquals($errors, $plainForm->getErrors());
     }
