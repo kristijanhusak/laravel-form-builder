@@ -56,7 +56,7 @@ abstract class ParentType extends FormField
      */
     public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
     {
-        if(!empty($options)) {
+        if (!empty($options)) {
             $this->prepareOptions($options);
 
             $this->createChildren();

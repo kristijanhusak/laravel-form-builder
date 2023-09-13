@@ -171,7 +171,7 @@ class Form
         if ($this->isPlain()) {
             foreach ($this->fields as $name => $field) {
                 // Remove any temp variables added in previous instance
-                $options =  Arr::except($field->getOptions(), 'tmp');
+                $options = Arr::except($field->getOptions(), 'tmp');
                 $this->add($name, $field->getType(), $options);
             }
         } else {
@@ -187,7 +187,7 @@ class Form
      */
     protected function isPlain()
     {
-        if($this->formBuilder === null) {
+        if ($this->formBuilder === null) {
             throw new \RuntimeException('FormBuilder is not set');
         }
 
@@ -250,7 +250,6 @@ class Form
         if (!$modify && !$this->rebuilding) {
             $this->preventDuplicate($field->getRealName());
         }
-
 
         if ($field->getType() == 'file') {
             $this->formOptions['files'] = true;
@@ -882,7 +881,7 @@ class Form
      * will be switched to protected in 1.7.
      * @param $data
      * @return $this
-     **/
+     */
     public function addData(array $data)
     {
         foreach ($data as $key => $value) {
@@ -992,7 +991,7 @@ class Form
      * Render the form.
      *
      * @param array $options
-     * @param string $fields
+     * @param string[] $fields
      * @param bool $showStart
      * @param bool $showFields
      * @param bool $showEnd
@@ -1056,16 +1055,9 @@ class Form
      */
     protected function getUnrenderedFields()
     {
-        $unrenderedFields = [];
-
-        foreach ($this->fields as $field) {
-            if (!$field->isRendered()) {
-                $unrenderedFields[] = $field;
-                continue;
-            }
-        }
-
-        return $unrenderedFields;
+        return array_filter($this->fields, function ($field) {
+            return !$field->isRendered();
+        });
     }
 
     /**
@@ -1090,9 +1082,7 @@ class Form
      */
     protected function getFieldType($type)
     {
-        $fieldType = $this->formHelper->getFieldType($type);
-
-        return $fieldType;
+        return $this->formHelper->getFieldType($type);
     }
 
     /**
@@ -1484,6 +1474,7 @@ class Form
     public function lockFiltering()
     {
         $this->lockFiltering = true;
+
         return $this;
     }
 
@@ -1495,6 +1486,7 @@ class Form
     public function unlockFiltering()
     {
         $this->lockFiltering = false;
+
         return $this;
     }
 
@@ -1506,7 +1498,7 @@ class Form
      */
     public function isFilteringLocked()
     {
-        return !$this->lockFiltering ? false : true;
+        return (bool)$this->lockFiltering;
     }
 
     /**

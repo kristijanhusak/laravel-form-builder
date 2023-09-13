@@ -117,7 +117,7 @@ class ChoiceTypeTest extends FormBuilderTestCase
         ];
         $field = new ChoiceType('some_choice', 'choice', $this->plainForm, $options);
         $children = $field->getChildren();
-        
+
         // there shall be no 'disabled' attribute set beforehand
         $this->assertArrayNotHasKey('disabled', $field->getOption('attr'));
         foreach ($children as $child) {
@@ -165,7 +165,7 @@ class ChoiceTypeTest extends FormBuilderTestCase
             $this->assertEquals('disabled', $child->getOption('attr')['disabled']);
         }
     }
-    
+
     /** @test */
     public function it_disables_radios_list()
     {
@@ -195,7 +195,7 @@ class ChoiceTypeTest extends FormBuilderTestCase
             $this->assertEquals('disabled', $child->getOption('attr')['disabled']);
         }
     }
-    
+
     /** @test */
     public function it_enables_select()
     {
@@ -256,7 +256,7 @@ class ChoiceTypeTest extends FormBuilderTestCase
             $this->assertArrayNotHasKey('disabled', $child->getOption('attr'));
         }
     }
-    
+
     /** @test */
     public function it_enables_radios_list()
     {

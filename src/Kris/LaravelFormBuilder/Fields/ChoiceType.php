@@ -1,6 +1,6 @@
 <?php
 
-namespace  Kris\LaravelFormBuilder\Fields;
+namespace Kris\LaravelFormBuilder\Fields;
 
 use Illuminate\Support\Arr;
 
@@ -23,7 +23,6 @@ class ChoiceType extends ParentType
     {
         return 'choice';
     }
-
 
     /**
      * @inheritdoc
@@ -98,7 +97,7 @@ class ChoiceType extends ParentType
         if (($data_override = $this->getOption('data_override')) && $data_override instanceof \Closure) {
             $this->options['choices'] = $data_override($this->options['choices'], $this);
         }
-        
+
         $this->children = [];
         $this->determineChoiceField();
 
@@ -126,7 +125,7 @@ class ChoiceType extends ParentType
     {
         $multiple = $this->getOption('multiple') ? '[]' : '';
 
-        $attr = $this->options['attr']?? [];
+        $attr = $this->options['attr'] ?? [];
         $attr = Arr::except($attr, ['class', 'multiple', 'id', 'name']);
         foreach ((array)$this->options['choices'] as $key => $choice) {
             $id = str_replace('.', '_', $this->getNameKey()) . '_' . $key;
