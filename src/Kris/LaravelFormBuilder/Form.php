@@ -399,8 +399,12 @@ class Form
     {
         // If we don't want to overwrite options, we merge them with old options.
         if ($overwriteOptions === false && $this->has($name)) {
+            $fieldOptions = $this->getField($name)->getOptions();
+
+            Arr::forget($fieldOptions, ['tmp']);
+
             $options = $this->formHelper->mergeOptions(
-                $this->getField($name)->getOptions(),
+                $fieldOptions,
                 $options
             );
         }

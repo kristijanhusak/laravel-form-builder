@@ -306,6 +306,11 @@ abstract class FormField
             $this->setOption('tmp.multipleBracesSet', true);
         }
 
+        if (!$this->getOption('attr.multiple') && $this->getOption('tmp.multipleBracesSet')) {
+            $this->name = preg_replace('/\[\]$/u', '', $this->name);
+            $this->setOption('tmp.multipleBracesSet', false);
+        }
+
         if ($this->parent->haveErrorsEnabled()) {
             $this->addErrorClass();
         }
@@ -406,7 +411,7 @@ abstract class FormField
      *
      * @param array $first first set of rules
      * @param array $second second set of rules
-     * @return array merged set of rules without duplicates 
+     * @return array merged set of rules without duplicates
      */
     protected function mergeRules($first, $second)
     {
