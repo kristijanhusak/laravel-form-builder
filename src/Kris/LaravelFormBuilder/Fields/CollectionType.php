@@ -36,6 +36,7 @@ class CollectionType extends ParentType
             'type' => null,
             'options' => ['is_child' => true],
             'prototype' => true,
+            'label_callback' => null,
             'data' => null,
             'property' => 'id',
             'prototype_name' => '__NAME__',
@@ -249,6 +250,9 @@ class CollectionType extends ParentType
 
         $field->setValue($value);
 
+        if ($callback = $this->getOption('label_callback')) {
+            $field->setOption('label', value($callback, $value, $field));
+        }
 
         return $field;
     }
