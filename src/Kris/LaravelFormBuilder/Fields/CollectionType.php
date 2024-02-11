@@ -36,7 +36,6 @@ class CollectionType extends ParentType
             'type' => null,
             'options' => ['is_child' => true],
             'prototype' => true,
-            'label_callback' => null,
             'data' => null,
             'property' => 'id',
             'prototype_name' => '__NAME__',
@@ -238,8 +237,8 @@ class CollectionType extends ParentType
             ['attr' => array_merge(['id' => $newFieldName], $this->getOption('attr'))]
         );
 
-        if ($callback = $this->getOption('label_callback')) {
-            $firstFieldOptions['label'] = value($callback, $value, $field);
+        if (isset($firstFieldOptions['label'])) {
+            $firstFieldOptions['label'] = value($firstFieldOptions['label'], $value, $field);
         }
 
         $field->setName($newFieldName);
