@@ -237,6 +237,10 @@ class CollectionType extends ParentType
             ['attr' => array_merge(['id' => $newFieldName], $this->getOption('attr'))]
         );
 
+        if (isset($firstFieldOptions['label'])) {
+            $firstFieldOptions['label'] = value($firstFieldOptions['label'], $value, $field);
+        }
+
         $field->setName($newFieldName);
         $field->setOptions($firstFieldOptions);
 
@@ -248,7 +252,6 @@ class CollectionType extends ParentType
         }
 
         $field->setValue($value);
-
 
         return $field;
     }
