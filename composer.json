@@ -1,7 +1,12 @@
 {
     "name": "kris/laravel-form-builder",
     "description": "Laravel form builder - symfony like",
-    "keywords": ["laravel", "form", "builder","symfony"],
+    "keywords": [
+        "laravel",
+        "form",
+        "builder",
+        "symfony"
+    ],
     "license": "MIT",
     "authors": [
         {
@@ -12,11 +17,11 @@
     "require": {
         "php": ">=7.4",
         "laravelcollective/html": "^6",
-        "illuminate/database": "^6 || ^7 || ^8 || ^9 || ^10",
-        "illuminate/validation": "^6 || ^7 || ^8 || ^9 || ^10"
+        "illuminate/database": "^6 || ^7 || ^8 || ^9 || ^10 || ^11.0",
+        "illuminate/validation": "^6 || ^7 || ^8 || ^9 || ^10 || ^11.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.13 || ^7.0 || ^8"
+        "orchestra/testbench": "^6.13 || ^7.0 || ^8 || ^9.0"
     },
     "extra": {
         "branch-alias": {
