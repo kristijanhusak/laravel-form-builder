@@ -188,7 +188,7 @@ class FormHelper
      * @param $options
      * @return string
      */
-    public function prepareAttributes($options)
+    public function prepareAttributes($options, ...$optionalArguments)
     {
         if (!$options) {
             return null;
@@ -199,7 +199,7 @@ class FormHelper
         foreach ($options as $name => $option) {
             if ($option !== null) {
                 $name = is_numeric($name) ? $option : $name;
-                $attributes[] = $name . '="' . $option . '" ';
+                $attributes[] = $name . '="' . value($option, ...$optionalArguments) . '" ';
             }
         }
 
