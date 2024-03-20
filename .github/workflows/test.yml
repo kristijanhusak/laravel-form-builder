@@ -45,7 +45,7 @@ jobs:
             composer-${{ runner.os }}-
 
       - name: Install composer dependencies
-        run: composer require illuminate/database:^${{ matrix.laravel }}.0 illuminate/validation:^${{ matrix.laravel }}.0 --no-progress --no-interaction ${{ matrix.laravel }}
+        run: composer require --no-progress --no-interaction illuminate/database:^${{ matrix.laravel }}.0 illuminate/validation:^${{ matrix.laravel }}.0
 
       - name: Run unit tests
         run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
