@@ -12,11 +12,11 @@
     "require": {
         "php": ">=7.4",
         "laravelcollective/html": "^6",
-        "illuminate/database": "^6 || ^7 || ^8 || ^9 || ^10",
-        "illuminate/validation": "^6 || ^7 || ^8 || ^9 || ^10"
+        "illuminate/database": "^6 || ^7 || ^8 || ^9 || ^10|| ^11",
+        "illuminate/validation": "^6 || ^7 || ^8 || ^9 || ^10|| ^11"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.13 || ^7.0 || ^8"
+        "orchestra/testbench": "^6.13 || ^7.0 || ^8 || ^9"
     },
     "extra": {
         "branch-alias": {
