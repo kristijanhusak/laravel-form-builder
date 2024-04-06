@@ -12,8 +12,8 @@
     "require": {
         "php": "^8.0",
         "rdx/laravelcollective-html": "^6",
-        "illuminate/database": "^10.0",
-        "illuminate/validation": "^10.0"
+        "illuminate/database": "^6 || ^7 || ^8 || ^9 || ^10 || ^11",
+        "illuminate/validation": "^6 || ^7 || ^8 || ^9 || ^10 || ^11"
     },
     "require-dev": {
         "orchestra/testbench": "^6.13 || ^7 || ^8 || ^9"
