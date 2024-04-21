@@ -9,14 +9,23 @@ env:
 
 jobs:
   test:
-    name: "Build"
+    name: "Lara ${{ matrix.laravel }} PHP ${{ matrix.php }} Unit ${{ matrix.phpunit }}"
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 12
+      max-parallel: 6 # 12
       fail-fast: false
       matrix:
-        php: ['7.4', '8.0', '8.1', '8.2']
-        package-release: [dist]
+        laravel: [9, 10, 11]
+        php: ['8.1', '8.2', '8.3']
+        phpunit: [9, 10]
+        exclude:
+          - {laravel: 11, php: '8.1'}
+          - {laravel: 9, phpunit: 10}
+          - {phpunit: 9}
+        include:
+          - {laravel: 9, php: '8.1', phpunit: 9}
+          - {laravel: 9, php: '8.2', phpunit: 9}
+          - {laravel: 9, php: '8.3', phpunit: 9}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -37,21 +46,21 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: composer-${{ runner.os }}-${{ matrix.php }}-${{ matrix.package-release }}-${{ hashFiles('**/composer.json') }}
+          key: composer-${{ runner.os }}-${{ matrix.php }}-${{ matrix.laravel }}-${{ hashFiles('**/composer.json') }}
           restore-keys: |
-            composer-${{ runner.os }}-${{ matrix.php }}-${{ matrix.package-release }}-${{ env.cache-name }}-
-            composer-${{ runner.os }}-${{ matrix.php }}-${{ matrix.package-release }}-
+            composer-${{ runner.os }}-${{ matrix.php }}-${{ matrix.laravel }}-${{ env.cache-name }}-
+            composer-${{ runner.os }}-${{ matrix.php }}-${{ matrix.laravel }}-
             composer-${{ runner.os }}-${{ matrix.php }}-
             composer-${{ runner.os }}-
 
       - name: Install composer dependencies
-        run: composer install --no-progress --no-interaction --prefer-${{ matrix.package-release }}
+        run: composer require --no-progress --no-interaction illuminate/database:^${{ matrix.laravel }}.0 illuminate/validation:^${{ matrix.laravel }}.0 phpunit/phpunit:^${{ matrix.phpunit }}.0
 
       - name: Run unit tests
         run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
 
-      - name: Upload to Scrutinizer
-        continue-on-error: true
-        run: |
-          composer global require scrutinizer/ocular
-          ~/.composer/vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
+      # - name: Upload to Scrutinizer
+      #   continue-on-error: true
+      #   run: |
+      #     composer global require scrutinizer/ocular
+      #     ~/.composer/vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
