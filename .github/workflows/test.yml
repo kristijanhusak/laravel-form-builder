@@ -17,8 +17,12 @@ jobs:
       matrix:
         php: ['8.1', '8.2', '8.3']
         laravel: ['9', '10', '11']
+        phpunit: ['9', '10']
         exclude:
           - {php: '8.1', laravel: '11'}
+          - {phpunit: '9'}
+        include:
+          - {laravel: '9', phpunit: '9'}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -47,7 +51,7 @@ jobs:
             composer-${{ runner.os }}-
 
       - name: Install composer dependencies
-        run: composer require --no-progress --no-interaction illuminate/database:^${{ matrix.laravel }}.0 illuminate/validation:^${{ matrix.laravel }}.0
+        run: composer require --no-progress --no-interaction illuminate/database:^${{ matrix.laravel }}.0 illuminate/validation:^${{ matrix.laravel }}.0 phpunit/phpunit:^${{ matrix.phpunit }}.0
 
       - name: Run unit tests
         run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
