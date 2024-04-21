@@ -9,7 +9,7 @@ env:
 
 jobs:
   test:
-    name: "Build PHP ${{ matrix.php }} Laravel ${{ matrix.laravel }} PHPUnit ${{ matrix.phpunit }}"
+    name: "PHP ${{ matrix.php }} Lara ${{ matrix.laravel }} Unit ${{ matrix.phpunit }}"
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 6 # 12
