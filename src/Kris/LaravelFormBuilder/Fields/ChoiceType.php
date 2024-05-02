@@ -1,6 +1,6 @@
 <?php
 
-namespace  Kris\LaravelFormBuilder\Fields;
+namespace Kris\LaravelFormBuilder\Fields;
 
 use Illuminate\Support\Arr;
 
@@ -25,25 +25,46 @@ class ChoiceType extends ParentType
     }
 
     /**
+     * @inheritdoc
+     */
+    protected function prepareOptions(array $options = [])
+    {
+        parent::prepareOptions($options);
+
+        $expanded = $this->getOption('expanded', false);
+        $multiple = $this->getOption('multiple', false);
+
+        Arr::forget($this->options, ['attr.multiple']);
+
+        if (!$expanded && $multiple) {
+            $this->setOption('attr.multiple', true);
+        }
+
+        if ($this->getOption('attr.multiple') && !$this->getOption('tmp.multipleBracesSet')) {
+            $this->name = $this->name . '[]';
+            $this->setOption('tmp.multipleBracesSet', true);
+        }
+
+        if (!$this->getOption('attr.multiple') && $this->getOption('tmp.multipleBracesSet')) {
+            $this->name = preg_replace('/\[\]$/u', '', $this->name);
+            $this->setOption('tmp.multipleBracesSet', false);
+        }
+
+        return $this->options;
+    }
+
+    /**
      * Determine which choice type to use.
      *
      * @return string
      */
     protected function determineChoiceField()
     {
-        $expanded = $this->options['expanded'];
-        $multiple = $this->options['multiple'];
+        $expanded = $this->getOption('expanded', false);
+        $multiple = $this->getOption('multiple', false);
 
-        if (!$expanded && $multiple) {
-            $this->options['attr']['multiple'] = true;
-        }
-
-        if ($expanded && !$multiple) {
-            return $this->choiceType = 'radio';
-        }
-
-        if ($expanded && $multiple) {
-            return $this->choiceType = 'checkbox';
+        if ($expanded) {
+            return $this->choiceType = $multiple ? 'checkbox' : 'radio';
         }
 
         return $this->choiceType = 'select';
@@ -76,7 +97,7 @@ class ChoiceType extends ParentType
         if (($data_override = $this->getOption('data_override')) && $data_override instanceof \Closure) {
             $this->options['choices'] = $data_override($this->options['choices'], $this);
         }
-        
+
         $this->children = [];
         $this->determineChoiceField();
 
@@ -104,7 +125,7 @@ class ChoiceType extends ParentType
     {
         $multiple = $this->getOption('multiple') ? '[]' : '';
 
-        $attr = $this->options['attr']?? [];
+        $attr = $this->options['attr'] ?? [];
         $attr = Arr::except($attr, ['class', 'multiple', 'id', 'name']);
         foreach ((array)$this->options['choices'] as $key => $choice) {
             $id = str_replace('.', '_', $this->getNameKey()) . '_' . $key;
