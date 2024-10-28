@@ -5,11 +5,15 @@ namespace Kris\LaravelFormBuilder\Fields;
 use Illuminate\Support\Arr;
 use Kris\LaravelFormBuilder\Form;
 
+/**
+ * @template TChildType of FormField
+ */
 abstract class ParentType extends FormField
 {
 
     /**
      * @var FormField[]
+     * @phpstan-var TChildType[]
      */
     protected $children;
 
@@ -64,6 +68,7 @@ abstract class ParentType extends FormField
      * Get all children of the choice field.
      *
      * @return mixed
+     * @phpstan-return TChildType[]
      */
     public function getChildren()
     {
@@ -74,6 +79,7 @@ abstract class ParentType extends FormField
      * Get a child of the choice field.
      *
      * @return mixed
+     * @phpstan-return ?TChildType
      */
     public function getChild($key)
     {
@@ -145,6 +151,7 @@ abstract class ParentType extends FormField
      *
      * @param string $name
      * @return FormField
+     * @phpstan-return TChildType
      */
     public function __get($name)
     {

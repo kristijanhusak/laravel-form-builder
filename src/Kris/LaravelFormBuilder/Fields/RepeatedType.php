@@ -4,6 +4,9 @@ namespace Kris\LaravelFormBuilder\Fields;
 
 use Illuminate\Support\Arr;
 
+/**
+ * @extends ParentType<FormField>
+ */
 class RepeatedType extends ParentType
 {
 

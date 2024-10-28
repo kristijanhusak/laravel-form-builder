@@ -1,0 +1,5 @@
+services:
+    -
+        class: Kris\LaravelFormBuilder\PhpStan\FormGetFieldExtension
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
