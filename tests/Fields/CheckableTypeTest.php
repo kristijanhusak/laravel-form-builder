@@ -21,7 +21,7 @@ class CheckableTypeTest extends FormBuilderTestCase
 
         $expectedOptions = $this->getDefaults(
             [
-                'class' => null,
+                'class' => 'custom-checkbox-field-class',
                 'required' => 'required',
                 'id' => 'test',
             ],

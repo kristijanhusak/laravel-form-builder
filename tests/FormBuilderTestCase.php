@@ -199,7 +199,10 @@ abstract class FormBuilderTestCase extends TestCase {
         $this->validatorFactory = $this->app['validator'];
         $this->eventDispatcher = $this->app['events'];
         $this->model = new TestModel();
-        $this->config = include __DIR__.'/../src/config/config.php';
+
+        $config = include __DIR__.'/../src/config/config.php';
+        $config['defaults']['checkbox']['field_class'] = 'custom-checkbox-field-class';
+        $this->config = $config;
 
         $this->formHelper = new FormHelper($this->view, $this->translator, $this->config);
         $this->formBuilder = new FormBuilder($this->app, $this->formHelper, $this->eventDispatcher);
