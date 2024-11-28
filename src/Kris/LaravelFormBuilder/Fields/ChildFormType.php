@@ -4,11 +4,17 @@ namespace Kris\LaravelFormBuilder\Fields;
 
 use Kris\LaravelFormBuilder\Form;
 
+/**
+ * @template TFormType of Form
+ *
+ * @extends ParentType<FormField>
+ */
 class ChildFormType extends ParentType
 {
 
     /**
      * @var Form
+     * @phpstan-var TFormType
      */
     protected $form;
 
@@ -22,6 +28,7 @@ class ChildFormType extends ParentType
 
     /**
      * @return Form
+     * @phpstan-return TFormType
      */
     public function getForm()
     {
@@ -96,6 +103,7 @@ class ChildFormType extends ParentType
 
     /**
      * @return Form
+     * @phpstan-return TFormType
      * @throws \Exception
      */
     protected function getClassFromOptions()
@@ -116,7 +124,7 @@ class ChildFormType extends ParentType
             $options = [
                 'model' => $this->getOption($this->valueProperty) ?: $this->parent->getModel(),
                 'name' => $this->name,
-                'language_name' => $this->parent->getLanguageName(),
+                'language_name' => $this->getOption('language_name') ?: $this->parent->getLanguageName(),
                 'translation_template' => $this->parent->getTranslationTemplate(),
             ];
 

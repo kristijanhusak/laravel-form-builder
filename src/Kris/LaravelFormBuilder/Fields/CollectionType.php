@@ -5,12 +5,18 @@ namespace Kris\LaravelFormBuilder\Fields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
+/**
+ * @template TType of FormField
+ *
+ * @extends ParentType<TType>
+ */
 class CollectionType extends ParentType
 {
     /**
      * Contains template for a collection element.
      *
      * @var FormField
+     * @phpstan-var TType
      */
     protected $proto;
 
@@ -49,6 +55,7 @@ class CollectionType extends ParentType
      * Get the prototype object.
      *
      * @return FormField
+     * @phpstan-return TType
      * @throws \Exception
      */
     public function prototype()
@@ -237,6 +244,10 @@ class CollectionType extends ParentType
             ['attr' => array_merge(['id' => $newFieldName], $this->getOption('attr'))]
         );
 
+        if (isset($firstFieldOptions['label'])) {
+            $firstFieldOptions['label'] = value($firstFieldOptions['label'], $value, $field);
+        }
+
         $field->setName($newFieldName);
         $field->setOptions($firstFieldOptions);
 
@@ -248,7 +259,6 @@ class CollectionType extends ParentType
         }
 
         $field->setValue($value);
-
 
         return $field;
     }

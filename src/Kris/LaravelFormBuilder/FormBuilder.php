@@ -56,10 +56,11 @@ class FormBuilder
     /**
      * Create a Form instance.
      *
-     * @param string $formClass The name of the class that inherits \Kris\LaravelFormBuilder\Form.
-     * @param array $options|null
-     * @param array $data|null
-     * @return Form
+     * @template T
+     * @param class-string<T> $formClass
+     * @param array<string, mixed> $options
+     * @param array<string, mixed> $data
+     * @return T
      */
     public function create($formClass, array $options = [], array $data = [])
     {
