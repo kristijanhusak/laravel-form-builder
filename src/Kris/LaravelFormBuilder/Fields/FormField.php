@@ -675,7 +675,7 @@ abstract class FormField
         // Get default defaults from config (eg. defaults.field_class)
         $this->options = $this->formHelper->mergeOptions($this->allDefaults(), $this->getDefaults());
 
-        // Maybe overwrite with field type defaults from config (eg. defaults, checkbox, field_class)
+        // Maybe overwrite with field type defaults from config (eg. defaults.checkbox.field_class)
         $defaults = $this->setDefaultClasses($options);
         $this->options = $this->formHelper->mergeOptions($this->options, $defaults);
 
