@@ -1230,8 +1230,8 @@ class FormTest extends FormBuilderTestCase
         $this->assertStringContainsString('<option value="zh" disabled="disabled">', $formView);
         $this->assertStringNotContainsString('<option value="en" disabled="disabled">', $formView);
         $this->assertStringNotContainsString('<option value="fr" disabled="disabled">', $formView);
-        $this->assertStringContainsString('<input id="languages_choice_checkbox_zh" disabled="disabled" name="languages_choice_checkbox[]" type="checkbox" value="zh">', $formView);
-        $this->assertStringNotContainsString('<input id="languages_choice_checkbox_en" disabled="disabled" name="languages_choice_checkbox[]" type="checkbox" value="en">', $formView);
+        $this->assertStringContainsString('<input class="custom-checkbox-field-class" id="languages_choice_checkbox_zh" disabled="disabled" name="languages_choice_checkbox[]" type="checkbox" value="zh">', $formView);
+        $this->assertStringNotContainsString('<input class="custom-checkbox-field-class" id="languages_choice_checkbox_en" disabled="disabled" name="languages_choice_checkbox[]" type="checkbox" value="en">', $formView);
         $this->assertStringContainsString('<input id="languages_choice_radio_zh" disabled="disabled" name="languages_choice_radio" type="radio" value="zh">', $formView);
         $this->assertStringNotContainsString('<input id="languages_choice_radio_en" disabled="disabled" name="languages_choice_radio" type="radio" value="en">', $formView);
     }

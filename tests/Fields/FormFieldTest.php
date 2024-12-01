@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Http\Request;
-use Kris\LaravelFormBuilder\FormHelper;
+use Kris\LaravelFormBuilder\Fields\CheckableType;
 use Kris\LaravelFormBuilder\Fields\InputType;
+use Kris\LaravelFormBuilder\FormHelper;
 
 class FormFieldTest extends FormBuilderTestCase
 {
@@ -117,13 +118,33 @@ class FormFieldTest extends FormBuilderTestCase
         $text = new InputType('field_name', 'text', $this->plainForm, $options);
         $renderResult = $text->render();
 
-        $this->assertMatchesRegularExpression('/appended/', $text->getOption('attr.class'));
+        $this->assertMatchesRegularExpression('/\bappended\b/', $text->getOption('attr.class'));
 
         $defaultClasses = $this->config['defaults']['field_class'];
         $this->assertEquals('form-control appended', $text->getOption('attr.class'));
 
         $this->assertStringContainsString($defaultClasses, $text->getOption('attr.class'));
         $this->assertStringNotContainsString('class_append', $renderResult);
+    }
+
+    /** @test */
+    public function it_appends_to_the_class_attribute_of_a_custom_classes_checkbox_field()
+    {
+        $options = [
+            'attr' => [
+                'class_append' => 'appended',
+            ],
+        ];
+
+        $text = new CheckableType('field_name', 'checkbox', $this->plainForm, $options);
+        $renderResult = $text->render();
+
+        $this->assertMatchesRegularExpression('/\bappended\b/', $text->getOption('attr.class'));
+
+        $this->assertEquals('custom-checkbox-field-class appended', $text->getOption('attr.class'));
+
+        $defaultClasses = $this->config['defaults']['field_class'];
+        $this->assertStringNotContainsString($defaultClasses, $text->getOption('attr.class'));
     }
 
     /** @test */
@@ -138,7 +159,7 @@ class FormFieldTest extends FormBuilderTestCase
         $text = new InputType('field_name', 'text', $this->plainForm, $options);
         $renderResult = $text->render();
 
-        $this->assertMatchesRegularExpression('/appended/', $text->getOption('label_attr.class'));
+        $this->assertMatchesRegularExpression('/\bappended\b/', $text->getOption('label_attr.class'));
 
         $defaultClasses = $this->config['defaults']['label_class'];
         $this->assertEquals('control-label appended', $text->getOption('label_attr.class'));
@@ -159,7 +180,7 @@ class FormFieldTest extends FormBuilderTestCase
         $text = new InputType('field_name', 'text', $this->plainForm, $options);
         $renderResult = $text->render();
 
-        $this->assertMatchesRegularExpression('/appended/', $text->getOption('wrapper.class'));
+        $this->assertMatchesRegularExpression('/\bappended\b/', $text->getOption('wrapper.class'));
 
         $defaultClasses = $this->config['defaults']['wrapper_class'];
         $this->assertEquals('form-group appended', $text->getOption('wrapper.class'));

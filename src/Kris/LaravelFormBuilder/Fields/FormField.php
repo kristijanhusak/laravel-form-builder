@@ -406,7 +406,7 @@ abstract class FormField
      *
      * @param array $first first set of rules
      * @param array $second second set of rules
-     * @return array merged set of rules without duplicates 
+     * @return array merged set of rules without duplicates
      */
     protected function mergeRules($first, $second)
     {
@@ -672,11 +672,15 @@ abstract class FormField
      */
     protected function setDefaultOptions(array $options = [])
     {
+        // Get default defaults from config (eg. defaults.field_class)
         $this->options = $this->formHelper->mergeOptions($this->allDefaults(), $this->getDefaults());
-        $this->options = $this->prepareOptions($options);
 
+        // Maybe overwrite with field type defaults from config (eg. defaults.checkbox.field_class)
         $defaults = $this->setDefaultClasses($options);
         $this->options = $this->formHelper->mergeOptions($this->options, $defaults);
+
+        // Add specific field classes (eg. attr.class_append)
+        $this->options = $this->prepareOptions($options);
 
         $this->setupLabel();
     }
