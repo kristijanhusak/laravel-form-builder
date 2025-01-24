@@ -8,7 +8,7 @@
     processIsolation="false"
     stopOnFailure="false"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
 >
     <testsuites>
         <testsuite name="Package Test Suite">
@@ -19,7 +19,7 @@
             <exclude>./tests/FormBuilderTestCase.php</exclude>
         </testsuite>
     </testsuites>
-    <coverage>
+    <source>
         <include>
             <directory>./src/Kris</directory>
         </include>
@@ -29,5 +29,5 @@
             <file>./src/Kris/LaravelFormBuilder/Console/FormMakeCommand.php</file>
             <file>./src/Kris/LaravelFormBuilder/FormBuilderTrait.php</file>
         </exclude>
-    </coverage>
+    </source>
 </phpunit>
