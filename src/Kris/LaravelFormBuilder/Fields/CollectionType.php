@@ -3,6 +3,7 @@
 namespace Kris\LaravelFormBuilder\Fields;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 
 /**
@@ -185,7 +186,34 @@ class CollectionType extends ParentType
 
     protected function makeNewEmptyModel()
     {
-        return value($this->getOption('empty_model'));
+        if ($empty = $this->getOption('empty_model')) {
+            return value($empty);
+        }
+
+        $parent = $this->getParent()->getModel();
+        if ($parent instanceof Model) {
+            if (method_exists($parent, $this->name)) {
+                $relation = call_user_func([$parent, $this->name]);
+                if ($relation instanceof Relation) {
+                    $model = $relation->getRelated()->newInstance()->setAttribute(
+                        $relation->getForeignKeyName(),
+                        $parent->{$relation->getLocalKeyName()}
+                    );
+                    return $model;
+                }
+            }
+        }
+
+        if (($data = $this->getOption('data')) && count($data)) {
+            foreach ($data as $model) {
+                if ($model instanceof Model) {
+                    return new $model;
+                }
+                break;
+            }
+        }
+
+        return null;
     }
 
     protected function formatInputIntoModels(array $input, array $originalData = [])
