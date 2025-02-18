@@ -1,4 +1,4 @@
-name: "Run unit tests"
+name: Run unit tests
 
 on:
   - push
@@ -9,17 +9,21 @@ env:
 
 jobs:
   test:
-    name: "Lara ${{ matrix.laravel }} PHP ${{ matrix.php }} Unit ${{ matrix.phpunit }}"
+    name: Lara ${{ matrix.laravel }} PHP ${{ matrix.php }} Unit ${{ matrix.phpunit }}
+
     runs-on: ubuntu-latest
+
     strategy:
-      max-parallel: 6 # 12
+      max-parallel: 6
       fail-fast: false
       matrix:
-        laravel: [10, 11]
+        laravel: [10, 11, '12']
         php: ['8.2', '8.3', '8.4']
-        phpunit: [10]
+        phpunit: ['8.2', '8.3', '8.4', 10]
         exclude:
-          - {laravel: 10, php: '8.4'}
+          - laravel: 10
+            php: '8.4'
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -52,9 +56,3 @@ jobs:
 
       - name: Run unit tests
         run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-
-      # - name: Upload to Scrutinizer
-      #   continue-on-error: true
-      #   run: |
-      #     composer global require scrutinizer/ocular
-      #     ~/.composer/vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
