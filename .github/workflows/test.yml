@@ -15,7 +15,7 @@ jobs:
       max-parallel: 6 # 12
       fail-fast: false
       matrix:
-        laravel: [10, 11]
+        laravel: [10, 11, 12]
         php: ['8.2', '8.3', '8.4']
         phpunit: [10]
         exclude:
