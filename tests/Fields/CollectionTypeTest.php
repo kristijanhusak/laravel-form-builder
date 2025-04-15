@@ -110,6 +110,30 @@ namespace {
         }
 
         /** @test */
+        public function it_can_assign_dynamic_classes_to_child_forms()
+        {
+            $items = new \Illuminate\Support\Collection([
+                (new DummyEloquentModel2())->forceFill(['id' => 1, 'foo' => 'a']),
+                (new DummyEloquentModel2())->forceFill(['id' => 2, 'foo' => 'b']),
+                (new DummyEloquentModel2())->forceFill(['id' => 3, 'foo' => 'c']),
+            ]);
+
+            $model = (new DummyEloquentModel())->forceFill(['id' => 11]);
+            $model->setRelation('items', $items);
+
+            $form = $this->formBuilder->create('LaravelFormBuilderCollectionTypeTest\Forms\WithDynamicAttributesFormCollectionForm', [
+                'model' => $model,
+            ]);
+
+            $html = $form->renderForm();
+
+            $timesAlwaysClass = count(explode('always-class', $html)) - 1;
+            $timesOnceClass = count(explode('once-class', $html)) - 1;
+            $this->assertEquals(3, $timesAlwaysClass);
+            $this->assertEquals(1, $timesOnceClass);
+        }
+
+        /** @test */
         public function it_creates_collection_with_child_form_with_correct_model()
         {
             $model = new DummyEloquentModel();
@@ -387,6 +411,30 @@ namespace LaravelFormBuilderCollectionTypeTest\Forms {
                 },
                 'options' => [
                     'class' => NamespacedDummyFormCollectionChildForm::class,
+                ],
+            ]);
+        }
+    }
+
+    class WithDynamicAttributesFormCollectionForm extends Form
+    {
+        function buildForm()
+        {
+            $this->add('items', 'collection', [
+                'type' => 'form',
+                'prototype' => false,
+                'empty_row' => false,
+                'options' => [
+                    'class' => NamespacedDummyFormCollectionChildForm::class,
+                    'wrapper' => [
+                        'class' => function(\Kris\LaravelFormBuilder\Fields\FormField $field) {
+                            $form = $field->getForm();
+                            $model = $form ? $form->getModel() : null;
+                            $id = $model ? $model->id : 0;
+                            $onceClass = $id == 2 ? 'once-class' : '';
+                            return "always-class $onceClass";
+                        },
+                    ],
                 ],
             ]);
         }
