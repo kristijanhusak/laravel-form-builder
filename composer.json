@@ -10,13 +10,13 @@
         }
     ],
     "require": {
-        "php": "^8.0",
+        "php": "^8.2",
         "rdx/laravelcollective-html": "^6",
-        "illuminate/database": "^10 || ^11 || ^12",
-        "illuminate/validation": "^10 || ^11 || ^12"
+        "illuminate/database": "^12 || ^13",
+        "illuminate/validation": "^12 || ^13"
     },
     "require-dev": {
-        "orchestra/testbench": "^8 || ^9 || ^10",
+        "orchestra/testbench": "^10 || ^11",
         "phpunit/phpunit": "^10.0 || ^11.0"
     },
     "extra": {
