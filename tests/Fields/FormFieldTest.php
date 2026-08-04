@@ -413,7 +413,6 @@ class FormFieldTest extends FormBuilderTestCase
 
         $reflection = new \ReflectionClass($plainForm);
         $method = $reflection->getMethod($methodName);
-        $method->setAccessible(true);
 
         $this->assertTrue($method->invokeArgs($plainForm, []));
         $this->assertFalse($method->invokeArgs($modifiedForm, []));
@@ -430,8 +429,6 @@ class FormFieldTest extends FormBuilderTestCase
 
         $reflection = new \ReflectionClass($customPlainForm);
         $method = $reflection->getMethod($methodName);
-        $method->setAccessible(true);
-
 
         $this->assertTrue($method->invokeArgs($customPlainForm, []));
     }
