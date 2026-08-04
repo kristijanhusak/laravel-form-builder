@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Kris\LaravelFormBuilder\Fields\CheckableType;
 use Kris\LaravelFormBuilder\Fields\InputType;
 use Kris\LaravelFormBuilder\FormHelper;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\Test;
 
 class FormFieldTest extends FormBuilderTestCase
@@ -21,6 +22,7 @@ class FormFieldTest extends FormBuilderTestCase
     }
 
     #[Test]
+    #[AllowMockObjectsWithoutExpectations]
     public function it_uses_the_template_prefix()
     {
         $viewStub = $this->getViewFactoryMock();

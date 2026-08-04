@@ -7,6 +7,7 @@ use Kris\LaravelFormBuilder\Fields\InputType;
 use Kris\LaravelFormBuilder\Form;
 use Kris\LaravelFormBuilder\FormHelper;
 use Kris\LaravelFormBuilder\FormBuilder;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\Test;
 
 class FormTest extends FormBuilderTestCase
@@ -1094,6 +1095,7 @@ class FormTest extends FormBuilderTestCase
     }
 
     #[Test]
+    #[AllowMockObjectsWithoutExpectations]
     public function it_uses_the_template_prefix()
     {
         $viewStub = $this->getViewFactoryMock();
