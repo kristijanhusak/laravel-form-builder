@@ -2,6 +2,8 @@
 
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Validation\Factory;
+use Illuminate\Contracts\View\Factory as ViewFactoryContract;
+use Illuminate\Contracts\View\View as ViewContract;
 use Illuminate\Database\Eloquent\Model;
 use Kris\LaravelFormBuilder\Filters\FilterResolver;
 use Kris\LaravelFormBuilder\Form;
@@ -214,6 +216,8 @@ abstract class FormBuilderTestCase extends TestCase {
 
     public function tearDown(): void
     {
+        parent::tearDown();
+
         $this->view = null;
         $this->request = null;
         $this->container = null;
@@ -276,13 +280,12 @@ abstract class FormBuilderTestCase extends TestCase {
 
     protected function getViewFactoryMock()
     {
-        $mock = $this->getMockBuilder('Illuminate\View\Factory')
-            ->onlyMethods(['make'])
-            ->addMethods(['with', 'render'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $mock->method('make')->willReturn($mock);
-        $mock->method('with')->willReturn($mock);
-        return $mock;
+        $view = $this->createMock(ViewContract::class);
+        $view->method('with')->willReturnSelf();
+
+        $factory = $this->createMock(ViewFactoryContract::class);
+        $factory->method('make')->willReturn($view);
+
+        return $factory;
     }
 }
