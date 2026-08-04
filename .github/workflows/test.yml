@@ -3,7 +3,6 @@ name: "Run unit tests"
 on:
   - push
   - pull_request
-  - workflow_dispatch
 
 env:
   COMPOSER_MEMORY_LIMIT: -1
