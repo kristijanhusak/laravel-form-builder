@@ -8,12 +8,13 @@ namespace {
     use Kris\LaravelFormBuilder\Form;
     use Illuminate\Foundation\Testing\Concerns\InteractsWithSession;
     use Illuminate\Database\Eloquent\Model;
+    use PHPUnit\Framework\Attributes\Test;
 
     class CollectionTypeTest extends FormBuilderTestCase
     {
         use InteractsWithSession;
 
-        /** @test */
+        #[Test]
         public function it_creates_collection()
         {
             $options = [
@@ -31,7 +32,7 @@ namespace {
             $this->assertInstanceOf('Kris\LaravelFormBuilder\Fields\SelectType', $emailsCollection->prototype());
         }
 
-        /** @test */
+        #[Test]
         public function it_creates_collection_with_empty_row()
         {
             $options = [
@@ -43,7 +44,7 @@ namespace {
             $this->assertEquals(1, count($emailsCollection->getChildren()));
         }
 
-        /** @test */
+        #[Test]
         public function it_creates_collection_without_empty_row()
         {
             $options = [
@@ -56,7 +57,7 @@ namespace {
             $this->assertEquals(0, count($emailsCollection->getChildren()));
         }
 
-        /** @test */
+        #[Test]
         public function it_uses_old_input_if_available()
         {
             $options = [
@@ -78,7 +79,7 @@ namespace {
             $this->assertInstanceOf('Kris\LaravelFormBuilder\Fields\SelectType', $emailsCollection->prototype());
         }
 
-        /** @test */
+        #[Test]
         public function it_creates_collection_with_child_form()
         {
             $form = clone $this->plainForm;
@@ -109,7 +110,7 @@ namespace {
             $this->assertEquals(2, count($childFormCollection->getChildren()));
         }
 
-        /** @test */
+        #[Test]
         public function it_creates_collection_with_child_form_with_correct_model()
         {
             $model = new DummyEloquentModel();
@@ -139,7 +140,7 @@ namespace {
             }
         }
 
-        /** @test */
+        #[Test]
         public function it_creates_collection_with_child_form_with_correct_model_properties()
         {
             $items = new \Illuminate\Support\Collection([
@@ -158,9 +159,7 @@ namespace {
             $this->assertEquals($items, $collectionValue);
         }
 
-        /**
-         * @test
-         */
+        #[Test]
         public function it_throws_exception_when_requesting_prototype_while_it_is_disabled()
         {
             $this->expectException(\Exception::class);
@@ -177,9 +176,7 @@ namespace {
             $childFormCollection->prototype();
         }
 
-        /**
-         * @test
-         */
+        #[Test]
         public function it_throws_exception_when_creating_nonexisting_type()
         {
             $this->expectException(\Exception::class);
@@ -191,9 +188,7 @@ namespace {
             $childFormCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
         }
 
-        /**
-         * @test
-         */
+        #[Test]
         public function it_throws_exception_when_data_is_not_iterable()
         {
             $this->expectException(\Throwable::class);
@@ -207,9 +202,7 @@ namespace {
             $childFormCollection = new CollectionType('emails', 'collection', $this->plainForm, $options);
         }
 
-        /**
-         * @test
-         */
+        #[Test]
         public function it_sets_up_prototype_with_empty_values()
         {
             $form = $this->formBuilder->plain([
@@ -230,7 +223,7 @@ namespace {
             );
         }
 
-        /** @test */
+        #[Test]
         public function it_uses_empty_model_for_empty_row_child_form()
         {
             $items = new \Illuminate\Support\Collection([]);
@@ -247,7 +240,7 @@ namespace {
             $this->assertInstanceOf(DummyEloquentModel2::class, $itemsChildren[0]->getForm()->getModel());
         }
 
-        /** @test */
+        #[Test]
         public function it_uses_empty_model_for_proto_child_forms()
         {
             $items = new \Illuminate\Support\Collection([
@@ -267,7 +260,7 @@ namespace {
             $this->assertTrue($protoModel->_custom);
         }
 
-        /** @test */
+        #[Test]
         public function it_uses_empty_model_for_new_collection_children_after_validation_error()
         {
             $items = new \Illuminate\Support\Collection([
@@ -297,7 +290,7 @@ namespace {
             }
         }
 
-        /** @test */
+        #[Test]
         public function it_disables()
         {
             $options = [
@@ -321,7 +314,7 @@ namespace {
             }
         }
         
-        /** @test */
+        #[Test]
         public function it_enables()
         {
             $options = [

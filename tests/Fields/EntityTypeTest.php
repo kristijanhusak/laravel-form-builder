@@ -2,10 +2,11 @@
 
 use Kris\LaravelFormBuilder\Fields\EntityType;
 use Kris\LaravelFormBuilder\Form;
+use PHPUnit\Framework\Attributes\Test;
 
 class EntityTypeTest extends FormBuilderTestCase
 {
-    /** @test */
+    #[Test]
     public function it_uses_default_choices_for_entity_type()
     {
         $choices = ['yes' => 'Yes', 'no' => 'No'];
@@ -23,7 +24,7 @@ class EntityTypeTest extends FormBuilderTestCase
         $this->assertEquals('yes', $choice->getOption('selected'));
     }
 
-    /** @test */
+    #[Test]
     public function it_uses_passed_class_model_to_fetch_all()
     {
         $mdl = new DummyModel();
@@ -43,9 +44,7 @@ class EntityTypeTest extends FormBuilderTestCase
         $this->assertEquals($expected, $choice->getOption('choices'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_throws_an_exception_if_model_class_not_provided()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -55,7 +54,7 @@ class EntityTypeTest extends FormBuilderTestCase
         $choice = new EntityType('entity_choice', 'entity', $this->plainForm, $options);
     }
 
-    /** @test */
+    #[Test]
     public function it_uses_query_builder_to_filter_choices()
     {
         $mdl = new DummyModel();
@@ -80,7 +79,7 @@ class EntityTypeTest extends FormBuilderTestCase
         $this->assertEquals($expected, $choice->getOption('choices'));
     }
 
-    /** @test */
+    #[Test]
     public function options_are_passed_to_the_children()
     {
         $mdl = new DummyModel();
@@ -101,7 +100,7 @@ class EntityTypeTest extends FormBuilderTestCase
             $this->assertXmlStringEqualsXmlString(trim($field), $expectedField);
         }
 
-    /** @test */
+    #[Test]
     public function it_disables()
     {
         $choices = ['yes' => 'Yes', 'no' => 'No'];
@@ -129,7 +128,7 @@ class EntityTypeTest extends FormBuilderTestCase
         }
     }
     
-    /** @test */
+    #[Test]
     public function it_enables()
     {
         $choices = ['yes' => 'Yes', 'no' => 'No'];

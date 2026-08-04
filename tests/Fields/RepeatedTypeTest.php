@@ -1,10 +1,11 @@
 <?php
 
 use Kris\LaravelFormBuilder\Fields\RepeatedType;
+use PHPUnit\Framework\Attributes\Test;
 
 class RepeatedTypeTest extends FormBuilderTestCase
 {
-    /** @test */
+    #[Test]
     public function it_creates_repeated_as_two_inputs()
     {
         $repeatedForm = $this->formBuilder->plain();
@@ -20,7 +21,7 @@ class RepeatedTypeTest extends FormBuilderTestCase
         $this->assertNull($repeated->third);
     }
 
-    /** @test */
+    #[Test]
     public function it_checks_if_field_rendered_by_children()
     {
         $repeated = new RepeatedType('password', 'repeated', $this->plainForm, [
@@ -36,7 +37,7 @@ class RepeatedTypeTest extends FormBuilderTestCase
         $this->assertTrue($this->plainForm->getFormOption('files'));
     }
 
-    /** @test */
+    #[Test]
     public function handles_validation_rules_properly()
     {
         // has no other rules

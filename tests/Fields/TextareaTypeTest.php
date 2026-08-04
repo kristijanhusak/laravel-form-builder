@@ -1,10 +1,11 @@
 <?php
 
 use Kris\LaravelFormBuilder\Fields\TextareaType;
+use PHPUnit\Framework\Attributes\Test;
 
 class TextareaTypeTest extends FormBuilderTestCase
 {
-    /** @test */
+    #[Test]
     public function it_creates_txetarea_field(): void
     {
         $options = [
@@ -35,7 +36,7 @@ class TextareaTypeTest extends FormBuilderTestCase
         $this->assertEquals($expectedOptions, $textarea->getOptions());
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_default_values(): void
     {
         $options = [
@@ -47,7 +48,7 @@ class TextareaTypeTest extends FormBuilderTestCase
         $this->assertEquals('default text', $textarea->getOption('value'));
     }
 
-    /** @test */
+    #[Test]
     public function model_value_overrides_default_value(): void
     {
         $options = [
@@ -59,7 +60,7 @@ class TextareaTypeTest extends FormBuilderTestCase
         $this->assertEquals( 'override text', $textarea->getValue());
     }
 
-    /** @test */
+    #[Test]
     public function explicit_value_overrides_default_values(): void
     {
         $options = [

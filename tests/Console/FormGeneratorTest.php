@@ -1,6 +1,7 @@
 <?php
 
 use Kris\LaravelFormBuilder\Console\FormGenerator;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class FormGeneratorTest extends TestCase
@@ -16,7 +17,7 @@ class FormGeneratorTest extends TestCase
         $this->formGenerator = new FormGenerator();
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_comment_when_no_fields_passed()
     {
         $parsedFields = $this->formGenerator->getFieldsVariable();
@@ -24,7 +25,7 @@ class FormGeneratorTest extends TestCase
         $this->assertEquals('// Add fields here...', $parsedFields);
     }
 
-    /** @test */
+    #[Test]
     public function it_parses_fields_from_options_to_methods()
     {
         $fields = 'first_name:text, last_name:text, user_email:email, user_password:password';
@@ -42,7 +43,7 @@ class FormGeneratorTest extends TestCase
         $this->assertSame($expected, $parsedFields);
     }
 
-    /** @test */
+    #[Test]
     public function it_gets_class_info_for_given_full_class_name()
     {
         // Parsed in this format from Laravels GeneratorCommand

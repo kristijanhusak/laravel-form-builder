@@ -1,10 +1,11 @@
 <?php
 
 use Kris\LaravelFormBuilder\Fields\SelectType;
+use PHPUnit\Framework\Attributes\Test;
 
 class SelectTypeTest extends FormBuilderTestCase
 {
-    /** @test */
+    #[Test]
     public function it_creates_select_field(): void
     {
         $choices = [

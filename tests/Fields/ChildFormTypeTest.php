@@ -4,10 +4,11 @@ use Kris\LaravelFormBuilder\Fields\ChoiceType;
 use Kris\LaravelFormBuilder\Fields\CollectionType;
 use Kris\LaravelFormBuilder\Fields\SelectType;
 use Kris\LaravelFormBuilder\Form;
+use PHPUnit\Framework\Attributes\Test;
 
 class ChildFormTypeTest extends FormBuilderTestCase
 {
-    /** @test */
+    #[Test]
     public function it_implicitly_inherits_language_name()
     {
         $plainParent = $this->formBuilder->plain(['language_name' => 'test_name']);
@@ -19,7 +20,7 @@ class ChildFormTypeTest extends FormBuilderTestCase
         $this->assertEquals('test_name', $plainChild->getLanguageName());
     }
 
-    /** @test */
+    #[Test]
     public function it_implicitly_inherits_translation_template()
     {
         $plainParent = $this->formBuilder->plain(['translation_template' => 'form.{name}.{type}']);
@@ -31,7 +32,7 @@ class ChildFormTypeTest extends FormBuilderTestCase
         $this->assertEquals('form.{name}.{type}', $plainChild->getTranslationTemplate());
     }
 
-    /** @test */
+    #[Test]
     public function it_does_not_overwrite_language_name()
     {
         $plainParent = $this->formBuilder->plain(['language_name' => 'test_name']);
@@ -43,7 +44,7 @@ class ChildFormTypeTest extends FormBuilderTestCase
         $this->assertEquals('test_name', $plainParent->getLanguageName());
     }
 
-    /** @test */
+    #[Test]
     public function it_does_not_overwrite_translation_template()
     {
         $plainParent = $this->formBuilder->plain(['translation_template' => 'test.{name}']);

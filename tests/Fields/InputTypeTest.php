@@ -3,10 +3,11 @@
 use Kris\LaravelFormBuilder\Fields\ButtonType;
 use Kris\LaravelFormBuilder\Fields\InputType;
 use Kris\LaravelFormBuilder\Form;
+use PHPUnit\Framework\Attributes\Test;
 
 class InputTypeTest extends FormBuilderTestCase
 {
-    /** @test */
+    #[Test]
     public function it_prevents_rendering_label_for_hidden_field()
     {
         $options = [
@@ -36,7 +37,7 @@ class InputTypeTest extends FormBuilderTestCase
     }
 
 
-    /** @test */
+    #[Test]
     public function it_handles_default_values()
     {
         $options = [
@@ -48,7 +49,7 @@ class InputTypeTest extends FormBuilderTestCase
         $this->assertEquals(100, $input->getOption('value'));
     }
 
-    /** @test */
+    #[Test]
     public function model_value_overrides_default_value()
     {
         $options = [
@@ -60,7 +61,7 @@ class InputTypeTest extends FormBuilderTestCase
         $this->assertEquals(5, $input->getValue());
     }
 
-    /** @test */
+    #[Test]
     public function explicit_value_overrides_default_values()
     {
         $options = [

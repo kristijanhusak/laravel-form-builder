@@ -4,6 +4,7 @@ namespace {
 
     use App\FormBuilderStuff\MyFormBuilder;
     use App\FormBuilderStuff\SomeService;
+    use PHPUnit\Framework\Attributes\Test;
 
     class FormBuilderServiceProviderTest extends FormBuilderTestCase
     {
@@ -15,7 +16,7 @@ namespace {
             $app['config']->set('laravel-form-builder.form_builder_class', MyFormBuilder::class);
         }
 
-        /** @test */
+        #[Test]
         public function it_dependency_injects()
         {
             // The right form builder class is used for the container form builder.
