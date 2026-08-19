@@ -2,17 +2,18 @@
 
 use Kris\LaravelFormBuilder\FormHelper;
 use Illuminate\Support\Collection;
+use PHPUnit\Framework\Attributes\Test;
 
 class FormHelperTest extends FormBuilderTestCase
 {
 
-    /** @test */
+    #[Test]
     public function it_sets_constructor_dependencies_to_properties()
     {
         $this->assertEquals($this->view, $this->formHelper->getView());
     }
 
-    /** @test */
+    #[Test]
     public function it_merges_options_properly()
     {
         $initial = [
@@ -37,7 +38,7 @@ class FormHelperTest extends FormBuilderTestCase
         $this->assertEquals($expected, $mergedOptions);
     }
 
-    /** @test */
+    #[Test]
     public function it_gets_proper_class_for_specific_field_type()
     {
         $input = $this->formHelper->getFieldType('text');
@@ -71,9 +72,7 @@ class FormHelperTest extends FormBuilderTestCase
         $this->assertEquals('Kris\\LaravelFormBuilder\\Fields\\InputType', $className);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_throws_InvalidArgumentException_for_non_existing_field_type()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -81,7 +80,7 @@ class FormHelperTest extends FormBuilderTestCase
         $this->formHelper->getFieldType('nonexisting');
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_html_attributes_from_array_of_options()
     {
         $options = ['class' => 'form-control', 'data-id' => 1, 'id' => 'post'];
@@ -94,7 +93,7 @@ class FormHelperTest extends FormBuilderTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_load_custom_field_types_from_config()
     {
         $config = $this->config;
@@ -109,7 +108,7 @@ class FormHelperTest extends FormBuilderTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_formats_the_label()
     {
         $this->assertEquals(
@@ -125,7 +124,7 @@ class FormHelperTest extends FormBuilderTestCase
         $this->assertNull($this->formHelper->formatLabel(false));
     }
 
-    /** @test */
+    #[Test]
     public function it_converts_model_to_array()
     {
         $data = ['m' => 'male', 'f' => 'female'];
@@ -141,9 +140,7 @@ class FormHelperTest extends FormBuilderTestCase
         $this->assertNull($this->formHelper->convertModelToArray([]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_throws_InvalidArgumentException_for_empty_field_name()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -151,9 +148,7 @@ class FormHelperTest extends FormBuilderTestCase
         $this->formHelper->checkFieldName('', get_class($this));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_throws_InvalidArgumentException_for_reserved_field_names()
     {
         $this->expectException(\InvalidArgumentException::class);

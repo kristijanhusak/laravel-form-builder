@@ -7,11 +7,12 @@ namespace {
     use Kris\LaravelFormBuilder\Form;
     use Kris\LaravelFormBuilder\FormBuilder;
     use Kris\LaravelFormBuilder\FormHelper;
+    use PHPUnit\Framework\Attributes\Test;
 
     class FormBuilderTest extends FormBuilderTestCase
     {
 
-        /** @test */
+        #[Test]
         public function it_creates_plain_form_and_sets_options_on_it()
         {
             $options = [
@@ -28,7 +29,7 @@ namespace {
             $this->assertNull($plainForm->buildForm());
         }
 
-        /** @test */
+        #[Test]
         public function it_creates_form_with_array_and_compares_it_with_created_form_by_class()
         {
             $form = $this->formBuilder->create(CustomDummyForm::class);
@@ -47,7 +48,7 @@ namespace {
             $this->assertEquals($form->getField('body')->getType(), $arrayForm->getField('body')->getType());
         }
 
-        /** @test */
+        #[Test]
         public function it_creates_custom_form_and_sets_options_on_it()
         {
             $options = [
@@ -67,7 +68,7 @@ namespace {
             $this->assertArrayHasKey('body', $customForm->getFields());
         }
 
-        /** @test */
+        #[Test]
         public function it_receives_creation_events()
         {
             $events = [];
@@ -102,9 +103,7 @@ namespace {
             );
         }
 
-        /**
-         * @test
-         */
+        #[Test]
         public function it_throws_exception_if_child_form_is_not_valid_class()
         {
             $this->expectException(\InvalidArgumentException::class);
@@ -113,9 +112,7 @@ namespace {
             ]);
         }
 
-        /**
-         * @test
-         */
+        #[Test]
         public function it_throws_exception_if_child_form_class_is_not_passed()
         {
             $this->expectException(\InvalidArgumentException::class);
@@ -125,9 +122,7 @@ namespace {
             ]);
         }
 
-        /**
-         * @test
-         */
+        #[Test]
         public function it_throws_exception_if_child_form_class_is_not_valid_format()
         {
             $this->expectException(\InvalidArgumentException::class);
@@ -137,7 +132,7 @@ namespace {
             ]);
         }
 
-        /** @test */
+        #[Test]
         public function it_can_set_form_helper_once_and_call_build_form()
         {
             $form = $this->formBuilder->create('CustomDummyForm');
@@ -148,7 +143,7 @@ namespace {
             $this->assertArrayHasKey('body', $form->getFields());
         }
 
-        /** @test */
+        #[Test]
         public function it_appends_default_namespace_from_config_on_building()
         {
             $form =  new LaravelFormBuilderTest\Forms\NamespacedDummyForm();

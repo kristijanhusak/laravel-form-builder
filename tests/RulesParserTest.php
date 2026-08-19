@@ -1,6 +1,7 @@
 <?php
 
 use Kris\LaravelFormBuilder\Fields\InputType;
+use PHPUnit\Framework\Attributes\Test;
 
 class RulesParserTest extends FormBuilderTestCase
 {
@@ -16,7 +17,7 @@ class RulesParserTest extends FormBuilderTestCase
         $this->parser = $this->formHelper->createRulesParser($field);
     }
 
-    /** @test */
+    #[Test]
     public function it_parses_the_several_rules_from_string()
     {
         $validAttrs = [
@@ -29,7 +30,7 @@ class RulesParserTest extends FormBuilderTestCase
         $this->assertEquals($validAttrs , $this->parser->parse('required|min:5|alpha_num'));
     }
 
-    /** @test */
+    #[Test]
     public function it_parses_the_required_rule()
     {
         $this->assertEquals(
@@ -38,7 +39,7 @@ class RulesParserTest extends FormBuilderTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_parses_the_accepted_rule()
     {
         $this->assertEquals(
@@ -47,7 +48,7 @@ class RulesParserTest extends FormBuilderTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_parses_the_alpha_rule()
     {
         $this->assertEquals(

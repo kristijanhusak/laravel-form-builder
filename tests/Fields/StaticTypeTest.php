@@ -2,11 +2,12 @@
 
 use Kris\LaravelFormBuilder\Fields\StaticType;
 use Kris\LaravelFormBuilder\Form;
+use PHPUnit\Framework\Attributes\Test;
 
 class StaticTypeTest extends FormBuilderTestCase
 {
 
-    /** @test */
+    #[Test]
     public function it_creates_static_field()
     {
         $options = [

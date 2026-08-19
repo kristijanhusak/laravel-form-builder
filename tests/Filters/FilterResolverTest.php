@@ -1,10 +1,11 @@
 <?php
 
 use \Kris\LaravelFormBuilder\Filters\Collection\Trim;
+use PHPUnit\Framework\Attributes\Test;
 
 class FilterResolverTest extends FormBuilderTestCase
 {
-    /** @test */
+    #[Test]
     public function it_resolve_alias_based_filter()
     {
         $expected = \Kris\LaravelFormBuilder\Filters\FilterInterface::class;
@@ -14,7 +15,7 @@ class FilterResolverTest extends FormBuilderTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_resolve_object_based_filter()
     {
         $expected  = \Kris\LaravelFormBuilder\Filters\FilterInterface::class;
@@ -32,9 +33,7 @@ class FilterResolverTest extends FormBuilderTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_throws_an_exception_if_object_is_not_instance_of_filterinterface()
     {
         $this->expectException(\Kris\LaravelFormBuilder\Filters\Exception\InvalidInstanceException::class);
@@ -44,9 +43,7 @@ class FilterResolverTest extends FormBuilderTestCase
         $resolver::instance($invalidFilterObj);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_throws_an_exception_if_filter_cant_be_resolved()
     {
         $this->expectException(\Kris\LaravelFormBuilder\Filters\Exception\UnableToResolveFilterException::class);

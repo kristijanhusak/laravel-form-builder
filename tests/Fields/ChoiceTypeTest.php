@@ -1,10 +1,11 @@
 <?php
 
 use Kris\LaravelFormBuilder\Fields\ChoiceType;
+use PHPUnit\Framework\Attributes\Test;
 
 class ChoiceTypeTest extends FormBuilderTestCase
 {
-    /** @test */
+    #[Test]
     public function it_creates_choice_as_select()
     {
         $options = [
@@ -22,7 +23,7 @@ class ChoiceTypeTest extends FormBuilderTestCase
         $this->assertEquals('yes', $choice->getOption('selected'));
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_choice_as_checkbox_list()
     {
         $options = [
@@ -44,7 +45,7 @@ class ChoiceTypeTest extends FormBuilderTestCase
         $this->assertContainsOnlyInstancesOf('Kris\LaravelFormBuilder\Fields\CheckableType', $choice->getChildren());
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_choice_as_radio_buttons()
     {
         $options = [
@@ -70,7 +71,7 @@ class ChoiceTypeTest extends FormBuilderTestCase
         $this->assertContainsOnlyInstancesOf('Kris\LaravelFormBuilder\Fields\CheckableType', $choice->getChildren());
     }
 
-    /** @test */
+    #[Test]
     public function it_sets_proper_name_for_multiple()
     {
         $this->plainForm->add('users', 'select', [
@@ -85,7 +86,7 @@ class ChoiceTypeTest extends FormBuilderTestCase
         $this->assertEquals('users[]', $this->plainForm->users->getName());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_override_choices()
     {
         $options = [
@@ -107,7 +108,7 @@ class ChoiceTypeTest extends FormBuilderTestCase
         $this->assertEquals('test', $choice->getOption('selected'));
     }
 
-    /** @test */
+    #[Test]
     public function it_disables_select()
     {
         $options = [
@@ -135,7 +136,7 @@ class ChoiceTypeTest extends FormBuilderTestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_disables_checkbox_list()
     {
         $options = [
@@ -166,7 +167,7 @@ class ChoiceTypeTest extends FormBuilderTestCase
         }
     }
     
-    /** @test */
+    #[Test]
     public function it_disables_radios_list()
     {
         $options = [
@@ -196,7 +197,7 @@ class ChoiceTypeTest extends FormBuilderTestCase
         }
     }
     
-    /** @test */
+    #[Test]
     public function it_enables_select()
     {
         $options = [
@@ -225,7 +226,7 @@ class ChoiceTypeTest extends FormBuilderTestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_enables_checkbox_list()
     {
         $options = [
@@ -257,7 +258,7 @@ class ChoiceTypeTest extends FormBuilderTestCase
         }
     }
     
-    /** @test */
+    #[Test]
     public function it_enables_radios_list()
     {
         $options = [

@@ -1,10 +1,11 @@
 <?php
 
 use Kris\LaravelFormBuilder\Fields\CheckableType;
+use PHPUnit\Framework\Attributes\Test;
 
 class CheckableTypeTest extends FormBuilderTestCase
 {
-    /** @test */
+    #[Test]
     public function it_creates_checkbox_field(): void
     {
         $defaultOptions = [
@@ -43,7 +44,7 @@ class CheckableTypeTest extends FormBuilderTestCase
         $this->assertEquals($expectedOptions, $checkable->getOptions());
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_radio_field(): void
     {
         $defaultOptions = [
@@ -82,7 +83,7 @@ class CheckableTypeTest extends FormBuilderTestCase
         $this->assertEquals($expectedOptions, $checkable->getOptions());
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_values(): void
     {
         $expectedValue = 2;
@@ -96,7 +97,7 @@ class CheckableTypeTest extends FormBuilderTestCase
         $this->assertSame($expectedValue, $checkable->getOption('value'));
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_checked(): void
     {
         $options = [

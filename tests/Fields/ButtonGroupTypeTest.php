@@ -1,10 +1,11 @@
 <?php
 
 use Kris\LaravelFormBuilder\Fields\ButtonGroupType;
+use PHPUnit\Framework\Attributes\Test;
 
 class ButtonGroupTypeTest extends FormBuilderTestCase
 {
-    /** @test */
+    #[Test]
     public function it_creates_checkbox_field(): void
     {
         $defaultOptions = [
@@ -43,7 +44,7 @@ class ButtonGroupTypeTest extends FormBuilderTestCase
         $this->assertEquals($expectedOptions, $buttongroup->getOptions());
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_splitted(): void
     {
         $options = [
@@ -55,7 +56,7 @@ class ButtonGroupTypeTest extends FormBuilderTestCase
         $this->assertTrue($buttongroup->getOption('splitted'));
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_size(): void
     {
         $expectedValue = 'lg';
@@ -69,7 +70,7 @@ class ButtonGroupTypeTest extends FormBuilderTestCase
         $this->assertSame($expectedValue, $buttongroup->getOption('size'));
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_buttons(): void
     {
         $buttons = [

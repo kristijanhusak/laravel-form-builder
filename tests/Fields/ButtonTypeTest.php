@@ -2,11 +2,12 @@
 
 use Kris\LaravelFormBuilder\Fields\ButtonType;
 use Kris\LaravelFormBuilder\Form;
+use PHPUnit\Framework\Attributes\Test;
 
 class ButtonTypeTest extends FormBuilderTestCase
 {
 
-    /** @test */
+    #[Test]
     public function it_creates_button()
     {
         $options = [
@@ -26,7 +27,7 @@ class ButtonTypeTest extends FormBuilderTestCase
         $button->render();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_handle_object_with_getters_and_setters()
     {
         $expectedOptions = $this->getDefaults(['type' => 'submit'], 'Save');
@@ -58,7 +59,7 @@ class ButtonTypeTest extends FormBuilderTestCase
         $this->assertTrue($button->isRendered());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_change_template_with_options()
     {
         $expectedOptions = $this->getDefaults(

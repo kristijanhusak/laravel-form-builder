@@ -7,11 +7,13 @@ use Kris\LaravelFormBuilder\Fields\InputType;
 use Kris\LaravelFormBuilder\Form;
 use Kris\LaravelFormBuilder\FormHelper;
 use Kris\LaravelFormBuilder\FormBuilder;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\Test;
 
 class FormTest extends FormBuilderTestCase
 {
 
-    /** @test */
+    #[Test]
     public function it_adds_fields()
     {
         $this->plainForm
@@ -49,7 +51,7 @@ class FormTest extends FormBuilderTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_passes_validation()
     {
         $this->plainForm
@@ -73,7 +75,7 @@ class FormTest extends FormBuilderTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_fails_validation()
     {
         $this->plainForm
@@ -97,7 +99,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals($errors, $this->plainForm->getErrors());
     }
 
-    /** @test */
+    #[Test]
     public function it_alters_validity_and_adds_messages()
     {
         $customForm = $this->formBuilder->create('CustomNesterDummyForm');
@@ -119,7 +121,7 @@ class FormTest extends FormBuilderTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_can_automatically_redirect_back_when_failing_verification()
     {
         $this->plainForm
@@ -157,7 +159,7 @@ class FormTest extends FormBuilderTestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_can_automatically_redirect_to_a_specified_destination_when_failing_verification()
     {
         $this->plainForm
@@ -195,7 +197,7 @@ class FormTest extends FormBuilderTestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_overrides_default_rules_and_messages()
     {
         $this->plainForm
@@ -241,7 +243,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals($errors, $this->plainForm->getErrors());
     }
 
-    /** @test */
+    #[Test]
     public function it_uses_error_messages_from_fields()
     {
         $childForm = $this->formBuilder->plain();
@@ -275,9 +277,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals($errors, $this->plainForm->getErrors());
     }
 
-    /**
-     * @test
-     * */
+    #[Test]
     public function it_throws_exception_when_errors_requested_from_non_validated_form()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -294,7 +294,7 @@ class FormTest extends FormBuilderTestCase
         $this->plainForm->getErrors();
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_field_values()
     {
         $this->plainForm
@@ -346,7 +346,7 @@ class FormTest extends FormBuilderTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_altered_field_values()
     {
         $this->request['name'] = 'lower case';
@@ -372,7 +372,7 @@ class FormTest extends FormBuilderTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_adds_after_some_field()
     {
         $this->plainForm
@@ -408,7 +408,7 @@ class FormTest extends FormBuilderTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_adds_before_some_field()
     {
         $this->plainForm
@@ -445,7 +445,7 @@ class FormTest extends FormBuilderTestCase
     }
 
 
-    /** @test */
+    #[Test]
     public function it_can_remove_existing_fields_from_form_object()
     {
         $this->plainForm
@@ -465,7 +465,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertFalse($this->plainForm->has('description'));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_take_and_replace_existing_fields()
     {
         $this->plainForm
@@ -483,7 +483,7 @@ class FormTest extends FormBuilderTestCase
     }
 
 
-    /** @test */
+    #[Test]
     public function it_can_modify_existing_fields()
     {
         $this->plainForm
@@ -534,9 +534,7 @@ class FormTest extends FormBuilderTestCase
 
     }
 
-    /**
-     * @test
-     */
+    #[Test]
      public function it_throws_exception_when_rendering_until_nonexisting_field()
      {
          $this->expectException(\InvalidArgumentException::class);
@@ -549,9 +547,7 @@ class FormTest extends FormBuilderTestCase
         $this->plainForm->renderUntil('nonexisting');
      }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_prevents_adding_fields_with_same_name()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -559,9 +555,7 @@ class FormTest extends FormBuilderTestCase
         $this->plainForm->add('name', 'text')->add('name', 'textarea');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_throws_exception_if_field_name_is_reserved()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -569,7 +563,7 @@ class FormTest extends FormBuilderTestCase
         $this->plainForm->add('save', 'submit');
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_InvalidArgumentException_on_non_existing_property()
     {
         $exceptionThrown = false;
@@ -598,7 +592,7 @@ class FormTest extends FormBuilderTestCase
         $this->fail('Exception was not thrown for non existing field.');
     }
 
-    /** @test */
+    #[Test]
     public function it_can_set_form_options_with_array_of_options()
     {
         $options = [
@@ -623,7 +617,7 @@ class FormTest extends FormBuilderTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_can_set_form_options_with_setters()
     {
         $this->plainForm->setMethod('DELETE');
@@ -644,7 +638,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals('test_name', $this->plainForm->getName());
     }
 
-    /** @test */
+    #[Test]
     public function it_sets_file_option_to_true_if_file_type_added()
     {
         $this->plainForm->add('upload_file', 'file');
@@ -652,7 +646,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertTrue($this->plainForm->getFormOption('files'));
     }
 
-    /** @test */
+    #[Test]
     public function it_renders_the_form()
     {
         $formOptions = [
@@ -667,7 +661,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertNotThrown();
     }
 
-    /** @test */
+    #[Test]
     public function it_renders_rest_of_the_form()
     {
         $options = [
@@ -694,7 +688,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertNotThrown();
     }
 
-    /** @test */
+    #[Test]
     public function it_renders_rest_of_the_form_until_specified_field()
     {
         $options = [
@@ -721,7 +715,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals($this->plainForm->address->isRendered(), false);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_add_child_form_as_field()
     {
         $model = ['song' => ['body' => 'test body'], 'title' => 'main title'];
@@ -788,7 +782,7 @@ class FormTest extends FormBuilderTestCase
         $this->fail('No exception on bad method call on child form.');
     }
 
-    /** @test */
+    #[Test]
     public function it_can_use_model_property_to_set_value()
     {
         $form = $this->formBuilder->plain([
@@ -802,7 +796,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals($form->alias_accessor->getValue(), $this->model->accessor);
     }
 
-    /** @test */
+    #[Test]
     public function it_sets_entity_field_value_to_the_entity_model_value()
     {
         $dummyModel = new DummyModel();
@@ -822,7 +816,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals($form->dummy_model_id->getValue(), $this->model->dummy_model_id);
     }
 
-    /** @test */
+    #[Test]
     public function it_reads_configuration_properly()
     {
         $config = $this->config;
@@ -848,7 +842,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertMatchesRegularExpression('/input.*class="my-text-class"/', $overridenView);
     }
 
-    /** @test */
+    #[Test]
     public function it_works_when_setModel_method_is_called()
     {
         $customForm = $this->formBuilder->create('CustomDummyForm')->setModel([
@@ -860,7 +854,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals('john doe', $customForm->title->getValue());
     }
 
-    /** @test */
+    #[Test]
     public function it_removes_children_from_parent_type_fields()
     {
         $model = ['song' => ['title' => 'test song title', 'body' => 'test body'], 'title' => 'main title'];
@@ -894,7 +888,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals('test body', $form->song->body->getValue());
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_named_form()
     {
         $model = new \Illuminate\Support\Collection([
@@ -918,7 +912,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals($expectModel, $this->plainForm->getModel());
     }
 
-    /** @test */
+    #[Test]
     public function it_has_html_valid_element_names()
     {
         $this->plainForm
@@ -931,7 +925,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals('child[form][name][text]', $this->plainForm->getField('child[form]')->getField('name[text]')->getName());
     }
 
-    /** @test */
+    #[Test]
     public function it_adds_custom_type()
     {
         $this->plainForm->addCustomField('datetime', 'Some\\Namespace\\DatetimeType');
@@ -941,9 +935,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals('Some\\Namespace\\DatetimeType', $fieldType);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_throws_exception_when_adding_field_with_invalid_name()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -951,9 +943,7 @@ class FormTest extends FormBuilderTestCase
         $this->plainForm->add('', 'text');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_throws_exception_when_adding_field_with_invalid_type()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -961,9 +951,7 @@ class FormTest extends FormBuilderTestCase
         $this->plainForm->add('name', '');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_prevents_adding_duplicate_custom_type()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -974,7 +962,7 @@ class FormTest extends FormBuilderTestCase
     }
 
 
-    /** @test */
+    #[Test]
     public function it_can_compose_another_forms_fields_into_itself()
     {
         $form = $this->formBuilder->plain();
@@ -993,7 +981,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals('title', $form->title->getRealName());
     }
 
-    /** @test */
+    #[Test]
     public function it_disables_all_fields_in_form()
     {
         $form = $this->formBuilder->plain();
@@ -1011,7 +999,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals('disabled', $form->name->getOption('attr.disabled'));
     }
 
-    /** @test */
+    #[Test]
     public function it_enables_all_fields_in_form()
     {
         $form = $this->formBuilder->plain();
@@ -1032,7 +1020,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertNull($form->name->getOption('attr.disabled'));
     }
 
-    /** @test */
+    #[Test]
     public function it_allows_disabling_showing_form_errors()
     {
         $this->plainForm->add('child_form', 'form', ['class'=> 'CustomDummyForm']);
@@ -1044,7 +1032,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertFalse($this->plainForm->getField('child_form')->haveErrorsEnabled());
     }
 
-    /** @test */
+    #[Test]
     public function it_allows_disabling_client_validation()
     {
         $this->plainForm->add('child_form', 'form', ['class'=> 'CustomDummyForm']);
@@ -1058,7 +1046,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertFalse($this->plainForm->getField('child_form')->clientValidationEnabled());
     }
 
-    /** @test */
+    #[Test]
     public function it_receives_validation_events()
     {
         $events = [];
@@ -1086,7 +1074,7 @@ class FormTest extends FormBuilderTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_has_a_template_prefix()
     {
         $form = $this->formBuilder->plain();
@@ -1097,7 +1085,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertNull($form->getFormOption('template_prefix'));
     }
 
-    /** @test */
+    #[Test]
     public function it_stores_a_template_prefix()
     {
         $form = $this->formBuilder->plain();
@@ -1106,7 +1094,8 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals('test_prefix::', $form->getTemplatePrefix());
     }
 
-    /** @test */
+    #[Test]
+    #[AllowMockObjectsWithoutExpectations]
     public function it_uses_the_template_prefix()
     {
         $viewStub = $this->getViewFactoryMock();
@@ -1128,7 +1117,7 @@ class FormTest extends FormBuilderTestCase
         $form->renderForm();
     }
 
-    /** @test */
+    #[Test]
     public function it_locks_filtering()
     {
         $customPlainForm = $this->formBuilder->plain();
@@ -1139,7 +1128,7 @@ class FormTest extends FormBuilderTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_binded_field_filters()
     {
         $customPlainForm = $this->formBuilder->plain();
@@ -1169,7 +1158,7 @@ class FormTest extends FormBuilderTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_filter_and_mutate_fields_request_values()
     {
         $toMutateValue = ' test ';
@@ -1184,7 +1173,7 @@ class FormTest extends FormBuilderTestCase
         $this->assertEquals('TEST', $this->request['test_field']);
     }
 
-    /** @test */
+    #[Test]
     public function it_add_option_attributes_properly()
     {
         $config = $this->config;

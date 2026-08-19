@@ -4,10 +4,12 @@ use Illuminate\Http\Request;
 use Kris\LaravelFormBuilder\Fields\CheckableType;
 use Kris\LaravelFormBuilder\Fields\InputType;
 use Kris\LaravelFormBuilder\FormHelper;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\Test;
 
 class FormFieldTest extends FormBuilderTestCase
 {
-    /** @test */
+    #[Test]
     public function it_use_set_rendered()
     {
         $field = new InputType('name', 'text', $this->plainForm);
@@ -19,7 +21,8 @@ class FormFieldTest extends FormBuilderTestCase
         $this->assertTrue($field->isRendered());
     }
 
-    /** @test */
+    #[Test]
+    #[AllowMockObjectsWithoutExpectations]
     public function it_uses_the_template_prefix()
     {
         $viewStub = $this->getViewFactoryMock();
@@ -46,7 +49,7 @@ class FormFieldTest extends FormBuilderTestCase
         $field->render();
     }
 
-    /** @test */
+    #[Test]
     public function it_hides_the_label_with_label_show_property()
     {
         $options = [
@@ -62,7 +65,7 @@ class FormFieldTest extends FormBuilderTestCase
     }
 
 
-    /** @test */
+    #[Test]
     public function it_sets_required_as_class_on_the_label_and_attribute_on_the_field_when_setting_required_explicitly()
     {
         $options = [
@@ -76,7 +79,7 @@ class FormFieldTest extends FormBuilderTestCase
         $this->assertArrayHasKey('required', $hidden->getOption('attr'));
     }
 
-    /** @test */
+    #[Test]
     public function it_sets_required_as_class_on_the_label_and_attribute_on_the_field_when_setting_required_via_a_rule()
     {
         $options = [
@@ -90,7 +93,7 @@ class FormFieldTest extends FormBuilderTestCase
         $this->assertArrayHasKey('required', $hidden->getOption('attr'));
     }
 
-    /** @test */
+    #[Test]
     public function it_adds_the_required_class_to_the_label_when_client_side_validation_is_disabled()
     {
         $options = [
@@ -106,7 +109,7 @@ class FormFieldTest extends FormBuilderTestCase
         $this->assertArrayNotHasKey('required', $hidden->getOption('attr'));
     }
 
-    /** @test */
+    #[Test]
     public function it_appends_to_the_class_attribute_of_the_field()
     {
         $options = [
@@ -127,7 +130,7 @@ class FormFieldTest extends FormBuilderTestCase
         $this->assertStringNotContainsString('class_append', $renderResult);
     }
 
-    /** @test */
+    #[Test]
     public function it_appends_to_the_class_attribute_of_a_custom_classes_checkbox_field()
     {
         $options = [
@@ -147,7 +150,7 @@ class FormFieldTest extends FormBuilderTestCase
         $this->assertStringNotContainsString($defaultClasses, $text->getOption('attr.class'));
     }
 
-    /** @test */
+    #[Test]
     public function it_appends_to_the_class_attribute_of_the_label()
     {
         $options = [
@@ -168,7 +171,7 @@ class FormFieldTest extends FormBuilderTestCase
         $this->assertStringNotContainsString('class_append', $renderResult);
     }
 
-    /** @test */
+    #[Test]
     public function it_appends_to_the_class_attribute_of_the_wrapper()
     {
         $options = [
@@ -189,7 +192,7 @@ class FormFieldTest extends FormBuilderTestCase
         $this->assertStringNotContainsString('class_append', $renderResult);
     }
 
-    /** @test */
+    #[Test]
     public function it_appends_rules_properly()
     {
 
@@ -223,7 +226,7 @@ class FormFieldTest extends FormBuilderTestCase
         $this->assertEquals($expected, $field->getOption('rules'));
     }
 
-    /** @test */
+    #[Test]
     public function it_translates_the_label_if_translation_exists()
     {
         // We use build in validation translations prefix for easier testing
@@ -236,7 +239,7 @@ class FormFieldTest extends FormBuilderTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_translates_the_label_using_translation_templates()
     {
         // We use build in validation translations prefix for easier testing
@@ -249,7 +252,7 @@ class FormFieldTest extends FormBuilderTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function provided_label_from_option_overrides_translated_one()
     {
         // We use build in validation translations prefix for easier testing
@@ -264,7 +267,7 @@ class FormFieldTest extends FormBuilderTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_fallbacks_to_simple_format_if_no_translation_and_custom_label_provided()
     {
         // We use build in validation translations prefix for easier testing
@@ -298,7 +301,7 @@ class FormFieldTest extends FormBuilderTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_initialize_all_defined_field_filters()
     {
         $customPlainForm = $this->formBuilder->plain();
@@ -315,7 +318,7 @@ class FormFieldTest extends FormBuilderTestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_enables_overriding_existing_filters()
     {
         $customPlainForm = $this->formBuilder->plain();
@@ -329,7 +332,7 @@ class FormFieldTest extends FormBuilderTestCase
         );
     }
 
-    /** @test  */
+    #[Test]
     public function it_throws_an_exception_if_filters_override_is_false_but_passed_already_binded_filter()
     {
         $this->expectException(\Kris\LaravelFormBuilder\Filters\Exception\FilterAlreadyBindedException::class);
@@ -343,7 +346,7 @@ class FormFieldTest extends FormBuilderTestCase
         $testField->addFilter('Trim');
     }
 
-    /** @test */
+    #[Test]
     public function it_overrides_already_existing_filter()
     {
         $customPlainForm = $this->formBuilder->plain();
@@ -359,7 +362,7 @@ class FormFieldTest extends FormBuilderTestCase
         $this->assertArrayHasKey($filter, $testField->getFilters());
     }
 
-    /** @test */
+    #[Test]
     public function it_removes_binded_filter()
     {
         $customPlainForm = $this->formBuilder->plain();
@@ -373,7 +376,7 @@ class FormFieldTest extends FormBuilderTestCase
         $this->assertArrayHasKey('Uppercase', $testField->getFilters());
     }
 
-    /** @test */
+    #[Test]
     public function it_removes_multiple_filters()
     {
         $customPlainForm = $this->formBuilder->plain();
@@ -387,7 +390,7 @@ class FormFieldTest extends FormBuilderTestCase
         $this->assertEmpty($testField->getFilters());
     }
 
-    /** @test */
+    #[Test]
     public function it_clears_all_filters()
     {
         $customPlainForm = $this->formBuilder->plain();
@@ -400,7 +403,7 @@ class FormFieldTest extends FormBuilderTestCase
         $this->assertEmpty($testField->getFilters());
     }
 
-    /** @test */
+    #[Test]
     public function it_is_plain()
     {
         $methodName = 'isPlain';
@@ -410,13 +413,12 @@ class FormFieldTest extends FormBuilderTestCase
 
         $reflection = new \ReflectionClass($plainForm);
         $method = $reflection->getMethod($methodName);
-        $method->setAccessible(true);
 
         $this->assertTrue($method->invokeArgs($plainForm, []));
         $this->assertFalse($method->invokeArgs($modifiedForm, []));
     }
 
-    /** @test */
+    #[Test]
     public function it_custom_plain_form_is_plain()
     {
         $methodName = 'isPlain';
@@ -427,13 +429,11 @@ class FormFieldTest extends FormBuilderTestCase
 
         $reflection = new \ReflectionClass($customPlainForm);
         $method = $reflection->getMethod($methodName);
-        $method->setAccessible(true);
-
 
         $this->assertTrue($method->invokeArgs($customPlainForm, []));
     }
 
-    /** @test */
+    #[Test]
     public function label_template()
     {
         $fieldsOptions = [
